@@ -1,0 +1,24 @@
+!!! 5
+
+%head
+  %title= full_title(yield(:title))
+  = stylesheet_link_tag "application", media: "all"
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+  = render 'layouts/shim'
+
+%body
+  .navbar.navbar-inverse#navbar
+    .navbar-inner
+      .container
+        %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+        %a.brand{"href" => root_path} Procure.io
+        .nav-collapse
+          %ul.nav
+            %li
+              %a{"href" => "#"} Browse Projects
+          %ul.nav.pull-right
+            %li
+              %a{"href" => new_vendor_session_path} Vendor Login
+  .container
+    = yield
