@@ -1,0 +1,13 @@
+%table.table.table-boredered
+  %thead
+    %tr
+      %th Type
+      %th Project Title
+      %th Bids Due
+
+  %tbody
+    - @projects.each do |project|
+      %tr
+        %td type
+        %td= project.title
+        %td= project.bids_due_at

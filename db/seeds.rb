@@ -7,4 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 3.times { FactoryGirl.create(:officer) }
-20.times { FactoryGirl.create(:bid) } # also creates projects and vendors
+10.times { FactoryGirl.create(:vendor) }
+10.times { FactoryGirl.create(:project_with_officers) }
+20.times { FactoryGirl.create(:bid) }

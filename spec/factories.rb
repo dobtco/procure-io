@@ -1,0 +1,32 @@
+FactoryGirl.define do
+  factory :bid do
+    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
+    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
+    body { Faker::Lorem.paragraphs(3).join("\n\n") }
+  end
+
+  factory :officer do
+    name { Faker::Name.name }
+    title { Faker::Company.position }
+    sequence(:email) { |n| "officer#{n}@example.gov" }
+    password 'password'
+  end
+
+  factory :project do |project|
+    title { Faker::Lorem.words(3).join(" ") }
+    body { Faker::Lorem.paragraphs(3).join("\n\n") }
+    bids_due_at { Time.now + rand(1..8).weeks }
+
+    factory :project_with_officers do
+      after(:create) do |p|
+        p.officers << Officer.all
+        p.collaborators.first.update_attributes owner: true
+      end
+    end
+  end
+
+  factory :vendor do
+    sequence(:email) { |n| "vendor#{n}@example.com" }
+    password 'password'
+  end
+end
