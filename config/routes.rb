@@ -1,4 +1,11 @@
 ProcureIo::Application.routes.draw do
+
+  devise_for :officers
+
+  devise_for :vendors
+
+  root to: 'home#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
