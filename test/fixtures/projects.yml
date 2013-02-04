@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  body        :text
+#  bids_due_at :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  title: MyString
+  body: MyText
+  bids_due_at: 2013-02-04 10:36:06
+
+two:
+  title: MyString
+  body: MyText
+  bids_due_at: 2013-02-04 10:36:06

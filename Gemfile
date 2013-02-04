@@ -10,6 +10,7 @@ gem 'sqlite3'
 
 group :development do
   gem 'meta_request', '0.2.1'
+  gem 'annotate'
 end
 # Gems used only for assets and not required
 # in production environments by default.
