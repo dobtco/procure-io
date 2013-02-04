@@ -14,5 +14,6 @@ class Project < ActiveRecord::Base
   attr_accessible :bids_due_at, :body, :title
 
   has_many :bids
+  has_many :collaborators
   has_many :officers, through: :collaborators
 end

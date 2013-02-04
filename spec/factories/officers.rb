@@ -1,6 +1,8 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :officer do
+    name Faker::Name.name
+    title Faker::Company.position
+    sequence(:email) { |n| "officer#{n}@example.gov" }
+    password 'password'
   end
 end

@@ -5,3 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+3.times { FactoryGirl.create(:officer) }
+20.times { FactoryGirl.create(:bid) } # also creates projects and vendors

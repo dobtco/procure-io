@@ -8,6 +8,8 @@
 #
 
 class Collaborator < ActiveRecord::Base
+  attr_accessible :owner
+
   belongs_to :project
   belongs_to :officer
 end
