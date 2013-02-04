@@ -4,30 +4,11 @@
   %title= full_title(yield(:title))
   = stylesheet_link_tag "application", media: "all"
   = javascript_include_tag "application"
-  = javascript_include_tag :defaults
   = csrf_meta_tags
   = render 'layouts/shim'
 
 %body
-  .navbar.navbar-inverse.navbar-static-top#navbar
-    .navbar-inner
-      .container
-        %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
-          %i.icon-bar
-          %i.icon-bar
-          %i.icon-bar
-        %a.brand{"href" => root_path} Procure.io
-        .nav-collapse
-          %ul.nav
-            %li
-              %a{"href" => projects_path} Browse Projects
-          %ul.nav.pull-right
-            - if signed_in?
-              %li
-                =link_to "Signout #{current_user.name}", signout_path, method: :delete
-            - else
-              %li
-                %a{"href" => new_vendor_session_path} Vendor Login
+  = render 'layouts/navbar'
 
   .outer-container
     .container

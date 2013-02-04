@@ -1,0 +1,25 @@
+.navbar.navbar-inverse.navbar-static-top#navbar
+  .navbar-inner
+    .container
+      %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+        %i.icon-bar
+        %i.icon-bar
+        %i.icon-bar
+      %a.brand{"href" => root_path} Procure.io
+      .nav-collapse
+        %ul.nav
+          %li
+            %a{"href" => projects_path} Browse Projects
+        %ul.nav.pull-right
+          - if signed_in?
+            %li.dropdown
+              %a.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
+                %img.gravatar{"src" => current_user.gravatar_url}
+                #{current_user.name}
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  =link_to "Signout", signout_path, method: :delete
+          - else
+            %li
+              %a{"href" => new_vendor_session_path} Vendor Login
