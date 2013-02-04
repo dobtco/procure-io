@@ -1,8 +1,13 @@
 class ProjectsController < ApplicationController
-  before_filter :project_exists?, except: :index
+  before_filter :project_exists?, except: [:index, :mine]
+  before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
     @projects = Project.all
+  end
+
+  def mine
+    @projects = current_officer.projects
   end
 
   def show

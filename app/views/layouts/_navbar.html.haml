@@ -18,6 +18,11 @@
                 #{current_user.name}
                 %b.caret
               %ul.dropdown-menu
+                - if officer_signed_in?
+                  %li
+                    =link_to "My Projects", mine_projects_path
+                - elsif vendor_signed_in?
+
                 %li
                   =link_to "Signout", signout_path, method: :delete
           - else
