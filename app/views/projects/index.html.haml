@@ -9,5 +9,5 @@
     - @projects.each do |project|
       %tr
         %td type
-        %td= project.title
+        %td= link_to project.title, project
         %td= project.bids_due_at

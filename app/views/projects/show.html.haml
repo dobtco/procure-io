@@ -1,0 +1,14 @@
+ADMIN VIEW
+
+%h3= @project.title
+
+.row-fluid
+  .span7
+    %h4 Project Description
+    %p= simple_format @project.body
+
+  .span5
+    %h4 Bids due on #{@project.bids_due_at}
+    BID NOW BUTTON
+
+    %h4 Questions
