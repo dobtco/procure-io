@@ -8,10 +8,13 @@
   = render 'layouts/shim'
 
 %body
-  .navbar.navbar-inverse#navbar
+  .navbar.navbar-inverse.navbar-static-top#navbar
     .navbar-inner
       .container
         %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+          %i.icon-bar
+          %i.icon-bar
+          %i.icon-bar
         %a.brand{"href" => root_path} Procure.io
         .nav-collapse
           %ul.nav
