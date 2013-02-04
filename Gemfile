@@ -2,16 +2,24 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 gem 'devise'
+gem 'foreigner'
+gem 'haml'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
 
-group :development do
+group :test, :development do
   gem 'meta_request', '0.2.1'
   gem 'annotate'
+  gem 'immigrant'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'factory_girl_rails'
+  gem 'simplecov', require: false
 end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
