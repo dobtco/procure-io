@@ -10,8 +10,24 @@
 // And finally bootswatch style itself
 @import "bootswatch/cerulean/bootswatch";
 
+body {
+  background-color: #eee;
+}
+
 #navbar {
+  margin-bottom: 0;
+
   .navbar-inner {
     @include border-radius(0px);
   }
+}
+
+.outer-container {
+  padding: 20px 0;
+  background-color: #fff;
+}
+
+#footer {
+  padding-top: 10px;
+  background-color: #eee;
 }

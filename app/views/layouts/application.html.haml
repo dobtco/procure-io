@@ -20,5 +20,13 @@
           %ul.nav.pull-right
             %li
               %a{"href" => new_vendor_session_path} Vendor Login
-  .container
-    = yield
+
+  .outer-container
+    .container
+      = yield
+
+  %footer#footer
+    .container
+      Procure.io!
+
+      %a.pull-right{"href" => new_officer_session_path} Officer Login
