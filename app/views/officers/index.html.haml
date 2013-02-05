@@ -11,7 +11,10 @@
   %tbody
     - @officers.each do |officer|
       %tr
-        %td= officer.name
+        %td
+          =officer.name
+          - if officer.owner
+            %i.icon-star
         %td actions
 
 = form_for [@project, Officer.new] do |f|

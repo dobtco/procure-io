@@ -33,8 +33,7 @@ class Ability
 
     elsif user.class.name == "Officer"
       can :update, Project do |project|
-        Rails.logger.info project.officers.where(officer_id: user.id)
-        project.collaborators.where(officer_id: user.id).first
+        project.officers.where(id: user.id).first
       end
 
     else # not logged in

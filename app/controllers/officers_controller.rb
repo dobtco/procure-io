@@ -9,5 +9,6 @@ class OfficersController < ApplicationController
   private
   def project_exists?
     @project = Project.find(params[:project_id])
+    authorize! :update, @project # only collaborators on this project can view these pages
   end
 end
