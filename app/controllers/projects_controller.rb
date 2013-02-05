@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
-  before_filter :project_exists?, except: [:index, :mine]
+  before_filter :project_exists?, only: [:show, :edit, :update]
+  # before filter project is mine
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
@@ -16,6 +17,24 @@ class ProjectsController < ApplicationController
     else
       render "projects/show_public"
     end
+  end
+
+  def new
+    @project = current_officer.projects.build
+  end
+
+  def create
+    @project = current_officer.projects.create(params[:project])
+    @project.collaborators.where(officer_id: current_officer.id).first.update_attributes owner: true
+    redirect_to edit_project_path(@project)
+  end
+
+  def edit
+  end
+
+  def update
+    @project.update_attributes params[:project]
+    redirect_to edit_project_path(@project)
   end
 
   private

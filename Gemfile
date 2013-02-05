@@ -5,6 +5,7 @@ gem 'devise'
 gem 'foreigner'
 gem 'haml'
 gem 'cancan'
+gem 'formtastic'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

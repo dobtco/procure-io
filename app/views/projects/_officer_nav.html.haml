@@ -1,0 +1,9 @@
+%ul.nav.nav-tabs
+  %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
+    =link_to "Edit Project", edit_project_path
+  %li{"class" => params[:controller] == "projects" && params[:action] == "collaborators" ? "active" : ""}
+    =link_to "Collaborators", collaborators_project_path
+  %li
+    %a Review Bids <span class="badge">X</span>
+  %li
+    %a Answer Questions <span class="badge badge-important">X</span>

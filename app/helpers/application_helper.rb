@@ -8,6 +8,10 @@ module ApplicationHelper
     end
   end
 
+  def page_header(text)
+    "<h3>#{text}</h3>"
+  end
+
   def signout_path
     if vendor_signed_in?
       destroy_vendor_session_path

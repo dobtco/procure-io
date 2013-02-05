@@ -6,6 +6,7 @@ ProcureIo::Application.routes.draw do
 
   resources :projects do
     get 'mine', on: :collection
+    get 'collaborators', on: :member
   end
 
   # The priority is based upon order of creation:

@@ -1,0 +1,16 @@
+!=page_header @project.title
+
+= render "projects/officer_nav"
+
+= semantic_form_for @project do |f|
+  = f.label :title
+  = f.input :title, class: "span4"
+
+  = f.label :bids_due_at
+  = f.input :bids_due_at, "data-behavior" => "datepicker"
+
+  = f.label :body
+  = f.input :body, class: "span8"
+
+  .form-actions
+    = f.actions
