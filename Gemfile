@@ -9,7 +9,7 @@ gem 'cancan'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'pg'
 
 group :test, :development do
   gem 'meta_request', '0.2.1'
