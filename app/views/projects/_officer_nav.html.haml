@@ -9,7 +9,7 @@
     =link_to "Edit Project", edit_project_path(@project)
   %li
     %a Response Fields
-  %li{"class" => params[:controller] == "officers" && params[:action] == "index" ? "active" : ""}
+  %li{"class" => params[:controller] == "collaborators" && params[:action] == "index" ? "active" : ""}
     =link_to "Collaborators", project_collaborators_path(@project)
 
   %li.pull-right

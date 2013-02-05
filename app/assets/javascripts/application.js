@@ -10,8 +10,16 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require_self
 //= require jquery
 //= require jquery_ujs
+//= require jquery.form
 //= require bootstrap
 //= require jquery.switch
+//= require underscore
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone/procure_io
 //= require_tree .
+
+var ProcureIo = {};

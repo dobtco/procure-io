@@ -33,7 +33,11 @@ class Ability
 
     elsif user.class.name == "Officer"
       can :update, Project do |project|
-        project.officers.where(id: user.id).first
+        project.collaborators.where(officer_id: user.id).first
+      end
+
+      can :destroy, Project do |project|
+        project.collaborators.where(officer_id: user.id, owner: true).first
       end
 
     else # not logged in

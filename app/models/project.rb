@@ -16,7 +16,13 @@ class Project < ActiveRecord::Base
 
   has_many :bids
   has_many :collaborators
-  has_many :officers, through: :collaborators, uniq: true
+  has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
+                      order: 'created_at'
+
+
+  def owner_id
+    collaborators.where(owner: true).first.officer_id
+  end
 
   def self.posted
     where(posted: true)

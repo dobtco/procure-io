@@ -8,16 +8,11 @@
       %th Name
       %th Actions
 
-  %tbody
-    - @collaborators.each do |collaborator|
-      %tr
-        %td
-          =collaborator.officer.name
-          - if collaborator.owner
-            %i.icon-star
-        %td actions
+  %tbody#collaborators-tbody
+    :javascript
+      new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@officers.to_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
 
 = form_for [@project, @project.collaborators.build] do |f|
   = f.fields_for :officer do |f|
     = f.text_field :email
-  = f.submit "Add Collaborator", class: "btn btn-inverse"
+  = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."

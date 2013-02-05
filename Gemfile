@@ -30,6 +30,7 @@ group :assets do
   gem 'bootstrap-sass'
   gem 'bootswatch-rails'
   gem 'font-awesome-sass-rails'
+  gem 'rails-backbone'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
