@@ -1,6 +1,5 @@
 class ProjectsController < ApplicationController
-  before_filter :project_exists?, only: [:show, :edit, :update]
-  # before filter project is mine
+  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators]
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
@@ -25,9 +24,11 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    authorize! :update, @project
   end
 
   def update
+    authorize! :update, @project
     @project.update_attributes params[:project]
     redirect_to edit_project_path(@project)
   end

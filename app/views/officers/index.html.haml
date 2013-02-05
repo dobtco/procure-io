@@ -1,0 +1,19 @@
+!=page_header @project.title
+
+= render "projects/officer_nav"
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Actions
+
+  %tbody
+    - @officers.each do |officer|
+      %tr
+        %td= officer.name
+        %td actions
+
+= form_for [@project, Officer.new] do |f|
+  = f.text_field :email
+  = f.submit "Add Collaborator", class: "btn btn-inverse"
