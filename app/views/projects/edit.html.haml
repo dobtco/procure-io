@@ -3,6 +3,10 @@
 = render "projects/officer_nav"
 
 = semantic_form_for @project do |f|
+  = f.label :posted, "Live?"
+  .switch{"data-on-label" => "Yes", "data-off-label" => "NO"}
+    = f.check_box :posted
+
   = f.input :title, input_html: { class: "span4" }
   = f.input :bids_due_at, "data-behavior" => "datepicker"
   = f.input :body, input_html: { class: "span8" }

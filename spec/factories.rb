@@ -16,6 +16,7 @@ FactoryGirl.define do
     title { Faker::Lorem.words(3).join(" ") }
     body { Faker::Lorem.paragraphs(3).join("\n\n") }
     bids_due_at { Time.now + rand(1..8).weeks }
+    posted { rand(1..2) == 1 }
 
     factory :project_with_officers do
       after(:create) do |p|

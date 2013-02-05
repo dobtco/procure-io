@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
-    @projects = Project.all
+    @projects = Project.posted
   end
 
   def mine

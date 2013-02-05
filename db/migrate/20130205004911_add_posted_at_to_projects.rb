@@ -1,5 +1,5 @@
 class AddPostedAtToProjects < ActiveRecord::Migration
   def change
-    add_column :projects, :posted_at, :datetime
+    add_column :projects, :posted, :boolean
   end
 end

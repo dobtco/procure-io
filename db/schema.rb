@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20130205004911) do
     t.datetime "bids_due_at"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.datetime "posted_at"
+    t.boolean  "posted"
   end
 
   create_table "vendors", :force => true do |t|

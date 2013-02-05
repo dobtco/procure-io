@@ -11,5 +11,6 @@
  *= require_self
  *= require _font-awesome
  *= require formtastic-bootstrap
+ *= require bootstrap-switch
  *= require_tree .
  */
