@@ -3,14 +3,8 @@
 = render "projects/officer_nav"
 
 = semantic_form_for @project do |f|
-  = f.label :title
-  = f.input :title, class: "span4"
-
-  = f.label :bids_due_at
+  = f.input :title, input_html: { class: "span4" }
   = f.input :bids_due_at, "data-behavior" => "datepicker"
+  = f.input :body, input_html: { class: "span8" }
 
-  = f.label :body
-  = f.input :body, class: "span8"
-
-  .form-actions
-    = f.actions
+  = f.actions
