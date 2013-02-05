@@ -10,7 +10,7 @@
   %li
     %a Response Fields
   %li{"class" => params[:controller] == "officers" && params[:action] == "index" ? "active" : ""}
-    =link_to "Collaborators", project_officers_path(@project)
+    =link_to "Collaborators", project_collaborators_path(@project)
 
   %li.pull-right
     %a{"href" => project_path(@project)}

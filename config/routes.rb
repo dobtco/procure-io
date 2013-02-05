@@ -5,7 +5,7 @@ ProcureIo::Application.routes.draw do
   devise_for :vendors
 
   resources :projects do
-    resources :officers
+    resources :collaborators
     get 'mine', on: :collection
   end
 

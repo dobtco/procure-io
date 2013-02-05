@@ -32,5 +32,5 @@ class Officer < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :title
 
   has_many :collaborators
-  has_many :projects, through: :collaborators
+  has_many :projects, through: :collaborators, uniq: true
 end

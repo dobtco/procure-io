@@ -74,4 +74,10 @@ ActiveRecord::Schema.define(:version => 20130205004911) do
   add_index "vendors", ["email"], :name => "index_vendors_on_email", :unique => true
   add_index "vendors", ["reset_password_token"], :name => "index_vendors_on_reset_password_token", :unique => true
 
+  add_foreign_key "bids", "projects", :name => "bids_project_id_fk"
+  add_foreign_key "bids", "vendors", :name => "bids_vendor_id_fk"
+
+  add_foreign_key "collaborators", "officers", :name => "collaborators_officer_id_fk"
+  add_foreign_key "collaborators", "projects", :name => "collaborators_project_id_fk"
+
 end

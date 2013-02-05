@@ -9,14 +9,15 @@
       %th Actions
 
   %tbody
-    - @officers.each do |officer|
+    - @collaborators.each do |collaborator|
       %tr
         %td
-          =officer.name
-          - if officer.owner
+          =collaborator.officer.name
+          - if collaborator.owner
             %i.icon-star
         %td actions
 
-= form_for [@project, Officer.new] do |f|
-  = f.text_field :email
+= form_for [@project, @project.collaborators.build] do |f|
+  = f.fields_for :officer do |f|
+    = f.text_field :email
   = f.submit "Add Collaborator", class: "btn btn-inverse"
