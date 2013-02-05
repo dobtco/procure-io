@@ -12,11 +12,6 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    if can? :update, @project
-      render "projects/show"
-    else
-      render "projects/show_public"
-    end
   end
 
   def new

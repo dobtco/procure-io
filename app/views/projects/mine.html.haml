@@ -13,5 +13,5 @@
     - @projects.each do |project|
       %tr
         %td type
-        %td= link_to project.title, project
+        %td= link_to project.title, edit_project_path(project)
         %td= project.bids_due_at

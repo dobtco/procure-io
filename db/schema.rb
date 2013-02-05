@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130204205125) do
+ActiveRecord::Schema.define(:version => 20130205004911) do
 
   create_table "bids", :force => true do |t|
     t.integer  "vendor_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(:version => 20130204205125) do
     t.datetime "bids_due_at"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.datetime "posted_at"
   end
 
   create_table "vendors", :force => true do |t|

@@ -1,6 +1,8 @@
-!=page_header @project.title
+- if can? :update, @project
+  .alert.alert-success
+    You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
 
-ADMIN VIEW
+!=page_header @project.title
 
 .row-fluid
   .span7
