@@ -30,7 +30,7 @@ class CollaboratorsController < ApplicationController
 
   def destroy
     authorize! :destroy, @project # only the owner of the project can remove collaborators
-    @project.collaborators.where(officer_id: params[:id]).first.destroy
+    @project.collaborators.where(officer_id: params[:id], owner: false).first.destroy
 
     respond_to do |format|
       format.json { render json: {} }

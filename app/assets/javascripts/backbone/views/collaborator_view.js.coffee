@@ -7,7 +7,7 @@ ProcureIo.Backbone.CollaboratorView = Backbone.View.extend
       <% if (owner) { %><i class="icon-star"></i><% } %>
     </td>
     <td>
-      <% if (isOwner){ %>
+      <% if (isOwner && !owner){ %>
         <button class="btn btn-danger" data-backbone-clear>Remove</button>
       <% } %>
     </td>

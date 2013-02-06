@@ -2,7 +2,7 @@
 
 = render "projects/officer_nav"
 
-%table.table
+%table.table.table-nonfluid
   %thead
     %tr
       %th Name
@@ -12,7 +12,9 @@
     :javascript
       new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@officers.to_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
 
+%h5 Add Collaborator
 = form_for [@project, @project.collaborators.build] do |f|
   = f.fields_for :officer do |f|
-    = f.text_field :email, autocomplete: "off"
+    = f.text_field :email, autocomplete: "off", placeholder: "Email Address"
+  %br
   = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."
