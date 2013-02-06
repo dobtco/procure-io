@@ -3,11 +3,11 @@ class CollaboratorsController < ApplicationController
   before_filter :authenticate_officer!
 
   def index
-    @officers = @project.officers
+    @collaborators_json = ActiveModel::ArraySerializer.new(@project.collaborators).to_json
   end
 
   def create
-    @officer = Officer.where(email: params[:email]).first
+    @officer = Officer.where(email: params[:officer][:email]).first
 
     if !@officer
       respond_to do |format|
@@ -19,24 +19,20 @@ class CollaboratorsController < ApplicationController
         format.json { render json: {error: "Already a collaborator."}, status: 422 }
       end
     else
-      @project.officers << @officer
+      @collaborator = @officer.collaborators.create(project_id: @project.id)
       respond_to do |format|
-        format.json { render json: @officer }
+        format.json { render json: @collaborator }
       end
     end
   end
 
   def destroy
     authorize! :destroy, @project # only the owner of the project can remove collaborators
-    @project.collaborators.where(officer_id: params[:id], owner: false).first.destroy
+    @project.collaborators.find(params[:id]).destroy
 
     respond_to do |format|
       format.json { render json: {} }
     end
-  end
-
-  def typeahead
-    render json: {}
   end
 
   private

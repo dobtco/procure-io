@@ -22,9 +22,11 @@ ActiveRecord::Schema.define(:version => 20130206001853) do
   end
 
   create_table "collaborators", :force => true do |t|
-    t.integer "project_id"
-    t.integer "officer_id"
-    t.boolean "owner"
+    t.integer  "project_id"
+    t.integer  "officer_id"
+    t.boolean  "owner"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "officers", :force => true do |t|

@@ -10,7 +10,7 @@
 
   %tbody#collaborators-tbody
     :javascript
-      new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@officers.to_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
+      new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@collaborators_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
 
 %h5 Add Collaborator
 = form_for [@project, @project.collaborators.build] do |f|

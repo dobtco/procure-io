@@ -15,7 +15,7 @@ class Project < ActiveRecord::Base
   attr_accessible :bids_due_at, :body, :title, :posted
 
   has_many :bids
-  has_many :collaborators
+  has_many :collaborators, order: 'created_at'
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions

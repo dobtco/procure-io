@@ -2,8 +2,8 @@ ProcureIo.Backbone.CollaboratorView = Backbone.View.extend
   tagName: "tr"
 
   template: _.template """
-    <td class="email">
-      <%- email %>
+    <td>
+      <%- officer.email %>
       <% if (owner) { %><i class="icon-star"></i><% } %>
     </td>
     <td>
@@ -59,7 +59,8 @@ $(document).on "submit", "form#new_collaborator", (e) ->
   e.preventDefault()
 
   ProcureIo.Backbone.Collaborators.create
-    email: $(@).find("input[type=text]").val()
+    officer:
+      email: $(@).find("input[type=text]").val()
   ,
     error: (obj, err) ->
       obj.destroy()

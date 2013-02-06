@@ -9,7 +9,7 @@
 #
 
 class Collaborator < ActiveRecord::Base
-  attr_accessible :owner
+  attr_accessible :id, :project_id, :officer_id, :owner
 
   belongs_to :project
   belongs_to :officer

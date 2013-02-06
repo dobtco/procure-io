@@ -4,6 +4,8 @@ class CreateCollaborators < ActiveRecord::Migration
       t.integer :project_id
       t.integer :officer_id
       t.boolean :owner
+
+      t.timestamps
     end
   end
 end

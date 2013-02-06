@@ -9,7 +9,7 @@ class QuestionsController < ApplicationController
     question.vendor_id = current_vendor.id
     question.save
     respond_to do |format|
-      format.json { render json: question.to_json }
+      format.json { render json: question, serializer: VendorQuestionSerializer }
     end
   end
 
