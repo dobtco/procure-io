@@ -14,3 +14,16 @@
     BID NOW BUTTON
 
     %h4 Questions
+    - if vendor_signed_in?
+      #ask-question.collapse
+        = form_for [@project, Question.new] do |f|
+          = f.text_area :body, cols: nil, rows: nil, class: "span8"
+          %br
+          = f.submit "Submit Question", class: "btn btn-inverse"
+      %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
+    - else
+      #{link_to "Sign in", new_vendor_session_path} to ask a question.
+
+    #questions-list
+      :javascript
+        new ProcureIo.Backbone.QuestionPage({bootstrapData: #{@project.questions.to_json}, projectId: #{@project.id}});

@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
   has_many :collaborators
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
+  has_many :questions
 
 
   def owner_id

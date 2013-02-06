@@ -27,7 +27,19 @@ FactoryGirl.define do
   end
 
   factory :vendor do
+    name { Faker::Name.name }
     sequence(:email) { |n| "vendor#{n}@example.com" }
     password 'password'
+  end
+
+  factory :question do
+    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
+    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
+    body { Faker::Lorem.paragraph }
+    answer_body {
+      if rand(1..2) == 2
+        Faker::Lorem.paragraph
+      end
+    }
   end
 end

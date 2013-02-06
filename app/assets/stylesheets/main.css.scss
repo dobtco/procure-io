@@ -10,6 +10,10 @@
 // And finally bootswatch style itself
 @import "bootswatch/cerulean/bootswatch";
 
+a {
+  cursor: pointer;
+}
+
 body {
   background-color: #eee;
 }
@@ -47,6 +51,34 @@ body {
   }
 }
 
+#ask-question {
+  form {
+    margin-bottom: 5px;
+  }
+  textarea {
+    min-height: 70px;
+  }
+}
+
+#questions-list {
+  margin-top: 10px;
+}
+
+.question {
+  .question-body {
+    margin-bottom: 10px;
+  }
+
+  .answer-body, .no-answer-body {
+    font-style: italic;
+  }
+
+  .answer-body {
+    .answered-by {
+      font-size: 11px;
+    }
+  }
+}
 
 #footer {
   padding-top: 10px;

@@ -9,6 +9,7 @@ ProcureIo::Application.routes.draw do
   end
 
   resources :projects do
+    resources :questions
     resources :collaborators
     get 'mine', on: :collection
   end
