@@ -65,3 +65,24 @@ $(document).on "submit", "form#new_collaborator", (e) ->
       obj.destroy()
 
   $(@).resetForm()
+
+ProcureIo.PageSpecificScripts["collaborators#index"] = ->
+  typeaheadTimeout = undefined
+
+  $("form#new_collaborator input[type=text]").typeahead
+    source: (query, process) ->
+      typeaheadTimeout ||= setTimeout ->
+        $.ajax
+          url: "/officers/typeahead.json"
+          data:
+            query: query
+          success: (data) ->
+            typeaheadTimeout = null
+
+            data = $.grep data, (value) ->
+              return ProcureIo.Backbone.Collaborators.existing_emails().indexOf(value) is -1
+
+            return process(data)
+      , 200
+
+    minLength: 3

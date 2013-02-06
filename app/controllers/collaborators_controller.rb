@@ -37,6 +37,10 @@ class CollaboratorsController < ApplicationController
     end
   end
 
+  def typeahead
+    render json: {}
+  end
+
   private
   def project_exists?
     @project = Project.find(params[:project_id])

@@ -14,5 +14,5 @@
 
 = form_for [@project, @project.collaborators.build] do |f|
   = f.fields_for :officer do |f|
-    = f.text_field :email
+    = f.text_field :email, autocomplete: "off"
   = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."

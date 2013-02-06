@@ -22,4 +22,6 @@
 //= require backbone/procure_io
 //= require_tree .
 
-var ProcureIo = {};
+var ProcureIo = {
+  PageSpecificScripts: {}
+}

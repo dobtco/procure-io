@@ -4,6 +4,10 @@ ProcureIo::Application.routes.draw do
   devise_for :officers
   devise_for :vendors
 
+  resources :officers, only: [] do
+    get 'typeahead', on: :collection
+  end
+
   resources :projects do
     resources :collaborators
     get 'mine', on: :collection
