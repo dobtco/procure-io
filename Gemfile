@@ -5,6 +5,7 @@ gem 'devise'
 gem 'foreigner'
 gem 'haml'
 gem 'cancan'
+gem 'will_paginate', '~> 3.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -15,6 +15,7 @@
 //= require jquery_ujs
 //= require jquery.form
 //= require bootstrap
+//= require bootstrap.flash_button
 //= require jquery.switch
 //= require underscore
 //= require backbone

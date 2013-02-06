@@ -12,4 +12,4 @@ ProcureIo.Backbone.Question = Backbone.Model.extend
   #     return errors
 
   defaults: ->
-    answer_body: undefined
+    answer_body: ""
