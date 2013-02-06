@@ -8,7 +8,7 @@
 #  bids_due_at :datetime
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  posted_at   :datetime
+#  posted      :boolean
 #
 
 class Project < ActiveRecord::Base
@@ -20,6 +20,9 @@ class Project < ActiveRecord::Base
                       order: 'created_at'
   has_many :questions
 
+  def unanswered_questions
+    questions.where("answer_body = '' OR answer_body IS NULL")
+  end
 
   def owner_id
     collaborators.where(owner: true).first.officer_id

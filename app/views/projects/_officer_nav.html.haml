@@ -1,9 +1,13 @@
 %ul.nav.nav-tabs
   - if @project.posted
     %li
-      %a Review Bids <span class="badge">X</span>
+      %a Review Bids <span class="badge badge-info">X</span>
+
     %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
-      %a{"href" => project_questions_path(@project)} Answer Questions <span class="badge badge-important">X</span>
+      %a{"href" => project_questions_path(@project)}
+        Answer Questions
+        - if @project.unanswered_questions.count > 0
+          <span class="badge badge-info">#{@project.unanswered_questions.count}</span>
 
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
     =link_to "Edit Project", edit_project_path(@project)
