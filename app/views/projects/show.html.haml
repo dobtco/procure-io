@@ -28,4 +28,4 @@
 
     #questions-list
       :javascript
-        new ProcureIo.Backbone.QuestionPage({bootstrapData: #{@project.questions.to_json}, projectId: #{@project.id}});
+        new ProcureIo.Backbone.QuestionPage({bootstrapData: #{@questions_json}, projectId: #{@project.id}});

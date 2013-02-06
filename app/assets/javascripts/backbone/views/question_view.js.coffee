@@ -7,7 +7,7 @@ ProcureIo.Backbone.QuestionView = Backbone.View.extend
     <% if (answer_body){ %>
       <div id="answer-body-<%= id %>" class="answer-body collapse">
         <p><%- answer_body %></p>
-        <span class="answered-by">Answered by X on <%= updated_at %></span>
+        <span class="answered-by">Answered by <%- officer_name %> on <%= updated_at %></span>
       </div>
       <a data-toggle="collapse" data-target="#answer-body-<%= id %>" data-toggle-text="hide answer">show answer</a>
     <% } else { %>

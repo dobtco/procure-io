@@ -6,6 +6,7 @@ gem 'foreigner'
 gem 'haml'
 gem 'cancan'
 gem 'will_paginate', '~> 3.0'
+gem 'active_model_serializers', git: 'git://github.com/rails-api/active_model_serializers.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

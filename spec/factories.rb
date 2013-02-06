@@ -36,10 +36,12 @@ FactoryGirl.define do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
     body { Faker::Lorem.paragraph }
-    answer_body {
+
+    after(:build) do |q|
       if rand(1..2) == 2
-        Faker::Lorem.paragraph
+        q.answer_body = Faker::Lorem.paragraph
+        q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : Factory.create(:officer))
       end
-    }
+    end
   end
 end

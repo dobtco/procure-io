@@ -1,5 +1,3 @@
-# @todo active_model_serializers and grape?
-
 class CollaboratorsController < ApplicationController
   before_filter :project_exists?
   before_filter :authenticate_officer!

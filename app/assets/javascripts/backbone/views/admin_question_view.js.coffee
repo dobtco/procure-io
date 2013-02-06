@@ -3,10 +3,10 @@ ProcureIo.Backbone.AdminQuestionView = Backbone.View.extend
 
   template: _.template """
     <td><%- created_at %></td>
-    <td>@todo USER</td>
+    <td><%- vendor.name %></td>
     <td><%- body %></td>
     <td>
-      <textarea><%- answer_body %></textarea>
+      <textarea><%- answer_body || '' %></textarea>
     </td>
     <td>
       <button class="btn btn-inverse" data-backbone-save data-loading-text="Saving...">Save</button>

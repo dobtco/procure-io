@@ -16,12 +16,21 @@ class QuestionsController < ApplicationController
   def index
     authorize! :update, @project # only collaborators can answer questions
     # @todo pagination
-    @questions = @project.questions
+    @questions_json = ActiveModel::ArraySerializer.new(@project.questions.all, each_serializer: OfficerQuestionSerializer).to_json
   end
 
   def update
     authorize! :update, @project # only collaborators can answer questions
-    @question.update_attributes(answer_body: params[:answer_body])
+    @question.assign_attributes(answer_body: params[:answer_body])
+
+    if params[:answer_body]
+      @question.officer = current_officer
+    else
+      @question_officer = nil
+    end
+
+    @question.save
+
     respond_to do |format|
       format.json { render json: @question.to_json }
     end
