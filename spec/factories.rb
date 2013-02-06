@@ -38,7 +38,7 @@ FactoryGirl.define do
     body { Faker::Lorem.paragraph }
 
     after(:build) do |q|
-      if rand(1..2) == 2
+      if rand(1..2) == 2 && q.project.posted
         q.answer_body = Faker::Lorem.paragraph
         q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : Factory.create(:officer))
       end
