@@ -63,6 +63,7 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
   """
 
   render: ->
+    console.log @model
     @$el.html @template(@model.toJSON())
     @$el.find(".subtemplate-wrapper").html @subTemplate(@model.toJSON())
     rivets.bind(@$el, {model: @model})
@@ -168,7 +169,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   createAndShowEditView: (model, $responseFieldEl) ->
     if @editView && @editView.model != model
-      console.log @editView.$el.html()
       oldPadding = @editView.$el.css('padding-top')
       @editView.remove()
 
@@ -190,11 +190,16 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     @$el.find(".subtemplate-wrapper").each ->
       model = ProcureIo.Backbone.ResponseFields.getByCid $(@).data('backbone-cid')
-      model.save
-        sort_order: i
 
       i++
 
+    @saveForm()
+
   saveForm: ->
-    ProcureIo.Backbone.ResponseFields.each (r) ->
-      r.save()
+    $.ajax
+      url: ProcureIo.Backbone.ResponseFields.url + "/batch"
+      type: "PUT"
+      data:
+        response_fields: ProcureIo.Backbone.ResponseFields.toJSON()
+      success: (data) =>
+        @$el.find("[data-backbone-save-form]").flash_button false, "Saved!"

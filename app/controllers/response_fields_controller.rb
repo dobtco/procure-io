@@ -19,6 +19,17 @@ class ResponseFieldsController < ApplicationController
     end
   end
 
+  def batch
+    params[:response_fields].each do |key, response_field_params|
+      response_field = @project.response_fields.find(response_field_params[:id])
+      response_field.update_attributes pick(response_field_params, :field_type, :label, :field_options, :sort_order)
+    end
+
+    respond_to do |format|
+      format.json { render json: @project.response_fields }
+    end
+  end
+
   def destroy
     @response_field.destroy
     respond_to do |format|

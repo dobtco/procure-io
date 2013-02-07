@@ -13,7 +13,9 @@ ProcureIo::Application.routes.draw do
 
     resources :questions
     resources :collaborators
-    resources :response_fields
+    resources :response_fields do
+      put 'batch', on: :collection
+    end
   end
 
   # The priority is based upon order of creation:
