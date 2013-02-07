@@ -46,6 +46,16 @@ ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseField
     <span class="help-block" data-text="model.field_options.description"></span>
   """
 
+ProcureIo.Backbone.ParagraphResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
+  subTemplate: _.template """
+    <label>
+      <span data-text="model.label"></span>
+      <span data-show="model.field_options.required" class="required-asterisk">*</span>
+    </label>
+    <textarea />
+    <span class="help-block" data-text="model.field_options.description"></span>
+  """
+
 ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
   tagName: "div"
   className: "edit-response-field"
@@ -92,6 +102,20 @@ ProcureIo.Backbone.EditTextResponseFieldView = ProcureIo.Backbone.AdminEditRespo
     <textarea data-value="model.field_options.description"></textarea>
   """
 
+ProcureIo.Backbone.EditParagraphResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
+  subTemplate: _.template """
+    <label>label</label>
+    <input type="text" data-value="model.label" />
+
+    <label class="checkbox">
+      required?
+      <input type="checkbox" data-checked="model.field_options.required" />
+    </label>
+
+    <label>description</label>
+    <textarea data-value="model.field_options.description"></textarea>
+  """
+
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   el: "#admin-response-field-page"
@@ -105,8 +129,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
         </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="addNewField">
-            <a data-backbone-add-field="text">text</a>
-            <a data-backbone-add-field="paragraph">paragraph</a>
+            <a data-backbone-add-field="text" class="btn btn-small">text</a>
+            <a data-backbone-add-field="paragraph" class="btn btn-small">paragraph</a>
           </div>
           <div class="tab-pane" id="editField">
             <div id="edit-response-field-wrapper"></div>
