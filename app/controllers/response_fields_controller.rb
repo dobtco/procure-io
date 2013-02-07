@@ -1,6 +1,6 @@
 class ResponseFieldsController < ApplicationController
   before_filter :project_exists?
-  before_filter :response_field_exists?, only: :update
+  before_filter :response_field_exists?, only: [:update, :destroy]
 
   def index
   end
@@ -16,6 +16,13 @@ class ResponseFieldsController < ApplicationController
     @response_field.update_attributes pick(params, :field_type, :label, :field_options, :sort_order)
     respond_to do |format|
       format.json { render json: @response_field }
+    end
+  end
+
+  def destroy
+    @response_field.destroy
+    respond_to do |format|
+      format.json { render json: {} }
     end
   end
 

@@ -1,13 +1,17 @@
 ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   tagName: "div"
-  className: "response-field well"
+  className: "response-field"
 
   template: _.template """
-    <div class="subtemplate-wrapper" data-backbone-cid="<%= cid %>"></div>
+    <div class="subtemplate-wrapper well" data-backbone-cid="<%= cid %>"></div>
+    <div class="actions-wrapper">
+      <button class="btn btn-mini remove-field-button">Remove Field</button>
+    </div>
   """
 
   events:
-    "click": "focusEditView"
+    "click .subtemplate-wrapper": "focusEditView"
+    "click .remove-field-button": "clear"
 
   initialize: ->
     @model.bind "change", @render, @
@@ -28,6 +32,10 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   # @todo data binding using rivets?
   # save: ->
 
+  clear: ->
+    @model.destroy()
+
+
 ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: _.template """
     <label>
@@ -41,6 +49,10 @@ ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseField
 ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
   tagName: "div"
   className: "edit-response-field"
+
+  initialize: ->
+    @model.bind "destroy", @removeEditView, @
+    @parentView = @options.parentView
 
   template: _.template """
     <h5>
@@ -56,6 +68,10 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     rivets.bind(@$el, {model: @model})
 
     return @
+
+  removeEditView: ->
+    @parentView.editView = undefined
+    @remove()
 
   # @todo data binding using rivets?
   # save: ->
@@ -152,10 +168,11 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   createAndShowEditView: (model, $responseFieldEl) ->
     if @editView && @editView.model != model
+      console.log @editView.$el.html()
       oldPadding = @editView.$el.css('padding-top')
       @editView.remove()
 
-    @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]({model: model})
+    @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]({model: model, parentView: @})
     $newEditEl = @editView.render().$el
     @$el.find("#edit-response-field-wrapper").html $newEditEl
     @$el.find("#response-field-tabs a[href=\"#editField\"]").click()

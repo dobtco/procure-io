@@ -88,6 +88,20 @@ body {
 #response-fields {
   .response-field {
     cursor: pointer;
+    position: relative;
+
+    &:hover {
+      .actions-wrapper {
+        display: block;
+      }
+    }
+
+    .actions-wrapper {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
   }
 
   .sortable-placeholder {
