@@ -4,7 +4,7 @@ class CreateResponseFields < ActiveRecord::Migration
       t.integer :project_id
       t.string :label
       t.string :field_type
-      t.text :options
+      t.text :field_options
 
       t.timestamps
     end

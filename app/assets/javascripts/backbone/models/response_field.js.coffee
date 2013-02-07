@@ -1,7 +1,4 @@
-ProcureIo.Backbone.ResponseField = Backbone.Model.extend
-  validate: (attrs) ->
-    #
-
+ProcureIo.Backbone.ResponseField = Backbone.DeepModel.extend
   defaults: ->
     label: "Untitled"
-    options: {}
+    field_options: {}

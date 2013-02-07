@@ -20,7 +20,9 @@
 //= require bootstrap.flash_button
 //= require jquery.switch
 //= require underscore
+//= require underscore.mixin.deepExtend
 //= require backbone
+//= require backbone-deep-model
 //= require rivets
 //= require backbone_rails_sync
 //= require backbone/procure_io

@@ -6,14 +6,14 @@ class ResponseFieldsController < ApplicationController
   end
 
   def create
-    @response_field = @project.response_fields.create pick(params, :field_type, :label, :options, :sort_order)
+    @response_field = @project.response_fields.create pick(params, :field_type, :label, :field_options, :sort_order)
     respond_to do |format|
       format.json { render json: @response_field }
     end
   end
 
   def update
-    @response_field.update_attributes pick(params, :field_type, :label, :options, :sort_order)
+    @response_field.update_attributes pick(params, :field_type, :label, :field_options, :sort_order)
     respond_to do |format|
       format.json { render json: @response_field }
     end

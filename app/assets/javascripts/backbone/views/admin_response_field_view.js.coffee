@@ -29,9 +29,12 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
 
 ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: _.template """
-    <label data-text="model.label"></label>
+    <label>
+      <span data-text="model.label"></span>
+      <span data-show="model.field_options.required">*</span>
+    </label>
     <input type="text" />
-    <span class="help-block" data-text="model.options.description"></span>
+    <span class="help-block" data-text="model.field_options.description"></span>
   """
 
 ProcureIo.Backbone.EditTextResponseFieldView = Backbone.View.extend
@@ -39,8 +42,13 @@ ProcureIo.Backbone.EditTextResponseFieldView = Backbone.View.extend
     <label>label</label>
     <input type="text" data-value="model.label" />
 
+    <label class="checkbox">
+      required?
+      <input type="checkbox" data-checked="model.field_options.required" />
+    </label>
+
     <label>description</label>
-    <textarea data-value="model.options.description"></textarea>
+    <textarea data-value="model.field_options.description"></textarea>
   """
 
   initialize: ->
@@ -70,6 +78,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
             <div id="edit-response-field-wrapper"></div>
           </div>
         </div>
+        <div class="form-actions">
+          <button data-backbone-save-form class="btn btn-success">Save Form</button>
+        </div>
       </div>
       <div class="span7">
         <h4>Bid Form</h4>
@@ -80,6 +91,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   events:
     "click [data-backbone-add-field]": "addNewField"
+    "click [data-backbone-save-form]": "saveForm"
 
   initialize: ->
     ProcureIo.Backbone.ResponseFields = new ProcureIo.Backbone.ResponseFieldList()
@@ -138,3 +150,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
         sort_order: i
 
       i++
+
+  saveForm: ->
+    ProcureIo.Backbone.ResponseFields.each (r) ->
+      r.save()

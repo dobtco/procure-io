@@ -80,10 +80,10 @@ ActiveRecord::Schema.define(:version => 20130206230706) do
     t.integer  "project_id"
     t.string   "label"
     t.string   "field_type"
-    t.text     "options"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "sort_order", :null => false
+    t.text     "field_options"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "sort_order",    :null => false
   end
 
   create_table "vendors", :force => true do |t|
