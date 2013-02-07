@@ -189,8 +189,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     i = 0
 
     @$el.find(".subtemplate-wrapper").each ->
-      model = ProcureIo.Backbone.ResponseFields.getByCid $(@).data('backbone-cid')
-
+      model = ProcureIo.Backbone.ResponseFields.get $(@).data('backbone-cid')
+      model.set('sort_order', i)
       i++
 
     @saveForm()
