@@ -1,0 +1,11 @@
+= f.fields_for :response_fields do |f|
+
+  %label
+    =response_field.label
+    - if response_field.field_options["required"]
+      %span.required-asterisk *
+
+  = f.text_field response_field.id
+
+  %span.help-block= response_field.field_options["description"]
+

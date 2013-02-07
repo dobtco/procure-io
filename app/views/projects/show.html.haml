@@ -11,7 +11,10 @@
 
   .span5
     %h4 Bids due on #{@project.bids_due_at}
-    BID NOW BUTTON
+    - if vendor_signed_in?
+      =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
+    - elsif !officer_signed_in?
+      #{link_to "Sign in", new_vendor_session_path} to bid.
 
     %h4 Questions
     - if vendor_signed_in?

@@ -1,0 +1,10 @@
+!=page_header @project.title
+
+.row-fluid
+  .span7
+    %h4 Project Description
+    %p= simple_format @project.body
+
+  .span5
+    %h4 New Bid
+    = render "bids/form"
