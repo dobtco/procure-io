@@ -32,7 +32,7 @@ group :assets do
   gem 'bootstrap-sass'
   gem 'bootswatch-rails'
   gem 'font-awesome-sass-rails'
-  gem 'rails-backbone'
+  gem 'rails-backbone', git: 'git://github.com/codebrew/backbone-rails.git'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
