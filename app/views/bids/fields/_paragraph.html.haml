@@ -1,11 +1,9 @@
-= f.fields_for :response_fields do |f|
+%label
+  =response_field.label
+  - if response_field.field_options["required"]
+    %span.required-asterisk *
 
-  %label
-    =response_field.label
-    - if response_field.field_options["required"]
-      %span.required-asterisk *
+%textarea{"name" => "response_fields[#{response_field.id}]"}= value
 
-  = f.text_area response_field.id, cols: nil, rows: nil
-
-  %span.help-block= response_field.field_options["description"]
+%span.help-block= response_field.field_options["description"]
 
