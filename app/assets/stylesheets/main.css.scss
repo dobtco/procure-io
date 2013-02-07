@@ -95,3 +95,18 @@ body {
     margin-bottom: 18px;
   }
 }
+
+.edit-response-field {
+  h5 {
+    border-top: 1px dotted #ccc;
+    padding-top: 10px;
+  }
+
+  .icon-arrow-right {
+    color: #444;
+  }
+}
+
+.required-asterisk {
+  color: red;
+}

@@ -21,8 +21,9 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
 
     return @
 
-  focusEditView: ->
-    @parentView.createAndShowEditView(@model)
+  focusEditView: (e) ->
+    $target = if $(e.target).hasClass('response-field') then $(e.target) else $(e.target).closest(".response-field")
+    @parentView.createAndShowEditView(@model, $target)
 
   # @todo data binding using rivets?
   # save: ->
@@ -31,14 +32,37 @@ ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseField
   subTemplate: _.template """
     <label>
       <span data-text="model.label"></span>
-      <span data-show="model.field_options.required">*</span>
+      <span data-show="model.field_options.required" class="required-asterisk">*</span>
     </label>
     <input type="text" />
     <span class="help-block" data-text="model.field_options.description"></span>
   """
 
-ProcureIo.Backbone.EditTextResponseFieldView = Backbone.View.extend
+ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
+  tagName: "div"
+  className: "edit-response-field"
+
   template: _.template """
+    <h5>
+      Editing "<span data-text="model.label"></span>"
+      <i class="icon-arrow-right pull-right"></i>
+    </h5>
+    <div class="subtemplate-wrapper"></div>
+  """
+
+  render: ->
+    @$el.html @template(@model.toJSON())
+    @$el.find(".subtemplate-wrapper").html @subTemplate(@model.toJSON())
+    rivets.bind(@$el, {model: @model})
+
+    return @
+
+  # @todo data binding using rivets?
+  # save: ->
+
+
+ProcureIo.Backbone.EditTextResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
+  subTemplate: _.template """
     <label>label</label>
     <input type="text" data-value="model.label" />
 
@@ -50,13 +74,6 @@ ProcureIo.Backbone.EditTextResponseFieldView = Backbone.View.extend
     <label>description</label>
     <textarea data-value="model.field_options.description"></textarea>
   """
-
-  initialize: ->
-
-  render: ->
-    @$el.html @template()
-    rivets.bind(@$el, {model: @model})
-    return @
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
@@ -133,13 +150,23 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       field_type: $(e.target).data("backbone-add-field")
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
 
-  createAndShowEditView: (model) ->
+  createAndShowEditView: (model, $responseFieldEl) ->
     if @editView && @editView.model != model
+      oldPadding = @editView.$el.css('padding-top')
       @editView.remove()
 
     @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]({model: model})
-    @$el.find("#edit-response-field-wrapper").html @editView.render().el
+    $newEditEl = @editView.render().$el
+    @$el.find("#edit-response-field-wrapper").html $newEditEl
     @$el.find("#response-field-tabs a[href=\"#editField\"]").click()
+
+
+    if oldPadding
+      $newEditEl.css {"padding-top": oldPadding}
+
+    $newEditEl.animate
+      "padding-top": Math.max(0, $responseFieldEl.offset().top - $("#response-fields").offset().top - 25)
+    , 'fast'
 
   updateSortOrder: ->
     i = 0
