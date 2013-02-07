@@ -11,14 +11,17 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_self
+//= require prototype_hacks
 //= require jquery
 //= require jquery_ujs
 //= require jquery.form
+//= require jquery.sortable
 //= require bootstrap
 //= require bootstrap.flash_button
 //= require jquery.switch
 //= require underscore
 //= require backbone
+//= require rivets
 //= require backbone_rails_sync
 //= require backbone/procure_io
 //= require_tree .

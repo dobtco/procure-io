@@ -2,6 +2,7 @@ development:
   adapter: postgresql
   database: procureio-dev
   host: localhost
+  username: adamb
 
 
 # Warning: The database defined as "test" will be erased and
@@ -10,4 +11,6 @@ development:
 test:
   adapter: postgresql
   database: procureio-test
+  host: localhost
+  username: adamb
 

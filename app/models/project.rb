@@ -19,6 +19,7 @@ class Project < ActiveRecord::Base
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions
+  has_many :response_fields
 
   def unanswered_questions
     questions.where("answer_body = '' OR answer_body IS NULL")

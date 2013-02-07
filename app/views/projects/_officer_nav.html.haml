@@ -11,8 +11,8 @@
 
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
     =link_to "Edit Project", edit_project_path(@project)
-  %li
-    %a Response Fields
+  %li{"class" => params[:controller] == "response_fields" && params[:action] == "index" ? "active" : ""}
+    =link_to "Response Fields", project_response_fields_path(@project)
   %li{"class" => params[:controller] == "collaborators" && params[:action] == "index" ? "active" : ""}
     =link_to "Collaborators", project_collaborators_path(@project)
 

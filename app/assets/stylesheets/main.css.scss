@@ -84,3 +84,14 @@ body {
   padding: 10px 0;
   background-color: #eee;
 }
+
+#response-fields {
+  .response-field {
+    cursor: pointer;
+  }
+
+  .sortable-placeholder {
+    border: 1px dashed #ccc;
+    margin-bottom: 18px;
+  }
+}

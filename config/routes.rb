@@ -9,9 +9,11 @@ ProcureIo::Application.routes.draw do
   end
 
   resources :projects do
+    get 'mine', on: :collection
+
     resources :questions
     resources :collaborators
-    get 'mine', on: :collection
+    resources :response_fields
   end
 
   # The priority is based upon order of creation:
