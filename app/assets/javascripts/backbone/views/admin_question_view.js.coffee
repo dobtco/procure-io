@@ -1,18 +1,6 @@
 ProcureIo.Backbone.AdminQuestionView = Backbone.View.extend
   tagName: "tr"
 
-  template: _.template """
-    <td><%- created_at %></td>
-    <td><%- vendor.name %></td>
-    <td><%- body %></td>
-    <td>
-      <textarea><%- answer_body || '' %></textarea>
-    </td>
-    <td>
-      <button class="btn btn-inverse" data-backbone-save data-loading-text="Saving...">Save</button>
-    </td>
-  """
-
   events:
     "click [data-backbone-save]": "save"
 
@@ -21,7 +9,7 @@ ProcureIo.Backbone.AdminQuestionView = Backbone.View.extend
     @model.bind "destroy", @remove, @
 
   render: ->
-    @$el.html @template(@model.toJSON())
+    @$el.html JST['admin_question/question'](@model.toJSON())
     @
 
   # @todo data binding using rivets?
@@ -50,9 +38,6 @@ ProcureIo.Backbone.AdminQuestionPage = Backbone.View.extend
   reset: ->
     $("#questions-tbody").html('')
     @addAll()
-
-  # render: ->
-  #   #
 
   addOne: (question) ->
     view = new ProcureIo.Backbone.AdminQuestionView({model: question})

@@ -2,19 +2,6 @@ ProcureIo.Backbone.QuestionView = Backbone.View.extend
   tagName: "div"
   className: "question well"
 
-  template: _.template """
-    <div class="question-body"><%- body %></div>
-    <% if (answer_body){ %>
-      <div id="answer-body-<%= id %>" class="answer-body collapse">
-        <p><%- answer_body %></p>
-        <span class="answered-by">Answered by <%- officer_name %> on <%= updated_at %></span>
-      </div>
-      <a data-toggle="collapse" data-target="#answer-body-<%= id %>" data-toggle-text="hide answer">show answer</a>
-    <% } else { %>
-      <div class="no-answer-body">Not yet answered.</div>
-    <% } %>
-  """
-
   # events:
   #   "click [data-backbone-clear]": "clear"
 
@@ -23,7 +10,7 @@ ProcureIo.Backbone.QuestionView = Backbone.View.extend
     @model.bind "destroy", @remove, @
 
   render: ->
-    @$el.html @template(@model.toJSON())
+    @$el.html JST['question/question'](@model.toJSON())
     @
 
   clear: ->
@@ -67,24 +54,3 @@ $(document).on "submit", "form#new_question", (e) ->
 
   $(@).resetForm()
   $("#ask-question-toggle").click()
-
-# ProcureIo.PageSpecificScripts["collaborators#index"] = ->
-#   typeaheadTimeout = undefined
-
-#   $("form#new_collaborator input[type=text]").typeahead
-#     source: (query, process) ->
-#       typeaheadTimeout ||= setTimeout ->
-#         $.ajax
-#           url: "/officers/typeahead.json"
-#           data:
-#             query: query
-#           success: (data) ->
-#             typeaheadTimeout = null
-
-#             data = $.grep data, (value) ->
-#               return ProcureIo.Backbone.Collaborators.existing_emails().indexOf(value) is -1
-
-#             return process(data)
-#       , 200
-
-#     minLength: 3

@@ -1,18 +1,6 @@
 ProcureIo.Backbone.CollaboratorView = Backbone.View.extend
   tagName: "tr"
 
-  template: _.template """
-    <td>
-      <%- officer.email %>
-      <% if (owner) { %><i class="icon-star"></i><% } %>
-    </td>
-    <td>
-      <% if (isOwner && !owner){ %>
-        <button class="btn btn-danger" data-backbone-clear>Remove</button>
-      <% } %>
-    </td>
-  """
-
   events:
     "click [data-backbone-clear]": "clear"
 
@@ -22,7 +10,7 @@ ProcureIo.Backbone.CollaboratorView = Backbone.View.extend
     @isOwner = (ProcureIo.Backbone.Collaborators.ownerId == ProcureIo.CurrentOfficerId)
 
   render: ->
-    @$el.html @template(_.extend(@model.toJSON(), isOwner: @isOwner))
+    @$el.html JST['collaborator/collaborator'](_.extend(@model.toJSON(), isOwner: @isOwner))
     @
 
   clear: ->

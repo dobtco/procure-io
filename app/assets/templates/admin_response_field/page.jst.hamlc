@@ -1,0 +1,22 @@
+.row-fluid
+  .span5
+    %ul.nav.nav-tabs#response-field-tabs
+      %li.active
+        %a{"href" => "#addNewField", "data-toggle" => "tab"} Add New Field
+      %li
+        %a{"href" => "#editField", "data-toggle" => "tab"} Edit Field
+
+    .tab-content
+      .tab-pane.active#addNewField
+        %a.btn.btn-small{"data-backbone-add-field" => "text"} Text
+        %a.btn.btn-small{"data-backbone-add-field" => "paragraph"} Paragraph
+
+      .tab-pane#editField
+        #edit-response-field-wrapper
+
+    .form-actions
+      %button.btn.btn-success{"data-backbone-save-form" => "true"} Save Form
+
+  .span7
+    %h4 Bid Form
+    #response-fields

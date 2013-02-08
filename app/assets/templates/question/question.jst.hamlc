@@ -1,0 +1,9 @@
+.question-body= @body
+
+- if @answer_body
+  %div.answer-body.collapse{"id" => "answer-body-#{@id}"}
+    %p= @answer_body
+    %span.answered-by Answered by #{@officer_name} on #{@updated_at}
+  %a{"data-toggle" => "collapse", "data-target" => "#answer-body-#{@id}", "data-toggle-text" => "hide answer"} show answer
+- else
+  .no-answer-body Not yet answered.

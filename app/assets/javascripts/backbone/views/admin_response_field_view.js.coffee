@@ -73,7 +73,6 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
   """
 
   render: ->
-    console.log @model
     @$el.html @template(@model.toJSON())
     @$el.find(".subtemplate-wrapper").html @subTemplate(@model.toJSON())
     rivets.bind(@$el, {model: @model})
@@ -117,35 +116,7 @@ ProcureIo.Backbone.EditParagraphResponseFieldView = ProcureIo.Backbone.AdminEdit
   """
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
-
   el: "#admin-response-field-page"
-
-  template: _.template """
-    <div class="row-fluid">
-      <div class="span5">
-        <ul class="nav nav-tabs" id="response-field-tabs">
-          <li class="active"><a href="#addNewField" data-toggle="tab">Add New Field</a></li>
-          <li><a href="#editField" data-toggle="tab">Edit Field</a></li>
-        </ul>
-        <div class="tab-content">
-          <div class="tab-pane active" id="addNewField">
-            <a data-backbone-add-field="text" class="btn btn-small">text</a>
-            <a data-backbone-add-field="paragraph" class="btn btn-small">paragraph</a>
-          </div>
-          <div class="tab-pane" id="editField">
-            <div id="edit-response-field-wrapper"></div>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button data-backbone-save-form class="btn btn-success">Save Form</button>
-        </div>
-      </div>
-      <div class="span7">
-        <h4>Bid Form</h4>
-        <div id="response-fields"></div>
-      </div>
-    </div>
-  """
 
   events:
     "click [data-backbone-add-field]": "addNewField"
@@ -168,7 +139,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html @template()
+    @$el.html JST['admin_response_field/page']()
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()

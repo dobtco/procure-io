@@ -1,0 +1,7 @@
+%td
+  = @officer.email
+  - if @owner
+    %i.icon-star
+%td
+  - if @isOwner && !@owner
+    %button.btn.btn-danger{"data-backbone-clear" => "true"} Remove

@@ -31,4 +31,12 @@ module ApplicationHelper
     end
     filtered
   end
+
+  def transform_boolean_values!(hash)
+    [:required].each do |k|
+      if hash.has_key?(k) && hash[k] == "false"
+        hash[k] = false
+      end
+    end
+  end
 end
