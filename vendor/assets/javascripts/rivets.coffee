@@ -408,6 +408,9 @@ else
 rivets.formatters.eq = (value, arg) ->
   value is arg
 
+rivets.formatters.not = (value) ->
+  !value
+
 
 `rivets.configure({
   adapter: {

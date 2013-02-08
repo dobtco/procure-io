@@ -1,7 +1,13 @@
 %tr
-  %td 1
+  %td
+    %i{"data-backbone-unread" => "true", "data-class-icon-circle" => "bid.unread", "data-class-icon-circle-blank" => "bid.unread | not"}
+    %i{"data-backbone-star" => "true", "data-class-icon-star" => "bid.starred", "data-class-icon-star-empty" => "bid.starred | not"}
   - for index, keyField of @pageOptions.attributes.keyFields
     %td= @getValue(keyField.id)
 %tr
   %td{"colspan" => 3}
-    Bid Details
+    %dl
+    - for index, bidResponse of @bid_responses
+      %dt= bidResponse.response_field.label
+      %dd= bidResponse.value
+
