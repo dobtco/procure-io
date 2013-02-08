@@ -12,9 +12,9 @@
   .span5
     %h4 Bids due on #{@project.bids_due_at}
     - if vendor_signed_in?
-      - if current_vendor.bid_for_project(@project)
-        - if current_vendor.bid_for_project(@project).submitted_at
-          Your bid has been submitted.
+      - if (bid = current_vendor.bid_for_project(@project))
+        - if bid.submitted_at
+          You submitted <a href="#{project_bid_path(@project, bid)}">your bid</a> on #{bid.submitted_at}.
         - else
           =link_to "Continue Writing Bid", new_project_bid_path(@project), class: "btn btn-inverse"
       - else

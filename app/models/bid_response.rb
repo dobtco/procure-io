@@ -13,6 +13,8 @@
 class BidResponse < ActiveRecord::Base
   attr_accessible :bid_id, :response_field_id, :value
 
+  default_scope({include: :response_field, joins: :response_field, order: "response_fields.sort_order"})
+
   belongs_to :bid
   belongs_to :response_field
 end
