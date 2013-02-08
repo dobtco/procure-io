@@ -7,6 +7,7 @@ class BidsController < ApplicationController
 
   def index
     authorize! :update, @project
+    @bids_json = ActiveModel::ArraySerializer.new(@project.bids).to_json
   end
 
   def new
