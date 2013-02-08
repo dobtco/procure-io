@@ -53,16 +53,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
 
     @pageOptions = new Backbone.Model
-      keyFields: [
-        {
-          label: "bid",
-          id: 46
-        },
-        {
-          label: "price",
-          id: 43
-        }
-      ]
+      keyFields: @options.keyFields
       activeFilter: "allBids"
       activeSubfilter: "openBids"
 

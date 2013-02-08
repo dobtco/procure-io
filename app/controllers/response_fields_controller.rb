@@ -6,7 +6,7 @@ class ResponseFieldsController < ApplicationController
   end
 
   def create
-    @response_field = @project.response_fields.create pick(params, :field_type, :label, :field_options, :sort_order)
+    @response_field = @project.response_fields.create pick(params, :field_type, :label, :field_options, :sort_order, :key_field)
     respond_to do |format|
       format.json { render json: @response_field }
     end
@@ -14,7 +14,7 @@ class ResponseFieldsController < ApplicationController
 
   def update
     new_params = pick(params, :field_type, :label, :field_options, :sort_order)
-    transform_boolean_values!(new_params[:field_options])
+    transform_boolean_values!(new_params)
     @response_field.update_attributes new_params
     respond_to do |format|
       format.json { render json: @response_field }
@@ -24,8 +24,8 @@ class ResponseFieldsController < ApplicationController
   def batch
     params[:response_fields].each do |key, response_field_params|
       response_field = @project.response_fields.find(response_field_params[:id])
-      new_params = pick(response_field_params, :field_type, :label, :field_options, :sort_order)
-      transform_boolean_values!(new_params[:field_options])
+      new_params = pick(response_field_params, :field_type, :label, :field_options, :sort_order, :key_field)
+      transform_boolean_values!(new_params)
       response_field.update_attributes new_params
     end
 

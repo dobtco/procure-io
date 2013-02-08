@@ -32,4 +32,12 @@ class Project < ActiveRecord::Base
   def self.posted
     where(posted: true)
   end
+
+  def key_fields
+    if response_fields.where(key_field: true).any?
+      response_fields.where(key_field: true)
+    else
+      response_fields.limit(2)
+    end
+  end
 end

@@ -97,6 +97,11 @@ ProcureIo.Backbone.EditTextResponseFieldView = ProcureIo.Backbone.AdminEditRespo
       <input type="checkbox" data-checked="model.field_options.required" />
     </label>
 
+    <label class="checkbox">
+      key field?
+      <input type="checkbox" data-checked="model.key_field" />
+    </label>
+
     <label>description</label>
     <textarea data-value="model.field_options.description"></textarea>
   """
@@ -109,6 +114,11 @@ ProcureIo.Backbone.EditParagraphResponseFieldView = ProcureIo.Backbone.AdminEdit
     <label class="checkbox">
       required?
       <input type="checkbox" data-checked="model.field_options.required" />
+    </label>
+
+    <label class="checkbox">
+      key field?
+      <input type="checkbox" data-checked="model.key_field" />
     </label>
 
     <label>description</label>

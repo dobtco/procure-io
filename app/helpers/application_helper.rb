@@ -33,7 +33,11 @@ module ApplicationHelper
   end
 
   def transform_boolean_values!(hash)
-    [:required].each do |k|
+    [:required, :key_field].each do |k|
+      if hash[:field_options].has_key?(k) && hash[:field_options][k] == "false"
+        hash[:field_options][k] = false
+      end
+
       if hash.has_key?(k) && hash[k] == "false"
         hash[k] = false
       end

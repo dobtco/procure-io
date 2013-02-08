@@ -10,10 +10,11 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  sort_order    :integer          not null
+#  key_field     :boolean
 #
 
 class ResponseField < ActiveRecord::Base
-  attr_accessible :field_type, :label, :field_options, :sort_order
+  attr_accessible :field_type, :label, :field_options, :sort_order, :key_field
 
   default_scope order('sort_order')
 
