@@ -1,0 +1,7 @@
+%tr
+  %td 1
+  - for index, keyField of @pageOptions.attributes.keyFields
+    %td= @getValue(keyField.id)
+%tr
+  %td{"colspan" => 3}
+    Bid Details

@@ -21,6 +21,8 @@
 //= require jquery.switch
 //= require underscore
 //= require underscore.mixin.deepExtend
+//= require hamlcoffee
+//= require_tree ../templates
 //= require backbone
 //= require backbone-deep-model
 //= require rivets

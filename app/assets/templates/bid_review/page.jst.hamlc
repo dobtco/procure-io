@@ -1,0 +1,23 @@
+.row-fluid
+  .span3
+    %ul.nav.nav-pills.nav-stacked
+      %li{"data-class-active" => "pageOptions.activeFilter | eq allBids"}
+        %a{"data-backbone-activefilter" => "allBids"} All Bids
+      %li{"data-class-active" => "pageOptions.activeFilter | eq starredBids"}
+        %a{"data-backbone-activefilter" => "starredBids"} Starred Bids
+
+  .span9
+    %p No active filters.
+
+    %ul.nav.nav-tabs
+      %li{"data-class-active" => "pageOptions.activeSubfilter | eq openBids"}
+        %a{"data-backbone-activesubfilter" => "openBids"} Open Bids
+      %li{"data-class-active" => "pageOptions.activeSubfilter | eq closedBids"}
+        %a{"data-backbone-activesubfilter" => "closedBids"} Closed Bids
+
+    %table.table#bids-table
+      %thead
+        %tr
+          %th nbsp;
+          - for index, keyField of @keyFields
+            %th= keyField.label

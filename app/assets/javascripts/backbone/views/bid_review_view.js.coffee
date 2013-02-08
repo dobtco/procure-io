@@ -4,21 +4,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tbody"
   className: "bid-tbody"
 
-  template: _.template """
-    <tr>
-      <td>1</td>
-
-      <% for (keyField in pageOptions.attributes.keyFields) { %>
-        <td><%= getValue(pageOptions.attributes.keyFields[keyField]["id"]) %></td>
-      <% } %>
-    </tr>
-    <tr>
-      <td colspan="3">
-        Bid Details
-      </td>
-    </tr>
-  """
-
   # events:
   #   "click [data-backbone-clear]": "clear"
 
@@ -30,12 +15,12 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   render: ->
 
     getValue = (id) =>
-      response = _.find @model.get('bid_responses'), ->
-        @response_field_id = id
+      response = _.find @model.get('bid_responses'), (bidResponse) ->
+        bidResponse.response_field_id is id
 
       response.value
 
-    @$el.html @template(_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
+    @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
     return @
 
   clear: ->
@@ -45,34 +30,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   el: "#bid-review-page"
-
-  template: _.template """
-    <div class="row-fluid">
-      <div class="span3">
-        <ul class="nav nav-pills nav-stacked">
-          <li data-class-active="pageOptions.activeFilter | eq allBids"><a data-backbone-activefilter="allBids">All Bids</a></li>
-          <li data-class-active="pageOptions.activeFilter | eq starredBids"><a data-backbone-activefilter="starredBids">Starred Bids</a></li>
-        </ul>
-      </div>
-      <div class="span9">
-        <p>No active filters.</p>
-        <ul class="nav nav-tabs">
-          <li data-class-active="pageOptions.activeSubfilter | eq openBids"><a data-backbone-activesubfilter="openBids">Open Bids</a></li>
-          <li data-class-active="pageOptions.activeSubfilter | eq closedBids"><a data-backbone-activesubfilter="closedBids">Closed Bids</a></li>
-        </ul>
-        <table class="table" id="bids-table">
-          <thead>
-            <tr>
-              <th>&nbsp;</th>
-              <% for (keyField in keyFields) { %>
-                <th><%= keyFields[keyField]["label"] %></th>
-              <% } %>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div>
-  """
 
   events:
     "click [data-backbone-activefilter]": "updateActiveFilter"
@@ -108,7 +65,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html @template(@pageOptions.toJSON())
+    @$el.html JST['bid_review/page'](@pageOptions.toJSON())
     rivets.bind(@$el, {pageOptions: @pageOptions})
     return @
 
