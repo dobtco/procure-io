@@ -18,7 +18,7 @@ class Bid < ActiveRecord::Base
   belongs_to :project
   belongs_to :vendor
 
-  has_many :bid_responses
+  has_many :bid_responses, dependent: :destroy
 
   def submit
     self.submitted_at = Time.now

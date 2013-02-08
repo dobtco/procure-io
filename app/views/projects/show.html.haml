@@ -12,7 +12,13 @@
   .span5
     %h4 Bids due on #{@project.bids_due_at}
     - if vendor_signed_in?
-      =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
+      - if current_vendor.bid_for_project(@project)
+        - if current_vendor.bid_for_project(@project).submitted_at
+          Your bid has been submitted.
+        - else
+          =link_to "Continue Writing Bid", new_project_bid_path(@project), class: "btn btn-inverse"
+      - else
+        =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
     - elsif !officer_signed_in?
       #{link_to "Sign in", new_vendor_session_path} to bid.
 

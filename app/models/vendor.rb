@@ -33,4 +33,12 @@ class Vendor < ActiveRecord::Base
 
   has_many :bids
   has_many :questions
+
+  def bid_for_project(project)
+    bids.where(project_id: project.id).first
+  end
+
+  def submitted_bid_for_project(project)
+    bids.where("submitted_at IS NOT NULL").where(project_id: project.id).first
+  end
 end
