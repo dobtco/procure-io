@@ -2,7 +2,12 @@ class BidsController < ApplicationController
   before_filter :project_exists?
   before_filter :bid_exists?, only: [:show]
   before_filter :authenticate_vendor!, only: [:new, :create]
+  before_filter :authenticate_officer!, only: [:index]
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
+
+  def index
+    authorize! :update, @project
+  end
 
   def new
     # @todo can? :create @bid

@@ -1,0 +1,37 @@
+!=page_header @project.title
+
+= render "projects/officer_nav"
+
+/ .row-fluid
+/   .span3
+/     %ul.nav.nav-pills.nav-stacked
+/       %li.active
+/         %a All Bids
+/       %li
+/         %a Starred Bids
+/   .span9
+/     %p No active filters.
+/     %ul.nav.nav-tabs
+/       %li.active
+/         %a Open Bids
+/       %li
+/         %a Closed Bids
+
+/     %table.table
+/       %thead
+/         %tr
+/           %th &nbsp;
+/           %th Name
+/           %th Price
+
+/       %tbody
+/         %tr
+/           %td
+/             %i.icon-circle
+/             %i.icon-star
+/           %td Adam
+/           %td $100
+
+#bid-review-page
+  :javascript
+    new ProcureIo.Backbone.BidReviewPage({bootstrapData: #{@project.bids.to_json}, projectId: #{@project.id}});

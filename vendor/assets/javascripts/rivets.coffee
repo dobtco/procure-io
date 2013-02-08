@@ -405,6 +405,9 @@ if module?
 else
   @rivets = rivets
 
+rivets.formatters.eq = (value, arg) ->
+  value is arg
+
 
 `rivets.configure({
   adapter: {
