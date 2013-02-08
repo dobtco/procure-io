@@ -19,8 +19,17 @@ class Bid < ActiveRecord::Base
   belongs_to :vendor
 
   has_many :bid_responses, dependent: :destroy
+  has_many :bid_reviews
 
   def submit
     self.submitted_at = Time.now
+  end
+
+  def bid_review_for_officer(officer)
+    bid_reviews.where(officer_id: officer.id).first_or_initialize
+  end
+
+  def total_stars
+    bid_reviews.where(starred: true).count
   end
 end

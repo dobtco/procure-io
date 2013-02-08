@@ -1,13 +1,13 @@
 class BidsController < ApplicationController
   before_filter :project_exists?
-  before_filter :bid_exists?, only: [:show]
+  before_filter :bid_exists?, only: [:show, :update]
   before_filter :authenticate_vendor!, only: [:new, :create]
   before_filter :authenticate_officer!, only: [:index]
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
   def index
     authorize! :update, @project
-    @bids_json = ActiveModel::ArraySerializer.new(@project.bids).to_json
+    @bids_json = ActiveModel::ArraySerializer.new(@project.bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json
   end
 
   def new
@@ -31,8 +31,25 @@ class BidsController < ApplicationController
     redirect_to new_project_bid_path
   end
 
+  def update
+    if current_vendor && @bid.vendor == current_vendor
+      # vendor is updating bid?
+    elsif current_officer && (can? :update, @project)
+      # officer is reviewing bid
+      review = @bid.bid_review_for_officer(current_officer)
+      review.assign_attributes pick(params[:my_bid_review], :starred, :read)
+      review.save
+
+      respond_to do |format|
+        format.json { render json: @bid, serializer: BidWithReviewSerializer }
+      end
+    else
+      render status: 404
+    end
+  end
+
   def show
-    if current_vendor && @bid.vendor = current_vendor
+    if current_vendor && @bid.vendor == current_vendor
       render "bids/show_vendor"
     elsif current_officer && (can? :update, @project)
       render "bids/show_officer"

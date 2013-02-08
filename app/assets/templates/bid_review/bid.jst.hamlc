@@ -1,7 +1,8 @@
 %tr
   %td
-    %i{"data-backbone-unread" => "true", "data-class-icon-circle" => "bid.unread", "data-class-icon-circle-blank" => "bid.unread | not"}
-    %i{"data-backbone-star" => "true", "data-class-icon-star" => "bid.starred", "data-class-icon-star-empty" => "bid.starred | not"}
+    %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+    = @total_stars
   - for index, keyField of @pageOptions.attributes.keyFields
     %td= @getValue(keyField.id)
 %tr

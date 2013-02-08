@@ -34,4 +34,5 @@ class Officer < ActiveRecord::Base
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true
   has_many :questions
+  has_many :bid_reviews
 end

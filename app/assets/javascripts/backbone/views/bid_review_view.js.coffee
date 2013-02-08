@@ -6,7 +6,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   events:
     "click [data-backbone-star]": "toggleStarred"
-    "click [data-backbone-unread]": "toggleUnread"
+    "click [data-backbone-read]": "toggleRead"
 
   initialize: ->
     @parentView = @options.parentView
@@ -22,7 +22,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       response.value
 
     @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
-    rivets.bind(@$el, {bid: @model})
 
     return @
 
@@ -30,10 +29,12 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @model.destroy()
 
   toggleStarred: ->
-    @model.set 'starred', (if @model.get('starred') then false else true)
+    @model.set 'my_bid_review.starred', (if @model.get('my_bid_review.starred') then false else true)
+    @model.save()
 
-  toggleUnread: ->
-    @model.set 'unread', (if @model.get('unread') then false else true)
+  toggleRead: ->
+    @model.set 'my_bid_review.read', (if @model.get('my_bid_review.read') then false else true)
+    @model.save()
 
 
 ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
