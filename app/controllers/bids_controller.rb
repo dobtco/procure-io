@@ -10,7 +10,7 @@ class BidsController < ApplicationController
 
     @bids = @project.bids
 
-    if params[:f2] == "closed"
+    if params[:f2] == "dismissed"
       @bids = @bids.where("dismissed_at IS NOT NULL")
     end
 

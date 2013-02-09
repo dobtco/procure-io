@@ -1,5 +1,12 @@
 # @todo clear backbone views when navigating with turbolinks?
 
+ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
+  el: "#actions-wrapper"
+
+  render: ->
+    bidsChecked = ProcureIo.Backbone.Bids.find (b) -> b.attributes.checked
+    @$el.html JST['bid_review/actions']({bidsChecked: bidsChecked})
+
 ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
 
@@ -26,8 +33,7 @@ ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
 
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
-  tagName: "tbody"
-  className: "bid-tbody"
+  tagName: "tr"
 
   events:
     "click [data-backbone-star]": "toggleStarred"
@@ -37,6 +43,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @parentView = @options.parentView
     @model.bind "destroy", @remove, @
     @model.bind "change", @render, @
+    @model.bind "change:checked", @parentView.renderActions, @
 
   render: ->
 
@@ -106,14 +113,15 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @render()
 
-    new ProcureIo.Backbone.BidReviewSidebarFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
-    new ProcureIo.Backbone.BidReviewTopFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
+    @sidebarFilterView = new ProcureIo.Backbone.BidReviewSidebarFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
+    @topFilterView = new ProcureIo.Backbone.BidReviewTopFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
+    @renderActions()
 
     Backbone.history.start
       pushState: true
 
   reset: ->
-    $(".bid-tbody").remove()
+    $("#bids-tbody").html('')
     @addAll()
 
   render: ->
@@ -121,9 +129,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 
+  renderActions: ->
+    @actionsView ||= new ProcureIo.Backbone.BidReviewActionsView()
+    @actionsView.render()
+
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
-    $("#bids-table").append(view.render().el)
+    $("#bids-tbody").append(view.render().el)
 
   addAll: ->
     ProcureIo.Backbone.Bids.each @addOne, @

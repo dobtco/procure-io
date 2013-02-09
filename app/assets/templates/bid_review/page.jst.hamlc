@@ -7,9 +7,13 @@
 
     #top-filter-wrapper
 
+    #actions-wrapper
+
     %table.table#bids-table
       %thead
         %tr
-          %th &nbsp;
+          %th(width="10%") &nbsp;
           - for index, keyField of @keyFields
             %th= keyField.label
+
+      %tbody#bids-tbody

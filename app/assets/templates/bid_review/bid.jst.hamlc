@@ -1,15 +1,7 @@
-%tr
-  %td
-    %input.inline{"type" => "checkbox", "data-checked" => "bid.checked"}
-    %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
-    %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
-    = @total_stars
-  - for index, keyField of @pageOptions.attributes.keyFields
-    %td= @getValue(keyField.id)
-%tr
-  %td{"colspan" => 3}
-    %dl
-    - for index, bidResponse of @bid_responses
-      %dt= bidResponse.response_field.label
-      %dd= bidResponse.value
-
+%td
+  %input.inline{"type" => "checkbox", "data-checked" => "bid.checked"}
+  %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+  %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+  = @total_stars
+- for index, keyField of @pageOptions.attributes.keyFields
+  %td= @getValue(keyField.id)
