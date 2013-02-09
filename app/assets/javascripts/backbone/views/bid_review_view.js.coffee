@@ -80,6 +80,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   events:
     "click [data-backbone-updatefilter]": "updateFilter"
+    "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
 
   initialize: ->
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
@@ -144,6 +145,20 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     return if e.metaKey
     ProcureIo.Backbone.router.navigate $(e.target).attr('href'), {trigger: true}
     e.preventDefault()
+
+  dismissCheckedBids: ->
+    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
+    @sendBatchAction('dismiss', ids)
+
+  sendBatchAction: (action, ids) ->
+    $.ajax
+      url: "#{ProcureIo.Backbone.Bids.url}/batch"
+      type: "PUT"
+      data:
+        ids: ids
+        bid_action: action
+      success: =>
+        @refetch()
 
   refetch: ->
     ProcureIo.Backbone.Bids.fetch({data: ProcureIo.Backbone.router.filterOptions.toJSON()})

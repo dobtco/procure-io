@@ -33,6 +33,11 @@ class Bid < ActiveRecord::Base
     self.dismissed_by_officer_id = officer.id
   end
 
+  def dismiss_by_officer!(officer)
+    self.dismiss_by_officer(officer)
+    self.save
+  end
+
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
   end

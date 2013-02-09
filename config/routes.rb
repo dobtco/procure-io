@@ -11,7 +11,9 @@ ProcureIo::Application.routes.draw do
   resources :projects do
     get 'mine', on: :collection
 
-    resources :bids
+    resources :bids do
+      put 'batch', on: :collection
+    end
     resources :questions
     resources :collaborators
     resources :response_fields do

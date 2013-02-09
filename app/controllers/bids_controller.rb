@@ -12,6 +12,8 @@ class BidsController < ApplicationController
 
     if params[:f2] == "dismissed"
       @bids = @bids.where("dismissed_at IS NOT NULL")
+    else
+      @bids = @bids.where("dismissed_at IS NULL")
     end
 
     if params[:f1] == "starred"
@@ -62,6 +64,19 @@ class BidsController < ApplicationController
     else
       render status: 404
     end
+  end
+
+  def batch
+    # @todo security
+    @bids = Bid.find(params[:ids])
+    logger.info @bids
+    case params[:bid_action]
+    when "dismiss"
+      logger.info "i"
+      @bids.each { |bid| bid.dismiss_by_officer!(current_officer) }
+    end
+
+    render json: {}
   end
 
   def show
