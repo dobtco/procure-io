@@ -1,5 +1,30 @@
 # @todo clear backbone views when navigating with turbolinks?
 
+ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
+  el: "#sidebar-filter-wrapper"
+
+  initialize: ->
+    @projectId = @options.projectId
+    @filteredHref = @options.filteredHref
+    @render()
+    ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
+
+  render: ->
+    @$el.html JST['bid_review/sidebar_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
+
+ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
+  el: "#top-filter-wrapper"
+
+  initialize: ->
+    @projectId = @options.projectId
+    @filteredHref = @options.filteredHref
+    @render()
+    ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
+
+  render: ->
+    @$el.html JST['bid_review/top_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
+
+
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tbody"
   className: "bid-tbody"
@@ -10,10 +35,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   initialize: ->
     @parentView = @options.parentView
-    @model.bind "destroy", ->
-      console.log '@remove'
-      @remove()
-    , @
+    @model.bind "destroy", @remove, @
     @model.bind "change", @render, @
 
   render: ->
@@ -57,9 +79,30 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
 
+    @filteredHref = (k, v) =>
+      existingParams = ProcureIo.Backbone.router.filterOptions.toJSON()
+      existingParams[k] = v
+
+      newParams = {}
+      hasParams = false
+
+      _.each existingParams, (val, key) ->
+        if val
+          hasParams = true
+          newParams[key] = val
+
+      if hasParams
+        "/projects/#{@options.projectId}/bids?#{$.param(newParams)}"
+      else
+        "/projects/#{@options.projectId}/bids"
+
+
     ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
 
     @render()
+
+    new ProcureIo.Backbone.BidReviewSidebarFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
+    new ProcureIo.Backbone.BidReviewTopFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
 
     Backbone.history.start
       pushState: true
@@ -82,7 +125,5 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   updateFilter: (e) ->
     return if e.metaKey
-
     ProcureIo.Backbone.router.navigate $(e.target).attr('href'), {trigger: true}
     e.preventDefault()
-

@@ -1,19 +1,11 @@
 .row-fluid
   .span3
-    %ul.nav.nav-pills.nav-stacked
-      %li{"data-class-active" => "filterOptions.f1 | not"}
-        %a{"data-class-active" => "filterOptions.filteredHref | call f1", "data-backbone-updatefilter" => "true"} All Bids
-      / %li{"data-class-active" => "filterOptions.f1 | eq starredBids"}
-      /   %a{"data-bind-href" => @filteredHref('f1', 'starredBids'), "data-backbone-updatefilter" => "true"} Starred Bids
+    #sidebar-filter-wrapper
 
   .span9
     %p No active filters.
 
-    / %ul.nav.nav-tabs
-    /   %li{"data-class-active" => "filterOptions.f2 | not"}
-    /     %a{"href" => @filteredHref('f2', ''), "data-backbone-updatefilter" => "true"} Open Bids
-    /   %li{"data-class-active" => "filterOptions.f2 | eq closedBids"}
-    /     %a{"href" => @filteredHref('f2', 'closedBids'), "data-backbone-updatefilter" => "true"} Closed Bids
+    #top-filter-wrapper
 
     %table.table#bids-table
       %thead

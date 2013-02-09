@@ -13,6 +13,7 @@
 //= require_self
 //= require prototype_hacks
 //= require jquery
+//= require jquery.mixins
 //= require jquery_ujs
 //= require jquery.form
 //= require jquery.sortable
@@ -24,7 +25,6 @@
 //= require hamlcoffee
 //= require_tree ../templates
 //= require backbone
-//= require backbone.queryparams
 //= require backbone-deep-model
 //= require rivets
 //= require backbone_rails_sync
