@@ -51,6 +51,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       response.value
 
     @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
+    rivets.bind(@$el, {bid: @model})
 
     return @
 
