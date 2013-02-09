@@ -1,5 +1,5 @@
 %ul.nav.nav-tabs
-  %li{"class" => if !@filterOptions.f2 then "active" else ""}
-    %a{"href" => @filteredHref('f2', false), "data-backbone-updatefilter" => "true"} Open Bids
+  %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
+    %a{"href" => @filteredHref('f2', 'open'), "data-backbone-updatefilter" => "true"} Open Bids
   %li{"class" => if @filterOptions.f2 is "closed" then "active" else ""}
     %a{"href" => @filteredHref('f2', 'closed'), "data-backbone-updatefilter" => "true"} Closed Bids

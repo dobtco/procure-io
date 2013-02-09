@@ -7,9 +7,20 @@ class BidsController < ApplicationController
 
   def index
     authorize! :update, @project
+
+    @bids = @project.bids
+
+    if params[:f2] == "closed"
+      @bids = @bids.where("dismissed_at IS NOT NULL")
+    end
+
+    if params[:f1] == "starred"
+      @bids = @bids.where("total_stars > 0")
+    end
+
     respond_to do |format|
       format.html
-      format.json { render json: ActiveModel::ArraySerializer.new(@project.bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json }
+      format.json { render json: ActiveModel::ArraySerializer.new(@bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json }
     end
   end
 
@@ -42,6 +53,8 @@ class BidsController < ApplicationController
       review = @bid.bid_review_for_officer(current_officer)
       review.assign_attributes pick(params[:my_bid_review], :starred, :read)
       review.save
+
+      @bid.reload # get updated total_stars
 
       respond_to do |format|
         format.json { render json: @bid, serializer: BidWithReviewSerializer }

@@ -2,13 +2,15 @@
 #
 # Table name: bids
 #
-#  id           :integer          not null, primary key
-#  vendor_id    :integer
-#  project_id   :integer
-#  body         :text
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  submitted_at :datetime
+#  id                      :integer          not null, primary key
+#  vendor_id               :integer
+#  project_id              :integer
+#  body                    :text
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  submitted_at            :datetime
+#  dismissed_at            :datetime
+#  dismissed_by_officer_id :integer
 #
 
 class Bid < ActiveRecord::Base
@@ -35,7 +37,8 @@ class Bid < ActiveRecord::Base
     bid_reviews.where(officer_id: officer.id).first_or_initialize
   end
 
-  def total_stars
-    bid_reviews.where(starred: true).count
+  def calculate_total_stars!
+    self.total_stars = bid_reviews.where(starred: true).count
+    self.save
   end
 end

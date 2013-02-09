@@ -15,6 +15,13 @@ class BidReview < ActiveRecord::Base
   # @todo better scoping
   attr_accessible :bid_id, :officer_id, :read, :starred
 
-  belongs_to :bid
+  belongs_to :bid, touch: true
   belongs_to :officer
+
+  after_save :calculate_bid_total_stars!
+
+  private
+  def calculate_bid_total_stars!
+    bid.calculate_total_stars!
+  end
 end

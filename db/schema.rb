@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130208232526) do
+ActiveRecord::Schema.define(:version => 20130209171426) do
 
   create_table "bid_responses", :force => true do |t|
     t.integer  "bid_id"
@@ -34,11 +34,12 @@ ActiveRecord::Schema.define(:version => 20130208232526) do
     t.integer  "vendor_id"
     t.integer  "project_id"
     t.text     "body"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
     t.datetime "submitted_at"
     t.datetime "dismissed_at"
     t.integer  "dismissed_by_officer_id"
+    t.integer  "total_stars",             :default => 0, :null => false
   end
 
   create_table "collaborators", :force => true do |t|

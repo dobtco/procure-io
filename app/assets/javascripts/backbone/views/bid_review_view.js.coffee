@@ -40,6 +40,10 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   render: ->
 
+    # @todo this could cause some terrible recursion
+    if ProcureIo.Backbone.router.filterOptions.get("f1") is "starred" and @model.get("total_stars") < 1
+      @parentView.refetch()
+
     getValue = (id) =>
       response = _.find @model.get('bid_responses'), (bidResponse) ->
         bidResponse.response_field_id is id
@@ -127,3 +131,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     return if e.metaKey
     ProcureIo.Backbone.router.navigate $(e.target).attr('href'), {trigger: true}
     e.preventDefault()
+
+  refetch: ->
+    ProcureIo.Backbone.Bids.fetch({data: ProcureIo.Backbone.router.filterOptions.toJSON()})

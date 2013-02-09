@@ -3,7 +3,7 @@
     #sidebar-filter-wrapper
 
   .span9
-    %p No active filters.
+    / %p No active filters.
 
     #top-filter-wrapper
 
