@@ -45,8 +45,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   el: "#bid-review-page"
 
   events:
-    "click [data-backbone-activefilter]": "updateActiveFilter"
-    "click [data-backbone-activesubfilter]": "updateActiveSubfilter"
+    "click [data-backbone-updatefilter]": "updateFilter"
 
   initialize: ->
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
@@ -58,9 +57,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
 
-    @render()
-
     ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
+
+    @render()
 
     Backbone.history.start
       pushState: true
@@ -71,14 +70,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/page'](@pageOptions.toJSON())
-    rivets.bind(@$el, {pageOptions: @pageOptions})
+    rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
-
-  updateActiveFilter: (e) ->
-    ProcureIo.Backbone.router.navigate "#{ProcureIo.Backbone.Bids.url}?f=#{$(e.target).data("backbone-activefilter")}", {trigger: true}
-
-  updateActiveSubfilter: (e) ->
-    @pageOptions.set "activeSubfilter", $(e.target).data("backbone-activesubfilter")
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
@@ -86,4 +79,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   addAll: ->
     ProcureIo.Backbone.Bids.each @addOne, @
+
+  updateFilter: (e) ->
+    return if e.metaKey
+
+    ProcureIo.Backbone.router.navigate $(e.target).attr('href'), {trigger: true}
+    e.preventDefault()
 

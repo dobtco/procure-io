@@ -411,6 +411,8 @@ rivets.formatters.eq = (value, arg) ->
 rivets.formatters.not = (value) ->
   !value
 
+rivets.formatters.call = (value, arg) ->
+  console.log value, arg
 
 `rivets.configure({
   adapter: {
