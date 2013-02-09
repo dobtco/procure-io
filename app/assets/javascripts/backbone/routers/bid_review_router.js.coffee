@@ -10,7 +10,6 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
 
   reviewBids: (id, params) ->
     params = $.urlParams()
-    console.log params
     @filterOptions.set "f1", params?.f1
     @filterOptions.set "f2", params?.f2
     ProcureIo.Backbone.Bids.fetch()
