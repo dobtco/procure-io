@@ -3,6 +3,12 @@ FactoryGirl.define do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
     body { Faker::Lorem.paragraphs(3).join("\n\n") }
+
+    after(:create) do |b|
+      b.project.response_fields.each do |response_field|
+        b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
+      end
+    end
   end
 
   factory :officer do
@@ -18,11 +24,11 @@ FactoryGirl.define do
     bids_due_at { Time.now + rand(1..8).weeks }
     posted { rand(1..2) == 1 }
 
-    factory :project_with_officers do
-      after(:create) do |p|
-        p.officers << Officer.all
-        p.collaborators.first.update_attributes owner: true
-      end
+    after(:create) do |p|
+      p.officers << Officer.all
+      p.collaborators.first.update_attributes owner: true
+      p.response_fields.create(label: "Name", field_type: "text", sort_order: 0)
+      p.response_fields.create(label: "# of cats", field_type: "text", sort_order: 1)
     end
   end
 
