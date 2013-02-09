@@ -10,8 +10,11 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   initialize: ->
     @parentView = @options.parentView
+    @model.bind "destroy", ->
+      console.log '@remove'
+      @remove()
+    , @
     @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
 
   render: ->
 
@@ -54,15 +57,16 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
-      activeFilter: "allBids"
-      activeSubfilter: "openBids"
 
     @render()
-    ProcureIo.Backbone.Bids.reset(@options.bootstrapData)
+
+    ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
+
+    Backbone.history.start
+      pushState: true
 
   reset: ->
-    # @todo loop through model and remove all views?
-    # $("#response-fields").remove
+    $(".bid-tbody").remove()
     @addAll()
 
   render: ->
@@ -71,7 +75,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     return @
 
   updateActiveFilter: (e) ->
-    @pageOptions.set "activeFilter", $(e.target).data("backbone-activefilter")
+    ProcureIo.Backbone.router.navigate "#{ProcureIo.Backbone.Bids.url}?f=#{$(e.target).data("backbone-activefilter")}", {trigger: true}
 
   updateActiveSubfilter: (e) ->
     @pageOptions.set "activeSubfilter", $(e.target).data("backbone-activesubfilter")

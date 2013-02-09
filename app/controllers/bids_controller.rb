@@ -7,7 +7,10 @@ class BidsController < ApplicationController
 
   def index
     authorize! :update, @project
-    @bids_json = ActiveModel::ArraySerializer.new(@project.bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json
+    respond_to do |format|
+      format.html
+      format.json { render json: ActiveModel::ArraySerializer.new(@project.bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json }
+    end
   end
 
   def new

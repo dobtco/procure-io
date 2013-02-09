@@ -17,12 +17,18 @@ class Bid < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :vendor
+  belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
 
   has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews
 
   def submit
     self.submitted_at = Time.now
+  end
+
+  def dismiss_by_officer(officer)
+    self.dismissed_at = Time.now
+    self.dismissed_by_officer_id = officer.id
   end
 
   def bid_review_for_officer(officer)

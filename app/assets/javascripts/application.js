@@ -24,6 +24,7 @@
 //= require hamlcoffee
 //= require_tree ../templates
 //= require backbone
+//= require backbone.queryparams
 //= require backbone-deep-model
 //= require rivets
 //= require backbone_rails_sync

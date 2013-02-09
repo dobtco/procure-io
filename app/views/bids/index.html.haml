@@ -4,4 +4,4 @@
 
 #bid-review-page
   :javascript
-    new ProcureIo.Backbone.BidReviewPage({bootstrapData: #{@bids_json}, keyFields: #{@project.key_fields.to_json}, projectId: #{@project.id}});
+    new ProcureIo.Backbone.BidReviewPage({keyFields: #{@project.key_fields.to_json}, projectId: #{@project.id}});
