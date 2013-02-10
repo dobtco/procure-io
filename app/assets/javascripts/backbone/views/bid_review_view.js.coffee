@@ -5,7 +5,7 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
 
   render: ->
     bidsChecked = ProcureIo.Backbone.Bids.find (b) -> b.attributes.checked
-    @$el.html JST['bid_review/actions']({bidsChecked: bidsChecked})
+    @$el.html JST['bid_review/actions']({bidsChecked: bidsChecked, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()})
 
 ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
@@ -88,6 +88,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
+    ProcureIo.Backbone.Bids.bind 'reset', @renderActions, @
 
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
@@ -116,7 +117,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @sidebarFilterView = new ProcureIo.Backbone.BidReviewSidebarFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
     @topFilterView = new ProcureIo.Backbone.BidReviewTopFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
-    @renderActions()
 
     Backbone.history.start
       pushState: true

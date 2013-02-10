@@ -1,1 +1,5 @@
-%button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"} Dismiss
+%button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+  - if @filterOptions.f2 is "dismissed"
+    Undismiss
+  - else
+    Dismiss

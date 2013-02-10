@@ -28,6 +28,10 @@ class Bid < ActiveRecord::Base
     self.submitted_at = Time.now
   end
 
+  def dismissed?
+    self.dismissed_at
+  end
+
   def dismiss_by_officer(officer)
     self.dismissed_at = Time.now
     self.dismissed_by_officer_id = officer.id
@@ -35,6 +39,16 @@ class Bid < ActiveRecord::Base
 
   def dismiss_by_officer!(officer)
     self.dismiss_by_officer(officer)
+    self.save
+  end
+
+  def undismiss
+    self.dismissed_at = nil
+    self.dismissed_by_officer_id = nil
+  end
+
+  def undismiss!
+    self.undismiss
     self.save
   end
 

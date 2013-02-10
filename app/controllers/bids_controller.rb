@@ -72,7 +72,13 @@ class BidsController < ApplicationController
 
     case params[:bid_action]
     when "dismiss"
-      @bids.each { |bid| bid.dismiss_by_officer!(current_officer) }
+      @bids.each do |bid|
+        if bid.dismissed?
+          bid.undismiss!
+        else
+          bid.dismiss_by_officer!(current_officer)
+        end
+      end
     end
 
     render json: {}
