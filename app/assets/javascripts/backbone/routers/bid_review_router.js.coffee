@@ -1,3 +1,4 @@
+# @todo weird back button bug
 ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
   routes:
     'projects/:id/bids': 'reviewBids'
