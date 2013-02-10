@@ -1,3 +1,3 @@
 ProcureIo.Backbone.Bid = Backbone.DeepModel.extend
-  url: ProcureIo.Backbone.Overrides.collectionUrl
+  url: ProcureIo.Backbone.Overrides.modelUrl
   validate: ->
