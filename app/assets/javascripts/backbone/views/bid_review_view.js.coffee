@@ -1,5 +1,42 @@
 # @todo clear backbone views when navigating with turbolinks?
 
+ProcureIo.Backbone.BidReviewPaginationView = Backbone.View.extend
+  el: "#pagination-wrapper"
+
+  pushIfDoesntExist: (page, pagesArray, lastPage) ->
+    pagesArray.push page unless (pagesArray.indexOf(page) > -1) or (page < 1) or (page > lastPage)
+
+  getPagesArray: (meta) ->
+    if meta.last_page is 1 then return [1]
+
+    pagesArray = [1, 2]
+    @pushIfDoesntExist(meta.last_page, pagesArray, meta.last_page)
+    @pushIfDoesntExist(meta.last_page - 1, pagesArray, meta.last_page)
+
+    offset = 0
+    currentPage = meta.page
+    while pagesArray.length < 11 and (currentPage - offset >= 1 or currentPage + offset <= meta.last_page)
+      @pushIfDoesntExist(currentPage - offset, pagesArray, meta.last_page)
+      @pushIfDoesntExist(currentPage + offset, pagesArray, meta.last_page)
+      offset++
+
+    pagesArray = _.sortBy pagesArray, (p) -> p
+
+    pagesArrayWithBreak = []
+    _.each pagesArray, (p, index) ->
+      if pagesArray[index - 1]? and p - pagesArray[index - 1] > 1
+        pagesArrayWithBreak.push "break"
+
+      pagesArrayWithBreak.push p
+
+    pagesArrayWithBreak
+
+  initialize: ->
+    @filteredHref = @options.filteredHref
+
+  render: ->
+    @$el.html JST['bid_review/pagination']({meta: ProcureIo.Backbone.Bids.meta, pages: @getPagesArray(ProcureIo.Backbone.Bids.meta), filteredHref: @filteredHref})
+
 ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
   el: "#actions-wrapper"
 
@@ -90,6 +127,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderActions, @
+    ProcureIo.Backbone.Bids.bind 'reset', @renderPagination, @
 
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
@@ -134,6 +172,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   renderActions: ->
     @actionsView ||= new ProcureIo.Backbone.BidReviewActionsView()
     @actionsView.render()
+
+  renderPagination: ->
+    @paginationView ||= new ProcureIo.Backbone.BidReviewPaginationView({filteredHref: @filteredHref})
+    @paginationView.render()
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})

@@ -9,6 +9,8 @@
 
     #actions-wrapper
 
+    #pagination-wrapper
+
     %table.table#bids-table
       %thead
         %tr

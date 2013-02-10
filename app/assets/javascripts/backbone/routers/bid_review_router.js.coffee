@@ -13,4 +13,5 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
     if _.isEmpty(params) then @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}", {replace: true}
     @filterOptions.set "f1", params?.f1
     @filterOptions.set "f2", params?.f2
+    @filterOptions.set "page", params?.page
     ProcureIo.Backbone.Bids.fetch({data: @filterOptions.toJSON()})

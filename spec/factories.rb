@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     after(:create) do |b|
       # make sure the first project is posted, since we're giving it lots of bids
-      if Project.first then Project.first.update_attributes(posted: true)
+      if Project.first then Project.first.update_attributes(posted: true) end
 
       b.project.response_fields.each do |response_field|
         b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)

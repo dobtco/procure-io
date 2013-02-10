@@ -27,6 +27,8 @@ class BidsController < ApplicationController
       page: !params[:page].blank? ? params[:page].to_i : 1
     }
 
+    pagination_info[:last_page] = (pagination_info[:total].to_f / pagination_info[:per_page]).ceil
+
     @bids = @bids.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
 
     respond_to do |format|
