@@ -21,10 +21,18 @@ class BidsController < ApplicationController
       @bids = @bids.where("total_stars > 0")
     end
 
+    pagination_info = {
+      total: @bids.count,
+      per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
+      page: !params[:page].blank? ? params[:page].to_i : 1
+    }
+
+    @bids = @bids.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
+
     respond_to do |format|
       format.html
       format.json { render json: @bids, each_serializer: BidWithReviewSerializer, scope: current_officer,
-                           meta: {f: "a"} }
+                           meta: pagination_info }
     end
   end
 
