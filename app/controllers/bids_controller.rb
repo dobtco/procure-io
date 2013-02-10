@@ -69,10 +69,9 @@ class BidsController < ApplicationController
   def batch
     # @todo security
     @bids = Bid.find(params[:ids])
-    logger.info @bids
+
     case params[:bid_action]
     when "dismiss"
-      logger.info "i"
       @bids.each { |bid| bid.dismiss_by_officer!(current_officer) }
     end
 
