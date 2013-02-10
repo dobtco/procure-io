@@ -9,7 +9,7 @@
 
     #actions-wrapper
 
-    #pagination-wrapper
+    #pagination-wrapper.pull-right
 
     %table.table#bids-table
       %thead

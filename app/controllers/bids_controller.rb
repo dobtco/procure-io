@@ -29,6 +29,10 @@ class BidsController < ApplicationController
 
     pagination_info[:last_page] = (pagination_info[:total].to_f / pagination_info[:per_page]).ceil
 
+    if pagination_info[:last_page] < pagination_info[:page]
+      pagination_info[:page] = pagination_info[:last_page]
+    end
+
     @bids = @bids.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
 
     respond_to do |format|

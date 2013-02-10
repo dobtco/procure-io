@@ -128,3 +128,13 @@ body {
 input[type=checkbox].inline {
   margin: 0;
 }
+
+#bid-review-page {
+  #actions-wrapper {
+    display: inline-block;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+}
