@@ -84,7 +84,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   initialize: ->
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
-    ProcureIo.Backbone.Bids.url = "/projects/#{@options.projectId}/bids"
+    ProcureIo.Backbone.Bids.baseUrl = "/projects/#{@options.projectId}/bids"
+    ProcureIo.Backbone.Bids.url = "#{ProcureIo.Backbone.Bids.baseUrl}.json"
 
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
@@ -152,7 +153,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   sendBatchAction: (action, ids) ->
     $.ajax
-      url: "#{ProcureIo.Backbone.Bids.url}/batch"
+      url: "#{ProcureIo.Backbone.Bids.baseUrl}/batch"
       type: "PUT"
       data:
         ids: ids

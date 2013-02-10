@@ -1,4 +1,3 @@
-# @todo weird back button bug
 ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
   routes:
     'projects/:id/bids': 'reviewBids'
@@ -11,7 +10,7 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
 
   reviewBids: (id, params) ->
     params = $.urlParams()
-    if _.isEmpty(params) then @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}"
+    if _.isEmpty(params) then @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}", {replace: true}
     @filterOptions.set "f1", params?.f1
     @filterOptions.set "f2", params?.f2
     ProcureIo.Backbone.Bids.fetch({data: @filterOptions.toJSON()})
