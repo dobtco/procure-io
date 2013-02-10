@@ -5,6 +5,7 @@ class BidsController < ApplicationController
   before_filter :authenticate_officer!, only: [:index]
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
+  # @todo too many queries, this is slow
   def index
     authorize! :update, @project
 
@@ -22,7 +23,8 @@ class BidsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render json: ActiveModel::ArraySerializer.new(@bids, each_serializer: BidWithReviewSerializer, scope: current_officer).to_json }
+      format.json { render json: @bids, each_serializer: BidWithReviewSerializer, scope: current_officer,
+                           meta: {f: "a"} }
     end
   end
 
