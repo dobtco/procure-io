@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :bid do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
+    project { (Project.all.count > 0 ? Project.first : Factory.create(:project)) }
     body { Faker::Lorem.paragraphs(3).join("\n\n") }
 
     after(:create) do |b|
