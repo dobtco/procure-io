@@ -27,7 +27,7 @@ class BidsController < ApplicationController
       page: !params[:page].blank? ? params[:page].to_i : 1
     }
 
-    pagination_info[:last_page] = (pagination_info[:total].to_f / pagination_info[:per_page]).ceil
+    pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
 
     if pagination_info[:last_page] < pagination_info[:page]
       pagination_info[:page] = pagination_info[:last_page]

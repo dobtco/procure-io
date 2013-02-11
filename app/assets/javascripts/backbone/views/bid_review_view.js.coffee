@@ -133,9 +133,11 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @pageOptions = new Backbone.Model
       keyFields: @options.keyFields
 
-    @filteredHref = (k, v) =>
+    @filteredHref = (newFilters) =>
       existingParams = ProcureIo.Backbone.router.filterOptions.toJSON()
-      existingParams[k] = v
+
+      for k, v of newFilters
+        existingParams[k] = v
 
       newParams = {}
       hasParams = false

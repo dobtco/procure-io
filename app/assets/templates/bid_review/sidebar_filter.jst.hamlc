@@ -1,5 +1,5 @@
 %ul.nav.nav-pills.nav-stacked
   %li{"class" => if @filterOptions.f1 is "all" then "active" else ""}
-    %a{"href" => @filteredHref('f1', 'all'), "data-backbone-updatefilter" => "true"} All Bids
+    %a{"href" => @filteredHref({f1: 'all', page: false}), "data-backbone-updatefilter" => "true"} All Bids
   %li{"class" => if @filterOptions.f1 is "starred" then "active" else ""}
-    %a{"href" => @filteredHref('f1', 'starred'), "data-backbone-updatefilter" => "true"} Starred Bids
+    %a{"href" => @filteredHref({f1: 'starred', page: false}), "data-backbone-updatefilter" => "true"} Starred Bids
