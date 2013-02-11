@@ -126,6 +126,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
+    ProcureIo.Backbone.Bids.bind 'reset', @removeLoadingSpinner, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderActions, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderPagination, @
 
@@ -205,5 +206,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       success: =>
         @refetch()
 
+  removeLoadingSpinner: ->
+    $("#bid-review-page").removeClass 'loading'
+
   refetch: ->
-    ProcureIo.Backbone.Bids.fetch({data: ProcureIo.Backbone.router.filterOptions.toJSON()})
+    $("#bid-review-page").addClass 'loading'
+    ProcureIo.Backbone.Bids.fetch {data: ProcureIo.Backbone.router.filterOptions.toJSON()}

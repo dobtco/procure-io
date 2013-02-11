@@ -2,8 +2,12 @@
   .span3
     #sidebar-filter-wrapper
 
-  .span9
+  .span9.right-side-span
     / %p No active filters.
+
+    #loading-indicator
+      %i.icon-refresh.icon-spin
+      Loading...
 
     #top-filter-wrapper
 
