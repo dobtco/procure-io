@@ -15,6 +15,7 @@
       %thead
         %tr
           %th(width="10%") &nbsp;
+          %th Vendor Name
           - for index, keyField of @keyFields
             %th= keyField.label
 

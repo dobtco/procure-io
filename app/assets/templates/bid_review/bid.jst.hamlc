@@ -3,5 +3,10 @@
   %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
   %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
   = @total_stars
+
+%td
+  %strong
+    %a= @vendor.name
+
 - for index, keyField of @pageOptions.attributes.keyFields
   %td= @getValue(keyField.id)
