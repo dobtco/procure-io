@@ -116,6 +116,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   el: "#bid-review-page"
 
   events:
+    "click .sort-wrapper a": "updateFilter"
     "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
 

@@ -3,3 +3,12 @@
     %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"} Open Bids
   %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"} Dismissed Bids
+
+.sort-wrapper
+  - for k, v of {createdAt: "Created at", stars: "Stars"}
+    %a{"href" => @filteredHref({sort: k, direction: (if @filterOptions.sort is k and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != k then false)})}= v
+    - if @filterOptions.sort is k
+      - if @filterOptions.direction is "asc"
+        %i.icon-chevron-up
+      - else
+        %i.icon-chevron-down

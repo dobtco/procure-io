@@ -21,6 +21,12 @@ class BidsController < ApplicationController
       @bids = @bids.where("total_stars > 0")
     end
 
+    if params[:sort] == "stars"
+      @bids = @bids.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "createdAt" || !params[:sort]
+      @bids = @bids.order("created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    end
+
     pagination_info = {
       total: @bids.count,
       per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,

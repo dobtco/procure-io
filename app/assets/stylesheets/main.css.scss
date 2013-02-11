@@ -156,6 +156,13 @@ input[type=checkbox].inline {
     z-index: 2;
   }
 
+  .sort-wrapper {
+    position: absolute;
+    top: 13px;
+    right: 0;
+    font-size: 12px;
+  }
+
   &.loading {
     #actions-wrapper,
     #pagination-wrapper,
