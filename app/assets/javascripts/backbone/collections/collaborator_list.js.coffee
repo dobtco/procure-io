@@ -1,5 +1,5 @@
 ProcureIo.Backbone.CollaboratorList = Backbone.Collection.extend
-  existing_emails: ->
+  existingEmails: ->
     @.map (c) ->
       return c.attributes.officer.email.toLowerCase()
 
