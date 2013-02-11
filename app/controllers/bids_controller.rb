@@ -72,10 +72,16 @@ class BidsController < ApplicationController
       review.assign_attributes pick(params[:my_bid_review], :starred, :read)
       review.save
 
+      if @bid.dismissed? && params[:dismissed_at] == false
+        @bid.undismiss!
+      elsif !@bid.dismissed? && params[:dismissed_at] == true
+        @bid.dismiss_by_officer!(current_officer)
+      end
+
       @bid.reload # get updated total_stars
 
       respond_to do |format|
-        format.json { render json: @bid, serializer: BidWithReviewSerializer }
+        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false }
       end
     else
       render status: 404
@@ -104,6 +110,10 @@ class BidsController < ApplicationController
     if current_vendor && @bid.vendor == current_vendor
       render "bids/show_vendor"
     elsif current_officer && (can? :update, @project)
+      if !(review = @bid.bid_review_for_officer(current_officer)).read
+        review.update_attributes read: true
+      end
+
       @bid_json = BidWithReviewSerializer.new(@bid, scope: current_officer, root: false).to_json
       render "bids/show_officer"
     else

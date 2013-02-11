@@ -2,14 +2,30 @@
   %h4.pull-left Bid from #{@vendor.name}
 
   .pull-right
-    %button.btn.btn-inverse Actions
+    .btn-group
+      %button.btn.btn-inverse{"data-backbone-dismiss" => "true"}
+        - if @dismissed_at
+          Undismiss
+        - else
+          Dismiss
+
+      %button.btn.btn-inverse.dropdown-toggle{"data-toggle" => "dropdown"}
+        %span.caret
+      %ul.dropdown-menu
+        %li
+          %a Award
+    &nbsp;
+    %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+    = @total_stars
+
 
   %hr
 
 .row-fluid
   .span3.well
     %p
-      - if @dismissed?
+      - if @dismissed_at
         %span.badge.badge-important Dismissed
       - else
         %span.badge.badge-success Open
@@ -28,4 +44,4 @@
       %dd XXXXXXX
 
   .span9
-    Bid!
+    != JST['shared/_bid'](@)
