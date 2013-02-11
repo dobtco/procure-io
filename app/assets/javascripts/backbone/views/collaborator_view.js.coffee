@@ -69,7 +69,7 @@ ProcureIo.PageSpecificScripts["collaborators#index"] = ->
             typeaheadTimeout = null
 
             data = $.grep data, (value) ->
-              return ProcureIo.Backbone.Collaborators.existing_emails().indexOf(value) is -1
+              return ProcureIo.Backbone.Collaborators.existingEmails().indexOf(value) is -1
 
             return process(data)
       , 200
