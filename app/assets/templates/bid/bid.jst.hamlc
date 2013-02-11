@@ -1,0 +1,31 @@
+.action-header
+  %h4.pull-left Bid from #{@vendor.name}
+
+  .pull-right
+    %button.btn.btn-inverse Actions
+
+  %hr
+
+.row-fluid
+  .span3.well
+    %p
+      - if @dismissed?
+        %span.badge.badge-important Dismissed
+      - else
+        %span.badge.badge-success Open
+
+      %span Submitted on #{@submitted_at}
+
+    %p
+      %a X comments
+
+    %dl
+      %dt Contact Name
+      %dd= @vendor.name
+      %dt Email Address
+      %dd= @vendor.email
+      %dt More Info
+      %dd XXXXXXX
+
+  .span9
+    Bid!

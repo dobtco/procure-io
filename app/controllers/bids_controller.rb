@@ -104,6 +104,7 @@ class BidsController < ApplicationController
     if current_vendor && @bid.vendor == current_vendor
       render "bids/show_vendor"
     elsif current_officer && (can? :update, @project)
+      @bid_json = BidWithReviewSerializer.new(@bid, scope: current_officer, root: false).to_json
       render "bids/show_officer"
     else
       redirect_to project_path(@project)

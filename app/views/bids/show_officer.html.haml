@@ -2,4 +2,6 @@
 
 = render "projects/officer_nav"
 
-Bid from #{@bid.vendor.name}
+#bid-page
+  :javascript
+    new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, projectId: #{@project.id}});
