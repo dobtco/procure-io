@@ -1,5 +1,4 @@
 # @todo clear backbone views when navigating with turbolinks?
-# @todo don't preserve page number when switching filters
 
 ProcureIo.Backbone.BidReviewPaginationView = Backbone.View.extend
   el: "#pagination-wrapper"
