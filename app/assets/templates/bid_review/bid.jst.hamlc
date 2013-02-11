@@ -6,7 +6,7 @@
 
 %td
   %strong
-    %a= @vendor.name
+    %a{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.name
 
 - for index, keyField of @pageOptions.attributes.keyFields
   %td= @getValue(keyField.id)
