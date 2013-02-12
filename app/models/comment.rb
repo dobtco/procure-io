@@ -22,6 +22,8 @@ class Comment < ActiveRecord::Base
   belongs_to :officer
   belongs_to :vendor
 
+  serialize :data
+
   after_save :calculate_commentable_total_comments!
 
   private
