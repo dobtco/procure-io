@@ -20,6 +20,8 @@ one:
   field_type: text
   sort_order: 0
   key_field: true
+  field_options:
+    required: true
 
 two:
   id: 2

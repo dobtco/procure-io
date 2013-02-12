@@ -19,6 +19,9 @@ group :test, :development do
   gem 'immigrant'
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'database_cleaner'
+  gem 'launchy'
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'simplecov', require: false
