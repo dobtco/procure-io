@@ -212,3 +212,11 @@ input[type=checkbox].inline {
     color: #aaa;
   }
 }
+
+#new-comment-form {
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    box-sizing: border-box;
+  }
+}

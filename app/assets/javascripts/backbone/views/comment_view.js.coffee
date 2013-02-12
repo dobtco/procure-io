@@ -28,6 +28,10 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
 
     @render()
 
+    ProcureIo.Backbone.Comment.prototype.defaults = =>
+      commentable_type: @options.commentableType
+      commentable_id: @options.commentableId
+
     ProcureIo.Backbone.Comments.reset(@options.bootstrapData)
 
   reset: ->
@@ -45,4 +49,21 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
   addAll: ->
     ProcureIo.Backbone.Comments.each @addOne
 
+$(document).on "submit", "form#new-comment-form", (e) ->
+  e.preventDefault()
+
+  $(@).find("button").button 'loading'
+
+  ProcureIo.Backbone.Comments.create
+    body: $(@).find("textarea").val()
+  ,
+    wait: true
+
+    error: (obj, err) ->
+      obj.destroy()
+
+    complete: =>
+      $(@).find("button").button 'reset'
+
+  $(@).resetForm()
 

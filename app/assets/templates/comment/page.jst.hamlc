@@ -1,3 +1,9 @@
 %h4 Comments
 
-#comments-wrapper.readable-width-large
+.readable-width-large
+  #comments-wrapper
+
+  %h5 New Comment
+  %form#new-comment-form
+    %textarea
+    %button.btn.btn-inverse.pull-right{"data-loading-text" => "Posting..."} Post Comment
