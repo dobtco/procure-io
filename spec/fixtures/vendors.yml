@@ -21,3 +21,4 @@
 one:
   id: 1
   email: vendor@example.com
+  name: Vendor McVendor

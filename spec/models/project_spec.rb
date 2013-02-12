@@ -15,6 +15,8 @@ require 'spec_helper'
 
 describe Project do
 
+  fixtures :all
+
   subject { projects(:one) }
 
   it { should respond_to(:title) }

@@ -19,6 +19,8 @@ require 'spec_helper'
 
 describe Bid do
 
+  fixtures :all
+
   subject { bids(:one) }
 
   it { should respond_to(:body) }

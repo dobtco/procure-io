@@ -23,6 +23,8 @@ require 'spec_helper'
 
 describe Officer do
 
+  fixtures :all
+
   before do
     @officer = FactoryGirl.build(:officer)
   end

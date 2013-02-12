@@ -17,6 +17,8 @@ require 'spec_helper'
 
 describe ResponseField do
 
+  fixtures :all
+
   subject { response_fields(:one) }
 
   it { should respond_to(:label) }

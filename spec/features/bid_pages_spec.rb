@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe "Bid" do
 
+  fixtures :all
+
   subject { page }
 
   describe "as vendor" do
@@ -156,8 +158,72 @@ describe "Bid" do
       end
     end
 
-    describe "show page" do
-      # when vendor has not submitted
+    # @todo when vendor has not submitted
+    describe "show page", js: true do
+      before do
+        visit project_bid_path(projects(:one), bids(:one))
+      end
+
+      describe "basic rendering" do
+        it { should have_text(bids(:one).vendor.name) }
+        it "should show all responses" do
+          bids(:one).bid_responses.each do |bid_response|
+            page.should have_selector('dd', bid_response.value)
+          end
+        end
+      end
+
+      describe "dismissal" do
+        it { should have_selector('.badge:contains("Open")') }
+        it "should dismiss bids properly" do
+          click_button "Dismiss"
+          page.should have_selector('.badge:contains("Dismissed")')
+          visit project_bid_path(projects(:one), bids(:one))
+          page.should have_selector('.badge:contains("Dismissed")')
+        end
+
+        describe "undismissal" do
+          before do
+            bids(:one).dismiss_by_officer!(officers(:adam))
+            visit project_bid_path(projects(:one), bids(:one))
+          end
+          it "should undismiss bids properly" do
+            page.should have_selector('.badge:contains("Dismissed")')
+            click_button "Undismiss"
+            page.should have_selector('.badge:contains("Open")')
+            visit project_bid_path(projects(:one), bids(:one))
+            page.should have_selector('.badge:contains("Open")')
+          end
+        end
+      end
+
+      describe "starring" do
+        it { should have_selector('.icon-star') }
+
+        it "should recalculate star count asynchronously" do
+          count = find('.total-stars').text.to_i
+          find('.icon-star').click
+          page.should have_selector('.icon-star-empty')
+          page.should have_selector('.total-stars:contains("' + (count - 1).to_s + '")')
+        end
+
+        it "should save star count when refreshing" do
+          find('.icon-star').click
+          visit project_bid_path(projects(:one), bids(:one))
+          page.should have_selector('.icon-star-empty')
+        end
+      end
+
+      describe "unread" do
+        it { should have_selector('.icon-circle-blank') }
+
+        it "should mark as read when reloading the page" do
+          find('.icon-circle-blank').click
+          page.should have_selector('.icon-circle')
+          visit project_bid_path(projects(:one), bids(:one))
+          page.should have_selector('.icon-circle-blank')
+        end
+      end
     end
   end
 end

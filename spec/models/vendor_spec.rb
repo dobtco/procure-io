@@ -22,6 +22,8 @@ require 'spec_helper'
 
 describe Vendor do
 
+  fixtures :all
+
   subject { vendors(:one) }
 
   it { should respond_to(:email) }

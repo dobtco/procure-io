@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe "Home" do
 
+  fixtures :all
+
   subject { page }
 
   describe "root logged out" do

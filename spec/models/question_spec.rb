@@ -16,6 +16,8 @@ require 'spec_helper'
 
 describe Question do
 
+  fixtures :all
+
   subject { questions(:blank) }
 
   it { should respond_to(:body) }

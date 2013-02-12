@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe "Project" do
 
+  fixtures :all
+
   subject { page }
 
   describe "logged out" do

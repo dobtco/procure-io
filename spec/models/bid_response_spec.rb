@@ -14,6 +14,8 @@ require 'spec_helper'
 
 describe BidResponse do
 
+  fixtures :all
+
   subject { bid_responses(:one) }
 
   it { should respond_to(:value) }
