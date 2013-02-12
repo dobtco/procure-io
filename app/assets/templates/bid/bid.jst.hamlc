@@ -33,7 +33,9 @@
       %span Submitted on #{@submitted_at}
 
     %p
-      %a{"href" => "#comment-page"} #{@total_comments} comments
+      %a{"href" => "#comment-page"}
+        = @total_comments
+        = if @total_comments is 1 then "comment" else "comments"
 
     %dl
       %dt Contact Name
