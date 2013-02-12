@@ -19,4 +19,13 @@ class Comment < ActiveRecord::Base
   attr_accessible :body, :comment_type, :commentable_id, :commentable_type, :data, :officer_id, :vendor_id
 
   belongs_to :commentable, polymorphic: true
+  belongs_to :officer
+  belongs_to :vendor
+
+  after_save :calculate_commentable_total_comments!
+
+  private
+  def calculate_commentable_total_comments!
+    commentable.calculate_total_comments!
+  end
 end

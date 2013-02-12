@@ -15,6 +15,12 @@ FactoryGirl.define do
     end
   end
 
+  factory :comment do
+    commentable { (Bid.all.count > 0 ? Bid.first : Factory.create(:bid)) }
+    officer { (Officer.all.count > 0 ? Officer.first : Factory.create(:officer)) }
+    body { Faker::Lorem.paragraph }
+  end
+
   factory :officer do
     name { Faker::Name.name }
     title { Faker::Company.position }

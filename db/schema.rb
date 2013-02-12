@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212001903) do
+ActiveRecord::Schema.define(:version => 20130212002405) do
 
   create_table "bid_responses", :force => true do |t|
     t.integer  "bid_id"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20130212001903) do
     t.datetime "dismissed_at"
     t.integer  "dismissed_by_officer_id"
     t.integer  "total_stars",             :default => 0, :null => false
+    t.integer  "total_comments",          :default => 0, :null => false
   end
 
   create_table "collaborators", :force => true do |t|

@@ -12,6 +12,7 @@
 #  dismissed_at            :datetime
 #  dismissed_by_officer_id :integer
 #  total_stars             :integer          default(0), not null
+#  total_comments          :integer          default(0), not null
 #
 
 class Bid < ActiveRecord::Base
@@ -60,6 +61,11 @@ class Bid < ActiveRecord::Base
 
   def calculate_total_stars!
     self.total_stars = bid_reviews.where(starred: true).count
+    self.save
+  end
+
+  def calculate_total_comments!
+    self.total_comments = comments.count
     self.save
   end
 end
