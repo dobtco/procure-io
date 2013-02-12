@@ -33,7 +33,7 @@
       %span Submitted on #{@submitted_at}
 
     %p
-      %a X comments
+      %a{"href" => "#comment-page"} #{@total_comments} comments
 
     %dl
       %dt Contact Name
