@@ -204,7 +204,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $.ajax
       url: ProcureIo.Backbone.ResponseFields.url + "/batch"
       type: "PUT"
-      data:
-        response_fields: ProcureIo.Backbone.ResponseFields.toJSON()
+      contentType: "application/json"
+      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON()})
       success: (data) =>
         @$el.find("[data-backbone-save-form]").flash_button false, "Saved!"
