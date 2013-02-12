@@ -17,7 +17,7 @@
 
 class Bid < ActiveRecord::Base
   # @todo better scopes
-  attr_accessible :body, :project_id
+  attr_accessible :body, :project_id, :submitted_at
 
   belongs_to :project
   belongs_to :vendor

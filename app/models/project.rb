@@ -25,8 +25,12 @@ class Project < ActiveRecord::Base
     questions.where("answer_body = '' OR answer_body IS NULL")
   end
 
+  def owner
+    officers.where(collaborators: {owner: true}).first
+  end
+
   def owner_id
-    collaborators.where(owner: true).first.officer_id
+    owner ? owner.id : nil
   end
 
   def self.posted

@@ -1,0 +1,7 @@
+one:
+  id: 1
+  project_id: 1
+  vendor_id: 1
+  body: "This is my awesome bid."
+  submitted_at: <%= Time.now.to_s(:db) %>
+  total_stars: 1

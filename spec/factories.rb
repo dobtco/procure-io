@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :bid do
-    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.first : Factory.create(:project)) }
+    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
+    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
     body { Faker::Lorem.paragraphs(3).join("\n\n") }
     submitted_at { rand(1..8) == 1 ? nil : Time.now }
 
@@ -16,8 +16,8 @@ FactoryGirl.define do
   end
 
   factory :comment do
-    commentable { (Bid.all.count > 0 ? Bid.first : Factory.create(:bid)) }
-    officer { (Officer.all.count > 0 ? Officer.first : Factory.create(:officer)) }
+    commentable { (Bid.all.count > 0 ? Bid.first : FactoryGirl.create(:bid)) }
+    officer { (Officer.all.count > 0 ? Officer.first : FactoryGirl.create(:officer)) }
     body { Faker::Lorem.paragraph }
   end
 
@@ -49,14 +49,14 @@ FactoryGirl.define do
   end
 
   factory :question do
-    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : Factory.create(:project)) }
+    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
+    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
     body { Faker::Lorem.paragraph }
 
     after(:build) do |q|
       if rand(1..2) == 2 && q.project.posted
         q.answer_body = Faker::Lorem.paragraph
-        q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : Factory.create(:officer))
+        q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : FactoryGirl.create(:officer))
       end
     end
   end

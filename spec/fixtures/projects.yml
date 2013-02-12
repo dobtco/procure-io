@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id          :integer          not null, primary key
+#  title       :string(255)
+#  body        :text
+#  bids_due_at :datetime
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  posted      :boolean
+#
+
+one:
+  id: 1
+  title: "Bluth Banana Stand Rebuild"
+  body: "We need someone to rebuild our banana stand."
+  posted: true

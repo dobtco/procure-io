@@ -19,25 +19,14 @@
 #  title                  :string(255)
 #
 
-require 'spec_helper'
+adam:
+  id: 1
+  email: adam@test.com
+  name: Adam
+  title: DOBTCOCTO
 
-describe Officer do
-
-  before do
-    @officer = FactoryGirl.build(:officer)
-  end
-
-  subject { @officer }
-
-  it { should respond_to(:email) }
-  it { should respond_to(:name) }
-  it { should respond_to(:title) }
-
-  it { should respond_to(:collaborators) }
-  it { should respond_to(:projects) }
-  it { should respond_to(:questions) }
-  it { should respond_to(:bid_reviews) }
-
-  it { should be_valid }
-
-end
+clay:
+  id: 2
+  email: clay@test.com
+  name: Clay
+  title: DOBTCOCEO

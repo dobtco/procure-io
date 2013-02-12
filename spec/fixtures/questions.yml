@@ -12,8 +12,19 @@
 #  updated_at  :datetime         not null
 #
 
-require 'spec_helper'
+blank:
+  id: 1
+  project_id: 1
+  vendor_id: 1
+  answer_body: ""
 
-describe Question do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+nil:
+  id: 2
+  project_id: 1
+  vendor_id: 1
+
+filled_out:
+  id: 3
+  project_id: 1
+  vendor_id: 1
+  answer_body: "This is the answer body."
