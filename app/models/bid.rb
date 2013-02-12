@@ -32,10 +32,11 @@ class Bid < ActiveRecord::Base
   end
 
   def dismissed?
-    self.dismissed_at
+    self.dismissed_at ? true : false
   end
 
   def dismiss_by_officer(officer)
+    return false if self.dismissed_at
     self.dismissed_at = Time.now
     self.dismissed_by_officer_id = officer.id
   end

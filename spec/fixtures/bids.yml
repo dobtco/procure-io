@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: bids
+#
+#  id                      :integer          not null, primary key
+#  vendor_id               :integer
+#  project_id              :integer
+#  body                    :text
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  submitted_at            :datetime
+#  dismissed_at            :datetime
+#  dismissed_by_officer_id :integer
+#  total_stars             :integer          default(0), not null
+#  total_comments          :integer          default(0), not null
+#
+
 one:
   id: 1
   project_id: 1
@@ -5,3 +22,4 @@ one:
   body: "This is my awesome bid."
   submitted_at: <%= Time.now.to_s(:db) %>
   total_stars: 1
+  total_comments: 1
