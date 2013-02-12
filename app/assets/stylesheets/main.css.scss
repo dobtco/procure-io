@@ -182,3 +182,33 @@ input[type=checkbox].inline {
     clear: both;
   }
 }
+
+.readable-width {
+  max-width: 550px;
+}
+
+.readable-width-large {
+  max-width: 750px;
+}
+
+.comment {
+  .gravatar {
+    width: 20px;
+    height: 20px;
+    @include border-radius(10px);
+    margin: -2px 3px 0 0;
+    // @todo merge this style
+  }
+
+  .author {
+    padding-bottom: 13px;
+  }
+
+  .author-name {
+    font-weight: bold;
+  }
+
+  .posted-at {
+    color: #aaa;
+  }
+}

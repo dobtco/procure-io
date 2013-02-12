@@ -5,3 +5,7 @@
 #bid-page
   :javascript
     new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, projectId: #{@project.id}});
+
+#comment-page
+  :javascript
+    new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});

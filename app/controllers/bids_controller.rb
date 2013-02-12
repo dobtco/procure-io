@@ -122,6 +122,7 @@ class BidsController < ApplicationController
       end
 
       @bid_json = BidWithReviewSerializer.new(@bid, scope: current_officer, root: false).to_json
+      @comments_json = ActiveModel::ArraySerializer.new(@bid.comments, each_serializer: CommentSerializer, root: false).to_json
       render "bids/show_officer"
     else
       redirect_to project_path(@project)
