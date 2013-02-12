@@ -6,10 +6,11 @@ class BidsController < ApplicationController
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
   # @todo too many queries, this is slow
+  # @todo separate html & json controllers
   def index
     authorize! :update, @project
 
-    @bids = @project.bids
+    @bids = @project.submitted_bids
 
     if params[:f2] == "dismissed"
       @bids = @bids.where("dismissed_at IS NOT NULL")

@@ -42,7 +42,11 @@ class Project < ActiveRecord::Base
   end
 
   def unread_bids_for_officer(officer)
-    bids.joins("LEFT JOIN bid_reviews on bid_reviews.bid_id = bids.id AND bid_reviews.officer_id = #{officer.id}")
-        .where("bid_reviews.read = false OR bid_reviews.read IS NULL")
+    submitted_bids.joins("LEFT JOIN bid_reviews on bid_reviews.bid_id = bids.id AND bid_reviews.officer_id = #{officer.id}")
+                  .where("bid_reviews.read = false OR bid_reviews.read IS NULL")
+  end
+
+  def submitted_bids
+    bids.where("submitted_at IS NOT NULL")
   end
 end

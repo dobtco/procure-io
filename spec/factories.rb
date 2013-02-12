@@ -3,6 +3,7 @@ FactoryGirl.define do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : Factory.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.first : Factory.create(:project)) }
     body { Faker::Lorem.paragraphs(3).join("\n\n") }
+    submitted_at { rand(1..8) == 1 ? nil : Time.now }
 
     after(:create) do |b|
       # make sure the first project is posted, since we're giving it lots of bids
