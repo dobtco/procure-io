@@ -11,6 +11,7 @@
 #  submitted_at            :datetime
 #  dismissed_at            :datetime
 #  dismissed_by_officer_id :integer
+#  total_stars             :integer          default(0), not null
 #
 
 class Bid < ActiveRecord::Base
@@ -23,6 +24,7 @@ class Bid < ActiveRecord::Base
 
   has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews
+  has_many :comments, as: :commentable
 
   def submit
     self.submitted_at = Time.now
