@@ -156,7 +156,6 @@ describe "Bid" do
       end
     end
 
-    # @todo when vendor has not submitted
     describe "show page", js: true do
       before do
         visit project_bid_path(projects(:one), bids(:one))
