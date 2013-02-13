@@ -46,12 +46,17 @@ ProcureIo.Backbone.CollaboratorPage = Backbone.View.extend
 $(document).on "submit", "form#new_collaborator", (e) ->
   e.preventDefault()
 
+  $(@).find("button").button 'loading'
+
   ProcureIo.Backbone.Collaborators.create
     officer:
       email: $(@).find("input[type=text]").val()
   ,
+    wait: true
     error: (obj, err) ->
       obj.destroy()
+    complete: =>
+      $(@).find("button").button 'reset'
 
   $(@).resetForm()
 

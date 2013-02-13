@@ -21,7 +21,7 @@ class CollaboratorsController < ApplicationController
     else
       @collaborator = @officer.collaborators.create(project_id: @project.id)
       respond_to do |format|
-        format.json { render json: @collaborator }
+        format.json { render json: @collaborator, root: false }
       end
     end
   end
