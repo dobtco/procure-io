@@ -117,6 +117,8 @@ class BidsController < ApplicationController
     if current_vendor && @bid.vendor == current_vendor
       render "bids/show_vendor"
     elsif current_officer && (can? :update, @project)
+      return not_found if !@bid.submitted_at
+
       if !(review = @bid.bid_review_for_officer(current_officer)).read
         review.update_attributes read: true
       end
