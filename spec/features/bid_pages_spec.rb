@@ -224,6 +224,15 @@ describe "Bid" do
           page.should have_selector('.icon-circle-blank')
         end
       end
+
+      describe "comments" do
+        it { should have_selector('.comment', comments(:one).body) }
+
+        it "should create a new comment" do
+          find("#new-comment-form textarea").set("Hey dudes.")
+          page.should have_selector('.comment', 'Hey dudes.')
+        end
+      end
     end
   end
 end
