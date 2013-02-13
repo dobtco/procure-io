@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe "Bid" do
 
-  fixtures :all
-
   subject { page }
 
   describe "as vendor" do

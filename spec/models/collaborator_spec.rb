@@ -13,8 +13,6 @@
 require 'spec_helper'
 
 describe Collaborator do
-  fixtures :all
-
   subject { collaborators(:adamone) }
 
   it { should respond_to(:owner) }

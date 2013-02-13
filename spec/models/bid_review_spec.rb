@@ -15,8 +15,6 @@ require 'spec_helper'
 
 describe BidReview do
 
-  fixtures :all
-
   subject { bid_reviews(:one) }
 
   it { should respond_to(:starred) }

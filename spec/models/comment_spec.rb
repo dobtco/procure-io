@@ -18,8 +18,6 @@ require 'spec_helper'
 
 describe Comment do
 
-  fixtures :all
-
   subject { comments(:one) }
 
   it { should respond_to(:comment_type) }
