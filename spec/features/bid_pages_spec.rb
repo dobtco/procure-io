@@ -73,14 +73,12 @@ describe "Bid" do
     end
   end
 
-  describe "as officer" do
+  describe "as officer", js: true do
     before { login_as(officers(:adam), scope: :officer) }
 
-    describe "index page", js: true do
+    describe "index page" do
       before do
-        @first_bid = FactoryGirl.create(:bid, project: projects(:one))
         15.times { FactoryGirl.create(:bid, project: projects(:one)) }
-        @last_bid = FactoryGirl.create(:bid, project: projects(:one))
         visit project_bids_path(projects(:one))
       end
 
@@ -90,15 +88,19 @@ describe "Bid" do
 
       # @todo we could test other sorting orders too
       describe "sorting" do
+        before { visit project_bids_path(projects(:one)) }
+
         it "should order from newest to oldest by default" do
-          page.should have_selector('[href="'+project_bid_path(projects(:one), @last_bid)+'"]')
-          page.should_not have_selector('[href="'+project_bid_path(projects(:one), @first_bid)+'"]')
+          page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
+          page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
         end
 
         it "should reverse the order when clicking the same order link" do
           click_link "Created at"
-          page.should_not have_selector('[href="'+project_bid_path(projects(:one), @last_bid)+'"]')
-          page.should have_selector('[href="'+project_bid_path(projects(:one), @first_bid)+'"]')
+          expect(page).to have_selector('#loading-indicator', visible: true)
+          expect(page).to have_selector('#bid-review-page:not(.loading)')
+          page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
+          page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
         end
       end
 
@@ -114,8 +116,8 @@ describe "Bid" do
           page.should have_selector('#loading-indicator', visible: true)
           page.should have_selector('li a', '1')
           page.should have_selector('li.active a', '2')
-          page.should_not have_selector('[href="'+project_bid_path(projects(:one), @last_bid)+'"]')
-          page.should have_selector('[href="'+project_bid_path(projects(:one), @first_bid)+'"]')
+          page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
+          page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
         end
 
         # @todo this would be a better test with bids in each category.
@@ -130,7 +132,8 @@ describe "Bid" do
           it "should only show starred bids" do
             click_link "Starred Bids"
             page.should have_selector('[href="'+project_bid_path(projects(:one), bids(:one))+'"]')
-            page.should_not have_selector('[href="'+project_bid_path(projects(:one), @first_bid)+'"]')
+            page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.where(total_stars: 0).first)+'"]')
+            page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.where(total_stars: 0).last)+'"]')
           end
         end
 
@@ -140,7 +143,7 @@ describe "Bid" do
           it "should only show dismissed bids" do
             click_link "Dismissed Bids"
             page.should have_selector('[href="'+project_bid_path(projects(:one), bids(:one))+'"]')
-            page.should_not have_selector('[href="'+project_bid_path(projects(:one), @first_bid)+'"]')
+            page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
           end
         end
       end
@@ -174,7 +177,7 @@ describe "Bid" do
       end
     end
 
-    describe "show page", js: true do
+    describe "show page" do
       before do
         visit project_bid_path(projects(:one), bids(:one))
       end
