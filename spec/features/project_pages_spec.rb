@@ -11,7 +11,39 @@ describe "Project" do
     end
   end
 
-  describe "logged in" do
+  describe "logged in as vendor" do
+    before do
+      login_as(vendors(:one), scope: :vendor)
+    end
+
+    describe "show", js: true do
+      before { visit project_path(projects(:one)) }
+      it { should have_text(projects(:one).title) }
+
+      it "should let vendors ask questions" do
+        page.should have_selector("textarea#question_body", visible: false)
+        find("#ask-question-toggle").click
+        page.should have_selector("textarea#question_body", visible: true)
+        find("#question_body").set("Shoop?")
+        click_button "Submit Question"
+        page.should have_selector('.question:contains("Shoop?")')
+        visit project_path(projects(:one))
+        page.should have_selector('.question:contains("Shoop?")')
+      end
+
+      it "should not let vendors submit blank questions" do
+        count = all("#questions-list .question").length
+        find("#question_body").set("")
+        click_button "Submit Question"
+        page.should have_selector("#questions-list .question", count: count)
+        visit project_path(projects(:one))
+        page.should have_selector("#questions-list .question", count: count)
+      end
+    end
+
+  end
+
+  describe "logged in as officer" do
     before do
       login_as(officers(:adam), scope: :officer)
     end
