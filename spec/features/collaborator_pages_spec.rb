@@ -51,8 +51,18 @@ describe "Collaborator" do
         click_button "Add Collaborator"
         page.should have_selector('#collaborators-tbody tr', count: 2)
         visit project_collaborators_path(projects(:one))
-        page.should have_selector('td', officers(:adam).email)
-        page.should have_selector('td', officers(:clay).email)
+        page.should have_selector('td', text: officers(:adam).email)
+        page.should have_selector('td', text: officers(:clay).email)
+        page.should_not have_selector('td:contains("'+officers(:clay).email+'") i.icon-envelope') # not an invited user
+      end
+
+      it "should allow you to invite unregistered users" do
+        page.should have_selector('#collaborators-tbody tr', count: 1)
+        fill_in "collaborator_officer_email", with: "porkchop@sandwich.es"
+        click_button "Add Collaborator"
+        page.should have_selector('#collaborators-tbody tr', count: 2)
+        visit project_collaborators_path(projects(:one))
+        page.should have_selector('td:contains("porkchop@sandwich.es") i.icon-envelope')
       end
     end
   end

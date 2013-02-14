@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130212002405) do
+ActiveRecord::Schema.define(:version => 20130214230919) do
 
   create_table "bid_responses", :force => true do |t|
     t.integer  "bid_id"
@@ -64,23 +64,31 @@ ActiveRecord::Schema.define(:version => 20130212002405) do
   end
 
   create_table "officers", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                                :default => "", :null => false
+    t.string   "encrypted_password",                   :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",                        :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
     t.string   "name"
     t.string   "title"
+    t.string   "invitation_token",       :limit => 60
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
   end
 
   add_index "officers", ["email"], :name => "index_officers_on_email", :unique => true
+  add_index "officers", ["invitation_token"], :name => "index_officers_on_invitation_token"
+  add_index "officers", ["invited_by_id"], :name => "index_officers_on_invited_by_id"
   add_index "officers", ["reset_password_token"], :name => "index_officers_on_reset_password_token", :unique => true
 
   create_table "projects", :force => true do |t|

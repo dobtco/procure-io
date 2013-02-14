@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
 gem 'devise'
+gem 'devise_invitable'
 gem 'foreigner'
 gem 'haml'
 gem 'cancan'
