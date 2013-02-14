@@ -260,6 +260,24 @@ describe "Bid" do
           visit project_bid_path(projects(:one), bids(:one))
           page.should have_selector('.comment', text: 'Hey dudes.')
         end
+
+        describe "deleting comments" do
+          it "should let you delete your own comments" do
+            page.should have_selector('.comment', text: comments(:one).body)
+            find(".comment a.delete").click
+            page.should_not have_selector('.comment', text: comments(:one).body)
+            visit project_bid_path(projects(:one), bids(:one))
+            page.should_not have_selector('.comment', text: comments(:one).body)
+          end
+
+          it "should not let you delete other officers' comments" do
+            logout(:officer)
+            login_as(officers(:clay), scope: :officer)
+            visit project_bid_path(projects(:one), bids(:one))
+            page.should have_selector('.comment', text: comments(:one).body)
+            page.should_not have_selector('.comment a.delete')
+          end
+        end
       end
     end
   end

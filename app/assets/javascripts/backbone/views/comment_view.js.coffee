@@ -2,15 +2,15 @@ ProcureIo.Backbone.CommentView = Backbone.View.extend
   tagName: "div"
   className: "comment well"
 
-  # events:
-  #   "click [data-backbone-clear]": "clear"
+  events:
+    "click [data-backbone-clear]": "clear"
 
   initialize: ->
     @model.bind "change", @render, @
     @model.bind "destroy", @remove, @
 
   render: ->
-    @$el.html JST['comment/comment'](@model.toJSON())
+    @$el.html JST['comment/comment'](_.extend(@model.toJSON(), {currentOfficerId: $("body").data("officer-id")}))
     @
 
   clear: ->

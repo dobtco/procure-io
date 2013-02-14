@@ -3,4 +3,7 @@
   %span.author-name #{@officer.name}
   %span.posted-at at #{@created_at}
 
+- if @currentOfficerId == @officer.id
+  %a.delete{"data-backbone-clear" => "true"} Delete
+
 %p= @body

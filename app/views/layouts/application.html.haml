@@ -10,7 +10,7 @@
   = csrf_meta_tags
   = render 'layouts/shim'
 
-%body{"data-controller" => params[:controller], "data-action" => params[:action]}
+%body{"data-controller" => params[:controller], "data-action" => params[:action], "data-officer-id" => current_officer ? current_officer.id : "", "data-vendor-id" => current_vendor ? current_vendor.id : ""}
   = render 'layouts/navbar'
 
   .outer-container
