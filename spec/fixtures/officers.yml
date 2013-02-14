@@ -30,9 +30,11 @@ adam:
   email: adam@test.com
   name: Adam
   title: DOBTCOCTO
+  encrypted_password: "phooey"
 
 clay:
   id: 2
   email: clay@test.com
   name: Clay
   title: DOBTCOCEO
+  encrypted_password: "phooey"
