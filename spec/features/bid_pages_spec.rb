@@ -19,6 +19,24 @@ describe "Bid" do
       it { should have_selector('textarea[name="response_fields[2]"]') }
     end
 
+    describe "response fields" do
+      before do
+        bids(:one).destroy # remove the current bid from this officer
+        visit new_project_bid_path(projects(:one))
+      end
+
+      describe "rendering properly" do
+        it { should have_selector('label:contains("'+response_fields(:one).label+'")') }
+        it { should have_selector('label:contains("'+response_fields(:two).label+'")') }
+        it { should have_selector('input[type=text][name="response_fields['+response_fields(:one).id.to_s+']"]') }
+        it { should have_selector('textarea[name="response_fields['+response_fields(:two).id.to_s+']"]') }
+      end
+
+      describe "validations" do
+        pending "haven't yet implemented client-side *or* server-side validations"
+      end
+    end
+
     describe "show bid" do
       before do
         visit project_bid_path(projects(:one), bids(:one))

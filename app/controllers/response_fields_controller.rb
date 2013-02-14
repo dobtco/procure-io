@@ -3,6 +3,7 @@ class ResponseFieldsController < ApplicationController
   before_filter :response_field_exists?, only: [:update, :destroy]
 
   def index
+    logger.info @project.response_fields.inspect
   end
 
   def create

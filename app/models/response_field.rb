@@ -21,12 +21,5 @@ class ResponseField < ActiveRecord::Base
   belongs_to :project
   has_many :bid_responses
 
-  serialize :field_options
-
-  after_initialize :set_default_field_options
-
-  private
-  def set_default_field_options
-    self.field_options = {}
-  end
+  serialize :field_options, Hash
 end

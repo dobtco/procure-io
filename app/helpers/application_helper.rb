@@ -25,10 +25,12 @@ module ApplicationHelper
   end
 
   def pick(hash, *keys)
+    Rails.logger.info "picky"
     filtered = {}
     hash.each do |key, value|
       filtered[key.to_sym] = value if keys.include?(key.to_sym)
     end
+    Rails.logger.info(filtered)
     filtered
   end
 end
