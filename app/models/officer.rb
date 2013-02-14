@@ -42,6 +42,10 @@ class Officer < ActiveRecord::Base
   has_many :questions
   has_many :bid_reviews
 
+  def display_name
+    self.name || self.email || ""
+  end
+
   def signed_up?
     self.encrypted_password != "" ? true : false
   end
