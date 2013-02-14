@@ -255,7 +255,10 @@ describe "Bid" do
 
         it "should create a new comment" do
           find("#new-comment-form textarea").set("Hey dudes.")
-          page.should have_selector('.comment', 'Hey dudes.')
+          click_button "Post Comment"
+          page.should have_selector('.comment', text: 'Hey dudes.')
+          visit project_bid_path(projects(:one), bids(:one))
+          page.should have_selector('.comment', text: 'Hey dudes.')
         end
       end
     end
