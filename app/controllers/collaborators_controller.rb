@@ -7,14 +7,9 @@ class CollaboratorsController < ApplicationController
   end
 
   def create
-    @officer = Officer.where(email: params[:officer][:email]).first
+    @officer = Officer.where(email: params[:officer][:email]).first || Officer.invite!(email: params[:officer][:email])
 
-    if !@officer
-      respond_to do |format|
-        format.json { render json: {error: "User not found."}, status: 422 }
-        # @todo send user an invite anyway.
-      end
-    elsif @officer.projects.where(id: @project.id).first
+    if @officer.projects.where(id: @project.id).first
       respond_to do |format|
         format.json { render json: {error: "Already a collaborator."}, status: 422 }
       end
