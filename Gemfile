@@ -26,6 +26,7 @@ group :test, :development do
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'simplecov', require: false
+  gem 'letter_opener'
 end
 
 # Gems used only for assets and not required
