@@ -1,6 +1,7 @@
-.project-name
-  %a= @title
-.project-department Placeholder of placeholder
+%div
+  %span.project-name
+    %a= @title
+  %span.project-department Office of Cultural Affairs
 .project-abtract= @abstract
 .project-tags
   Categories:

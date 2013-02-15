@@ -26,7 +26,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :tags
 
   def abstract
-    truncate(self.body, length: 100, omission: "...")
+    truncate(self.body, length: 130, omission: "...")
   end
 
   def unanswered_questions

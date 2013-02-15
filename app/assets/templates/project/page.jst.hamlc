@@ -6,11 +6,19 @@
 
 .row-fluid
   .span3.well
-    %label Filter
-    %input.search-query{"type" => "text"}
+    %form#project-filter-form
+      .control-group
+        %label Filter
+        %input.search-query{"type" => "text", "placeholder" => "Searches all fields", "name" => "q", "data-value" => "filterOptions.q"}
 
-    %label Category
-    %select{"data-backbone-filter-tag" => "true"}
+      .control-group
+        %label Category
+        %select{"data-backbone-filter-tag" => "true", "name" => "category", "data-value" => "filterOptions.category"}
+          %option{"value" => ""} Select a category
+          - for category in @allCategories
+            %option= category
+
+      %button.btn.btn-inverse.pull-right Filter Projects
 
   .span9
     #projects-wrapper

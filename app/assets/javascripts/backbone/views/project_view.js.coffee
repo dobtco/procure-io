@@ -57,8 +57,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
   el: "#project-page"
 
-  # events:
-  #   "click .sort-wrapper a": "updateFilter"
+  events:
+    "submit #project-filter-form": "updateFilter"
   #   "click [data-backbone-updatefilter]": "updateFilter"
   #   "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
   #   "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
@@ -95,10 +95,9 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
     ProcureIo.Backbone.router = new ProcureIo.Backbone.ProjectRouter()
 
-    @render()
+    @allCategories = @options.allCategories
 
-    @sidebarFilterView = new ProcureIo.Backbone.BidReviewSidebarFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
-    @topFilterView = new ProcureIo.Backbone.BidReviewTopFilterView({projectId: @options.projectId, filteredHref: @filteredHref})
+    @render()
 
     Backbone.history.start
       pushState: true
@@ -108,8 +107,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['project/page']()
-    # rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
+    @$el.html JST['project/page']({allCategories: @allCategories})
+    rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 
   # renderPagination: ->
@@ -122,6 +121,22 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
   addAll: ->
     ProcureIo.Backbone.Projects.each @addOne, @
+
+  updateFilter: (e) ->
+    formParams = {}
+
+    _.each $(e.target).formToArray(), (f) ->
+      formParams[f.name] = f.value
+
+    # return if e.metaKey
+
+    newParams = _.extend(ProcureIo.Backbone.router.filterOptions.toJSON(), formParams)
+
+    href = "/projects?#{$.param(newParams)}"
+
+    ProcureIo.Backbone.router.navigate href, {trigger: true}
+    e.preventDefault()
+
 
   # removeLoadingSpinner: ->
   #   $("#bid-review-page").removeClass 'loading'
