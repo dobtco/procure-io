@@ -1,5 +1,13 @@
-%button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
-  - if @filterOptions.f2 is "dismissed"
-    Undismiss
-  - else
-    Dismiss
+- unless @filterOptions.f2 is "awarded"
+  %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+    - if @filterOptions.f2 is "dismissed"
+      Undismiss
+    - else
+      Dismiss
+
+- unless @filterOptions.f2 is "dismissed"
+  %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
+    - if @filterOptions.f2 is "awarded"
+      Unaward
+    - else
+      Award

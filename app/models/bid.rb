@@ -13,6 +13,8 @@
 #  dismissed_by_officer_id :integer
 #  total_stars             :integer          default(0), not null
 #  total_comments          :integer          default(0), not null
+#  awarded_at              :datetime
+#  awarded_by_officer_id   :integer
 #
 
 class Bid < ActiveRecord::Base
@@ -22,6 +24,7 @@ class Bid < ActiveRecord::Base
   belongs_to :project
   belongs_to :vendor
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
+  belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
   has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews
@@ -35,6 +38,10 @@ class Bid < ActiveRecord::Base
     self.dismissed_at ? true : false
   end
 
+  def awarded?
+    self.awarded_at ? true : false
+  end
+
   def dismiss_by_officer(officer)
     return false if self.dismissed_at
     self.dismissed_at = Time.now
@@ -46,6 +53,17 @@ class Bid < ActiveRecord::Base
     self.save
   end
 
+  def award_by_officer(officer)
+    return false if self.awarded_at
+    self.awarded_at = Time.now
+    self.awarded_by_officer_id = officer.id
+  end
+
+  def award_by_officer!(officer)
+    self.award_by_officer(officer)
+    self.save
+  end
+
   def undismiss
     self.dismissed_at = nil
     self.dismissed_by_officer_id = nil
@@ -53,6 +71,16 @@ class Bid < ActiveRecord::Base
 
   def undismiss!
     self.undismiss
+    self.save
+  end
+
+  def unaward
+    self.awarded_at = nil
+    self.awarded_by_officer_id = nil
+  end
+
+  def unaward!
+    self.unaward
     self.save
   end
 

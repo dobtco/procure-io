@@ -7,6 +7,10 @@
 %td
   %strong
     %a{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.name
+  - if @dismissed_at
+    .badge.badge-important Dismised
+  - if @awarded_at
+    .badge.badge-success Awarded
 
 - for index, keyField of @pageOptions.attributes.keyFields
   %td= @getValue(keyField.id)

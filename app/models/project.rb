@@ -53,4 +53,12 @@ class Project < ActiveRecord::Base
   def submitted_bids
     bids.where("submitted_at IS NOT NULL")
   end
+
+  def dismissed_bids
+    bids.where("dismissed_at IS NOT NULL")
+  end
+
+  def awarded_bids
+    bids.where("awarded_at IS NOT NULL")
+  end
 end

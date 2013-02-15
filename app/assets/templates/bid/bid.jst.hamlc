@@ -2,18 +2,18 @@
   %h4.pull-left Bid from #{@vendor.name}
 
   .pull-right
-    .btn-group
-      %button.btn.btn-inverse{"data-backbone-dismiss" => "true"}
-        - if @dismissed_at
-          Undismiss
-        - else
-          Dismiss
+    %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
+      - if @dismissed_at
+        Undismiss
+      - else
+        Dismiss
 
-      %button.btn.btn-inverse.dropdown-toggle{"data-toggle" => "dropdown"}
-        %span.caret
-      %ul.dropdown-menu
-        %li
-          %a Award
+    %button.btn.btn-success{"data-backbone-award" => "true"}
+      - if @awarded_at
+        Unaward
+      - else
+        Award
+
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
     %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
@@ -27,8 +27,10 @@
     %p
       - if @dismissed_at
         %span.badge.badge-important Dismissed
+      - else if @awarded_at
+        %span.badge.badge-success Awarded
       - else
-        %span.badge.badge-success Open
+        %span.badge.badge-info Open
 
       %span Submitted on #{@submitted_at}
 

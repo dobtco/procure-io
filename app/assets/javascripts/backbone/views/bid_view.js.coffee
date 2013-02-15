@@ -6,6 +6,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     "click [data-backbone-star]": "toggleStarred"
     "click [data-backbone-read]": "toggleRead"
     "click [data-backbone-dismiss]": "toggleDismissed"
+    "click [data-backbone-award]": "toggleAwarded"
 
   initialize: ->
     @bid = new ProcureIo.Backbone.Bid(@options.bootstrapData)
@@ -27,5 +28,11 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     @bid.save()
 
   toggleDismissed: ->
+    if @bid.get('awarded_at') && !@bid.get('dismissed_at') then @bid.set('awarded_at', false)
     @bid.set 'dismissed_at', (if @bid.get('dismissed_at') then false else true)
+    @bid.save()
+
+  toggleAwarded: ->
+    if @bid.get('dismissed_at') && !@bid.get('awarded_at') then @bid.set('dismissed_at', false)
+    @bid.set 'awarded_at', (if @bid.get('awarded_at') then false else true)
     @bid.save()

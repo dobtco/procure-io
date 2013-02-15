@@ -119,6 +119,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click .sort-wrapper a": "updateFilter"
     "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
+    "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
 
   initialize: ->
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
@@ -196,6 +197,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   dismissCheckedBids: ->
     ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
     @sendBatchAction('dismiss', ids)
+
+  awardCheckedBids: ->
+    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
+    @sendBatchAction('award', ids)
 
   sendBatchAction: (action, ids) ->
     $.ajax

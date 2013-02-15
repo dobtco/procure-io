@@ -13,9 +13,11 @@ class BidsController < ApplicationController
     @bids = @project.submitted_bids
 
     if params[:f2] == "dismissed"
-      @bids = @bids.where("dismissed_at IS NOT NULL")
+      @bids = @bids.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
+    elsif params[:f2] == "awarded"
+      @bids = @bids.where("dismissed_at IS NULL AND awarded_at IS NOT NULL")
     else
-      @bids = @bids.where("dismissed_at IS NULL")
+      @bids = @bids.where("dismissed_at IS NULL AND awarded_at IS NULL")
     end
 
     if params[:f1] == "starred"
@@ -82,7 +84,15 @@ class BidsController < ApplicationController
       if @bid.dismissed? && params[:dismissed_at] == false
         @bid.undismiss!
       elsif !@bid.dismissed? && params[:dismissed_at] == true
+        @bid.unaward
         @bid.dismiss_by_officer!(current_officer)
+      end
+
+      if @bid.awarded? && params[:awarded_at] == false
+        @bid.unaward!
+      elsif !@bid.awarded? && params[:awarded_at] == true
+        @bid.undismiss
+        @bid.award_by_officer!(current_officer)
       end
 
       @bid.reload # get updated total_stars
@@ -106,6 +116,14 @@ class BidsController < ApplicationController
           bid.undismiss!
         else
           bid.dismiss_by_officer!(current_officer)
+        end
+      end
+    when "award"
+      @bids.each do |bid|
+        if bid.awarded?
+          bid.unaward!
+        else
+          bid.award_by_officer!(current_officer)
         end
       end
     end
