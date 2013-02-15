@@ -39,6 +39,8 @@ FactoryGirl.define do
       p.collaborators.first.update_attributes owner: true
       p.response_fields.create(label: "Name", field_type: "text", sort_order: 0)
       p.response_fields.create(label: "# of cats", field_type: "text", sort_order: 1)
+      p.tags << Tag.all(order: "RANDOM()").first
+      p.tags << Tag.all(order: "RANDOM()").first if rand(1..5) == 5
     end
   end
 
@@ -59,5 +61,9 @@ FactoryGirl.define do
         q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : FactoryGirl.create(:officer))
       end
     end
+  end
+
+  factory :tag do
+    name { Faker::Product::NOUN.rand }
   end
 end

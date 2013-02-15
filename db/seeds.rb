@@ -8,6 +8,7 @@
 
 3.times { FactoryGirl.create(:officer) }
 10.times { FactoryGirl.create(:vendor) }
+10.times { FactoryGirl.create(:tag) }
 10.times { FactoryGirl.create(:project) }
 25.times { FactoryGirl.create(:bid) }
 5.times { FactoryGirl.create(:comment) }
