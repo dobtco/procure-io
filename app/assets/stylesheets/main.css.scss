@@ -221,6 +221,39 @@ input[type=checkbox].inline {
   }
 }
 
+#project-page {
+  .right-side-span {
+    position: relative;
+  }
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  &.loading {
+    #projects-wrapper,
+    #pagination-wrapper {
+      @include opacity(75);
+    }
+
+    #loading-indicator {
+      display: block;
+    }
+  }
+
+
+}
+
 .project {
   padding: 12px 0;
   border-top: 1px dashed #ccc;

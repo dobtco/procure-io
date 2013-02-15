@@ -5,9 +5,31 @@ class ProjectsController < ApplicationController
   def index
     @projects = Project.posted
 
+    # @todo solr or someshit
+    if params[:q]
+      @projects = @projects.where("body LIKE ? OR title LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    end
+
+    # @todo categories
+
+    pagination_info = {
+      total: @projects.count,
+      per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
+      page: !params[:page].blank? ? params[:page].to_i : 1
+    }
+
+    pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
+
+    if pagination_info[:last_page] < pagination_info[:page]
+      pagination_info[:page] = pagination_info[:last_page]
+    end
+
+    @projects = @projects.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
+
+
     respond_to do |format|
       format.html
-      format.json { render json: @projects }
+      format.json { render json: @projects, meta: pagination_info }
     end
   end
 

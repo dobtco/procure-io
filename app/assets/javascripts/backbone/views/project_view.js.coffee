@@ -1,39 +1,39 @@
-# ProcureIo.Backbone.ProjectPaginationView = Backbone.View.extend
-#   el: "#pagination-wrapper"
+ProcureIo.Backbone.ProjectPaginationView = Backbone.View.extend
+  el: "#pagination-wrapper"
 
-#   pushIfDoesntExist: (page, pagesArray, lastPage) ->
-#     pagesArray.push page unless (pagesArray.indexOf(page) > -1) or (page < 1) or (page > lastPage)
+  pushIfDoesntExist: (page, pagesArray, lastPage) ->
+    pagesArray.push page unless (pagesArray.indexOf(page) > -1) or (page < 1) or (page > lastPage)
 
-#   getPagesArray: (meta) ->
-#     if meta.last_page is 1 then return [1]
+  getPagesArray: (meta) ->
+    if meta.last_page is 1 then return [1]
 
-#     pagesArray = [1, 2]
-#     @pushIfDoesntExist(meta.last_page, pagesArray, meta.last_page)
-#     @pushIfDoesntExist(meta.last_page - 1, pagesArray, meta.last_page)
+    pagesArray = [1, 2]
+    @pushIfDoesntExist(meta.last_page, pagesArray, meta.last_page)
+    @pushIfDoesntExist(meta.last_page - 1, pagesArray, meta.last_page)
 
-#     offset = 0
-#     currentPage = meta.page
-#     while pagesArray.length < 11 and (currentPage - offset >= 1 or currentPage + offset <= meta.last_page)
-#       @pushIfDoesntExist(currentPage - offset, pagesArray, meta.last_page)
-#       @pushIfDoesntExist(currentPage + offset, pagesArray, meta.last_page)
-#       offset++
+    offset = 0
+    currentPage = meta.page
+    while pagesArray.length < 11 and (currentPage - offset >= 1 or currentPage + offset <= meta.last_page)
+      @pushIfDoesntExist(currentPage - offset, pagesArray, meta.last_page)
+      @pushIfDoesntExist(currentPage + offset, pagesArray, meta.last_page)
+      offset++
 
-#     pagesArray = _.sortBy pagesArray, (p) -> p
+    pagesArray = _.sortBy pagesArray, (p) -> p
 
-#     pagesArrayWithBreak = []
-#     _.each pagesArray, (p, index) ->
-#       if pagesArray[index - 1]? and p - pagesArray[index - 1] > 1
-#         pagesArrayWithBreak.push "break"
+    pagesArrayWithBreak = []
+    _.each pagesArray, (p, index) ->
+      if pagesArray[index - 1]? and p - pagesArray[index - 1] > 1
+        pagesArrayWithBreak.push "break"
 
-#       pagesArrayWithBreak.push p
+      pagesArrayWithBreak.push p
 
-#     pagesArrayWithBreak
+    pagesArrayWithBreak
 
-#   initialize: ->
-#     @filteredHref = @options.filteredHref
+  initialize: ->
+    @filteredHref = @options.filteredHref
 
-#   render: ->
-#     @$el.html JST['project/pagination']({meta: ProcureIo.Backbone.Bids.meta, pages: @getPagesArray(ProcureIo.Backbone.Bids.meta), filteredHref: @filteredHref})
+  render: ->
+    @$el.html JST['project/pagination']({meta: ProcureIo.Backbone.Projects.meta, pages: @getPagesArray(ProcureIo.Backbone.Projects.meta), filteredHref: @filteredHref})
 
 
 ProcureIo.Backbone.ProjectView = Backbone.View.extend
@@ -58,10 +58,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
   el: "#project-page"
 
   events:
-    "submit #project-filter-form": "updateFilter"
-  #   "click [data-backbone-updatefilter]": "updateFilter"
-  #   "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
-  #   "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
+    "submit #project-filter-form": "updateFilterFromForm"
+    "click [data-backbone-updatefilter]": "updateFilter"
 
   initialize: ->
     ProcureIo.Backbone.Projects = new ProcureIo.Backbone.ProjectList()
@@ -70,8 +68,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
     ProcureIo.Backbone.Projects.bind 'add', @addOne, @
     ProcureIo.Backbone.Projects.bind 'reset', @reset, @
-    # ProcureIo.Backbone.Projects.bind 'reset', @removeLoadingSpinner, @
-    # ProcureIo.Backbone.Projects.bind 'reset', @renderPagination, @
+    ProcureIo.Backbone.Projects.bind 'reset', @removeLoadingSpinner, @
+    ProcureIo.Backbone.Projects.bind 'reset', @renderPagination, @
 
     @filteredHref = (newFilters) =>
       existingParams = ProcureIo.Backbone.router.filterOptions.toJSON()
@@ -88,9 +86,9 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
           newParams[key] = val
 
       if hasParams
-        "/projects/#{@options.projectId}/bids?#{$.param(newParams)}"
+        "/projects?#{$.param(newParams)}"
       else
-        "/projects/#{@options.projectId}/bids"
+        "/projects"
 
 
     ProcureIo.Backbone.router = new ProcureIo.Backbone.ProjectRouter()
@@ -111,9 +109,9 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 
-  # renderPagination: ->
-  #   @paginationView ||= new ProcureIo.Backbone.BidReviewPaginationView({filteredHref: @filteredHref})
-  #   @paginationView.render()
+  renderPagination: ->
+    @paginationView ||= new ProcureIo.Backbone.ProjectPaginationView({filteredHref: @filteredHref})
+    @paginationView.render()
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.ProjectView({model: bid, parentView: @})
@@ -122,25 +120,16 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
   addAll: ->
     ProcureIo.Backbone.Projects.each @addOne, @
 
-  updateFilter: (e) ->
-    formParams = {}
-
-    _.each $(e.target).formToArray(), (f) ->
-      formParams[f.name] = f.value
-
-    # return if e.metaKey
-
-    newParams = _.extend(ProcureIo.Backbone.router.filterOptions.toJSON(), formParams)
-
-    href = "/projects?#{$.param(newParams)}"
-
-    ProcureIo.Backbone.router.navigate href, {trigger: true}
+  # @todo check for meta key, open in new tab
+  updateFilterFromForm: (e) ->
+    console.log ProcureIo.Backbone.router.filterOptions.toJSON()
+    ProcureIo.Backbone.router.navigate @filteredHref({}), {trigger: true}
     e.preventDefault()
 
+  updateFilter: (e) ->
+    return if e.metaKey
+    ProcureIo.Backbone.router.navigate $(e.target).attr('href'), {trigger: true}
+    e.preventDefault()
 
-  # removeLoadingSpinner: ->
-  #   $("#bid-review-page").removeClass 'loading'
-
-  # refetch: ->
-  #   $("#bid-review-page").addClass 'loading'
-  #   ProcureIo.Backbone.Projects.fetch {data: ProcureIo.Backbone.router.filterOptions.toJSON()}
+  removeLoadingSpinner: ->
+    $("#project-page").removeClass 'loading'

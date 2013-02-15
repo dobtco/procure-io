@@ -1,9 +1,3 @@
-.pull-right
-  Order by
-  %select
-
-.clearfix &nbsp;
-
 .row-fluid
   .span3.well
     %form#project-filter-form
@@ -16,9 +10,15 @@
         %select{"data-backbone-filter-tag" => "true", "name" => "category", "data-value" => "filterOptions.category"}
           %option{"value" => ""} Select a category
           - for category in @allCategories
-            %option= category
+            %option{"value" => category}= category
 
       %button.btn.btn-inverse.pull-right Filter Projects
 
-  .span9
+  .span9.right-side-span
+    #loading-indicator
+      %i.icon-refresh.icon-spin
+      Loading...
+
+    #pagination-wrapper
+
     #projects-wrapper
