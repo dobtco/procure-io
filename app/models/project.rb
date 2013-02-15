@@ -21,6 +21,8 @@ class Project < ActiveRecord::Base
   has_many :questions
   has_many :response_fields
 
+  has_and_belongs_to_many :tags
+
   def unanswered_questions
     questions.where("answer_body = '' OR answer_body IS NULL")
   end
