@@ -17,7 +17,7 @@
     $("#project_tags").select2({
       tags: #{Tag.all_for_select2.to_json},
       tokenSeparators: [','],
-      width: "300px"
+      width: "resolve"
     });
 
   = f.label :bids_due_at
