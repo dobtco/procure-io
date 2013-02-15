@@ -16,6 +16,7 @@
   :javascript
     $("#project_tags").select2({
       tags: #{Tag.all_for_select2.to_json},
+      tokenSeparators: [','],
       width: "300px"
     });
 
