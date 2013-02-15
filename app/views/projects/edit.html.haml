@@ -10,6 +10,15 @@
   = f.label :title
   = f.text_field :title, class: "span4"
 
+  = f.label :tags
+  = f.text_field :tags, value: @project.tags.map(&:name).join(",")
+
+  :javascript
+    $("#project_tags").select2({
+      tags: #{Tag.all_for_select2.to_json},
+      width: "300px"
+    });
+
   = f.label :bids_due_at
   = f.text_field :bids_due_at
 

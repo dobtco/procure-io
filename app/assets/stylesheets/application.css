@@ -11,5 +11,6 @@
  *= require_self
  *= require _font-awesome
  *= require bootstrap-switch
+ *= require select2
  *= require_tree .
  */

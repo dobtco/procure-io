@@ -30,7 +30,14 @@ class ProjectsController < ApplicationController
 
   def update
     authorize! :update, @project
-    @project.update_attributes params[:project]
+    @project.update_attributes reject(params[:project], :tags)
+
+    @project.tags = []
+    params[:project][:tags].split(",").each do |name|
+      @tag = Tag.where("lower(name) = ?", name.strip.downcase).first || Tag.create(name: name.strip)
+      @project.tags << @tag
+    end
+
     redirect_to edit_project_path(@project)
   end
 
