@@ -1,15 +1,5 @@
 !=page_header "Browse Projects"
 
-%table.table.table-boredered
-  %thead
-    %tr
-      %th Type
-      %th Project Title
-      %th Bids Due
-
-  %tbody
-    - @projects.each do |project|
-      %tr
-        %td type
-        %td= link_to project.title, project
-        %td= project.bids_due_at
+#project-page
+  :javascript
+    new ProcureIo.Backbone.ProjectPage();

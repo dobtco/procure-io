@@ -4,6 +4,11 @@ class ProjectsController < ApplicationController
 
   def index
     @projects = Project.posted
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @projects }
+    end
   end
 
   def mine

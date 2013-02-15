@@ -12,6 +12,8 @@
 #
 
 class Project < ActiveRecord::Base
+  include ActionView::Helpers::TextHelper
+
   attr_accessible :bids_due_at, :body, :title, :posted
 
   has_many :bids
@@ -22,6 +24,10 @@ class Project < ActiveRecord::Base
   has_many :response_fields
 
   has_and_belongs_to_many :tags
+
+  def abstract
+    truncate(self.body, length: 100, omission: "...")
+  end
 
   def unanswered_questions
     questions.where("answer_body = '' OR answer_body IS NULL")

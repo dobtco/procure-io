@@ -1,0 +1,8 @@
+.project-name
+  %a= @title
+.project-department Placeholder of placeholder
+.project-abtract= @abstract
+.project-tags
+  Categories:
+  - for tag, i in @tags
+    <a href="">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}

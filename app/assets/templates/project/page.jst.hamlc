@@ -1,0 +1,16 @@
+.pull-right
+  Order by
+  %select
+
+.clearfix &nbsp;
+
+.row-fluid
+  .span3.well
+    %label Filter
+    %input.search-query{"type" => "text"}
+
+    %label Category
+    %select{"data-backbone-filter-tag" => "true"}
+
+  .span9
+    #projects-wrapper
