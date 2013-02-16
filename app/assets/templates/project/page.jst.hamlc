@@ -7,8 +7,8 @@
 
       .control-group
         %label Category
-        %select{"data-backbone-filter-tag" => "true", "name" => "category", "data-value" => "filterOptions.category"}
-          %option{"value" => ""} Select a category
+        %select#category-filter{"data-backbone-filter-tag" => "true", "name" => "category", "data-value" => "filterOptions.category"}
+          %option{"value" => ""} All Categories
           - for category in @allCategories
             %option{"value" => category}= category
 
