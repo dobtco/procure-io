@@ -1,4 +1,4 @@
-ProcureIo.Backbone.ProjectPaginationView = Backbone.View.extend
+ProcureIo.Backbone.PaginationView = Backbone.View.extend
   el: "#pagination-wrapper"
 
   pushIfDoesntExist: (page, pagesArray, lastPage) ->
@@ -31,9 +31,10 @@ ProcureIo.Backbone.ProjectPaginationView = Backbone.View.extend
 
   initialize: ->
     @filteredHref = @options.filteredHref
+    @collection = @options.collection
 
   render: ->
-    @$el.html JST['project/pagination']({meta: ProcureIo.Backbone.Projects.meta, pages: @getPagesArray(ProcureIo.Backbone.Projects.meta), filteredHref: @filteredHref})
+    @$el.html JST['shared/pagination']({meta: @collection.meta, pages: @getPagesArray(@collection.meta), filteredHref: @filteredHref})
 
 
 ProcureIo.Backbone.ProjectView = Backbone.View.extend
@@ -110,7 +111,7 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     return @
 
   renderPagination: ->
-    @paginationView ||= new ProcureIo.Backbone.ProjectPaginationView({filteredHref: @filteredHref})
+    @paginationView ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Projects})
     @paginationView.render()
 
   addOne: (bid) ->
