@@ -19,8 +19,10 @@
       %i.icon-refresh.icon-spin
       Loading...
 
-    #sort-wrapper
+    #sort-wrapper.pull-left
 
-    #pagination-wrapper
+    #pagination-wrapper.pull-right
+
+    .clearfix &nbsp;
 
     #projects-wrapper
