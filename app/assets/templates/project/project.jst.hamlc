@@ -5,7 +5,7 @@
 
 .project-abtract= @abstract
 
-%div
+.bottom-info
   %span.project-tags
     Categories:
     - for tag, i in @tags
@@ -15,3 +15,8 @@
 
   %span.project-bids-due-at
     Bids due on #{@bids_due_at}
+
+  &middot;
+
+  %span.posted-at
+    Posted on #{@posted_at}

@@ -19,6 +19,8 @@
       %i.icon-refresh.icon-spin
       Loading...
 
+    #sort-wrapper
+
     #pagination-wrapper
 
     #projects-wrapper

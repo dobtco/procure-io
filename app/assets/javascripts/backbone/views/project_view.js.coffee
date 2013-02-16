@@ -1,3 +1,15 @@
+ProcureIo.Backbone.ProjectSortView = Backbone.View.extend
+  el: "#sort-wrapper"
+
+  initialize: ->
+    @filteredHref = @options.filteredHref
+    @render()
+    ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
+
+  render: ->
+    @$el.html JST['project/sort']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
+
+
 ProcureIo.Backbone.PaginationView = Backbone.View.extend
   el: "#pagination-wrapper"
 
@@ -59,6 +71,7 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
   el: "#project-page"
 
   events:
+    "click .sort-wrapper a": "updateFilter"
     "submit #project-filter-form": "updateFilterFromForm"
     "click [data-backbone-updatefilter]": "updateFilter"
 
@@ -97,6 +110,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     @allCategories = @options.allCategories
 
     @render()
+
+    @sortView = new ProcureIo.Backbone.ProjectSortView({filteredHref: @filteredHref})
 
     Backbone.history.start
       pushState: true

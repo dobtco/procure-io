@@ -14,7 +14,11 @@ class ProjectsController < ApplicationController
       @projects = @projects.where("tags.name = ?", params[:category])
     end
 
-    # @todo categories
+    if params[:sort] == "bidsDue"
+      @projects = @projects.order("bids_due_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "postedAt" || !params[:sort]
+      @projects = @projects.order("posted_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    end
 
     pagination_info = {
       total: @projects.count,

@@ -5,7 +5,7 @@ ProcureIo.Backbone.ProjectRouter = Backbone.Router.extend
 
   initialize: ->
     @filterOptions = new Backbone.Model
-      page: 1
+      "sort": "postedAt"
 
   projects: (id, params) ->
     params = $.urlParams()
@@ -13,7 +13,7 @@ ProcureIo.Backbone.ProjectRouter = Backbone.Router.extend
     @filterOptions.set "q", params?.q
     @filterOptions.set "category", params?.category
     @filterOptions.set "page", params?.page
-    @filterOptions.set "sort", paramls?.sort
+    @filterOptions.set "sort", params?.sort
     @filterOptions.set "direction", params?.direction
     $("#project-page").addClass 'loading'
     ProcureIo.Backbone.Projects.fetch({data: @filterOptions.toJSON()})
