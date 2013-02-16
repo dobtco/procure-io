@@ -3,11 +3,15 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
-    @projects = Project.posted
+    @projects = Project.includes(:tags).posted
 
     # @todo solr or someshit
     if params[:q]
       @projects = @projects.where("body LIKE ? OR title LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    end
+
+    if params[:category] && !params[:category].blank?
+      @projects = @projects.where("tags.name = ?", params[:category])
     end
 
     # @todo categories

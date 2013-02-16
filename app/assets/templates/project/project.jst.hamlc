@@ -1,9 +1,17 @@
 %div
   %span.project-name
-    %a= @title
+    %a{"href" => "/projects/#{@id}"}= @title
   %span.project-department Office of Cultural Affairs
+
 .project-abtract= @abstract
-.project-tags
-  Categories:
-  - for tag, i in @tags
-    <a href="">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
+
+%div
+  %span.project-tags
+    Categories:
+    - for tag, i in @tags
+      <a href="">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
+
+  &middot;
+
+  %span.project-bids-due-at
+    Bids due on #{@bids_due_at}
