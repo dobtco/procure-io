@@ -5,7 +5,7 @@
 = form_for @project do |f|
   = f.label :posted, "Live?"
   .switch{"data-on-label" => "Yes", "data-off-label" => "NO"}
-    = f.check_box :posted
+    = f.check_box :posted_at
 
   = f.label :title
   = f.text_field :title, class: "span4"

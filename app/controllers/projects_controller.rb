@@ -65,7 +65,14 @@ class ProjectsController < ApplicationController
 
   def update
     authorize! :update, @project
-    @project.update_attributes reject(params[:project], :tags)
+    @project.update_attributes reject(params[:project], :tags, :posted_at)
+
+    if params[:project][:posted_at] == "1" && !@project.posted?
+      @project.post_by_officer!(current_officer)
+    elsif params[:project][:posted_at] == "0" && @project.posted?
+      @project.unpost
+      @project.save
+    end
 
     @project.tags = []
     params[:project][:tags].split(",").each do |name|
