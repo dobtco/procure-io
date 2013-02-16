@@ -1,0 +1,9 @@
+/ @todo share this with bid review view
+.sort-wrapper
+  - for k, v of {postedAt: "Posted At", bidsDue: "Bids Due"}
+    %a{"href" => @filteredHref({sort: k, direction: (if @filterOptions.sort is k and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != k then false else @filterOptions.page)})}= v
+    - if @filterOptions.sort is k
+      - if @filterOptions.direction is "asc"
+        %i.icon-chevron-up
+      - else
+        %i.icon-chevron-down

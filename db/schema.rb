@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130215002715) do
+ActiveRecord::Schema.define(:version => 20130216005526) do
 
   create_table "bid_responses", :force => true do |t|
     t.integer  "bid_id"
@@ -97,9 +97,15 @@ ActiveRecord::Schema.define(:version => 20130215002715) do
     t.string   "title"
     t.text     "body"
     t.datetime "bids_due_at"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.boolean  "posted"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.datetime "posted_at"
+    t.integer  "posted_by_officer_id"
+  end
+
+  create_table "projects_tags", :id => false, :force => true do |t|
+    t.integer "project_id"
+    t.integer "tag_id"
   end
 
   create_table "questions", :force => true do |t|
@@ -121,6 +127,12 @@ ActiveRecord::Schema.define(:version => 20130215002715) do
     t.datetime "updated_at",    :null => false
     t.integer  "sort_order",    :null => false
     t.boolean  "key_field"
+  end
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "vendors", :force => true do |t|

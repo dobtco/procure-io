@@ -5,10 +5,20 @@
 = form_for @project do |f|
   = f.label :posted, "Live?"
   .switch{"data-on-label" => "Yes", "data-off-label" => "NO"}
-    = f.check_box :posted
+    = f.check_box :posted_at
 
   = f.label :title
   = f.text_field :title, class: "span4"
+
+  = f.label :tags
+  = f.text_field :tags, value: @project.tags.map(&:name).join(",")
+
+  :javascript
+    $("#project_tags").select2({
+      tags: #{Tag.all_for_select2.to_json},
+      tokenSeparators: [','],
+      width: "resolve"
+    });
 
   = f.label :bids_due_at
   = f.text_field :bids_due_at

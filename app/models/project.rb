@@ -2,17 +2,20 @@
 #
 # Table name: projects
 #
-#  id          :integer          not null, primary key
-#  title       :string(255)
-#  body        :text
-#  bids_due_at :datetime
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  posted      :boolean
+#  id                   :integer          not null, primary key
+#  title                :string(255)
+#  body                 :text
+#  bids_due_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  posted_at            :datetime
+#  posted_by_officer_id :integer
 #
 
 class Project < ActiveRecord::Base
-  attr_accessible :bids_due_at, :body, :title, :posted
+  include ActionView::Helpers::TextHelper
+
+  attr_accessible :bids_due_at, :body, :title, :posted_at, :posted_by_officer_id
 
   has_many :bids
   has_many :collaborators, order: 'created_at'
@@ -20,6 +23,34 @@ class Project < ActiveRecord::Base
                       order: 'created_at'
   has_many :questions
   has_many :response_fields
+
+  belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id"
+
+  has_and_belongs_to_many :tags
+
+  def posted?
+    self.posted_at ? true : false
+  end
+
+  def post_by_officer(officer)
+    return false if self.posted_at
+    self.posted_at = Time.now
+    self.posted_by_officer_id = officer.id
+  end
+
+  def post_by_officer!(officer)
+    self.post_by_officer(officer)
+    self.save
+  end
+
+  def unpost
+    self.posted_at = nil
+    self.posted_by_officer_id = nil
+  end
+
+  def abstract
+    truncate(self.body, length: 130, omission: "...")
+  end
 
   def unanswered_questions
     questions.where("answer_body = '' OR answer_body IS NULL")
@@ -31,10 +62,6 @@ class Project < ActiveRecord::Base
 
   def owner_id
     owner ? owner.id : nil
-  end
-
-  def self.posted
-    where(posted: true)
   end
 
   def key_fields
@@ -60,5 +87,9 @@ class Project < ActiveRecord::Base
 
   def awarded_bids
     bids.where("awarded_at IS NOT NULL")
+  end
+
+  def self.posted
+    where("posted_at IS NOT NULL")
   end
 end

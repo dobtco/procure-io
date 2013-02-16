@@ -302,9 +302,9 @@ Rivets.binders =
   value:
     publishes: true
     bind: (el) ->
-      @currentListener = bindEvent el, 'input', @publish
+      @currentListener = bindEvent el, 'input, change', @publish
     unbind: (el) ->
-      unbindEvent el, 'input', @currentListener
+      unbindEvent el, 'input, change', @currentListener
     routine: (el, value) ->
       if el.type is 'select-multiple'
         o.selected = o.value in value for o in el if value?

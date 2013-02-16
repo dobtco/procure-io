@@ -1,5 +1,5 @@
 %ul.nav.nav-tabs
-  - if @project.posted
+  - if @project.posted?
     %li{"class" => params[:controller] == "bids" ? "active" : ""}
       %a{"href" => project_bids_path(@project)}
         Review Bids

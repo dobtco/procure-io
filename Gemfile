@@ -40,6 +40,7 @@ group :assets do
   gem 'bootswatch-rails'
   gem 'font-awesome-sass-rails'
   gem 'rails-backbone', git: 'git://github.com/codebrew/backbone-rails.git'
+  gem 'select2-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

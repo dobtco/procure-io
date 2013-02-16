@@ -3,7 +3,42 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
-    @projects = Project.posted
+    @projects = Project.includes(:tags).posted
+
+    # @todo solr or someshit
+    if params[:q]
+      @projects = @projects.where("body LIKE ? OR title LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    end
+
+    if params[:category] && !params[:category].blank?
+      @projects = @projects.where("tags.name = ?", params[:category])
+    end
+
+    if params[:sort] == "bidsDue"
+      @projects = @projects.order("bids_due_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "postedAt" || !params[:sort]
+      @projects = @projects.order("posted_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    end
+
+    pagination_info = {
+      total: @projects.count,
+      per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
+      page: !params[:page].blank? ? params[:page].to_i : 1
+    }
+
+    pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
+
+    if pagination_info[:last_page] < pagination_info[:page]
+      pagination_info[:page] = pagination_info[:last_page]
+    end
+
+    @projects = @projects.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
+
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @projects, meta: pagination_info }
+    end
   end
 
   def mine
@@ -30,7 +65,21 @@ class ProjectsController < ApplicationController
 
   def update
     authorize! :update, @project
-    @project.update_attributes params[:project]
+    @project.update_attributes reject(params[:project], :tags, :posted_at)
+
+    if params[:project][:posted_at] == "1" && !@project.posted?
+      @project.post_by_officer!(current_officer)
+    elsif params[:project][:posted_at] == "0" && @project.posted?
+      @project.unpost
+      @project.save
+    end
+
+    @project.tags = []
+    params[:project][:tags].split(",").each do |name|
+      @tag = Tag.where("lower(name) = ?", name.strip.downcase).first || Tag.create(name: name.strip)
+      @project.tags << @tag
+    end
+
     redirect_to edit_project_path(@project)
   end
 

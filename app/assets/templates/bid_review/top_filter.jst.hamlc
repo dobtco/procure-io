@@ -8,7 +8,7 @@
 
 .sort-wrapper
   - for k, v of {createdAt: "Created at", stars: "Stars"}
-    %a{"href" => @filteredHref({sort: k, direction: (if @filterOptions.sort is k and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != k then false)})}= v
+    %a{"href" => @filteredHref({sort: k, direction: (if @filterOptions.sort is k and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != k then false else @filterOptions.page)})}= v
     - if @filterOptions.sort is k
       - if @filterOptions.direction is "asc"
         %i.icon-chevron-up
