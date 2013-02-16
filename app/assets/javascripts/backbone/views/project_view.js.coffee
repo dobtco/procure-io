@@ -46,7 +46,7 @@ ProcureIo.Backbone.ProjectView = Backbone.View.extend
     @model.bind "change", @render, @
 
   render: ->
-    @$el.html JST['project/project'](@model.toJSON())
+    @$el.html JST['project/project'](_.extend(@model.toJSON(), {filteredHref: @parentView.filteredHref}))
     rivets.bind(@$el, {project: @model})
     return @
 
@@ -122,8 +122,7 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
   # @todo check for meta key, open in new tab
   updateFilterFromForm: (e) ->
-    console.log ProcureIo.Backbone.router.filterOptions.toJSON()
-    ProcureIo.Backbone.router.navigate @filteredHref({}), {trigger: true}
+    ProcureIo.Backbone.router.navigate @filteredHref({page: 1}), {trigger: true}
     e.preventDefault()
 
   updateFilter: (e) ->

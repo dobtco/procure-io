@@ -9,7 +9,7 @@
   %span.project-tags
     Categories:
     - for tag, i in @tags
-      <a href="">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
+      <a href="#{@filteredHref({category: tag.name, page: false})}" data-backbone-updatefilter="true">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
 
   &middot;
 
