@@ -13,7 +13,7 @@ class BidsController < ApplicationController
       format.html {}
 
       format.json do
-        @bids = @project.submitted_bids.includes(:labels).includes(:bid_responses).includes(:vendor)
+        @bids = @project.submitted_bids.includes(:labels).includes(:bid_responses).includes(:vendor).includes(:project)
 
 
         if params[:f2] == "dismissed"
