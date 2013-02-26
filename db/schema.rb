@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130225231711) do
+ActiveRecord::Schema.define(:version => 20130226233909) do
 
   create_table "bid_responses", :force => true do |t|
     t.integer  "bid_id"
@@ -178,10 +178,35 @@ ActiveRecord::Schema.define(:version => 20130225231711) do
   add_index "vendors", ["email"], :name => "index_vendors_on_email", :unique => true
   add_index "vendors", ["reset_password_token"], :name => "index_vendors_on_reset_password_token", :unique => true
 
+  add_foreign_key "bid_responses", "bids", :name => "bid_responses_bid_id_fk"
+  add_foreign_key "bid_responses", "response_fields", :name => "bid_responses_response_field_id_fk"
+
+  add_foreign_key "bid_reviews", "bids", :name => "bid_reviews_bid_id_fk"
+  add_foreign_key "bid_reviews", "officers", :name => "bid_reviews_officer_id_fk"
+
   add_foreign_key "bids", "projects", :name => "bids_project_id_fk"
   add_foreign_key "bids", "vendors", :name => "bids_vendor_id_fk"
 
+  add_foreign_key "bids_labels", "bids", :name => "bids_labels_bid_id_fk"
+  add_foreign_key "bids_labels", "labels", :name => "bids_labels_label_id_fk"
+
   add_foreign_key "collaborators", "officers", :name => "collaborators_officer_id_fk"
   add_foreign_key "collaborators", "projects", :name => "collaborators_project_id_fk"
+
+  add_foreign_key "comments", "officers", :name => "comments_officer_id_fk"
+  add_foreign_key "comments", "vendors", :name => "comments_vendor_id_fk"
+
+  add_foreign_key "labels", "projects", :name => "labels_project_id_fk"
+
+  add_foreign_key "projects_tags", "projects", :name => "projects_tags_project_id_fk"
+  add_foreign_key "projects_tags", "tags", :name => "projects_tags_tag_id_fk"
+
+  add_foreign_key "questions", "officers", :name => "questions_officer_id_fk"
+  add_foreign_key "questions", "projects", :name => "questions_project_id_fk"
+  add_foreign_key "questions", "vendors", :name => "questions_vendor_id_fk"
+
+  add_foreign_key "response_fields", "projects", :name => "response_fields_project_id_fk"
+
+  add_foreign_key "saved_searches", "vendors", :name => "saved_searches_vendor_id_fk"
 
 end
