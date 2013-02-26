@@ -5,7 +5,6 @@ class BidsController < ApplicationController
   before_filter :authenticate_officer!, only: [:index, :reviews]
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
-  # @todo too many queries, this is slow
   def index
     authorize! :update, @project
 
