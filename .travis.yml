@@ -2,10 +2,8 @@ language: ruby
 rvm:
   - 1.9.3
 before_script:
-  - Xvfb :1 -screen 0 1024x768x16 -nolisten inet6
-  - export DISPLAY=localhost:1.0
   - psql -c 'create database procureio_travis;' -U postgres
   - cp config/database.travis.yml config/database.yml
   - RAILS_ENV=test bundle exec rake db:migrate
   - bundle exec rake db:test:prepare
-script: rspec
+script: xvfb-run rspec
