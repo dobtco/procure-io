@@ -149,7 +149,6 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
   addAll: ->
     ProcureIo.Backbone.Projects.each @addOne, @
 
-  # @todo check for meta key, open in new tab
   updateFilterFromForm: (e) ->
     ProcureIo.Backbone.router.navigate @filteredHref({page: 1}), {trigger: true}
     e.preventDefault()
