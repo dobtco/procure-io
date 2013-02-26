@@ -27,6 +27,8 @@ class Bid < ActiveRecord::Base
   has_many :bid_reviews
   has_many :comments, as: :commentable
 
+  has_one :my_bid_review, class_name: "BidReview"
+
   has_and_belongs_to_many :labels
 
   def submit
@@ -106,6 +108,10 @@ class Bid < ActiveRecord::Base
 
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
+  end
+
+  def new_bid_review_for_officer(officer)
+    bid_reviews.build(officer_id: officer.id)
   end
 
   def calculate_total_stars!

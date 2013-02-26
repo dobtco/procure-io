@@ -13,8 +13,13 @@ class BidsController < ApplicationController
       format.html {}
 
       format.json do
-        @bids = @project.submitted_bids.includes(:labels).includes(:bid_responses).includes(:vendor).includes(:project)
-
+        @bids = @project.submitted_bids.includes(:labels)
+                                       .includes(:bid_responses)
+                                       .includes(:vendor)
+                                       .includes(:project)
+                                       .includes(:my_bid_review)
+                                       .joins("LEFT JOIN bid_reviews as my_bid_review ON my_bid_review.bid_id = bids.id")
+                                       .where("my_bid_review.officer_id = ? OR my_bid_review.officer_id IS NULL", current_officer.id)
 
         if params[:f2] == "dismissed"
           @bids = @bids.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
