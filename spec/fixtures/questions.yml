@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id          :integer          not null, primary key
+#  project_id  :integer
+#  vendor_id   :integer
+#  officer_id  :integer
+#  body        :text
+#  answer_body :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+blank:
+  id: 1
+  project_id: 1
+  vendor_id: 1
+  answer_body: ""
+
+nil:
+  id: 2
+  project_id: 1
+  vendor_id: 1
+
+filled_out:
+  id: 3
+  project_id: 1
+  vendor_id: 1
+  answer_body: "This is the answer body."

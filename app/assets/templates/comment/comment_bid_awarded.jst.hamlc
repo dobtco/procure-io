@@ -1,0 +1,3 @@
+%span #{@officer.name} awarded the bid.
+%span.badge.badge-success Awarded
+%span.timestamp= @created_at

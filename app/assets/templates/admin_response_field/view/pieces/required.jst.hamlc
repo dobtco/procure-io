@@ -1,0 +1,1 @@
+%span.required-asterisk{"data-rv-show" => "model.field_options.required"} *

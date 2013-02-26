@@ -1,0 +1,22 @@
+# == Schema Information
+#
+# Table name: projects
+#
+#  id                        :integer          not null, primary key
+#  title                     :string(255)
+#  body                      :text
+#  bids_due_at               :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  posted_at                 :datetime
+#  posted_by_officer_id      :integer
+#  total_comments            :integer          default(0), not null
+#  has_unsynced_body_changes :boolean
+#
+
+one:
+  id: 1
+  title: "Bluth Banana Stand Rebuild"
+  body: "We need someone to rebuild our banana stand."
+  posted_at: <%= Time.now.to_s(:db) %>
+  posted_by_officer_id: 1

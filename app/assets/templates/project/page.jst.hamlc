@@ -1,0 +1,32 @@
+.row-fluid
+  .span3
+    %form#project-filter-form.well
+      .control-group
+        %label Filter
+        %input.search-query{"type" => "text", "placeholder" => "Searches all fields", "name" => "q", "data-rv-value" => "filterOptions.q"}
+
+      .control-group
+        %label Category
+        %select#category-filter{"data-backbone-filter-tag" => "true", "name" => "category", "data-rv-value" => "filterOptions.category"}
+          %option{"value" => ""} All Categories
+          - for category in @allCategories
+            %option{"value" => category}= category
+
+      %button.btn.btn-inverse.pull-right Filter Projects
+
+      .clearfix &nbsp;
+
+    #project-rss-links
+
+  .span9.right-side-span
+    #loading-indicator
+      %i.icon-refresh.icon-spin
+      Loading...
+
+    #sort-wrapper.pull-left
+
+    #pagination-wrapper.pull-right
+
+    .clearfix &nbsp;
+
+    #projects-wrapper

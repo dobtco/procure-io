@@ -1,0 +1,17 @@
+%form#edit-label-form
+  %label Label Name
+  %input{"type" => "text", "data-rv-value" => "label.name"}
+
+  != JST['bid_review/_color_swatches']()
+
+  %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"} Custom Color
+  %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
+
+  %input{"type" => "hidden", "data-rv-value" => "label.color"}
+
+  .clearfix &nbsp;
+
+  %button.btn.btn-inverse Save Changes
+
+  %p
+    %a.smaller{"data-backbone-destroy-label" => "true"} Destroy Label

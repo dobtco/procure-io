@@ -1,0 +1,471 @@
+// First import journal variables
+@import "bootswatch/cerulean/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// Responsive styles go here in case you want them
+@import "bootstrap-responsive";
+
+// And finally bootswatch style itself
+@import "bootswatch/cerulean/bootswatch";
+
+a {
+  cursor: pointer;
+}
+
+.smaller {
+  font-size: 12px;
+}
+
+body {
+  background-color: #eee;
+}
+
+.table-nonfluid {
+  width: auto;
+}
+
+#navbar {
+  margin-bottom: 0;
+
+  .navbar-inner {
+    @include border-radius(0px);
+  }
+
+  .gravatar {
+    width: 20px;
+    height: 20px;
+    @include border-radius(10px);
+    margin: -2px 3px 0 0;
+  }
+}
+
+.outer-container {
+  padding: 20px 0;
+  background-color: #fff;
+}
+
+@media (max-width: 767px) {
+  .outer-container {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+#ask-question {
+  form {
+    margin-bottom: 5px;
+  }
+  textarea {
+    min-height: 70px;
+  }
+}
+
+#questions-list {
+  margin-top: 10px;
+}
+
+.question {
+  .question-body {
+    margin-bottom: 10px;
+  }
+
+  .answer-body, .no-answer-body {
+    font-style: italic;
+  }
+
+  .answer-body {
+    .answered-by {
+      font-size: 11px;
+    }
+  }
+}
+
+#footer {
+  padding: 10px 0;
+  background-color: #eee;
+}
+
+#response-fields {
+  .response-field {
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      .actions-wrapper {
+        display: block;
+      }
+    }
+
+    .actions-wrapper {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+
+  .sortable-placeholder {
+    border: 1px dashed #ccc;
+    margin-bottom: 18px;
+  }
+}
+
+.edit-response-field {
+  h5 {
+    border-top: 1px dotted #ccc;
+    padding-top: 10px;
+  }
+
+  .icon-arrow-right {
+    color: #444;
+  }
+}
+
+.required-asterisk {
+  color: red;
+}
+
+input[type=checkbox].inline {
+  margin: 0;
+}
+
+#bid-review-page {
+
+  #label-admin-wrapper {
+    display: none;
+  }
+
+  &.editing-labels {
+    #label-admin-wrapper {
+      display: block;
+    }
+
+    #label-filter-wrapper {
+      display: none;
+    }
+  }
+
+  #actions-wrapper {
+    display: inline-block;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+
+  .right-side-span {
+    position: relative;
+  }
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  .sort-wrapper {
+    position: absolute;
+    top: 13px;
+    right: 0;
+    font-size: 12px;
+  }
+
+  &.loading {
+    #actions-wrapper,
+    #pagination-wrapper,
+    #bids-table {
+      @include opacity(75);
+    }
+
+    #loading-indicator {
+      display: block;
+    }
+  }
+}
+
+.action-header {
+  hr {
+    margin: 10px 0 20px;
+    clear: both;
+  }
+}
+
+.readable-width {
+  max-width: 550px;
+}
+
+.readable-width-large {
+  max-width: 750px;
+}
+
+.comment {
+  .gravatar {
+    width: 20px;
+    height: 20px;
+    @include border-radius(10px);
+    margin: -2px 3px 0 0;
+    // @todo merge this style
+  }
+
+  .author {
+    padding-bottom: 13px;
+  }
+
+  .author-name {
+    font-weight: bold;
+  }
+
+  .posted-at {
+    color: #aaa;
+  }
+}
+
+#new-comment-form {
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    box-sizing: border-box;
+  }
+}
+
+#project-page {
+  .right-side-span {
+    position: relative;
+  }
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+
+  &.loading {
+    #projects-wrapper,
+    #pagination-wrapper,
+    #sort-wrapper {
+      @include opacity(75);
+    }
+
+    #loading-indicator {
+      display: block;
+    }
+  }
+
+
+}
+
+.project {
+  padding: 12px 0;
+  border-top: 1px dashed #ccc;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  .project-name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .project-department {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  .bottom-info {
+    font-size: 12px;
+    color: #aaa;
+
+    > span {
+      margin: 0 2px;
+    }
+  }
+
+}
+
+#comments-wrapper {
+  .comment {
+    margin: 20px 0;
+
+    .timestamp {
+      color: #aaa;
+      font-size: 12px;
+    }
+  }
+}
+
+.alert {
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.select2-container {
+    margin-bottom:9px;
+}
+
+.select2-container-multi .select2-choices {
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #CCCCCC;
+    color: #555555;
+    @include border-radius(3px);
+}
+
+.select2-container-multi.select2-dropdown-open .select2-choices {
+    @include border-radius(3px 3px 0 0);
+}
+
+#bids-table {
+  .controls-td {
+    input[type=checkbox] {
+      margin-right: 5px;
+    }
+  }
+
+  .total-stars {
+    cursor: pointer;
+    position: relative;
+
+    > i {
+      font-size: 24px;
+      width: 22px;
+      color: #aaa;
+    }
+
+    > span {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      text-align: center;
+      font-size: 11px;
+    }
+  }
+
+  .read-marker {
+    font-size: 10px;
+  }
+
+  .vendor-name {
+    font-weight: 400;
+  }
+
+  .bid-tr-unread {
+    .vendor-name {
+      font-weight: bold;
+    }
+  }
+}
+
+#labels-list {
+  .icon-remove-sign {
+    display: none;
+    color: #fff;
+    text-shadow: none;
+    margin-top: 2px;
+  }
+
+  li.active {
+    .icon-remove-sign {
+      display: block;
+    }
+  }
+}
+
+#labels-admin-list {
+  .click-to-edit {
+    display: none;
+    margin-left: 10px;
+    color: #aaa;
+  }
+
+  li:hover {
+    .click-to-edit {
+      display: inline;
+    }
+  }
+}
+
+.rectangular-color-swatch {
+  width: 8px;
+  @include border-radius(2px);
+  display: inline-block;
+}
+
+.color-swatches {
+  margin-left: 0;
+
+  .swatch {
+    float: left;
+    width: 12.5%;
+    margin: 0;
+    padding: 0;
+    height: 27px;
+    position: relative;
+    text-decoration: none;
+
+    &:first-child {
+      @include border-radius(2px 0 0 2px);
+    }
+
+    &:last-child {
+      @include border-radius(0 2px 2px 0);
+    }
+
+    &.selected {
+      > span {
+        display: inline;
+      }
+    }
+
+    > span {
+      color: #fff;
+      position: relative;
+      top: 4px;
+      left: 50%;
+      margin-left: -5px;
+      display: none;
+    }
+  }
+}
+
+.label-text-dark {
+  color: #555;
+  text-shadow: 0 -1px 0 #eee;
+}
+
+.label-text-light {
+  color: #eee;
+}
+
+
+#save-search-modal {
+  form {
+    margin: 0;
+  }
+}

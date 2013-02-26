@@ -1,0 +1,21 @@
+%td.controls-td
+  %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
+  %span.total-stars{"data-backbone-star" => "true"}
+    %i{"class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+    %span= @total_stars
+
+%td
+  %a.vendor-name{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.name
+
+  - for label in @labels
+    %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
+- for index, keyField of @pageOptions.attributes.keyFields
+  %td= @getValue(keyField.id)
+
+%td
+  - if @dismissed_at
+    %span.badge.badge-important Dismissed
+  - else if @awarded_at
+    %span.badge.badge-success Awarded
+  - else
+    %span.badge Open

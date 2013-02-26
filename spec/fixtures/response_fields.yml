@@ -1,0 +1,32 @@
+# == Schema Information
+#
+# Table name: response_fields
+#
+#  id            :integer          not null, primary key
+#  project_id    :integer
+#  label         :string(255)
+#  field_type    :string(255)
+#  field_options :text
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  sort_order    :integer          not null
+#  key_field     :boolean
+#
+
+one:
+  id: 1
+  project_id: 1
+  label: Name
+  field_type: text
+  sort_order: 0
+  key_field: true
+  field_options:
+    required: true
+
+two:
+  id: 2
+  project_id: 1
+  label: Essay
+  field_type: paragraph
+  sort_order: 1
+  key_field: false

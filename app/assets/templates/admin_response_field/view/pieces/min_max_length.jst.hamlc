@@ -1,0 +1,4 @@
+%span{"data-rv-show" => "model.field_options.minlength"}
+  min length: <span data-rv-text="model.field_options.minlength"></span>
+%span{"data-rv-show" => "model.field_options.maxlength"}
+  max length: <span data-rv-text="model.field_options.maxlength"></span>

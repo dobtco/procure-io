@@ -1,0 +1,3 @@
+%label.checkbox
+  key field?
+  %input{"type" => "checkbox", "data-rv-checked" => "model.key_field"}

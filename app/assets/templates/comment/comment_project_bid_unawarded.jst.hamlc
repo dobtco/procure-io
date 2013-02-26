@@ -1,0 +1,3 @@
+%span #{@officer.name} unawarded the bid from <a href="/projects/#{@commentable_id}/bids/#{@data.id}">#{@data.vendor.name}</a>.
+%span.badge.badge-info Unawarded
+%span.timestamp= @created_at

@@ -1,0 +1,19 @@
+.color-swatches
+  %a.swatch{"data-color" => "898989", "style" => "background-color: #898989;", "class" => "selected"}
+    %span ✓
+  %a.swatch{"data-color" => "E1D9D9", "style" => "background-color: #E1D9D9;"}
+    %span ✓
+  %a.swatch{"data-color" => "E7544D", "style" => "background-color: #E7544D;"}
+    %span ✓
+  %a.swatch{"data-color" => "E2EB4E", "style" => "background-color: #E2EB4E;"}
+    %span ✓
+  %a.swatch{"data-color" => "4FEB5A", "style" => "background-color: #4FEB5A;"}
+    %span ✓
+  %a.swatch{"data-color" => "4EDBE6", "style" => "background-color: #4EDBE6;"}
+    %span ✓
+  %a.swatch{"data-color" => "5F55EA", "style" => "background-color: #5F55EA;"}
+    %span ✓
+  %a.swatch{"data-color" => "E14ED6", "style" => "background-color: #E14ED6;"}
+    %span ✓
+
+  .clearfix &nbsp;

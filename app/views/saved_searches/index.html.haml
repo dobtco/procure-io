@@ -1,0 +1,21 @@
+!=page_header "Saved Searches"
+
+.alert.alert-info These are your saved searches. You'll receive daily emails with links to any new projects posted that match these parameters.
+
+%table.table
+  %thead
+    %tr
+      %th Parameters
+      %th Current Results
+      %th Actions
+  %tbody
+    - @saved_searches.each do |saved_search|
+      %tr
+        %td= saved_search.search_parameters
+        %td
+          %span.badge= saved_search.execute.count
+          %a{"href" => projects_path(saved_search.search_parameters)} View Results
+        %td
+          =link_to "Destroy", saved_search, class: "btn btn-danger", method: :delete
+
+= will_paginate @saved_searches, class: "pagination pagination-centered"

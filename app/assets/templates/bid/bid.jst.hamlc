@@ -1,0 +1,66 @@
+.action-header
+  %h4.pull-left Bid from #{@vendor.name}
+
+  .pull-right
+
+    .btn-group
+      %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
+        Label
+        %b.caret
+      %ul.dropdown-menu
+        - for label in @projectLabels
+          %li{"class" => if @existingLabels.indexOf(label.name) != -1 then "active"}
+            %a{"data-backbone-label" => label.name, "data-backbone-label-color" => label.color}
+              %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+              #{label.name}
+
+
+    %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
+      - if @dismissed_at
+        Undismiss
+      - else
+        Dismiss
+
+    %button.btn.btn-success{"data-backbone-award" => "true"}
+      - if @awarded_at
+        Unaward
+      - else
+        Award
+
+    &nbsp;
+    %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+    %span.total-stars= @total_stars
+
+
+  %hr
+
+.row-fluid
+  .span3.well
+    %p
+      - for label in @labels
+        %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
+
+      - if @dismissed_at
+        %span.badge.badge-important Dismissed
+      - else if @awarded_at
+        %span.badge.badge-success Awarded
+      - else
+        %span.badge.badge-info Open
+
+    %p
+      %span Submitted on #{@submitted_at}
+
+    %p
+      %a{"href" => "#comment-page"}
+        = @total_comments
+        = if @total_comments is 1 then "comment" else "comments"
+
+    %dl
+      %dt Contact Name
+      %dd= @vendor.name
+      %dt Email Address
+      %dd= @vendor.email
+
+  .span9
+    != JST['shared/_bid'](@)

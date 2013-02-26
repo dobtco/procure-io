@@ -1,0 +1,3 @@
+.subtemplate-wrapper.well{"data-backbone-cid" => @cid}
+.actions-wrapper
+  %button.btn.btn-mini.remove-field-button Remove Field

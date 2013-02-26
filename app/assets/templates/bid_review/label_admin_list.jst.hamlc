@@ -1,0 +1,5 @@
+%h5 Edit Labels
+
+%ul.nav.nav-pills.nav-stacked.filter-nav#labels-admin-list
+
+%a.smaller{"data-backbone-togglelabeladmin" => "true"} Done Editing Labels

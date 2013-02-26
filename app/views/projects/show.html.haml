@@ -1,0 +1,40 @@
+- if can? :update, @project
+  .alert.alert-success
+    You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
+
+!=page_header @project.title
+
+.row-fluid
+  .span7
+    %h4 Project Description
+    %p= simple_format @project.body
+
+  .span5
+    %h4 Bids due on #{@project.bids_due_at}
+    - if vendor_signed_in?
+      - if (bid = current_vendor.bid_for_project(@project))
+        - if bid.submitted_at
+          You submitted <a href="#{project_bid_path(@project, bid)}">your bid</a> on #{bid.submitted_at}.
+        - else
+          =link_to "Continue Writing Bid", new_project_bid_path(@project), class: "btn btn-inverse"
+      - else
+        =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
+    - elsif !officer_signed_in?
+      #{link_to "Sign in", new_vendor_session_path} to bid.
+
+    %h4 Questions
+    - if vendor_signed_in?
+      #ask-question.collapse
+        = form_for [@project, Question.new] do |f|
+          = f.text_area :body, cols: nil, rows: nil, class: "span8"
+          %br
+          = f.submit "Submit Question", class: "btn btn-inverse"
+      %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
+    - elsif officer_signed_in? && (can? :update, @project)
+      #{link_to "Click here", project_questions_path(@project)} to answer questions.
+    - elsif !officer_signed_in?
+      #{link_to "Sign in", new_vendor_session_path} to ask a question.
+
+    #questions-list
+      :javascript
+        new ProcureIo.Backbone.QuestionPage({bootstrapData: #{@questions_json}, projectId: #{@project.id}});

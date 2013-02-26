@@ -1,0 +1,20 @@
+Hey <%= @vendor.display_name %>,
+
+We found <%= pluralize(@count, 'new result') %> for your saved searches on Procure.io.
+
+<% @vendor.saved_searches.each do |saved_search| %>
+<%= raw saved_search.search_parameters %>
+--------------
+<% saved_search.execute_since_last_search.each do |project| %>
+Title: <%= project.title %>
+Link: <%= project_url(project.id) %>
+Abstract: <%= project.abstract %>
+
+<% end %>
+<% if saved_search.execute_since_last_search.count == 0 %>
+No new results.
+<% end %>
+
+<% end %>
+
+-- Procure.io

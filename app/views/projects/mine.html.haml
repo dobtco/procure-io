@@ -1,0 +1,19 @@
+!=page_header "My Projects"
+
+%a.btn.btn-small{"href" => new_project_path} New Project
+
+%table.table.table-boredered
+  %thead
+    %tr
+      %th Type
+      %th Project Title
+      %th Bids Due
+
+  %tbody
+    - @projects.each do |project|
+      %tr
+        %td type
+        %td= link_to project.title, edit_project_path(project)
+        %td= project.bids_due_at
+
+= will_paginate @projects, class: "pagination pagination-centered"

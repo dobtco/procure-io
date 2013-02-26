@@ -1,0 +1,3 @@
+%label.checkbox
+  required?
+  %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.required"}

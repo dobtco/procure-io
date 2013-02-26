@@ -1,0 +1,25 @@
+!!! 5
+
+%head
+  %title= full_title(yield(:title))
+  = stylesheet_link_tag "application", media: "all"
+  = javascript_include_tag "application"
+  :javascript
+    ProcureIo.CurrentOfficerId = #{current_officer ? current_officer.id : 'undefined'};
+    ProcureIo.CurrentVendorId = #{current_vendor ? current_vendor.id : 'undefined'};
+  = csrf_meta_tags
+  = render 'layouts/shim'
+
+%body{"data-controller" => params[:controller], "data-action" => params[:action], "data-officer-id" => current_officer ? current_officer.id : "", "data-vendor-id" => current_vendor ? current_vendor.id : ""}
+  = render 'layouts/navbar'
+
+  .outer-container
+    .container
+      = yield
+
+  %footer#footer
+    .container
+      Procure.io!
+
+      - unless signed_in?
+        %a.pull-right{"href" => new_officer_session_path} Officer Login

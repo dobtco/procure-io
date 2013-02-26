@@ -1,0 +1,18 @@
+!=page_header @project.title
+
+= render "projects/officer_nav"
+
+%table.table.table-nonfluid
+  %thead
+    %tr
+      %th Created at
+      %th Vendor
+      %th Body
+      %th Answer
+      %th Actions
+
+  %tbody#questions-tbody
+    :javascript
+      new ProcureIo.Backbone.AdminQuestionPage({bootstrapData: #{@questions_json}, projectId: #{@project.id}});
+
+= will_paginate @questions, class: "pagination pagination-centered"

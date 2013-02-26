@@ -1,0 +1,5 @@
+%label min length
+%input{"type" => "text", "data-rv-value" => "model.field_options.minlength"}
+
+%label max length
+%input{"type" => "text", "data-rv-value" => "model.field_options.maxlength"}

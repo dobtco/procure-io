@@ -1,0 +1,24 @@
+# == Schema Information
+#
+# Table name: bid_responses
+#
+#  id                :integer          not null, primary key
+#  bid_id            :integer
+#  response_field_id :integer
+#  value             :text
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#
+
+one:
+  id: 1
+  bid_id: 1
+  response_field_id: 2
+  value: Bananas!
+
+two:
+  id: 2
+  bid_id: 1
+  response_field_id: 1
+  value: Melons!
+

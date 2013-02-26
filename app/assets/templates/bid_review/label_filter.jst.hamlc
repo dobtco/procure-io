@@ -1,0 +1,16 @@
+%h5 Labels
+
+%ul.nav.nav-pills.nav-stacked.filter-nav#labels-list
+
+%form#new-label-form
+  %input.hidden-color-input{"type" => "hidden", "name" => "label[color]", "value" => "#898989"}
+  %input{"type" => "text", "name" => "label[name]", "placeholder" => "New label name"}
+  .color-wrapper.hide
+    != JST['bid_review/_color_swatches']()
+
+    %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"} Custom Color
+    %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
+
+  %button.btn.btn-inverse Create Label
+
+%a.smaller{"data-backbone-togglelabeladmin" => "true"} Edit Labels

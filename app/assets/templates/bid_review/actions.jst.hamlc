@@ -1,0 +1,24 @@
+- unless @filterOptions.f2 is "awarded"
+  %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+    - if @filterOptions.f2 is "dismissed"
+      Undismiss
+    - else
+      Dismiss
+
+- unless @filterOptions.f2 is "dismissed"
+  %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
+    - if @filterOptions.f2 is "awarded"
+      Unaward
+    - else
+      Award
+
+.btn-group
+  %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
+    Label
+    %b.caret
+  %ul.dropdown-menu
+    - @labels.each (label) ->
+      %li
+        %a{"data-backbone-label" => label.get('name')}
+          %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+          #{label.get('name')}

@@ -1,0 +1,24 @@
+= form_tag project_bids_path, method: :post, id: "new-bid-form", class: "new-bid-form", :"data-validate" => "parsley" do
+  %input{"type" => "hidden", "name" => "draft_only"}
+
+  / We need to display server-side validations for users without js.
+  / Besides, we're already writing the server-side validations for security purposes anyway.
+  %noscript
+    - if @bid.id && @bid.bid_errors && !@bid.bid_errors.empty?
+      .alert.alert-danger
+        %ul
+          - @bid.bid_errors.each do |e|
+            %li= e
+
+  - @project.response_fields.each do |response_field|
+    .response-field-wrapper
+      = render "bids/fields/#{response_field.field_type.downcase}", response_field: response_field, |
+        value: (r = @bid.bid_responses.where(response_field_id: response_field.id).first) ? r.value : ''
+
+  .form-actions
+    %button.btn.btn-inverse Submit Bid
+    %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"} Save Draft
+
+- if @bid.id
+  :javascript
+    $("#new-bid-form").parsley('validate')

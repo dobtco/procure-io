@@ -1,0 +1,12 @@
+%label
+  =response_field.label
+  - if response_field.field_options["required"]
+    %span.required-asterisk *
+
+%input{"type" => "text", "name" => "response_fields[#{response_field.id}]", "value" => value, |
+       "data-required" => response_field.field_options["required"] ? true : false, |
+       "data-minlength" => !response_field.field_options["minlength"].blank? ? response_field.field_options["minlength"] : false, |
+       "data-maxlength" => !response_field.field_options["maxlength"].blank? ? response_field.field_options["maxlength"] : false }
+
+%span.help-block= response_field.field_options["description"]
+

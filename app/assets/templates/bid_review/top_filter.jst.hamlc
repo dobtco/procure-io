@@ -1,0 +1,16 @@
+%ul.nav.nav-tabs
+  %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"} Open Bids
+  %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"} Dismissed Bids
+  %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"} Awarded Bids
+
+.sort-wrapper
+  - for sortOption in @sortOptions
+    %a{"href" => @filteredHref({sort: sortOption.key, direction: (if @filterOptions.sort is sortOption.key and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != sortOption.key then false else @filterOptions.page)})}= sortOption.label
+    - if @filterOptions.sort is sortOption.key
+      - if @filterOptions.direction is "asc"
+        %i.icon-chevron-up
+      - else
+        %i.icon-chevron-down

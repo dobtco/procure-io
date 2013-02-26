@@ -1,0 +1,11 @@
+!=page_header @project.title
+
+= render "projects/officer_nav"
+
+#bid-page
+  :javascript
+    new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
+
+#comment-page
+  :javascript
+    new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});

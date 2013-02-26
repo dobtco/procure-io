@@ -1,0 +1,4 @@
+!= JST['admin_response_field/edit/pieces/label']()
+!= JST['admin_response_field/edit/pieces/required']()
+!= JST['admin_response_field/edit/pieces/key_field']()
+!= JST['admin_response_field/edit/pieces/description']()

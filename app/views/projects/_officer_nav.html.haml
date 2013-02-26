@@ -1,0 +1,27 @@
+%ul.nav.nav-tabs
+  - if @project.posted?
+    %li{"class" => params[:controller] == "bids" ? "active" : ""}
+      %a{"href" => project_bids_path(@project)}
+        Review Bids
+        - if @project.unread_bids_for_officer(current_officer).count > 0
+          <span class="badge badge-info">#{@project.unread_bids_for_officer(current_officer).count}</span>
+
+    %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
+      %a{"href" => project_questions_path(@project)}
+        Answer Questions
+        - if @project.unanswered_questions.count > 0
+          <span class="badge badge-info">#{@project.unanswered_questions.count}</span>
+
+  %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
+    =link_to "Edit Project", edit_project_path(@project)
+  %li{"class" => params[:controller] == "response_fields" && params[:action] == "index" ? "active" : ""}
+    =link_to "Response Fields", project_response_fields_path(@project)
+  %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
+    =link_to "Comments", comments_project_path(@project)
+  %li{"class" => params[:controller] == "collaborators" && params[:action] == "index" ? "active" : ""}
+    =link_to "Collaborators", project_collaborators_path(@project)
+
+  %li.pull-right
+    %a{"href" => project_path(@project)}
+      View Project
+      %i.icon-share-alt

@@ -1,0 +1,31 @@
+.row-fluid
+  .span3
+    #sidebar-filter-wrapper
+
+    #label-filter-wrapper
+
+    #label-admin-wrapper
+
+  .span9.right-side-span
+    / %p No active filters.
+
+    #loading-indicator
+      %i.icon-refresh.icon-spin
+      Loading...
+
+    #top-filter-wrapper
+
+    #actions-wrapper
+
+    #pagination-wrapper.pull-right
+
+    %table.table#bids-table
+      %thead
+        %tr
+          %th{"style" => "width: 50px;"} &nbsp;
+          %th Vendor Name
+          - for index, keyField of @keyFields
+            %th= keyField.label
+          %th Status
+
+      %tbody#bids-tbody

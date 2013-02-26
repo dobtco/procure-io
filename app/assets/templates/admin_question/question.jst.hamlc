@@ -1,0 +1,7 @@
+%td= @created_at
+%td= @vendor.name
+%td= @body
+%td
+  %textarea= @answer_body || ''
+%td
+  %button.btn.btn-inverse{"data-backbone-save" => "true", "data-loading-text" => "Saving..."} Save

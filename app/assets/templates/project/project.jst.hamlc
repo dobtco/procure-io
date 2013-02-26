@@ -1,0 +1,22 @@
+%div
+  %span.project-name
+    %a{"href" => "/projects/#{@id}"}= @title
+  %span.project-department Office of Cultural Affairs
+
+.project-abtract= @abstract
+
+.bottom-info
+  %span.project-tags
+    Categories:
+    - for tag, i in @tags
+      <a href="#{@filteredHref({category: tag.name, page: false})}" data-backbone-updatefilter="true">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
+
+  &middot;
+
+  %span.project-bids-due-at
+    Bids due on #{@bids_due_at}
+
+  &middot;
+
+  %span.posted-at
+    Posted on #{@posted_at}

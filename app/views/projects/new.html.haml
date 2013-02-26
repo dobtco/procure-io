@@ -1,0 +1,10 @@
+!=page_header "New Project"
+
+%p First, tell us some basic info about your project.
+
+= form_for @project do |f|
+  = f.label :title
+  = f.text_field :title
+
+  .form-actions
+    = f.submit "Next →", class: "btn btn-inverse"
