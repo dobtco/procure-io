@@ -78,7 +78,7 @@ describe "Bid" do
 
     describe "index page" do
       before do
-        15.times { FactoryGirl.create(:bid, project: projects(:one)) }
+        15.times { FactoryGirl.create(:bid, project: projects(:one), submitted_at: Time.now) }
         visit project_bids_path(projects(:one))
       end
 
@@ -91,8 +91,8 @@ describe "Bid" do
         before { visit project_bids_path(projects(:one)) }
 
         it "should order from newest to oldest by default" do
-          page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
-          page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
+          page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).submitted_bids.last)+'"]')
+          page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).submitted_bids.first)+'"]')
         end
 
         it "should reverse the order when clicking the same order link" do
