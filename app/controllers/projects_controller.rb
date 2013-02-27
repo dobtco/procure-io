@@ -111,8 +111,9 @@ class ProjectsController < ApplicationController
       ether = EtherpadLite.connect(ENV['ETHERPAD_HOST'], ENV['ETHERPAD_API_KEY'])
       @group = ether.group("project_group_#{@project.id}")
       @pad = @group.pad('pad') # pad is named 'pad'
-    rescue
+    rescue Exception => e
       # @todo send an alert somewhere?
+      Rails.logger.error e
       return false
     end
 
