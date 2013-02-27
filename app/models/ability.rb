@@ -32,7 +32,7 @@ class Ability
     if user.class.name == "Vendor"
 
     elsif user.class.name == "Officer"
-      can :update, Project do |project|
+      can :collaborate_on, Project do |project|
         project.collaborators.where(officer_id: user.id).first
       end
 

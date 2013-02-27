@@ -2,12 +2,10 @@ class BidsController < ApplicationController
   before_filter :project_exists?
   before_filter :bid_exists?, only: [:show, :update, :reviews]
   before_filter :authenticate_vendor!, only: [:new, :create]
-  before_filter :authenticate_officer!, only: [:index, :reviews]
+  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews]
   before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
   def index
-    authorize! :update, @project
-
     respond_to do |format|
       format.html {}
 
@@ -108,7 +106,7 @@ class BidsController < ApplicationController
   def update
     if current_vendor && @bid.vendor == current_vendor
       # vendor is updating bid?
-    elsif current_officer && (can? :update, @project)
+    elsif current_officer && (can? :collaborate_on, @project)
       # officer is reviewing bid
       review = @bid.bid_review_for_officer(current_officer)
       review.assign_attributes my_bid_review_params
@@ -187,7 +185,7 @@ class BidsController < ApplicationController
   def show
     if current_vendor && @bid.vendor == current_vendor
       render "bids/show_vendor"
-    elsif current_officer && (can? :update, @project)
+    elsif current_officer && (can? :collaborate_on, @project)
       return not_found if !@bid.submitted_at
 
       if !(review = @bid.bid_review_for_officer(current_officer)).read
@@ -203,7 +201,6 @@ class BidsController < ApplicationController
   end
 
   def reviews
-    authorize! :update, @project
     @reviews = @bid.bid_reviews.where(starred: true)
 
     respond_to do |format|
@@ -232,5 +229,10 @@ class BidsController < ApplicationController
 
   def my_bid_review_params
     params.require(:my_bid_review).permit(:starred, :read)
+  end
+
+  def authenticate_and_authorize_officer!
+    authenticate_officer!
+    authorize! :collaborate_on, @project
   end
 end

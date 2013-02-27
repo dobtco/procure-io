@@ -33,6 +33,6 @@ class CollaboratorsController < ApplicationController
   private
   def project_exists?
     @project = Project.find(params[:project_id])
-    authorize! :update, @project # only collaborators on this project can view these pages
+    authorize! :collaborate_on, @project
   end
 end

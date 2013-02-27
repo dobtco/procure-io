@@ -2,7 +2,7 @@ class QuestionsController < ApplicationController
   before_filter :project_exists?
   before_filter :question_exists?, only: [:update]
   before_filter :authenticate_vendor!, only: [:create]
-  before_filter :authenticate_officer!, only: [:index, :update]
+  before_filter :authenticate_and_authorize_officer!, only: [:index, :update]
 
   def create
     question = @project.questions.build(body: params[:body])
@@ -14,14 +14,12 @@ class QuestionsController < ApplicationController
   end
 
   def index
-    authorize! :update, @project # only collaborators can answer questions
     @questions = @project.questions.paginate(page: params[:page])
     @questions_json = ActiveModel::ArraySerializer.new(@questions,
                                                        each_serializer: OfficerQuestionSerializer).to_json
   end
 
   def update
-    authorize! :update, @project # only collaborators can answer questions
     @question.assign_attributes(answer_body: params[:answer_body])
 
     if params[:answer_body]
@@ -46,5 +44,10 @@ class QuestionsController < ApplicationController
   def question_exists?
     @question = @project.questions.find(params[:id])
     # todo can? read project (for when its not yet posted)
+  end
+
+  def authenticate_and_authorize_officer!
+    authenticate_officer!
+    authorize! :collaborate_on, @project
   end
 end

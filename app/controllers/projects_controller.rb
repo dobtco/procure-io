@@ -67,12 +67,12 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    authorize! :update, @project
+    authorize! :collaborate_on, @project
     get_pad(@project)
   end
 
   def update
-    authorize! :update, @project
+    authorize! :collaborate_on, @project
     @project.update_attributes(project_params)
 
     if params[:project][:posted_at] == "1" && !@project.posted?

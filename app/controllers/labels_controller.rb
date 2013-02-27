@@ -29,7 +29,7 @@ class LabelsController < ApplicationController
   private
   def project_exists?
     @project = Project.find(params[:project_id])
-    authorize! :update, @project
+    authorize! :collaborate_on, @project
   end
 
   def label_exists?
