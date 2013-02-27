@@ -29,9 +29,10 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
-    if user.class.name == "Vendor"
+    case user.class.name
+    when "Vendor"
 
-    elsif user.class.name == "Officer"
+    when "Officer"
       can :collaborate_on, Project do |project|
         project.collaborators.where(officer_id: user.id).first
       end
@@ -39,9 +40,6 @@ class Ability
       can :destroy, Project do |project|
         project.collaborators.where(officer_id: user.id, owner: true).first
       end
-
-    else # not logged in
-
     end
   end
 end
