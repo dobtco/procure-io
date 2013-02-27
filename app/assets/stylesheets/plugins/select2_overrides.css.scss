@@ -1,0 +1,18 @@
+@import "bootstrap/mixins";
+
+.select2-container {
+    margin-bottom:9px;
+}
+
+.select2-container-multi .select2-choices {
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid #CCCCCC;
+    color: #555555;
+    @include border-radius(3px);
+}
+
+.select2-container-multi.select2-dropdown-open .select2-choices {
+    @include border-radius(3px 3px 0 0);
+}

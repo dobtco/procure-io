@@ -1,0 +1,41 @@
+@import "bootstrap/mixins";
+
+#comments-wrapper {
+  .comment {
+    margin: 20px 0;
+
+    .timestamp {
+      color: #aaa;
+      font-size: 12px;
+    }
+  }
+}
+
+.comment {
+  .gravatar {
+    width: 20px;
+    height: 20px;
+    @include border-radius(10px);
+    margin: -2px 3px 0 0;
+  }
+
+  .author {
+    padding-bottom: 13px;
+  }
+
+  .author-name {
+    font-weight: bold;
+  }
+
+  .posted-at {
+    color: #aaa;
+  }
+}
+
+#new-comment-form {
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    box-sizing: border-box;
+  }
+}

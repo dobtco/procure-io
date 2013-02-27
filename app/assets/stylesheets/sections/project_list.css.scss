@@ -1,0 +1,65 @@
+@import "bootstrap/mixins";
+
+#project-page {
+  .right-side-span {
+    position: relative;
+  }
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+
+  &.loading {
+    #projects-wrapper,
+    #pagination-wrapper,
+    #sort-wrapper {
+      @include opacity(75);
+    }
+
+    #loading-indicator {
+      display: block;
+    }
+  }
+}
+
+.project {
+  padding: 12px 0;
+  border-top: 1px dashed #ccc;
+
+  &:first-child {
+    border-top: 0;
+  }
+
+  .project-name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .project-department {
+    font-size: 12px;
+    color: #aaa;
+  }
+
+  .bottom-info {
+    font-size: 12px;
+    color: #aaa;
+
+    > span {
+      margin: 0 2px;
+    }
+  }
+}

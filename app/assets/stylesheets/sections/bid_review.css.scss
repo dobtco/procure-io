@@ -1,0 +1,133 @@
+@import "bootstrap/mixins";
+
+#bid-review-page {
+
+  #label-admin-wrapper {
+    display: none;
+  }
+
+  &.editing-labels {
+    #label-admin-wrapper {
+      display: block;
+    }
+
+    #label-filter-wrapper {
+      display: none;
+    }
+  }
+
+  #actions-wrapper {
+    display: inline-block;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+
+  .right-side-span {
+    position: relative;
+  }
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  .sort-wrapper {
+    position: absolute;
+    top: 13px;
+    right: 0;
+    font-size: 12px;
+  }
+
+  &.loading {
+    #actions-wrapper,
+    #pagination-wrapper,
+    #bids-table {
+      @include opacity(75);
+    }
+
+    #loading-indicator {
+      display: block;
+    }
+  }
+}
+
+#bids-table {
+  .controls-td {
+    input[type=checkbox] {
+      margin-right: 5px;
+    }
+  }
+
+  .total-stars {
+    cursor: pointer;
+    position: relative;
+
+    > i {
+      font-size: 24px;
+      width: 22px;
+      color: #aaa;
+    }
+
+    > span {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      text-align: center;
+      font-size: 11px;
+    }
+  }
+
+  .read-marker {
+    font-size: 10px;
+  }
+
+  .vendor-name {
+    font-weight: 400;
+  }
+
+  .bid-tr-unread {
+    .vendor-name {
+      font-weight: bold;
+    }
+  }
+}
+
+#labels-list {
+  .icon-remove-sign {
+    display: none;
+    color: #fff;
+    text-shadow: none;
+    margin-top: 2px;
+  }
+
+  li.active {
+    .icon-remove-sign {
+      display: block;
+    }
+  }
+}
+
+#labels-admin-list {
+  .click-to-edit {
+    display: none;
+    margin-left: 10px;
+    color: #aaa;
+  }
+
+  li:hover {
+    .click-to-edit {
+      display: inline;
+    }
+  }
+}

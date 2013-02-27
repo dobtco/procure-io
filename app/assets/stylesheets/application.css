@@ -10,7 +10,12 @@
  *
  *= require_self
  *= require _font-awesome
- *= require bootstrap-switch
+ *= require plugins/bootstrap-switch
  *= require select2
  *= require_tree .
+ *= require_tree ./components
+ *= require_tree ./globals
+ *= require_tree ./plugins
+ *= require_tree ./sections
+ *= require_tree ./shared
  */

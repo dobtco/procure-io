@@ -1,0 +1,39 @@
+#response-fields {
+  .response-field {
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      .actions-wrapper {
+        display: block;
+      }
+    }
+
+    .actions-wrapper {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+
+  .sortable-placeholder {
+    border: 1px dashed #ccc;
+    margin-bottom: 18px;
+  }
+}
+
+.edit-response-field {
+  h5 {
+    border-top: 1px dotted #ccc;
+    padding-top: 10px;
+  }
+
+  .icon-arrow-right {
+    color: #444;
+  }
+}
+
+.required-asterisk {
+  color: red;
+}

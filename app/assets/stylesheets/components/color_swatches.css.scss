@@ -1,0 +1,44 @@
+@import "bootstrap/mixins";
+
+.rectangular-color-swatch {
+  width: 8px;
+  @include border-radius(2px);
+  display: inline-block;
+}
+
+.color-swatches {
+  margin-left: 0;
+
+  .swatch {
+    float: left;
+    width: 12.5%;
+    margin: 0;
+    padding: 0;
+    height: 27px;
+    position: relative;
+    text-decoration: none;
+
+    &:first-child {
+      @include border-radius(2px 0 0 2px);
+    }
+
+    &:last-child {
+      @include border-radius(0 2px 2px 0);
+    }
+
+    &.selected {
+      > span {
+        display: inline;
+      }
+    }
+
+    > span {
+      color: #fff;
+      position: relative;
+      top: 4px;
+      left: 50%;
+      margin-left: -5px;
+      display: none;
+    }
+  }
+}
