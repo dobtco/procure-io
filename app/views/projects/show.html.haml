@@ -1,4 +1,4 @@
-- if can? :update, @project
+- if can? :collaborate_on, @project
   .alert.alert-success
     You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
 
@@ -30,7 +30,7 @@
           %br
           = f.submit "Submit Question", class: "btn btn-inverse"
       %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
-    - elsif officer_signed_in? && (can? :update, @project)
+    - elsif officer_signed_in? && (can? :collaborate_on, @project)
       #{link_to "Click here", project_questions_path(@project)} to answer questions.
     - elsif !officer_signed_in?
       #{link_to "Sign in", new_vendor_session_path} to ask a question.
