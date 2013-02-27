@@ -65,8 +65,6 @@ describe "Bid" do
 
       it "should submit bids" do
         click_button "Submit Bid"
-        page.should have_selector('a', 'your bid')
-        click_link 'your bid'
         page.should have_selector('dd', 'Yo')
         page.should have_selector('dd', 'This is my essay.')
       end
