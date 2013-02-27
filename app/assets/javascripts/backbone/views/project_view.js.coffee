@@ -14,11 +14,12 @@ ProcureIo.Backbone.ProjectSortView = Backbone.View.extend
 
   initialize: ->
     @filteredHref = @options.filteredHref
+    @sortOptions = [{key: "postedAt", label: "Posted At"},{key: "bidsDue", label: "Bids Due"}]
     @render()
     ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
 
   render: ->
-    @$el.html JST['project/sort']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
+    @$el.html JST['shared/sorters']({sortOptions: @sortOptions, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
 
 
 ProcureIo.Backbone.PaginationView = Backbone.View.extend
