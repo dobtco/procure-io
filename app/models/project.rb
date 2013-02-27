@@ -21,10 +21,10 @@ class Project < ActiveRecord::Base
   has_many :collaborators, order: 'created_at'
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
-  has_many :questions
-  has_many :response_fields
-  has_many :comments, as: :commentable
-  has_many :labels
+  has_many :questions, dependent: :destroy
+  has_many :response_fields, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :labels, dependent: :destroy
 
   belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id"
 

@@ -24,8 +24,8 @@ class Bid < ActiveRecord::Base
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
   has_many :bid_responses, dependent: :destroy
-  has_many :bid_reviews
-  has_many :comments, as: :commentable
+  has_many :bid_reviews, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
 
   has_one :my_bid_review, class_name: "BidReview"
 

@@ -17,7 +17,7 @@ class ResponseField < ActiveRecord::Base
   default_scope order('sort_order')
 
   belongs_to :project
-  has_many :bid_responses
+  has_many :bid_responses, dependent: :destroy
 
   serialize :field_options, Hash
 end

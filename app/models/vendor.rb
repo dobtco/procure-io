@@ -27,9 +27,9 @@ class Vendor < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :bids
+  has_many :bids, dependent: :destroy
   has_many :questions
-  has_many :saved_searches
+  has_many :saved_searches, dependent: :destroy
 
   def bid_for_project(project)
     bids.where(project_id: project.id).first
