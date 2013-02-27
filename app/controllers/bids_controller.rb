@@ -1,9 +1,8 @@
 class BidsController < ApplicationController
   before_filter :project_exists?
   before_filter :bid_exists?, only: [:show, :update, :reviews]
-  before_filter :authenticate_vendor!, only: [:new, :create]
+  before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
   before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews]
-  before_filter :vendor_has_not_yet_submitted_bid, only: [:new, :create]
 
   def index
     respond_to do |format|
@@ -65,12 +64,10 @@ class BidsController < ApplicationController
   end
 
   def new
-    # @todo can? :create @bid
     @bid = current_vendor.bids.where(project_id: @project.id).first || @project.bids.build
   end
 
   def create
-    # handle creation and submission?
     @bid = current_vendor.bids.where(project_id: @project.id).first_or_create
 
     bid_errors = []
@@ -98,6 +95,7 @@ class BidsController < ApplicationController
     if params[:draft_only] != 'true' && @bid.valid_bid?
       @bid.submit
       @bid.save
+      return redirect_to project_bid_path(@project, @bid)
     end
 
     redirect_to new_project_bid_path
@@ -147,8 +145,7 @@ class BidsController < ApplicationController
   end
 
   def batch
-    # @todo security
-    @bids = Bid.find(params[:ids])
+    @bids = @project.bids.find(params[:ids])
 
     case params[:bid_action]
     when "dismiss"
@@ -217,12 +214,6 @@ class BidsController < ApplicationController
     @bid = @project.bids.find(params[:id])
   end
 
-  def vendor_has_not_yet_submitted_bid
-    if current_vendor.submitted_bid_for_project(@project)
-      redirect_to @project
-    end
-  end
-
   def bid_params
 
   end
@@ -234,5 +225,10 @@ class BidsController < ApplicationController
   def authenticate_and_authorize_officer!
     authenticate_officer!
     authorize! :collaborate_on, @project
+  end
+
+  def authenticate_and_authorize_vendor!
+    authenticate_vendor!
+    authorize! :create, @project.bids.build
   end
 end

@@ -28,10 +28,11 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
-
     case user.class.name
     when "Vendor"
-
+      can :create, Bid do |bid|
+        bid.project.bids_due_at > Time.now && !user.submitted_bid_for_project(bid.project)
+      end
     when "Officer"
       can :collaborate_on, Project do |project|
         project.collaborators.where(officer_id: user.id).first
