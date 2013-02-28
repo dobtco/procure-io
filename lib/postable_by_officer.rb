@@ -1,13 +1,11 @@
 module PostableByOfficer
   def self.included(base)
     base.belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id", class_name: "Officer"
+    base.scope :posted, base.where("posted_at IS NOT NULL")
     base.extend(ClassMethods)
   end
 
   module ClassMethods
-    def posted
-      where("posted_at IS NOT NULL")
-    end
   end
 
   def posted?
