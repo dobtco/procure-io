@@ -120,7 +120,6 @@ class ProjectsController < ApplicationController
     if project_to_sync && project_to_sync.has_unsynced_body_changes
       @pad.html = "<div>"+project_to_sync.body+"</div>"
       project_to_sync.update_attributes(has_unsynced_body_changes: false)
-      logger.info "SYNCED BOY"
     end
 
     author = ether.author("officer_#{current_officer.id}", name: current_officer.display_name)
