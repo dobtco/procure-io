@@ -10,7 +10,7 @@ ProcureIo.Backbone.CommentView = Backbone.View.extend
     @model.bind "destroy", @remove, @
 
   render: ->
-    @$el.html JST['comment/comment'](_.extend(@model.toJSON(), {currentOfficerId: $("body").data("officer-id")}))
+    @$el.html JST['comment/comment'](_.extend(@model.toJSON(), {currentOfficerId: ProcureIo.CurrentOfficerId}))
     @
 
   clear: ->

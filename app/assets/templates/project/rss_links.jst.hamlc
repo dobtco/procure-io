@@ -1,10 +1,10 @@
 %p
   %a{"href" => @filteredHref({page: false, sort: false, direction: false}, 'rss')} RSS feed for this search
 
-- if $("body").data('vendor-id')
+- if ProcureIo.CurrentVendorId
   %p
     %button.btn.btn-primary#save-search-button{"data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"} Save Search
 
-- if !$("body").data('vendor-id') && !$("body").data('officer-id')
+- if !ProcureIo.CurrentVendorId && !ProcureIo.CurrentOfficerId
   %p
     <a href="/vendors/sign_in">Sign in</a> to save this search.
