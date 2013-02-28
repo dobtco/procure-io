@@ -412,7 +412,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @$el.toggleClass 'editing-labels'
 
   sendBatchAction: (action, ids, options = {}) ->
-    # @todo start loading spinner here
+    $("#bid-review-page").addClass 'loading'
+
     $.ajax
       url: "#{ProcureIo.Backbone.Bids.baseUrl}/batch"
       type: "PUT"
