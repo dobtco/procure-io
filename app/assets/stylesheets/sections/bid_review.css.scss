@@ -77,11 +77,13 @@
       font-size: 24px;
       width: 22px;
       color: #aaa;
+      position: absolute;
+      top: -5px;
     }
 
     > span {
       position: absolute;
-      width: 100%;
+      width: 22px;
       left: 0;
       text-align: center;
       font-size: 11px;
