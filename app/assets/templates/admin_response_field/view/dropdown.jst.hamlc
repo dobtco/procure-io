@@ -1,0 +1,9 @@
+%label
+  != JST['admin_response_field/view/pieces/label']()
+  != JST['admin_response_field/view/pieces/required']()
+
+%select
+  - for option in @field_options.options
+    %option{"selected" => option.checked}= option.label
+
+!= JST['admin_response_field/view/pieces/description']()

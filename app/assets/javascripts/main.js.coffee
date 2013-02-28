@@ -31,7 +31,7 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
     draft_saved = true
     save_draft_button.button('loading')
 
-  $("#new-bid-form :input").on "input", handleFormUpdate
+  $("#new-bid-form :input").on "input change", handleFormUpdate
   $("#save-draft-button").on "click", saveBidDraft
 
   setInterval saveBidDraft, 5000

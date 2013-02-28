@@ -11,6 +11,7 @@
         %a.btn.btn-small{"data-backbone-add-field" => "text"} Text
         %a.btn.btn-small{"data-backbone-add-field" => "paragraph"} Paragraph
         %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"} Checkboxes
+        %a.btn.btn-small{"data-backbone-add-field" => "dropdown"} Dropdown
 
       .tab-pane#editField
         #edit-response-field-wrapper

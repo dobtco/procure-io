@@ -29,6 +29,9 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
 ProcureIo.Backbone.CheckboxesResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: 'admin_response_field/view/checkboxes'
 
+ProcureIo.Backbone.DropdownResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
+  subTemplate: 'admin_response_field/view/dropdown'
+
 ProcureIo.Backbone.TextResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: 'admin_response_field/view/text'
 
@@ -87,6 +90,18 @@ ProcureIo.Backbone.EditCheckboxesResponseFieldView = ProcureIo.Backbone.AdminEdi
   forceRender: ->
     @model.trigger 'change'
 
+ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckboxesResponseFieldView.extend
+  subTemplate: 'admin_response_field/edit/dropdown'
+
+  initialize: ->
+    ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
+    @events = _.extend @events,
+      "click [data-rv-checked]": "defaultUpdated"
+
+  defaultUpdated: (e) ->
+    @$el.find(".dropdown-options-table [data-rv-checked]").not($(e.target)).attr('checked', false).trigger('change')
+    @forceRender()
+
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
   el: "#admin-response-field-page"
 
@@ -135,7 +150,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
       field_options: {}
 
-    if attrs.field_type is "checkboxes"
+    if attrs.field_type is "checkboxes" or attrs.field_type is "dropdown"
       attrs.field_options.options = [
         label: "",
         checked: false
