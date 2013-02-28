@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228191259) do
+ActiveRecord::Schema.define(:version => 20130228222935) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20130228191259) do
     t.integer  "posted_by_officer_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.text     "title"
   end
 
   create_table "bid_responses", :force => true do |t|

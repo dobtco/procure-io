@@ -7,4 +7,4 @@
 %ul
   - @project.amendments.each do |amendment|
     %li
-      %a{"href" => project_amendment_path(@project, amendment)}= amendment.id
+      %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
