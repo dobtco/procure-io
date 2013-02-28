@@ -7,7 +7,20 @@
 .row-fluid
   .span7
     %h4 Project Description
+
+    - if @project.amendments.any?
+      .alert.alert-info Be sure to read the <a href="#amendments">#{pluralize(@project.amendments.length, 'amendment')}</a> in addition to this description.
+
     %p= simple_format @project.body
+
+    - if @project.amendments.any?
+      #amendments
+        %h4 Amendments
+        - @project.amendments.each do |amendment|
+          %h5
+            = amendment.title
+            %small Posted on #{amendment.posted_at}
+          %p= simple_format amendment.body
 
   .span5
     %h4 Bids due on #{@project.bids_due_at}
