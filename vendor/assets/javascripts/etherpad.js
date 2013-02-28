@@ -1,8 +1,15 @@
 (function( $ ){
 
   $.fn.pad = function( options ) {
+
+    if (ProcureIo.env == 'development') {
+      var host = 'http://etherpad.procure-io.dev:9001';
+    } else if (ProcureIo.env == 'staging' || ProcureIo.env == 'production') {
+      var host = 'http://etherpad-staging.procure.io:9001';
+    }
+
     var settings = {
-      'host'              : 'http://etherpad.procure-io.dev:9001',
+      'host'              : host,
       'baseUrl'           : '/p/',
       'showControls'      : true,
       'showChat'          : false,
