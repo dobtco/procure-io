@@ -3,6 +3,8 @@
   != JST['admin_response_field/view/pieces/required']()
 
 %select
+  - if @field_options.include_blank_option
+    %option{"value" => ""}
   - for option in @field_options.options
     %option{"selected" => option.checked}= option.label
 

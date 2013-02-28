@@ -96,10 +96,10 @@ ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckb
   initialize: ->
     ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
     @events = _.extend @events,
-      "click [data-rv-checked]": "defaultUpdated"
+      "click [data-backbone-defaultoption]": "defaultUpdated"
 
   defaultUpdated: (e) ->
-    @$el.find(".dropdown-options-table [data-rv-checked]").not($(e.target)).attr('checked', false).trigger('change')
+    @$el.find(".dropdown-options-table [data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
     @forceRender()
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
@@ -158,6 +158,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
         label: "",
         checked: false
       ]
+
+    if attrs.field_type is "dropdown"
+      attrs.field_options.include_blank_option = false
 
     ProcureIo.Backbone.ResponseFields.create attrs
 

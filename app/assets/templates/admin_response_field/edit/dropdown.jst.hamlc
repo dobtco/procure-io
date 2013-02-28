@@ -1,5 +1,9 @@
 != JST['admin_response_field/edit/groups/common']()
 
+%label.checkbox
+  %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.include_blank_option"}
+  Include blank option
+
 %table.table.dropdown-options-table
   %thead
     %tr
@@ -9,7 +13,7 @@
   %tbody
     %tr{"data-rv-each-option" => "model.field_options.options"}
       %td
-        %input{"type" => "checkbox", "data-rv-checked" => "option:checked"}
+        %input{"type" => "checkbox", "data-rv-checked" => "option:checked", "data-backbone-defaultoption" => "true"}
       %td
         %input{"type" => "text", "data-rv-value" => "option:label"}
         %a.backbone-remove-option remove <span data-rv-text="index"></span></a>
