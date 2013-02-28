@@ -19,6 +19,7 @@ ProcureIo::Application.routes.draw do
       get 'reviews', on: :member
     end
 
+    resources :amendments
     resources :labels, only: [:create, :destroy, :update]
     resources :questions
     resources :collaborators

@@ -13,4 +13,6 @@
 
 class Amendment < ActiveRecord::Base
   include PostableByOfficer
+
+  belongs_to :project
 end

@@ -26,6 +26,7 @@ class Project < ActiveRecord::Base
   has_many :response_fields, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
+  has_many :amendments, dependent: :destroy
 
   has_and_belongs_to_many :tags
 
