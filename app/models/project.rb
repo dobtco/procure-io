@@ -16,6 +16,7 @@
 
 class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
+  include PostableByOfficer
 
   has_many :bids
   has_many :collaborators, order: 'created_at'
@@ -26,35 +27,7 @@ class Project < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
 
-  belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id"
-
   has_and_belongs_to_many :tags
-
-  def posted?
-    self.posted_at ? true : false
-  end
-
-  def post_by_officer(officer)
-    return false if self.posted_at
-    self.posted_at = Time.now
-    self.posted_by_officer_id = officer.id
-
-    comments.create(officer_id: officer.id,
-                    comment_type: "ProjectPosted")
-  end
-
-  def post_by_officer!(officer)
-    self.post_by_officer(officer)
-    self.save
-  end
-
-  def unpost_by_officer(officer)
-    self.posted_at = nil
-    self.posted_by_officer_id = nil
-
-    comments.create(officer_id: officer.id,
-                    comment_type: "ProjectUnposted")
-  end
 
   def abstract
     truncate(self.body, length: 130, omission: "...")
@@ -125,7 +98,14 @@ class Project < ActiveRecord::Base
     errors
   end
 
-  def self.posted
-    where("posted_at IS NOT NULL")
+  private
+  def after_post_by_officer(officer)
+    comments.create(officer_id: officer.id,
+                    comment_type: "ProjectPosted")
+  end
+
+  def after_unpost_by_officer(officer)
+    comments.create(officer_id: officer.id,
+                    comment_type: "ProjectUnposted")
   end
 end
