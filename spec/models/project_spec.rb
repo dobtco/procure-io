@@ -34,6 +34,7 @@ describe Project do
   it { should respond_to(:response_fields) }
   it { should respond_to(:tags) }
   it { should respond_to(:labels) }
+  it { should respond_to(:officer_watches) }
 
   describe "posted" do
     it { should be_posted }

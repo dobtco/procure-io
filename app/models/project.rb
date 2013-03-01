@@ -28,7 +28,15 @@ class Project < ActiveRecord::Base
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
 
+  has_many :officer_watches, as: :watchable
+
+  has_many :events, as: :targetable
+
   has_and_belongs_to_many :tags
+
+  def watched_by?(officer)
+    officer_watches.where(officer_id: officer.id).first ? true : false
+  end
 
   def abstract
     truncate(self.body, length: 130, omission: "...")

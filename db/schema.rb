@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130228222935) do
+ActiveRecord::Schema.define(:version => 20130301183105) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -80,12 +80,54 @@ ActiveRecord::Schema.define(:version => 20130228222935) do
     t.datetime "updated_at",       :null => false
   end
 
+  create_table "delayed_jobs", :force => true do |t|
+    t.integer  "priority",   :default => 0
+    t.integer  "attempts",   :default => 0
+    t.text     "handler"
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
+  create_table "event_feeds", :force => true do |t|
+    t.integer  "event_id"
+    t.string   "user_type"
+    t.integer  "user_id"
+    t.boolean  "read",       :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "event_type"
+    t.text     "data"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "targetable_type"
+    t.integer  "targetable_id"
+  end
+
   create_table "labels", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
     t.string   "color"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "officer_watches", :force => true do |t|
+    t.integer  "officer_id"
+    t.integer  "watchable_id"
+    t.string   "watchable_type"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "officers", :force => true do |t|

@@ -4,6 +4,8 @@ ProcureIo::Application.routes.draw do
   devise_for :officers
   devise_for :vendors
 
+  resources :notifications, only: [:index]
+
   resources :saved_searches, only: [:index, :create, :destroy]
 
   resources :officers, only: [] do
@@ -13,6 +15,7 @@ ProcureIo::Application.routes.draw do
   resources :projects do
     get 'mine', on: :collection
     get 'comments', on: :member
+    post 'watch', on: :member
 
     resources :bids do
       put 'batch', on: :collection

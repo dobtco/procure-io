@@ -1,0 +1,7 @@
+!=page_header "Notifications"
+
+- current_officer.events.each do |event|
+  %p
+    = event.read? ? 'read' : 'unread'
+    %a{"href" => event.path}
+      = event.text
