@@ -254,7 +254,7 @@ unbindEvent = (el, event, fn) ->
 # Returns the current input value for the specified element.
 getInputValue = (el) ->
   switch el.type
-    when 'checkbox' then el.checked
+    when 'checkbox', 'radio' then el.checked
     when 'select-multiple' then o.value for o in el when o.selected
     else el.value
 
@@ -273,10 +273,10 @@ Rivets.binders =
     unbind: (el) ->
       unbindEvent el, 'change', @currentListener
     routine: (el, value) ->
-      if el.type is 'radio'
-        el.checked = el.value is value
-      else
-        el.checked = !!value
+      # if el.type is 'radio'
+      #   el.checked = el.value is value
+      # else
+      el.checked = !!value
 
   unchecked:
     publishes: true
@@ -425,6 +425,7 @@ rivets.configure
       obj.off('change:' + keypath, callback.wrapped)
 
     read: (obj, keypath) ->
+      if keypath is "cid" then return obj.cid
       obj.get(keypath)
 
     publish: (obj, keypath, value) ->

@@ -1,0 +1,12 @@
+!= JST['admin_response_field/edit/groups/common']()
+
+%label.checkbox
+  %input{"type" => "radio", "data-backbone-defaultoption" => "true", "data-rv-name" => "model.cid"}
+  No default selected
+
+%div{"data-rv-each-option" => "model.field_options.options"}
+  %input{"type" => "radio", "data-backbone-defaultoption" => "true", "data-rv-checked" => "option:checked", "data-rv-name" => "model.cid"}
+  %input{"type" => "text", "data-rv-value" => "option:label"}
+  %a.backbone-remove-option remove <span data-rv-text="index"></span></a>
+
+%a.backbone-add-option Add Option

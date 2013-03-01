@@ -1,0 +1,10 @@
+%label
+  != JST['admin_response_field/view/pieces/label']()
+  != JST['admin_response_field/view/pieces/required']()
+
+%div{"data-rv-each-option" => "model.field_options.options"}
+  %label.checkbox
+    %input{"type" => "radio", "data-rv-checked" => "option:checked", "onclick" => "javascript:return false;"}
+    %span{"data-rv-text" => "option:label"}
+
+!= JST['admin_response_field/view/pieces/description']()

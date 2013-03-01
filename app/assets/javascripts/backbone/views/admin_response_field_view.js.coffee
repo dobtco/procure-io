@@ -29,6 +29,9 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
 ProcureIo.Backbone.CheckboxesResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: 'admin_response_field/view/checkboxes'
 
+ProcureIo.Backbone.RadioResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
+  subTemplate: 'admin_response_field/view/radio'
+
 ProcureIo.Backbone.DropdownResponseFieldView = ProcureIo.Backbone.AdminResponseFieldView.extend
   subTemplate: 'admin_response_field/view/dropdown'
 
@@ -53,7 +56,7 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
 
   render: ->
     @$el.html JST['admin_response_field/edit/base'](@model.toJSON())
-    @$el.find(".subtemplate-wrapper").html JST[@subTemplate](@model.toJSON())
+    @$el.find(".subtemplate-wrapper").html JST[@subTemplate](_.extend(@model.toJSON(), {cid: @model.cid}))
     rivets.bind(@$el, {model: @model})
 
     return @
@@ -95,12 +98,29 @@ ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckb
 
   initialize: ->
     ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
-    @events = _.extend @events,
+    @events = _.extend
       "click [data-backbone-defaultoption]": "defaultUpdated"
+    ,
+      ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.events
 
   defaultUpdated: (e) ->
-    @$el.find(".dropdown-options-table [data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
+    @$el.find("[data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
     @forceRender()
+
+ProcureIo.Backbone.EditRadioResponseFieldView = ProcureIo.Backbone.EditCheckboxesResponseFieldView.extend
+  subTemplate: 'admin_response_field/edit/radio'
+
+  initialize: ->
+    ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
+    @events = _.extend
+      "click [data-backbone-defaultoption]": "defaultUpdated"
+    ,
+      ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.events
+
+  defaultUpdated: (e) ->
+    @$el.find("[data-backbone-defaultoption]").trigger('change')
+    @forceRender()
+
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
   el: "#admin-response-field-page"
@@ -150,7 +170,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
       field_options: {}
 
-    if attrs.field_type is "checkboxes" or attrs.field_type is "dropdown"
+    if attrs.field_type is "checkboxes" or attrs.field_type is "dropdown" or attrs.field_type is "radio"
       attrs.field_options.options = [
         label: "",
         checked: false
