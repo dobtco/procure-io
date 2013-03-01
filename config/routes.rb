@@ -12,10 +12,11 @@ ProcureIo::Application.routes.draw do
     get 'typeahead', on: :collection
   end
 
+  post 'officer_watches/:watchable_type/:watchable_id' => 'officer_watches#post', as: :officer_watches
+
   resources :projects do
     get 'mine', on: :collection
     get 'comments', on: :member
-    post 'watch', on: :member
 
     resources :bids do
       put 'batch', on: :collection

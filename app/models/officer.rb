@@ -42,15 +42,22 @@ class Officer < ActiveRecord::Base
   has_many :event_feeds, as: :user
   has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
 
+  has_many :officer_watches
+
   def signed_up?
     self.encrypted_password != "" ? true : false
   end
 
-  def watch!(watchable)
-    watchable.officer_watches.create(officer_id: self.id)
+  def watches?(watchable_type, watchable_id)
+    officer_watches.where(watchable_type: watchable_type, watchable_id: watchable_id, disabled: false).first ? true : false
   end
 
-  def unwatch!(watchable)
-    watchable.officer_watches.where(officer_id: self.id).first.destroy
+  def watch!(watchable_type, watchable_id)
+    officer_watch = officer_watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first_or_create
+    if officer_watch.disabled then officer_watch.update_attributes(disabled: false) end
+  end
+
+  def unwatch!(watchable_type, watchable_id)
+    officer_watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first.update_attributes(disabled: true)
   end
 end

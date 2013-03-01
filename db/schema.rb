@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301183105) do
+ActiveRecord::Schema.define(:version => 20130301210400) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -126,8 +126,9 @@ ActiveRecord::Schema.define(:version => 20130301183105) do
     t.integer  "officer_id"
     t.integer  "watchable_id"
     t.string   "watchable_type"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+    t.boolean  "disabled",       :default => false
   end
 
   create_table "officers", :force => true do |t|

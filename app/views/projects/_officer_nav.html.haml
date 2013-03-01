@@ -1,3 +1,7 @@
+= link_to @project.watched_by?(current_officer) ? "Watching Project" : "Watch Project", officer_watches_path("Project", @project), method: :post, class: "btn #{@project.watched_by?(current_officer) ? 'btn-inverse' : ''}"
+
+%hr
+
 %ul.nav.nav-tabs
   - if @project.posted?
     %li{"class" => params[:controller] == "bids" ? "active" : ""}

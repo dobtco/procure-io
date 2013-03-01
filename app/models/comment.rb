@@ -24,6 +24,7 @@ class Comment < ActiveRecord::Base
   serialize :data
 
   after_save :calculate_commentable_total_comments!
+  after_create :subscribe_officer_if_never_subscribed!
   after_create do
     self.delay.generate_events
   end
@@ -35,13 +36,29 @@ class Comment < ActiveRecord::Base
     commentable.calculate_total_comments!
   end
 
+  def subscribe_officer_if_never_subscribed!
+    return unless commentable.class.name == "Bid"
+
+    if !commentable.ever_watched_by?(officer)
+      officer.watch!("Bid", commentable.id)
+    end
+  end
+
   def generate_events
-    return unless self.commentable.class.name == "Project"
+    if self.commentable.class.name == "Project"
+      event = commentable.events.create(event_type: "ProjectComment", data: CommentSerializer.new(self, root: false).to_json)
 
-    event = commentable.events.create(event_type: "ProjectComment", data: CommentSerializer.new(self, root: false).to_json)
+      commentable.officer_watches.where("officer_id != ?", self.officer_id).each do |watch|
+        EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+      end
 
-    commentable.officer_watches.where("officer_id != ?", self.officer_id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+    elsif self.commentable.class.name == "Bid"
+      # subscribe to future comments unless user has already unsubscribed
+      event = commentable.events.create(event_type: "BidComment", data: CommentSerializer.new(self, root: false).to_json)
+
+      commentable.officer_watches.where("officer_id != ?", self.officer_id).each do |watch|
+        EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+      end
     end
   end
 end

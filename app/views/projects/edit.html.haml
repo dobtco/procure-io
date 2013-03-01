@@ -1,9 +1,6 @@
 %h3
   = @project.title
 
-= link_to @project.watched_by?(current_officer) ? "Watching Project" : "Watch Project", watch_project_path, method: :post, class: "btn #{@project.watched_by?(current_officer) ? 'btn-inverse' : ''}"
-
-
 .clearfix &nbsp;
 
 = render "projects/officer_nav"

@@ -18,6 +18,8 @@
 #
 
 class Bid < ActiveRecord::Base
+  include WatchableByOfficer
+
   belongs_to :project
   belongs_to :vendor
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
