@@ -76,7 +76,7 @@ class BidsController < ApplicationController
       bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first_or_create
 
       case response_field.field_type
-      when "text", "paragraph", "dropdown"
+      when "text", "paragraph", "dropdown", "radio"
         bid_response.update_attributes(value: params[:response_fields][response_field.id.to_s])
       when "checkboxes"
         values = {}

@@ -1,0 +1,12 @@
+%label
+  =response_field.label
+  - if response_field.field_options["required"]
+    %span.required-asterisk *
+
+- response_field.field_options["options"].each_with_index do |option, i|
+  %label.checkbox
+    %input{"type" => "radio", "name" => "response_fields[#{response_field.id}]", "checked" => value == option["label"] || (value.blank? && option["checked"]) ? true : false, "value" => option["label"]}
+    = option["label"]
+
+%span.help-block= response_field.field_options["description"]
+
