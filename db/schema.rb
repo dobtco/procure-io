@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301021759) do
+ActiveRecord::Schema.define(:version => 20130301023529) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -90,10 +90,12 @@ ActiveRecord::Schema.define(:version => 20130301021759) do
   end
 
   create_table "events", :force => true do |t|
-    t.string   "type"
+    t.string   "event_type"
     t.text     "data"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "targetable_type"
+    t.integer  "targetable_id"
   end
 
   create_table "labels", :force => true do |t|

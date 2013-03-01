@@ -45,4 +45,12 @@ class Officer < ActiveRecord::Base
   def signed_up?
     self.encrypted_password != "" ? true : false
   end
+
+  def watch!(watchable)
+    watchable.officer_watches.create(officer_id: self.id)
+  end
+
+  def unwatch!(watchable)
+    watchable.officer_watches.where(officer_id: self.id).first.destroy
+  end
 end

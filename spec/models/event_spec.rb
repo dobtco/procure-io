@@ -2,11 +2,13 @@
 #
 # Table name: events
 #
-#  id         :integer          not null, primary key
-#  type       :string(255)
-#  data       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :integer          not null, primary key
+#  event_type      :string(255)
+#  data            :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  targetable_type :string(255)
+#  targetable_id   :integer
 #
 
 require 'spec_helper'
