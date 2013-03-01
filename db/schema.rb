@@ -84,9 +84,9 @@ ActiveRecord::Schema.define(:version => 20130301023529) do
     t.integer  "event_id"
     t.string   "user_type"
     t.integer  "user_id"
-    t.boolean  "read"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.boolean  "read",       :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "events", :force => true do |t|

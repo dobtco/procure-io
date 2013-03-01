@@ -13,4 +13,8 @@ module SharedUserMethods
       event.users_event_feed.read!
     end
   end
+
+  def unread_notification_count
+    self.event_feeds.unread.count
+  end
 end

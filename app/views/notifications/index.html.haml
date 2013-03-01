@@ -3,4 +3,5 @@
 - current_officer.events.each do |event|
   %p
     = event.read? ? 'read' : 'unread'
-    = event.inspect
+    %a{"href" => event.path}
+      = event.text

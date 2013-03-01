@@ -12,6 +12,8 @@
 #
 
 class Event < ActiveRecord::Base
+  include Rails.application.routes.url_helpers
+
   has_many :event_feeds
   has_one :users_event_feed, class_name: "EventFeed"
   belongs_to :targetable, polymorphic: :true
@@ -21,5 +23,21 @@ class Event < ActiveRecord::Base
     .where("users_event_feed.user_type = ? AND users_event_feed.user_id = ?", user.class.name, user.id)
   }
 
-  serialize :data
+  def data
+    ActiveSupport::JSON.decode(read_attribute(:data))
+  end
+
+  def path
+    case event_type
+    when "ProjectComment"
+      comments_project_path(targetable_id)
+    end
+  end
+
+  def text
+    case event_type
+    when "ProjectComment"
+      "#{data['officer']['name']} commented on #{data['commentable']['title']}."
+    end
+  end
 end
