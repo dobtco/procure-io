@@ -24,7 +24,9 @@ class Comment < ActiveRecord::Base
   serialize :data
 
   after_save :calculate_commentable_total_comments!
-  after_create :generate_events
+  after_create do
+    self.delay.generate_events
+  end
 
   default_scope order("created_at")
 
