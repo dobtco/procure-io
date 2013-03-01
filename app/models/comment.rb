@@ -26,6 +26,7 @@ class Comment < ActiveRecord::Base
   after_save :calculate_commentable_total_comments!
   after_create :subscribe_officer_if_never_subscribed!
   after_create do
+    return if comment_type # don't proceed if this is an automatically-generated comment
     self.delay.generate_events
   end
 
@@ -37,6 +38,7 @@ class Comment < ActiveRecord::Base
   end
 
   def subscribe_officer_if_never_subscribed!
+    return if comment_type # don't proceed if this is an automatically-generated comment
     return unless commentable.class.name == "Bid"
 
     if !commentable.ever_watched_by?(officer)

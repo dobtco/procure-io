@@ -72,6 +72,8 @@ class Bid < ActiveRecord::Base
     project.comments.create(officer_id: officer.id,
                             comment_type: "ProjectBidAwarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
+
+    self.delay.create_bid_awarded_event!(officer)
   end
 
   def award_by_officer!(officer)
@@ -103,6 +105,7 @@ class Bid < ActiveRecord::Base
                             comment_type: "ProjectBidUnawarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
 
+    self.delay.create_bid_unawarded_event!(officer)
   end
 
   def unaward_by_officer!(officer)
@@ -135,4 +138,22 @@ class Bid < ActiveRecord::Base
   def bid_errors
     project.validate_bid(self)
   end
+
+  private
+  def create_bid_awarded_event!(officer)
+    event = events.create(event_type: "BidAwarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
+
+    project.officer_watches.where("officer_id != ?", officer.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+    end
+  end
+
+  def create_bid_unawarded_event!(officer)
+    event = events.create(event_type: "BidUnawarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
+
+    project.officer_watches.where("officer_id != ?", officer.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+    end
+  end
+
 end
