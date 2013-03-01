@@ -185,6 +185,8 @@ class BidsController < ApplicationController
     elsif current_officer && (can? :collaborate_on, @project)
       return not_found if !@bid.submitted_at
 
+      current_officer.read_notifications(@bid, "BidComment")
+
       if !(review = @bid.bid_review_for_officer(current_officer)).read
         review.update_attributes read: true
       end

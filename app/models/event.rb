@@ -33,6 +33,8 @@ class Event < ActiveRecord::Base
     case event_type
     when "ProjectComment"
       comments_project_path(targetable_id)
+    when "BidComment"
+      project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
     end
   end
 
@@ -40,6 +42,8 @@ class Event < ActiveRecord::Base
     case event_type
     when "ProjectComment"
       "#{data['officer']['name']} commented on #{data['commentable']['title']}."
+    when "BidComment"
+      "#{data['officer']['name']} commented on #{data['commentable']['vendor']['name']}'s bid for #{data['commentable']['project']['title']}."
     end
   end
 end
