@@ -4,7 +4,7 @@ ProcureIo::Application.routes.draw do
   devise_for :officers
   devise_for :vendors
 
-  resources :notifications, only: [:index]
+  resources :notifications, only: [:index, :update]
 
   resources :saved_searches, only: [:index, :create, :destroy]
 

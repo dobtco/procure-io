@@ -6,7 +6,7 @@
 #  event_id   :integer
 #  user_type  :string(255)
 #  user_id    :integer
-#  read       :boolean
+#  read       :boolean          default(FALSE)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -19,5 +19,9 @@ class EventFeed < ActiveRecord::Base
 
   def read!
     self.update_attributes(read: true)
+  end
+
+  def unread!
+    self.update_attributes(read: false)
   end
 end
