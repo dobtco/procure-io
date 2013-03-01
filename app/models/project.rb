@@ -28,6 +28,8 @@ class Project < ActiveRecord::Base
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
 
+  has_many :officer_watches, as: :watchable
+
   has_and_belongs_to_many :tags
 
   def abstract
