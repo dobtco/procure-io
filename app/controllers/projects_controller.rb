@@ -45,6 +45,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
+    current_officer.read_notifications(@project, "ProjectComment")
     @comments_json = ActiveModel::ArraySerializer.new(@project.comments, each_serializer: CommentSerializer, root: false).to_json
   end
 

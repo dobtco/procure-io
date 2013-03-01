@@ -1,4 +1,6 @@
 !=page_header "Notifications"
 
 - current_officer.events.each do |event|
-  = event.data
+  %p
+    = event.read? ? 'read' : 'unread'
+    = event.inspect

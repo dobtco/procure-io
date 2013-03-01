@@ -14,4 +14,8 @@
 class EventFeed < ActiveRecord::Base
   belongs_to :user, polymorphic: true
   belongs_to :event
+
+  def read!
+    self.update_attributes(read: true)
+  end
 end

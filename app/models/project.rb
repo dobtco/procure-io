@@ -30,6 +30,8 @@ class Project < ActiveRecord::Base
 
   has_many :officer_watches, as: :watchable
 
+  has_many :events, as: :targetable
+
   has_and_belongs_to_many :tags
 
   def watched_by?(officer)
