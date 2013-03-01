@@ -95,7 +95,6 @@ describe "Bid" do
 
         it "should reverse the order when clicking the same order link" do
           click_link "Created at"
-          expect(page).to have_selector('#loading-indicator', visible: true)
           expect(page).to have_selector('#bid-review-page:not(.loading)')
           page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
           page.should have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.first)+'"]')
