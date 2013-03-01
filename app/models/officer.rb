@@ -39,6 +39,9 @@ class Officer < ActiveRecord::Base
   has_many :questions
   has_many :bid_reviews, dependent: :destroy
 
+  has_many :event_feeds, as: :user
+  has_many :events, through: :event_feeds
+
   def signed_up?
     self.encrypted_password != "" ? true : false
   end
