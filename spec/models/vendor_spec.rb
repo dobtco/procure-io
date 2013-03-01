@@ -31,6 +31,9 @@ describe Vendor do
   it { should respond_to(:questions) }
   it { should respond_to(:saved_searches) }
 
+  it { should respond_to(:event_feeds) }
+  it { should respond_to(:events) }
+
   it { should be_valid }
 
   describe "bid for project" do

@@ -24,9 +24,16 @@
                 - elsif vendor_signed_in?
                   %li
                     =link_to "Saved Searches", saved_searches_path
+            %li
+              %a{"href" => notifications_path}
+                %i.icon-envelope
+                - if current_user.unread_notification_count > 0
+                  %span.badge= current_user.unread_notification_count
+            %li
+              %a{"href" => signout_path, "data-method" => "delete", "rel" => "nofollow"}
+                %i.icon-signout
 
-                %li
-                  =link_to "Signout", signout_path, method: :delete
+
           - else
             %li
               %a{"href" => new_vendor_session_path} Vendor Login

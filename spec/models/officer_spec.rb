@@ -44,6 +44,9 @@ describe Officer do
   it { should respond_to(:questions) }
   it { should respond_to(:bid_reviews) }
 
+  it { should respond_to(:event_feeds) }
+  it { should respond_to(:events) }
+
   it { should be_valid }
 
   describe "signed_up?" do

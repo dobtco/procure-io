@@ -16,6 +16,7 @@ gem 'colorist'
 gem 'etherpad-lite'
 gem 'factory_girl_rails'
 gem 'ffaker'
+gem 'delayed_job_active_record'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments]
+  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch]
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
@@ -45,6 +45,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
+    current_officer.read_notifications(@project, "ProjectComment")
     @comments_json = ActiveModel::ArraySerializer.new(@project.comments, each_serializer: CommentSerializer, root: false).to_json
   end
 
@@ -98,6 +99,16 @@ class ProjectsController < ApplicationController
 
 
     redirect_to edit_project_path(@project)
+  end
+
+  def watch
+    if @project.watched_by?(current_officer)
+      current_officer.unwatch!(@project)
+    else
+      current_officer.watch!(@project)
+    end
+
+    redirect_to :back
   end
 
   private
