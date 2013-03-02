@@ -7,5 +7,15 @@
 
   .span5
     %h4 My Bid
+
+    %div
+      - if @bid.dismissed?
+        %span.badge.badge-important Dismissed
+      - elsif @bid.awarded?
+        %span.badge.badge-success Awarded
+      - else
+        %span.badge.badge-info Open
+
     = link_to "← Return to project", @project
+
     = render "bid"
