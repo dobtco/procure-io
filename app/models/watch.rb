@@ -1,17 +1,18 @@
 # == Schema Information
 #
-# Table name: officer_watches
+# Table name: watches
 #
 #  id             :integer          not null, primary key
-#  officer_id     :integer
+#  user_type      :string(255)
+#  user_id        :integer
 #  watchable_id   :integer
 #  watchable_type :string(255)
+#  disabled       :boolean          default(FALSE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  disabled       :boolean          default(FALSE)
 #
 
-class OfficerWatch < ActiveRecord::Base
+class Watch < ActiveRecord::Base
   belongs_to :watchable, polymorphic: true
-  belongs_to :officer
+  belongs_to :user, polymorphic: true
 end

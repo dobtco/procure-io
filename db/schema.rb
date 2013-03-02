@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130301210400) do
+ActiveRecord::Schema.define(:version => 20130302020537) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -122,15 +122,6 @@ ActiveRecord::Schema.define(:version => 20130301210400) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "officer_watches", :force => true do |t|
-    t.integer  "officer_id"
-    t.integer  "watchable_id"
-    t.string   "watchable_type"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.boolean  "disabled",       :default => false
-  end
-
   create_table "officers", :force => true do |t|
     t.string   "email",                                :default => "", :null => false
     t.string   "encrypted_password",                   :default => ""
@@ -231,6 +222,19 @@ ActiveRecord::Schema.define(:version => 20130301210400) do
   add_index "vendors", ["email"], :name => "index_vendors_on_email", :unique => true
   add_index "vendors", ["reset_password_token"], :name => "index_vendors_on_reset_password_token", :unique => true
 
+  create_table "watches", :force => true do |t|
+    t.string   "user_type"
+    t.integer  "user_id"
+    t.integer  "watchable_id"
+    t.string   "watchable_type"
+    t.boolean  "disabled",       :default => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_foreign_key "amendments", "officers", :name => "amendments_posted_by_officer_id_fk", :column => "posted_by_officer_id"
+  add_foreign_key "amendments", "projects", :name => "amendments_project_id_fk"
+
   add_foreign_key "bid_responses", "bids", :name => "bid_responses_bid_id_fk"
   add_foreign_key "bid_responses", "response_fields", :name => "bid_responses_response_field_id_fk"
 
@@ -249,7 +253,11 @@ ActiveRecord::Schema.define(:version => 20130301210400) do
   add_foreign_key "comments", "officers", :name => "comments_officer_id_fk"
   add_foreign_key "comments", "vendors", :name => "comments_vendor_id_fk"
 
+  add_foreign_key "event_feeds", "events", :name => "event_feeds_event_id_fk"
+
   add_foreign_key "labels", "projects", :name => "labels_project_id_fk"
+
+  add_foreign_key "projects", "officers", :name => "projects_posted_by_officer_id_fk", :column => "posted_by_officer_id"
 
   add_foreign_key "projects_tags", "projects", :name => "projects_tags_project_id_fk"
   add_foreign_key "projects_tags", "tags", :name => "projects_tags_tag_id_fk"

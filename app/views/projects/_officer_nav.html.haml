@@ -1,4 +1,4 @@
-= link_to @project.watched_by?(current_officer) ? "Watching Project" : "Watch Project", officer_watches_path("Project", @project), method: :post, class: "btn #{@project.watched_by?(current_officer) ? 'btn-inverse' : ''}"
+= link_to @project.watched_by?(current_user) ? "Watching Project" : "Watch Project", watches_path("Project", @project), method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
 %hr
 
