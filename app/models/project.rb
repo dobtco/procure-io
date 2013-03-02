@@ -17,7 +17,7 @@
 class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include PostableByOfficer
-  include WatchableByOfficer
+  include WatchableByUser
 
   has_many :bids
   has_many :collaborators, order: 'created_at'

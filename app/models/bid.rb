@@ -18,7 +18,7 @@
 #
 
 class Bid < ActiveRecord::Base
-  include WatchableByOfficer
+  include WatchableByUser
 
   belongs_to :project
   belongs_to :vendor
@@ -151,8 +151,8 @@ class Bid < ActiveRecord::Base
   def create_bid_awarded_events!(officer)
     event = events.create(event_type: "BidAwarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
 
-    project.officer_watches.where("officer_id != ?", officer.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+    project.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
     end
 
     vendor_event = events.create(event_type: "VendorBidAwarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
@@ -162,8 +162,8 @@ class Bid < ActiveRecord::Base
   def create_bid_unawarded_events!(officer)
     event = events.create(event_type: "BidUnawarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
 
-    project.officer_watches.where("officer_id != ?", officer.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
+    project.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
     end
 
     vendor_event = events.create(event_type: "VendorBidUnawarded", data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)

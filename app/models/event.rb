@@ -14,7 +14,7 @@
 class Event < ActiveRecord::Base
   include Rails.application.routes.url_helpers
 
-  has_many :event_feeds
+  has_many :event_feeds, dependent: :destroy
   has_one :users_event_feed, class_name: "EventFeed"
   belongs_to :targetable, polymorphic: :true
 
@@ -37,6 +37,8 @@ class Event < ActiveRecord::Base
       project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
     when "BidAwarded", "BidUnawarded", "VendorBidAwarded", "VendorBidUnawarded", "VendorBidDismissed", "VendorBidUndismissed"
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
+    when "ProjectAmended"
+      project_path(targetable_id)
     end
   end
 
@@ -56,6 +58,8 @@ class Event < ActiveRecord::Base
       "#{data['officer']['name']} has dismissed your bid on #{data['bid']['project']['title']}."
     when "VendorBidUndismissed"
       "#{data['officer']['name']} has undismissed your bid on #{data['bid']['project']['title']}."
+    when "ProjectAmended"
+      "The project #{data['title']} has been amended."
     end
   end
 end
