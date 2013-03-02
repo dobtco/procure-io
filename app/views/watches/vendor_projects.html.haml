@@ -1,0 +1,7 @@
+!=page_header "Watched Projects"
+
+%ul
+  - @projects.each do |project|
+    %li
+      = link_to project.title, project_path(project)
+      %small last updated #{project.updated_at}

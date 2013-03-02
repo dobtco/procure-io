@@ -23,6 +23,8 @@
                     =link_to "My Projects", mine_projects_path
                 - elsif vendor_signed_in?
                   %li
+                    =link_to "Watched Projects", vendor_projects_watches_path
+                  %li
                     =link_to "Saved Searches", saved_searches_path
             %li
               %a{"href" => notifications_path}
