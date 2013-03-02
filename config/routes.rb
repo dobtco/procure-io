@@ -13,7 +13,7 @@ ProcureIo::Application.routes.draw do
   end
 
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
-  get 'watches/projects' => 'watches#vendor_projects', as: :vendor_projects_watches
+  get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches
 
   resources :projects do
     get 'mine', on: :collection
