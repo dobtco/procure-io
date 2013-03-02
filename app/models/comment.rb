@@ -50,7 +50,7 @@ class Comment < ActiveRecord::Base
     if self.commentable.class.name == "Project"
       event = commentable.events.create(event_type: "ProjectComment", data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.officer_watches.where("officer_id != ?", self.officer_id).each do |watch|
+      project.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
       end
 
@@ -58,7 +58,7 @@ class Comment < ActiveRecord::Base
       # subscribe to future comments unless user has already unsubscribed
       event = commentable.events.create(event_type: "BidComment", data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.officer_watches.where("officer_id != ?", self.officer_id).each do |watch|
+      project.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.officer_id, user_type: "Officer")
       end
     end

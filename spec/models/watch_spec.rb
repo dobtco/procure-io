@@ -1,18 +1,19 @@
 # == Schema Information
 #
-# Table name: officer_watches
+# Table name: watches
 #
 #  id             :integer          not null, primary key
-#  officer_id     :integer
+#  user_type      :string(255)
+#  user_id        :integer
 #  watchable_id   :integer
 #  watchable_type :string(255)
+#  disabled       :boolean          default(FALSE)
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  disabled       :boolean          default(FALSE)
 #
 
 require 'spec_helper'
 
-describe OfficerWatch do
+describe Watch do
   pending "add some examples to (or delete) #{__FILE__}"
 end

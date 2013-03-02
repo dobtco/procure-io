@@ -34,6 +34,8 @@ class Vendor < ActiveRecord::Base
   has_many :event_feeds, as: :user
   has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
 
+  has_many :watches, as: :user
+
   def bid_for_project(project)
     bids.where(project_id: project.id).first
   end

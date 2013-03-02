@@ -1,4 +1,8 @@
 module SharedUserMethods
+  def self.included(base)
+    base.has_many :watches, as: :user
+  end
+
   def gravatar_url
     "//gravatar.com/avatar/#{Digest::MD5::hexdigest(email.downcase)}?size=45&d=identicon"
   end
@@ -22,5 +26,18 @@ module SharedUserMethods
 
   def unread_notification_count
     self.event_feeds.unread.count
+  end
+
+  def watches?(watchable_type, watchable_id)
+    watches.where(watchable_type: watchable_type, watchable_id: watchable_id, disabled: false).first ? true : false
+  end
+
+  def watch!(watchable_type, watchable_id)
+    watch = watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first_or_create
+    if watch.disabled then watch.update_attributes(disabled: false) end
+  end
+
+  def unwatch!(watchable_type, watchable_id)
+    watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first.update_attributes(disabled: true)
   end
 end
