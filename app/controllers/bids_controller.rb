@@ -181,11 +181,12 @@ class BidsController < ApplicationController
 
   def show
     if current_vendor && @bid.vendor == current_vendor
+      current_vendor.read_notifications(@bid)
       render "bids/show_vendor"
     elsif current_officer && (can? :collaborate_on, @project)
       return not_found if !@bid.submitted_at
 
-      current_officer.read_notifications(@bid, "BidComment", "BidAwarded", "BidUnawarded")
+      current_officer.read_notifications(@bid)
 
       if !(review = @bid.bid_review_for_officer(current_officer)).read
         review.update_attributes read: true

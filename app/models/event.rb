@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
       comments_project_path(targetable_id)
     when "BidComment"
       project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
-    when "BidAwarded", "BidUnawarded"
+    when "BidAwarded", "BidUnawarded", "VendorBidAwarded", "VendorBidUnawarded", "VendorBidDismissed", "VendorBidUndismissed"
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
     end
   end
@@ -48,6 +48,14 @@ class Event < ActiveRecord::Base
       "#{data['officer']['name']} commented on #{data['commentable']['vendor']['name']}'s bid for #{data['commentable']['project']['title']}."
     when "BidAwarded", "BidUnawarded"
       "#{data['officer']['name']} #{event_type == 'BidAwarded' ? 'awarded' : 'unawarded'} #{data['bid']['vendor']['name']}'s bid on #{data['bid']['project']['title']}."
+    when "VendorBidAwarded"
+      "#{data['officer']['name']} has awarded your bid on #{data['bid']['project']['title']}."
+    when "VendorBidUnawarded"
+      "#{data['officer']['name']} has unawarded your bid on #{data['bid']['project']['title']}."
+    when "VendorBidDismissed"
+      "#{data['officer']['name']} has dismissed your bid on #{data['bid']['project']['title']}."
+    when "VendorBidUndismissed"
+      "#{data['officer']['name']} has undismissed your bid on #{data['bid']['project']['title']}."
     end
   end
 end

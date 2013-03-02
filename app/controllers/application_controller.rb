@@ -6,4 +6,8 @@ class ApplicationController < ActionController::Base
   def not_found
     raise ActionController::RoutingError.new('Not Found')
   end
+
+  def authenticate_user!
+    if !current_vendor && !current_officer then not_found end
+  end
 end

@@ -1,8 +1,8 @@
 class NotificationsController < ApplicationController
-  before_filter :authenticate_officer!
+  before_filter :authenticate_user!
 
   def index
-    @notifications = current_officer.events.paginate(page: params[:page])
+    @notifications = current_user.events.paginate(page: params[:page])
     @notifications_json = ActiveModel::ArraySerializer.new(@notifications,
                                                            each_serializer: EventSerializer).to_json
   end

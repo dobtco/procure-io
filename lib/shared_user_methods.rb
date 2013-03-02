@@ -9,7 +9,13 @@ module SharedUserMethods
 
   # @todo use update_all for performance?
   def read_notifications(targetable, *event_types)
-    targetable.events.where("event_type IN (?)", event_types).include_users_event_feed(self).each do |event|
+    sql = targetable.events
+
+    if event_types.any?
+      sql = sql.where("event_type IN (?)", event_types)
+    end
+
+    sql.include_users_event_feed(self).each do |event|
       event.users_event_feed.read!
     end
   end
