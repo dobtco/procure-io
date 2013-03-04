@@ -72,13 +72,16 @@
   .total-stars {
     cursor: pointer;
     position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 15px;
 
     > i {
       font-size: 24px;
       width: 22px;
       color: #aaa;
       position: absolute;
-      top: -5px;
+      top: -3px;
     }
 
     > span {
