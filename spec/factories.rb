@@ -44,6 +44,12 @@ FactoryGirl.define do
       p.response_fields.create(label: "# of cats", field_type: "text", sort_order: 1)
       p.tags << Tag.all(order: "RANDOM()").first
       p.tags << Tag.all(order: "RANDOM()").first if rand(1..5) == 5
+
+      Officer.all.each do |officer|
+        officer.watch!("Project", p.id)
+      end
+
+      FactoryGirl.create(:comment, commentable: p)
     end
   end
 
