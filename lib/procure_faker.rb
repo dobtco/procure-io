@@ -43,4 +43,20 @@ module ProcureFaker
       ].sample
     end
   end
+
+  class Label
+    def self.name
+      [
+        "Weird",
+        "Awesome",
+        "Needs more info",
+        "Best value",
+        "Too much $"
+      ].sample
+    end
+
+    def self.color
+      ["898989", "E1D9D9", "E7544D", "E2EB4E", "4FEB5A", "4EDBE6", "5F55EA"].sample
+    end
+  end
 end

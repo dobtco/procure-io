@@ -9,7 +9,25 @@ FactoryGirl.define do
       if Project.first then Project.first.update_attributes(posted_at: Time.now, posted_by_officer_id: Officer.first.id) end
 
       b.project.response_fields.each do |response_field|
-        b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
+        if response_field.label == "Completion Time"
+          b.bid_responses.create(response_field_id: response_field.id, value: "#{rand(1..8)} weeks")
+        elsif response_field.label == "Total Cost"
+          b.bid_responses.create(response_field_id: response_field.id, value: "$#{rand(1000..5000)}")
+        else
+          b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
+        end
+      end
+
+      rand(0..2).times do
+        review = b.bid_review_for_officer(Officer.all(order: "RANDOM()").first)
+        review.read = rand(0..1) == 1
+        review.starred = rand(0..1) == 1
+        review.save
+      end
+
+      rand(0..2).times do
+        label = b.project.labels(order: "RANDOM()").first
+        b.labels << label if label and !b.labels.exists?(label)
       end
     end
   end
@@ -39,8 +57,8 @@ FactoryGirl.define do
 
       p.officers << Officer.all
       p.collaborators.first.update_attributes owner: true
-      p.response_fields.create(label: "Name", field_type: "text", sort_order: 0)
-      p.response_fields.create(label: "# of cats", field_type: "text", sort_order: 1)
+      p.response_fields.create(label: "Completion Time", field_type: "text", sort_order: 0)
+      p.response_fields.create(label: "Total Cost", field_type: "text", sort_order: 1)
       p.tags << Tag.all(order: "RANDOM()").first
       p.tags << Tag.all(order: "RANDOM()").first if rand(1..5) == 5
 
@@ -53,6 +71,9 @@ FactoryGirl.define do
       end
 
       FactoryGirl.create(:comment, commentable: p)
+      rand(0..5).times do
+        FactoryGirl.create(:label, project: p)
+      end
     end
   end
 
@@ -88,5 +109,11 @@ FactoryGirl.define do
     after(:create) do |a|
       a.post_by_officer!(Officer.all(order: "RANDOM()").first)
     end
+  end
+
+  factory :label do
+    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
+    name { ProcureFaker::Label.name }
+    color { ProcureFaker::Label.color }
   end
 end
