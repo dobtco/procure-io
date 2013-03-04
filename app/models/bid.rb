@@ -5,7 +5,6 @@
 #  id                      :integer          not null, primary key
 #  vendor_id               :integer
 #  project_id              :integer
-#  body                    :text
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #  submitted_at            :datetime

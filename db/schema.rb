@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(:version => 20130304010821) do
   create_table "bids", :force => true do |t|
     t.integer  "vendor_id"
     t.integer  "project_id"
-    t.text     "body"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.datetime "submitted_at"
