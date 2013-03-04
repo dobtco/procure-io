@@ -22,7 +22,6 @@ describe Bid do
 
   subject { bids(:one) }
 
-  it { should respond_to(:body) }
   it { should respond_to(:submitted_at) }
   it { should respond_to(:dismissed_at) }
   it { should respond_to(:dismissed_by_officer_id) }
