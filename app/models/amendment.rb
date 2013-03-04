@@ -23,7 +23,7 @@ class Amendment < ActiveRecord::Base
   end
 
   def create_vendor_notifications!
-    event = project.events.create(event_type: "ProjectAmended", data: ProjectSerializer.new(project, root: false).to_json)
+    event = project.events.create(event_type: Event.event_types[:project_amended], data: ProjectSerializer.new(project, root: false).to_json)
 
     project.watches.where(user_type: "Vendor").each do |watch|
       EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Vendor")

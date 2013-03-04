@@ -48,6 +48,10 @@ FactoryGirl.define do
         officer.watch!("Project", p.id)
       end
 
+      Vendor.all.each do |vendor|
+        vendor.watch!("Project", p.id) if rand(1..2) == 2
+      end
+
       FactoryGirl.create(:comment, commentable: p)
     end
   end
@@ -74,5 +78,15 @@ FactoryGirl.define do
 
   factory :tag do
     name { Faker::Product::NOUN.rand }
+  end
+
+  factory :amendment do
+    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
+    title "Amendment to the statement of work"
+    body "The due date for new proposals is now extended by two weeks."
+
+    after(:create) do |a|
+      a.post_by_officer!(Officer.all(order: "RANDOM()").first)
+    end
   end
 end
