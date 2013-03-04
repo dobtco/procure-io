@@ -19,8 +19,8 @@ module SharedUserMethods
       sql = sql.where("event_type IN (?)", Event.event_types.only(*event_types).values)
     end
 
-    sql.include_users_event_feed(self).each do |event|
-      event.users_event_feed.read!
+    event_feeds.where("event_id IN (?)", sql.pluck(:id)).each do |event_feed|
+      event_feed.read!
     end
   end
 

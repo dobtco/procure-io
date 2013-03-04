@@ -17,15 +17,9 @@ class Event < ActiveRecord::Base
   include Rails.application.routes.url_helpers
 
   has_many :event_feeds, dependent: :destroy
-  has_one :users_event_feed, class_name: "EventFeed"
   belongs_to :targetable, polymorphic: :true
 
   default_scope order("created_at DESC")
-
-  scope :include_users_event_feed, lambda { |user|
-    joins("INNER JOIN event_feeds as users_event_feed ON users_event_feed.event_id = events.id")
-    .where("users_event_feed.user_type = ? AND users_event_feed.user_id = ?", user.class.name, user.id)
-  }
 
   def self.event_types
     @event_types ||= Enum.new(
