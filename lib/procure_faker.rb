@@ -30,4 +30,17 @@ module ProcureFaker
       ].sample
     end
   end
+
+  class Question
+    def self.body
+      [
+        "Will this be run on SQL, Oracle, or some other database system?",
+        "How was it determined that all automated systems could be delivered in 60 days?",
+        "Is there an incumbent? Will they also be allowed to bid on this?",
+        "Please state the expected award date as a delta from the proposal submission date.",
+        "Can the offeror propose a payment schedule along with the cost quote?",
+        "Will the government assign a project manager full time to assist in reviews and approving design requirements?"
+      ].sample
+    end
+  end
 end

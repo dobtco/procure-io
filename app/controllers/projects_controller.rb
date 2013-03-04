@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    current_user.read_notifications(@project, :project_amended)
+    current_user.read_notifications(@project, :project_amended) if current_user
     @questions_json = ActiveModel::ArraySerializer.new(@project.questions.all, each_serializer: VendorQuestionSerializer).to_json
   end
 

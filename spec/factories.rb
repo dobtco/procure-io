@@ -61,12 +61,13 @@ FactoryGirl.define do
   factory :question do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
-    body { Faker::Lorem.paragraph }
+    body { ProcureFaker::Question.body }
 
     after(:build) do |q|
       if rand(1..2) == 2 && q.project.posted_at
         q.answer_body = Faker::Lorem.paragraph
         q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : FactoryGirl.create(:officer))
+        q.save
       end
     end
   end
