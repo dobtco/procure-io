@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :bid do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
-    body { Faker::Lorem.paragraphs(3).join("\n\n") }
     submitted_at { rand(1..8) == 1 ? nil : Time.now }
 
     after(:create) do |b|
@@ -29,8 +28,8 @@ FactoryGirl.define do
   end
 
   factory :project do |project|
-    title { Faker::Lorem.words(3).join(" ") }
-    body { Faker::Lorem.paragraphs(3).join("\n\n") }
+    title { ProcureFaker::Project.title }
+    body { ProcureFaker::Project.body }
     bids_due_at { Time.now + rand(1..8).weeks }
 
     after(:create) do |p|

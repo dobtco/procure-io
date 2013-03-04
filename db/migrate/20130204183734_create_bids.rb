@@ -3,7 +3,6 @@ class CreateBids < ActiveRecord::Migration
     create_table :bids do |t|
       t.integer :vendor_id
       t.integer :project_id
-      t.text :body
 
       t.timestamps
     end
