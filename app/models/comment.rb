@@ -48,7 +48,8 @@ class Comment < ActiveRecord::Base
 
   def generate_events
     if self.commentable.class.name == "Project"
-      event = commentable.events.create(event_type: "ProjectComment", data: CommentSerializer.new(self, root: false).to_json)
+      event = commentable.events.create(event_type: Event.event_types[:project_comment],
+                                        data: CommentSerializer.new(self, root: false).to_json)
 
       commentable.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
@@ -56,7 +57,8 @@ class Comment < ActiveRecord::Base
 
     elsif self.commentable.class.name == "Bid"
       # subscribe to future comments unless user has already unsubscribed
-      event = commentable.events.create(event_type: "BidComment", data: CommentSerializer.new(self, root: false).to_json)
+      event = commentable.events.create(event_type: Event.event_types[:bid_comment],
+                                        data: CommentSerializer.new(self, root: false).to_json)
 
       commentable.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
