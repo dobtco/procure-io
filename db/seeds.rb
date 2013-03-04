@@ -6,6 +6,8 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Delayed::Worker.delay_jobs = false
+
 3.times { FactoryGirl.create(:officer) }
 10.times { FactoryGirl.create(:vendor) }
 10.times { FactoryGirl.create(:tag) }
