@@ -44,6 +44,6 @@ module SharedUserMethods
   end
 
   def send_email_notifications_for?(event_type_value)
-    self.notification_preferences.include?(event_type_value)
+    self.notification_preferences && self.notification_preferences.include?(event_type_value)
   end
 end

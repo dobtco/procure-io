@@ -33,7 +33,12 @@ class Event < ActiveRecord::Base
       :project_comment => "Project Comment",
       :bid_comment => "Bid Comment",
       :bid_awarded => "Bid Awarded",
-      :bid_unawarded => "Bid Unawarded"
+      :bid_unawarded => "Bid Unawarded",
+      :vendor_bid_awarded => "Bid Awarded",
+      :vendor_bid_unawarded => "Bid Unawarded",
+      :vendor_bid_dismissed => "Bid Dismissed",
+      :vendor_bid_undismissed => "Bid Undismissed",
+      :project_amended => "Project Amended"
     }[event_type.to_sym]
   end
 

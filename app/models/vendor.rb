@@ -35,6 +35,12 @@ class Vendor < ActiveRecord::Base
   has_many :watches, as: :user
 
   serialize :notification_preferences
+  before_create :set_default_notification_preferences
+
+  def self.event_types
+    Event.event_types.only(:vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed, :vendor_bid_undismissed,
+                           :project_amended)
+  end
 
   def bid_for_project(project)
     bids.where(project_id: project.id).first
@@ -42,5 +48,10 @@ class Vendor < ActiveRecord::Base
 
   def submitted_bid_for_project(project)
     bids.where("submitted_at IS NOT NULL").where(project_id: project.id).first
+  end
+
+  private
+  def set_default_notification_preferences
+    self.notification_preferences = Vendor.event_types.values
   end
 end

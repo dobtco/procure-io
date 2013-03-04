@@ -26,10 +26,19 @@ class UsersController < ApplicationController
   end
 
   def post_vendor_settings
+    current_vendor.assign_attributes(vendor_params)
+    current_vendor.notification_preferences = params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
+    current_vendor.save
+    flash[:success] = "Settings successfully updated."
+    redirect_to settings_path
   end
 
   private
   def officer_params
     params.require(:officer).permit(:name, :title)
+  end
+
+  def vendor_params
+    params.require(:vendor).permit(:name)
   end
 end

@@ -41,7 +41,6 @@ class Officer < ActiveRecord::Base
   has_many :bid_reviews, dependent: :destroy
 
   serialize :notification_preferences
-
   before_create :set_default_notification_preferences
 
   def self.event_types
