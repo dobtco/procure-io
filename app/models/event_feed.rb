@@ -17,11 +17,20 @@ class EventFeed < ActiveRecord::Base
 
   scope :unread, where(read: false)
 
+  after_create :send_email
+
   def read!
     self.update_attributes(read: true)
   end
 
   def unread!
     self.update_attributes(read: false)
+  end
+
+  private
+  def send_email
+    if user.send_email_notifications_for?(event.event_type)
+      NotificationMailer.notification_email(user, event).deliver
+    end
   end
 end
