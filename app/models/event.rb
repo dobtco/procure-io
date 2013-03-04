@@ -3,13 +3,15 @@
 # Table name: events
 #
 #  id              :integer          not null, primary key
-#  event_type      :string(255)
 #  data            :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  targetable_type :string(255)
 #  targetable_id   :integer
+#  event_type      :integer
 #
+
+require_dependency 'enum'
 
 class Event < ActiveRecord::Base
   include Rails.application.routes.url_helpers
@@ -25,40 +27,48 @@ class Event < ActiveRecord::Base
     .where("users_event_feed.user_type = ? AND users_event_feed.user_id = ?", user.class.name, user.id)
   }
 
+  def self.event_types
+    @event_types ||= Enum.new(
+      :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
+      :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended
+    )
+  end
+
   def data
     ActiveSupport::JSON.decode(read_attribute(:data))
   end
 
   def path
     case event_type
-    when "ProjectComment"
+    when Event.event_types[:project_comment]
       comments_project_path(targetable_id)
-    when "BidComment"
+    when Event.event_types[:bid_comment]
       project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
-    when "BidAwarded", "BidUnawarded", "VendorBidAwarded", "VendorBidUnawarded", "VendorBidDismissed", "VendorBidUndismissed"
+    when Event.event_types[:bid_awarded], Event.event_types[:bid_unawarded], Event.event_types[:vendor_bid_awarded],
+         Event.event_types[:vendor_bid_unawarded], Event.event_types[:vendor_bid_dismissed], Event.event_types[:vendor_bid_undismissed]
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
-    when "ProjectAmended"
+    when Event.event_types[:project_amended]
       project_path(targetable_id)
     end
   end
 
   def text
     case event_type
-    when "ProjectComment"
+    when Event.event_types[:project_comment]
       "#{data['officer']['name']} commented on #{data['commentable']['title']}."
-    when "BidComment"
+    when Event.event_types[:bid_comment]
       "#{data['officer']['name']} commented on #{data['commentable']['vendor']['name']}'s bid for #{data['commentable']['project']['title']}."
-    when "BidAwarded", "BidUnawarded"
+    when Event.event_types[:bid_awarded], Event.event_types[:bid_unawarded]
       "#{data['officer']['name']} #{event_type == 'BidAwarded' ? 'awarded' : 'unawarded'} #{data['bid']['vendor']['name']}'s bid on #{data['bid']['project']['title']}."
-    when "VendorBidAwarded"
+    when Event.event_types[:vendor_bid_awarded]
       "#{data['officer']['name']} has awarded your bid on #{data['bid']['project']['title']}."
-    when "VendorBidUnawarded"
+    when Event.event_types[:vendor_bid_unawarded]
       "#{data['officer']['name']} has unawarded your bid on #{data['bid']['project']['title']}."
-    when "VendorBidDismissed"
+    when Event.event_types[:vendor_bid_dismissed]
       "#{data['officer']['name']} has dismissed your bid on #{data['bid']['project']['title']}."
-    when "VendorBidUndismissed"
+    when Event.event_types[:vendor_bid_undismissed]
       "#{data['officer']['name']} has undismissed your bid on #{data['bid']['project']['title']}."
-    when "ProjectAmended"
+    when Event.event_types[:project_amended]
       "The project #{data['title']} has been amended."
     end
   end

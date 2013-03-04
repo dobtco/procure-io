@@ -16,7 +16,7 @@ module SharedUserMethods
     sql = targetable.events
 
     if event_types.any?
-      sql = sql.where("event_type IN (?)", event_types)
+      sql = sql.where("event_type IN (?)", Event.event_types.only(event_types).values)
     end
 
     sql.include_users_event_feed(self).each do |event|

@@ -3,12 +3,12 @@
 # Table name: events
 #
 #  id              :integer          not null, primary key
-#  event_type      :string(255)
 #  data            :text
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  targetable_type :string(255)
 #  targetable_id   :integer
+#  event_type      :integer
 #
 
 require 'spec_helper'

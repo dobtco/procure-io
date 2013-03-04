@@ -7,5 +7,7 @@ class CreateLabels < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_foreign_key "labels", "projects", :name => "labels_project_id_fk"
   end
 end
