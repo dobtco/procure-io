@@ -31,9 +31,6 @@ class Vendor < ActiveRecord::Base
   has_many :questions
   has_many :saved_searches, dependent: :destroy
 
-  has_many :event_feeds, as: :user
-  has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
-
   has_many :watches, as: :user
 
   def bid_for_project(project)

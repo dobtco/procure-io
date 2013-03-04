@@ -1,5 +1,7 @@
 module SharedUserMethods
   def self.included(base)
+    base.has_many :event_feeds, as: :user
+    base.has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
     base.has_many :watches, as: :user
   end
 
