@@ -14,9 +14,9 @@
   &middot;
 
   %span.project-bids-due-at
-    Bids due on #{@bids_due_at}
+    Bids due on #{@bids_due_at_readable_dateonly}
 
   &middot;
 
   %span.posted-at
-    Posted on #{@posted_at}
+    Posted on #{@posted_at_readable_dateonly}

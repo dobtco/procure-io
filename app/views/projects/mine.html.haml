@@ -14,6 +14,6 @@
       %tr
         %td type
         %td= link_to project.title, edit_project_path(project)
-        %td= project.bids_due_at
+        %td= project.bids_due_at.to_formatted_s(:readable)
 
 = will_paginate @projects, class: "pagination pagination-centered"

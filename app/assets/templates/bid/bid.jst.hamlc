@@ -49,7 +49,7 @@
         %span.badge.badge-info Open
 
     %p
-      %span Submitted on #{@submitted_at}
+      %span Submitted on #{@submitted_at_readable}
 
     %p
       %a{"href" => "#comment-page"}

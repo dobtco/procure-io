@@ -19,7 +19,7 @@
         - @project.amendments.each do |amendment|
           %h5
             = amendment.title
-            %small Posted on #{amendment.posted_at}
+            %small Posted on #{amendment.posted_at.to_formatted_s(:readable_dateonly)}
           %p= simple_format amendment.body
 
   .span5
@@ -27,7 +27,7 @@
       = link_to @project.watched_by?(current_user) ? "Watching Project" : "Watch Project", watches_path("Project", @project), |
                 method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
-    %h4 Bids due on #{@project.bids_due_at}
+    %h4 Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
     - if vendor_signed_in?
       - if (bid = current_vendor.bid_for_project(@project))
         - if bid.submitted_at
