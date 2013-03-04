@@ -1,0 +1,21 @@
+!=page_header "Settings"
+
+= form_for current_officer, url: settings_path do |f|
+
+  %h4 Profile
+
+  = f.label :name
+  = f.text_field :name
+
+  = f.label :title
+  = f.text_field :title
+
+  %h4 Email Notifications
+
+  - Officer.event_types.each do |k, v|
+    %label.checkbox
+      %input{"type" => "checkbox", "name" => "notifications[#{v}]", "checked" => current_officer.send_email_notifications_for?(v)}
+      = Event.event_name_for(k)
+
+  .form-actions
+    = f.submit class: "btn btn-inverse"

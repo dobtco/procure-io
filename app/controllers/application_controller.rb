@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user!
-    if !current_vendor && !current_officer then not_found end
+    if !current_vendor && !current_officer
+      flash[:error] = "Sorry, you must be logged in to access that page."
+      redirect_to :root
+    end
   end
 end

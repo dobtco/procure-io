@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304010821) do
+ActiveRecord::Schema.define(:version => 20130304221145) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -122,26 +122,27 @@ ActiveRecord::Schema.define(:version => 20130304010821) do
   end
 
   create_table "officers", :force => true do |t|
-    t.string   "email",                                :default => "", :null => false
-    t.string   "encrypted_password",                   :default => ""
+    t.string   "email",                                  :default => "", :null => false
+    t.string   "encrypted_password",                     :default => ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        :default => 0
+    t.integer  "sign_in_count",                          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                           :null => false
-    t.datetime "updated_at",                                           :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
     t.string   "name"
     t.string   "title"
-    t.string   "invitation_token",       :limit => 60
+    t.string   "invitation_token",         :limit => 60
     t.datetime "invitation_sent_at"
     t.datetime "invitation_accepted_at"
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
+    t.text     "notification_preferences"
   end
 
   add_index "officers", ["email"], :name => "index_officers_on_email", :unique => true
@@ -203,19 +204,20 @@ ActiveRecord::Schema.define(:version => 20130304010821) do
   end
 
   create_table "vendors", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                    :default => "", :null => false
+    t.string   "encrypted_password",       :default => "", :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          :default => 0
+    t.integer  "sign_in_count",            :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
     t.string   "name"
+    t.text     "notification_preferences"
   end
 
   add_index "vendors", ["email"], :name => "index_vendors_on_email", :unique => true

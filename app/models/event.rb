@@ -28,6 +28,15 @@ class Event < ActiveRecord::Base
     )
   end
 
+  def self.event_name_for(event_type)
+    {
+      :project_comment => "Project Comment",
+      :bid_comment => "Bid Comment",
+      :bid_awarded => "Bid Awarded",
+      :bid_unawarded => "Bid Unawarded"
+    }[event_type.to_sym]
+  end
+
   def data
     ActiveSupport::JSON.decode(read_attribute(:data))
   end
