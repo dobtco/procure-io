@@ -31,8 +31,6 @@ class Bid < ActiveRecord::Base
 
   has_many :events, as: :targetable
 
-  has_one :my_bid_review, class_name: "BidReview"
-
   has_and_belongs_to_many :labels
 
   def submit
