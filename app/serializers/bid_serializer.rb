@@ -10,6 +10,6 @@ class BidSerializer < ActiveModel::Serializer
   has_many :labels
 
   def submitted_at_readable
-    object.submitted_at.to_formatted_s(:readable)
+    object.submitted_at.to_formatted_s(:readable) if object.submitted_at
   end
 end
