@@ -59,3 +59,4 @@ RSpec.configure do |config|
 end
 
 Capybara.javascript_driver = :webkit
+Delayed::Worker.delay_jobs = false
