@@ -54,6 +54,9 @@ class Project < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :solr_index
+  handle_asynchronously :remove_from_index
+
   def abstract
     truncate(self.body, length: 130, omission: "...")
   end
