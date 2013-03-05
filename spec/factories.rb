@@ -4,6 +4,17 @@ FactoryGirl.define do
     project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
     submitted_at { rand(1..8) == 1 ? nil : Time.now }
 
+    factory :bid_with_reviews do
+      after(:create) do |b|
+        rand(0..2).times do
+          review = b.bid_review_for_officer(Officer.all(order: "RANDOM()").first)
+          review.read = rand(0..1) == 1
+          review.starred = rand(0..1) == 1
+          review.save
+        end
+      end
+    end
+
     after(:create) do |b|
       # make sure the first project is posted, since we're giving it lots of bids
       if Project.first then Project.first.update_attributes(posted_at: Time.now, posted_by_officer_id: Officer.first.id) end
@@ -16,13 +27,6 @@ FactoryGirl.define do
         else
           b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
         end
-      end
-
-      rand(0..2).times do
-        review = b.bid_review_for_officer(Officer.all(order: "RANDOM()").first)
-        review.read = rand(0..1) == 1
-        review.starred = rand(0..1) == 1
-        review.save
       end
 
       rand(0..2).times do
