@@ -14,7 +14,8 @@
 
   - Officer.event_types.each do |k, v|
     %label.checkbox
-      %input{"type" => "checkbox", "name" => "notifications[#{v}]", "checked" => current_officer.send_email_notifications_for?(v)}
+      .switch
+        %input{"type" => "checkbox", "name" => "notifications[#{v}]", "checked" => current_officer.send_email_notifications_for?(v)}
       = Event.event_name_for(k)
 
   .form-actions
