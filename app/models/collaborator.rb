@@ -20,6 +20,11 @@ class Collaborator < ActiveRecord::Base
     self.delay.create_you_were_added_events!
   end
 
+  before_destroy do
+    officer.watches.where(watchable_type: "Project", watchable_id: project_id).destroy_all
+    officer.watches.where(watchable_type: "Bid").where("watchable_id IN (?)", project.bids.pluck(:id)).destroy_all
+  end
+
   private
   def create_collaborator_added_events!
     event = project.events.create(event_type: Event.event_types[:collaborator_added],

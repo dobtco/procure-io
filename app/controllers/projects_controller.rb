@@ -123,7 +123,7 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(:title, :body, :bids_due_at)
   end
 
-  def project_is_posted_if_vendor
+  def project_is_posted_if_current_vendor
     return not_found if current_vendor && !@project.posted?
   end
 end
