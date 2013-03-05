@@ -3,37 +3,35 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, except: [:index, :show]
 
   def index
-    @projects = Project.includes(:tags).posted
-
-    # @todo solr or someshit
-    if params[:q]
-      @projects = @projects.where("body LIKE ? OR title LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
-    end
-
-    if params[:category] && !params[:category].blank?
-      @projects = @projects.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
-                           .where("tags.name = ?", params[:category])
-    end
-
-    if params[:sort] == "bidsDue"
-      @projects = @projects.order("bids_due_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-    elsif params[:sort] == "postedAt" || !params[:sort]
-      @projects = @projects.order("posted_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-    end
-
     pagination_info = {
-      total: @projects.count,
       per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
       page: !params[:page].blank? ? params[:page].to_i : 1
     }
 
+    query_results = Project.search(:include => [:tags]) do
+      fulltext(params[:q]) if params[:q] && !params[:q].blank?
+
+      if params[:category] && !params[:category].blank?
+        with(:tags).any_of([params[:category]])
+      end
+
+      if params[:sort] == "bidsDue"
+        order_by(:bids_due_at, params[:direction] == 'asc' ? :asc : :desc)
+      elsif params[:sort] == "postedAt" || !params[:sort]
+        order_by(:posted_at, params[:direction] == 'asc' ? :asc : :desc)
+      end
+
+      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
+    end
+
+    @projects = query_results.results
+
+    pagination_info[:total] = query_results.total
     pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
 
     if pagination_info[:last_page] < pagination_info[:page]
       pagination_info[:page] = pagination_info[:last_page]
     end
-
-    @projects = @projects.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
 
     @filter_params = { category: params[:category], q: params[:q] }
 

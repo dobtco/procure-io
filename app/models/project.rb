@@ -33,6 +33,23 @@ class Project < ActiveRecord::Base
 
   has_and_belongs_to_many :tags
 
+  searchable do
+    text :title, default_boost: 2
+    text :body
+
+    boolean :posted
+    time :bids_due_at
+    time :posted_at
+
+    string :tags, multiple: true do
+      tags.map { |tag| tag.name }
+    end
+
+    text :amendments do
+      amendments.posted.map { |amendment| amendment.body }
+    end
+  end
+
   def abstract
     truncate(self.body, length: 130, omission: "...")
   end

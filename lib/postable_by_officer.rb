@@ -12,6 +12,8 @@ module PostableByOfficer
     self.posted_at ? true : false
   end
 
+  alias_method :posted, :posted?
+
   def post_by_officer(officer)
     return false if self.posted_at
     self.posted_at = Time.now
