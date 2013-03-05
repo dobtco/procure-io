@@ -33,7 +33,7 @@ class Collaborator < ActiveRecord::Base
   end
 
   def create_you_were_added_events!
-    return if !officer.signed_up?
+    return if !officer.signed_up? || !added_by_officer_id
 
     event = project.events.create(event_type: Event.event_types[:you_were_added],
                                   data: { officer: OfficerSerializer.new(Officer.find(added_by_officer_id), root: false),
