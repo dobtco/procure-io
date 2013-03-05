@@ -51,7 +51,7 @@ class Comment < ActiveRecord::Base
       event = commentable.events.create(event_type: Event.event_types[:project_comment],
                                         data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
+      commentable.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
       end
 
@@ -60,7 +60,7 @@ class Comment < ActiveRecord::Base
       event = commentable.events.create(event_type: Event.event_types[:bid_comment],
                                         data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.watches.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
+      commentable.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
         EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
       end
     end
