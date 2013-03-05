@@ -7,6 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Delayed::Worker.delay_jobs = false
+ActionMailer::Base.delivery_method = false
 
 3.times { FactoryGirl.create(:officer) }
 10.times { FactoryGirl.create(:vendor) }
