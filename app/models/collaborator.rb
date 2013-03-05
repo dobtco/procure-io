@@ -16,6 +16,7 @@ class Collaborator < ActiveRecord::Base
   belongs_to :officer
 
   after_create do
+    officer.watch!("Project", project_id)
     self.delay.create_collaborator_added_events!
     self.delay.create_you_were_added_events!
   end

@@ -1,6 +1,10 @@
 Hey <%= @user.display_name %>,
 
 <%= @event.text %>
+<% if @event.additional_text %>
+
+<%= @event.additional_text %>
+<% end %>
 
 <%= "#{URI.join(root_url, @event.path)}" %>
 

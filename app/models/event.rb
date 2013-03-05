@@ -92,4 +92,11 @@ class Event < ActiveRecord::Base
       "#{data['officer']['display_name']} added you as a collaborator on #{data['project']['title']}."
     end
   end
+
+  def additional_text
+    case event_type
+    when Event.event_types[:you_were_added]
+      "You have automatically been subscribed to all updates on this project."
+    end
+  end
 end
