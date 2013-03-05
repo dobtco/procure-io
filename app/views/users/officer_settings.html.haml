@@ -10,13 +10,7 @@
   = f.label :title
   = f.text_field :title
 
-  %h4 Email Notifications
-
-  - Officer.event_types.each do |k, v|
-    %label.checkbox
-      .switch
-        %input{"type" => "checkbox", "name" => "notifications[#{v}]", "checked" => current_officer.send_email_notifications_for?(v)}
-      = Event.event_name_for(k)
+  = render 'users/notification_settings', event_types: Officer.event_types
 
   .form-actions
     = f.submit class: "btn btn-inverse"

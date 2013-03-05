@@ -1,0 +1,7 @@
+%h4 Email Notifications
+
+- event_types.each do |k, v|
+  %label.checkbox
+    .switch
+      %input{"type" => "checkbox", "name" => "notifications[#{v}]", "checked" => current_user.send_email_notifications_for?(v)}
+    = Event.event_name_for(k)
