@@ -2,7 +2,8 @@ FactoryGirl.define do
   factory :bid do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
-    submitted_at { rand(1..8) == 1 ? nil : Time.now }
+    sequence(:submitted_at) { |n| rand(1..8) == 1 ? nil : Time.now + n.seconds }
+
 
     factory :bid_with_reviews do
       after(:create) do |b|

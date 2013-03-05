@@ -14,7 +14,7 @@ class BidsController < ApplicationController
           page: !params[:page].blank? ? params[:page].to_i : 1
         }
 
-        query_results = Bid.search_by_params(params, pagination_info)
+        query_results = Bid.search_by_params(params.merge({project_id: @project.id}), pagination_info)
 
         @bids = query_results.results
 

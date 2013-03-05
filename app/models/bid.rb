@@ -46,6 +46,8 @@ class Bid < ActiveRecord::Base
 
     integer :total_stars
     integer :total_comments
+    integer :project_id
+    integer :vendor_id
 
     dynamic_string :bid_responses do
       bid_responses.inject({}) do |hash, bid_response|
@@ -74,6 +76,8 @@ class Bid < ActiveRecord::Base
       with(:submitted, true)
 
       fulltext(params[:q]) if params[:q] && !params[:q].blank?
+
+      with(:project_id, params[:project_id]) if params[:project_id]
 
       if params[:f2] == "dismissed"
         with(:dismissed, true)
