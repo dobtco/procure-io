@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch]
   before_filter :authenticate_officer!, except: [:index, :show]
+  before_filter :project_is_posted_if_current_vendor, only: [:show]
 
   def index
     pagination_info = {
@@ -120,5 +121,9 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:title, :body, :bids_due_at)
+  end
+
+  def project_is_posted_if_vendor
+    return not_found if current_vendor && !@project.posted?
   end
 end
