@@ -76,7 +76,7 @@ describe "Bid", solr: true do
 
     describe "index page" do
       before do
-        15.times { FactoryGirl.create(:bid, project: projects(:one), submitted_at: Time.now) }
+        15.times { |i| FactoryGirl.create(:bid, project: projects(:one), submitted_at: Time.now + i.seconds) }
         visit project_bids_path(projects(:one))
       end
 

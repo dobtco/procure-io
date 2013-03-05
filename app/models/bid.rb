@@ -54,7 +54,7 @@ class Bid < ActiveRecord::Base
       end
     end
 
-    time :created_at
+    time :submitted_at
 
     text :comments do
       comments.map { |comment| comment.body }
@@ -65,7 +65,7 @@ class Bid < ActiveRecord::Base
     end
   end
 
-  def force_index(label)
+  def force_index(_)
     self.solr_index!
   end
 

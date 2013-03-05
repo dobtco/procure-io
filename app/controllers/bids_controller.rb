@@ -43,7 +43,7 @@ class BidsController < ApplicationController
           elsif params[:sort] == "stars"
             order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
           elsif params[:sort] == "createdAt" || !params[:sort]
-            order_by(:created_at, params[:direction] == 'asc' ? :asc : :desc)
+            order_by(:submitted_at, params[:direction] == 'asc' ? :asc : :desc)
           end
 
           paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
