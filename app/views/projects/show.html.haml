@@ -8,12 +8,12 @@
   .span7
     %h4 Project Description
 
-    - if @project.amendments.any?
-      .alert.alert-info Be sure to read the <a href="#amendments">#{pluralize(@project.amendments.length, 'amendment')}</a> in addition to this description.
+    - if @project.amendments.posted.any?
+      .alert.alert-info Be sure to read the <a href="#amendments">#{pluralize(@project.amendments.posted.length, 'amendment')}</a> in addition to this description.
 
     %p= simple_format @project.body
 
-    - if @project.amendments.any?
+    - if @project.amendments.posted.any?
       #amendments
         %h4 Amendments
         - @project.amendments.posted.each do |amendment|
