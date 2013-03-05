@@ -9,51 +9,55 @@ class BidsController < ApplicationController
       format.html {}
 
       format.json do
-        @bids = @project.submitted_bids.includes(:labels)
-                                       .includes(:bid_responses)
-                                       .includes(:vendor)
-                                       .includes(:project)
-
-        if params[:f2] == "dismissed"
-          @bids = @bids.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
-        elsif params[:f2] == "awarded"
-          @bids = @bids.where("dismissed_at IS NULL AND awarded_at IS NOT NULL")
-        else
-          @bids = @bids.where("dismissed_at IS NULL AND awarded_at IS NULL")
-        end
-
-        if params[:f1] == "starred"
-          @bids = @bids.where("total_stars > 0")
-        end
-
-        if params[:sort].to_i > 0
-          @bids = @bids.joins("LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id")
-                       .where("bid_responses.response_field_id = ?", params[:sort])
-                       .order("bid_responses.value #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-        elsif params[:sort] == "stars"
-          @bids = @bids.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-        elsif params[:sort] == "createdAt" || !params[:sort]
-          @bids = @bids.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-        end
-
-        if params[:label] && !params[:label].blank?
-          @bids = @bids.joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
-                       .where("labels.name = ?", params[:label])
-        end
-
         pagination_info = {
-          total: @bids.count,
           per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
           page: !params[:page].blank? ? params[:page].to_i : 1
         }
 
+        query_results = Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
+          with(:submitted, true)
+
+          if params[:f2] == "dismissed"
+            with(:dismissed, true)
+            with(:awarded, false)
+          elsif params[:f2] == "awarded"
+            with(:dismissed, false)
+            with(:awarded, true)
+          else
+            with(:dismissed, false)
+            with(:awarded, false)
+          end
+
+          if params[:f1] == "starred"
+            with(:total_stars).greater_than 0
+          end
+
+          if params[:label] && !params[:label].blank?
+            with(:labels).any_of([params[:label]])
+          end
+
+          if params[:sort].to_i > 0
+            dynamic :bid_responses do
+              order_by(:"b#{params[:sort]}", params[:direction] == 'asc' ? :asc : :desc)
+            end
+          elsif params[:sort] == "stars"
+            order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
+          elsif params[:sort] == "createdAt" || !params[:sort]
+            order_by(:created_at, params[:direction] == 'asc' ? :asc : :desc)
+          end
+
+          paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
+        end
+
+
+        @bids = query_results.results
+
+        pagination_info[:total] = query_results.total
         pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
 
         if pagination_info[:last_page] < pagination_info[:page]
           pagination_info[:page] = pagination_info[:last_page]
         end
-
-        @bids = @bids.limit(pagination_info[:per_page]).offset((pagination_info[:page] - 1)*pagination_info[:per_page])
 
         render json: @bids, each_serializer: BidWithReviewSerializer, scope: current_officer, meta: pagination_info
       end

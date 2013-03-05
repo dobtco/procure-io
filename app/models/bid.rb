@@ -24,25 +24,72 @@ class Bid < ActiveRecord::Base
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
-  has_many :bid_responses, dependent: :destroy
+  has_many :bid_responses, dependent: :destroy, after_add: :force_index, after_remove: :force_index
   has_many :bid_reviews, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy, after_add: :force_index, after_remove: :force_index
 
   has_many :events, as: :targetable
 
-  has_and_belongs_to_many :labels
+  has_and_belongs_to_many :labels, after_add: :force_index, after_remove: :force_index
+
+  searchable do
+    text :vendor_name do vendor.name end
+    text :vendor_email do vendor.email end
+
+    text :body do
+      bid_responses.map { |bid_response| bid_response.value }
+    end
+
+    boolean :submitted
+    boolean :dismissed
+    boolean :awarded
+
+    integer :total_stars
+    integer :total_comments
+
+    dynamic_string :bid_responses do
+      bid_responses.inject({}) do |hash, bid_response|
+        hash["b#{bid_response.response_field_id.to_s}"] = bid_response.value
+        hash
+      end
+    end
+
+    time :created_at
+
+    text :comments do
+      comments.map { |comment| comment.body }
+    end
+
+    string :labels, multiple: true do
+      labels.map { |label| label.name }
+    end
+  end
+
+  def force_index(label)
+    self.solr_index!
+  end
 
   def submit
     self.submitted_at = Time.now
   end
 
+  def submitted?
+    self.submitted_at ? true : false
+  end
+
+  alias_method :submitted, :submitted?
+
   def dismissed?
     self.dismissed_at ? true : false
   end
 
+  alias_method :dismissed, :dismissed?
+
   def awarded?
     self.awarded_at ? true : false
   end
+
+  alias_method :awarded, :awarded?
 
   def dismiss_by_officer(officer)
     return false if self.dismissed_at

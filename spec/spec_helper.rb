@@ -25,7 +25,8 @@ RSpec.configure do |config|
     Sunspot::Rails::Tester.start_original_sunspot_session
     Sunspot.session = $original_sunspot_session
     Sunspot.remove_all!
-    Project.reindex # project is the only model that is currently indexed by Solr
+    Project.reindex
+    Bid.reindex
   end
 
   # ## Mock Framework

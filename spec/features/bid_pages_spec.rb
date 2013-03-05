@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Bid" do
+describe "Bid", solr: true do
 
   subject { page }
 
@@ -150,8 +150,9 @@ describe "Bid" do
           it "should correctly mark multiple bids as dismissed" do
             all("#bids-tbody input[type=checkbox]").each { |e| e.set(true) }
             click_button "Dismiss"
-            expect(page).to have_selector('#loading-indicator', visible: true)
-            expect(page).to have_selector('#bid-review-page:not(.loading)')
+            sleep 1
+            page.should have_selector('#loading-indicator', visible: true)
+            page.should have_selector('#bid-review-page:not(.loading)')
             page.should have_selector('.pagination ul li', count: 3)
           end
         end
