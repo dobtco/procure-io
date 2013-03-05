@@ -150,7 +150,6 @@ describe "Bid", solr: true do
           it "should correctly mark multiple bids as dismissed" do
             all("#bids-tbody input[type=checkbox]").each { |e| e.set(true) }
             click_button "Dismiss"
-            sleep 1
             page.should have_selector('#loading-indicator', visible: true)
             page.should have_selector('#bid-review-page:not(.loading)')
             page.should have_selector('.pagination ul li', count: 3)
