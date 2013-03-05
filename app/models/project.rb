@@ -77,7 +77,11 @@ class Project < ActiveRecord::Base
         order_by(:posted_at, params[:direction] == 'asc' ? :asc : :desc)
       end
 
-      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page]) if pagination_info
+      if pagination_info
+        paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
+      else
+        paginate(page: 1, per_page: 50)
+      end
     end
   end
 
