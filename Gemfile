@@ -20,7 +20,6 @@ gem 'ffaker'
 gem 'delayed_job_active_record'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
-gem 'sunspot-rails-tester', git: 'git://github.com/adamjacobbecker/sunspot-rails-tester.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -38,6 +37,7 @@ group :test, :development do
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'letter_opener'
+  gem 'sunspot-rails-tester', git: 'git://github.com/adamjacobbecker/sunspot-rails-tester.git'
 end
 
 # Gems used only for assets and not required
