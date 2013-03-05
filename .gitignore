@@ -21,4 +21,5 @@ coverage
 config/database.yml
 
 # solr
-/solr
+/solr/data
+/solr/pids
