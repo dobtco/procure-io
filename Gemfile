@@ -20,6 +20,7 @@ gem 'ffaker'
 gem 'delayed_job_active_record'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
+gem 'sunspot-rails-tester', git: 'git://github.com/adamjacobbecker/sunspot-rails-tester.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

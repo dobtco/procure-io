@@ -39,7 +39,7 @@ class Comment < ActiveRecord::Base
 
   def subscribe_officer_if_never_subscribed!
     return if comment_type # don't proceed if this is an automatically-generated comment
-    return unless commentable.class.name == "Bid"
+    return unless commentable && commentable.class.name == "Bid"
 
     if !commentable.ever_watched_by?(officer)
       officer.watch!("Bid", commentable.id)

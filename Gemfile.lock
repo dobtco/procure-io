@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/adamjacobbecker/sunspot-rails-tester.git
+  revision: 2645a94a6cdded9513320b3d05d227b7fb8da177
+  specs:
+    sunspot-rails-tester (0.0.4)
+      sunspot_rails (>= 2.0.0)
+      sunspot_solr (>= 2.0.0)
+
+GIT
   remote: git://github.com/codebrew/backbone-rails.git
   revision: a49f2ea65e1d70d206f6608bd405fb1968f6d070
   specs:
@@ -281,6 +289,7 @@ DEPENDENCIES
   select2-rails
   simplecov
   strong_parameters
+  sunspot-rails-tester!
   sunspot_rails
   sunspot_solr
   thin

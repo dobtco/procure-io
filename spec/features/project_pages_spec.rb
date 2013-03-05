@@ -5,7 +5,7 @@ describe "Project" do
   subject { page }
 
   describe "logged out" do
-    describe "index", js: true do
+    describe "index", js: true, solr: true do
       before { visit projects_path }
       it { should have_text(projects(:one).title) }
     end
@@ -48,7 +48,7 @@ describe "Project" do
       login_as(officers(:adam), scope: :officer)
     end
 
-    describe "index", js: true do
+    describe "index", js: true, solr: true do
       before { visit projects_path }
       it { should have_text(projects(:one).title) }
       it { should have_text(officers(:adam).name) }
