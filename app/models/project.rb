@@ -41,6 +41,10 @@ class Project < ActiveRecord::Base
     time :bids_due_at
     time :posted_at
 
+    text :tags_text do
+      tags.map { |tag| tag.name }
+    end
+
     string :tags, multiple: true do
       tags.map { |tag| tag.name }
     end
