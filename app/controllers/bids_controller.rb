@@ -14,50 +14,13 @@ class BidsController < ApplicationController
           page: !params[:page].blank? ? params[:page].to_i : 1
         }
 
-        query_results = Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
-          with(:submitted, true)
-
-          if params[:f2] == "dismissed"
-            with(:dismissed, true)
-            with(:awarded, false)
-          elsif params[:f2] == "awarded"
-            with(:dismissed, false)
-            with(:awarded, true)
-          else
-            with(:dismissed, false)
-            with(:awarded, false)
-          end
-
-          if params[:f1] == "starred"
-            with(:total_stars).greater_than 0
-          end
-
-          if params[:label] && !params[:label].blank?
-            with(:labels).any_of([params[:label]])
-          end
-
-          if params[:sort].to_i > 0
-            dynamic :bid_responses do
-              order_by(:"b#{params[:sort]}", params[:direction] == 'asc' ? :asc : :desc)
-            end
-          elsif params[:sort] == "stars"
-            order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
-          elsif params[:sort] == "createdAt" || !params[:sort]
-            order_by(:submitted_at, params[:direction] == 'asc' ? :asc : :desc)
-          end
-
-          paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
-        end
-
+        query_results = Bid.search_by_params(params, pagination_info)
 
         @bids = query_results.results
 
         pagination_info[:total] = query_results.total
         pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
-
-        if pagination_info[:last_page] < pagination_info[:page]
-          pagination_info[:page] = pagination_info[:last_page]
-        end
+        pagination_info[:page] = [pagination_info[:last_page], pagination_info[:page]].min
 
         render json: @bids, each_serializer: BidWithReviewSerializer, scope: current_officer, meta: pagination_info
       end

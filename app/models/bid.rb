@@ -65,6 +65,43 @@ class Bid < ActiveRecord::Base
     end
   end
 
+  def self.search_by_params(params, pagination_info = false)
+    Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
+      with(:submitted, true)
+
+      if params[:f2] == "dismissed"
+        with(:dismissed, true)
+        with(:awarded, false)
+      elsif params[:f2] == "awarded"
+        with(:dismissed, false)
+        with(:awarded, true)
+      else
+        with(:dismissed, false)
+        with(:awarded, false)
+      end
+
+      if params[:f1] == "starred"
+        with(:total_stars).greater_than 0
+      end
+
+      if params[:label] && !params[:label].blank?
+        with(:labels).any_of([params[:label]])
+      end
+
+      if params[:sort].to_i > 0
+        dynamic :bid_responses do
+          order_by(:"b#{params[:sort]}", params[:direction] == 'asc' ? :asc : :desc)
+        end
+      elsif params[:sort] == "stars"
+        order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
+      elsif params[:sort] == "createdAt" || !params[:sort]
+        order_by(:submitted_at, params[:direction] == 'asc' ? :asc : :desc)
+      end
+
+      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page]) if pagination_info
+    end
+  end
+
   def force_index(_)
     self.solr_index!
   end

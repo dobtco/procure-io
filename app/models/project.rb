@@ -57,6 +57,30 @@ class Project < ActiveRecord::Base
   handle_asynchronously :solr_index
   handle_asynchronously :remove_from_index
 
+  def self.search_by_params(params, pagination_info = false)
+    Project.search(:include => [:tags]) do
+      with(:posted, true)
+
+      fulltext(params[:q]) if params[:q] && !params[:q].blank?
+
+      if params[:category] && !params[:category].blank?
+        with(:tags).any_of([params[:category]])
+      end
+
+      if params[:posted_after]
+        with(:posted_at).greater_than params[:posted_after]
+      end
+
+      if params[:sort] == "bidsDue"
+        order_by(:bids_due_at, params[:direction] == 'asc' ? :asc : :desc)
+      elsif params[:sort] == "postedAt" || !params[:sort]
+        order_by(:posted_at, params[:direction] == 'asc' ? :asc : :desc)
+      end
+
+      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page]) if pagination_info
+    end
+  end
+
   def abstract
     truncate(self.body, length: 130, omission: "...")
   end

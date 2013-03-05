@@ -16,23 +16,11 @@ class SavedSearch < ActiveRecord::Base
 
   serialize :search_parameters
 
-  def execute
-    query = Project
-
-    if self.search_parameters["q"]
-      query = query.where("body LIKE ? OR title LIKE ?", "%#{self.search_parameters['q']}%", "%#{self.search_parameters['q']}%")
-    end
-
-    if self.search_parameters["category"]
-      query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
-                   .where("tags.name = ?", self.search_parameters["category"])
-
-    end
-
-    query
+  def execute(new_params = {})
+    Project.search_by_params(search_parameters.merge(new_params))
   end
 
   def execute_since_last_search
-    execute.where(posted_at: self.last_emailed_at..Time.now)
+    execute(posted_after: self.last_emailed_at)
   end
 end

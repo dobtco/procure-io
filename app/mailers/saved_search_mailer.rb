@@ -9,7 +9,7 @@ class SavedSearchMailer < ActionMailer::Base
     @vendor = vendor
 
     vendor.saved_searches.each do |saved_search|
-      @count += saved_search.execute_since_last_search.count
+      @count += saved_search.execute_since_last_search.total
     end
 
     if @count > 0
