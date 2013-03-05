@@ -1,9 +1,9 @@
 Hey <%= @user.display_name %>,
 
-<%= @event.text %>
+<%= raw @event.text %>
 <% if @event.additional_text %>
 
-<%= @event.additional_text %>
+<%= raw @event.additional_text %>
 <% end %>
 
 <%= "#{URI.join(root_url, @event.path)}" %>
