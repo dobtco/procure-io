@@ -16,3 +16,5 @@ Delayed::Worker.delay_jobs = false
 2.times { FactoryGirl.create(:amendment) }
 5.times { FactoryGirl.create(:comment) }
 20.times { FactoryGirl.create(:question) }
+
+Project.reindex # project is the only model that is currently indexed by Solr
