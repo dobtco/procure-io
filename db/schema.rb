@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130304221145) do
+ActiveRecord::Schema.define(:version => 20130305201039) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -63,8 +63,9 @@ ActiveRecord::Schema.define(:version => 20130304221145) do
     t.integer  "project_id"
     t.integer  "officer_id"
     t.boolean  "owner"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+    t.integer  "added_by_officer_id"
   end
 
   create_table "comments", :force => true do |t|

@@ -3,6 +3,7 @@ class CollaboratorsController < ApplicationController
   before_filter :authenticate_officer!
 
   def index
+    current_officer.read_notifications(@project, :collaborator_added, :you_were_added)
     @collaborators_json = ActiveModel::ArraySerializer.new(@project.collaborators).to_json
   end
 
@@ -14,7 +15,7 @@ class CollaboratorsController < ApplicationController
         format.json { render json: {error: "Already a collaborator."}, status: 422 }
       end
     else
-      @collaborator = @officer.collaborators.create(project_id: @project.id)
+      @collaborator = @officer.collaborators.create(project_id: @project.id, added_by_officer_id: current_officer.id)
       respond_to do |format|
         format.json { render json: @collaborator, root: false }
       end

@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    current_user.read_notifications(@project, :project_amended) if current_user
+    current_user.read_notifications(@project, :project_amended, :you_were_added) if current_user
     @questions_json = ActiveModel::ArraySerializer.new(@project.questions.all, each_serializer: VendorQuestionSerializer).to_json
   end
 
@@ -70,6 +70,7 @@ class ProjectsController < ApplicationController
 
   def edit
     authorize! :collaborate_on, @project
+    current_officer.read_notifications(@project, :you_were_added)
     get_pad(@project)
   end
 

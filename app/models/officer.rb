@@ -44,7 +44,7 @@ class Officer < ActiveRecord::Base
   before_create :set_default_notification_preferences
 
   def self.event_types
-    Event.event_types.only(:project_comment, :bid_comment, :bid_awarded, :bid_unawarded)
+    Event.event_types.only(:project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :collaborator_added, :you_were_added)
   end
 
   def signed_up?

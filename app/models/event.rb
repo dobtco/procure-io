@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
   def self.event_types
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
-      :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended
+      :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended, :collaborator_added, :you_were_added
     )
   end
 
@@ -38,7 +38,9 @@ class Event < ActiveRecord::Base
       :vendor_bid_unawarded => "Bid Unawarded",
       :vendor_bid_dismissed => "Bid Dismissed",
       :vendor_bid_undismissed => "Bid Undismissed",
-      :project_amended => "Project Amended"
+      :project_amended => "Project Amended",
+      :collaborator_added => "Collaborator Added",
+      :you_were_added => "You are added"
     }[event_type.to_sym]
   end
 
@@ -57,27 +59,37 @@ class Event < ActiveRecord::Base
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
     when Event.event_types[:project_amended]
       project_path(targetable_id)
+    when Event.event_types[:collaborator_added]
+      project_collaborators_path(targetable_id)
+    when Event.event_types[:you_were_added]
+      edit_project_path(targetable_id)
     end
   end
 
   def text
     case event_type
     when Event.event_types[:project_comment]
-      "#{data['officer']['name']} commented on #{data['commentable']['title']}."
+      "#{data['officer']['display_name']} commented on #{data['commentable']['title']}."
     when Event.event_types[:bid_comment]
-      "#{data['officer']['name']} commented on #{data['commentable']['vendor']['name']}'s bid for #{data['commentable']['project']['title']}."
-    when Event.event_types[:bid_awarded], Event.event_types[:bid_unawarded]
-      "#{data['officer']['name']} #{event_type == 'BidAwarded' ? 'awarded' : 'unawarded'} #{data['bid']['vendor']['name']}'s bid on #{data['bid']['project']['title']}."
+      "#{data['officer']['display_name']} commented on #{data['commentable']['vendor']['display_name']}'s bid for #{data['commentable']['project']['title']}."
+    when Event.event_types[:bid_awarded]
+      "#{data['officer']['display_name']} awarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
+    when Event.event_types[:bid_unawarded]
+      "#{data['officer']['display_name']} unawarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
     when Event.event_types[:vendor_bid_awarded]
-      "#{data['officer']['name']} has awarded your bid on #{data['bid']['project']['title']}."
+      "#{data['officer']['display_name']} has awarded your bid on #{data['bid']['project']['title']}."
     when Event.event_types[:vendor_bid_unawarded]
-      "#{data['officer']['name']} has unawarded your bid on #{data['bid']['project']['title']}."
+      "#{data['officer']['display_name']} has unawarded your bid on #{data['bid']['project']['title']}."
     when Event.event_types[:vendor_bid_dismissed]
-      "#{data['officer']['name']} has dismissed your bid on #{data['bid']['project']['title']}."
+      "#{data['officer']['display_name']} has dismissed your bid on #{data['bid']['project']['title']}."
     when Event.event_types[:vendor_bid_undismissed]
-      "#{data['officer']['name']} has undismissed your bid on #{data['bid']['project']['title']}."
+      "#{data['officer']['display_name']} has undismissed your bid on #{data['bid']['project']['title']}."
     when Event.event_types[:project_amended]
       "The project #{data['title']} has been amended."
+    when Event.event_types[:collaborator_added]
+      "#{data['officer']['display_name']} was added as a collaborator on #{data['project']['title']}."
+    when Event.event_types[:you_were_added]
+      "#{data['officer']['display_name']} added you as a collaborator on #{data['project']['title']}."
     end
   end
 end
