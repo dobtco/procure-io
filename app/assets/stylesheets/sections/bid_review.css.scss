@@ -42,11 +42,16 @@
     z-index: 2;
   }
 
-  .sort-wrapper {
+  .query-wrapper {
     position: absolute;
-    top: 13px;
+    top: 0;
     right: 0;
-    font-size: 12px;
+  }
+
+  #sorters-wrapper {
+    text-align: right;
+    clear: both;
+    margin: 10px 0;
   }
 
   &.loading {
@@ -133,6 +138,24 @@
   li:hover {
     .click-to-edit {
       display: inline;
+    }
+  }
+}
+
+.bid-search-form {
+  position: relative;
+
+  .clear-search {
+    position: absolute;
+    top: 50%;
+    margin-top: -9px;
+    right: 75px;
+    z-index: 2;
+
+    a {
+      color: #666;
+      text-decoration: none;
+      font-size: 18px;
     }
   }
 }

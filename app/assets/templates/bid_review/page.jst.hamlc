@@ -19,6 +19,8 @@
 
     #pagination-wrapper.pull-right
 
+    #sorters-wrapper
+
     %table.table#bids-table
       %thead
         %tr

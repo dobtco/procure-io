@@ -6,4 +6,11 @@
   %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"} Awarded Bids
 
-!= JST['shared/sorters']({sortOptions: @sortOptions, filteredHref: @filteredHref, filterOptions: @filterOptions})
+.query-wrapper
+  %form.bid-search-form.form-search
+    .input-append
+      %input.search-query{"type" => "text", "placeholder" => "Search bids...", "value" => @filterOptions.q}
+      %button.btn.btn-inverse Search
+    .clear-search
+      %a{"href" => @filteredHref({q: false, page: false}), "data-backbone-updatefilter" => "true", "data-rv-show" => "filterOptions.q"}
+        %i.icon-remove-sign

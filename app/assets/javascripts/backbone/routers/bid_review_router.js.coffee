@@ -19,6 +19,7 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
     @filterOptions.set "sort", params?.sort
     @filterOptions.set "direction", params?.direction
     @filterOptions.set "label", params?.label
+    @filterOptions.set "q", params?.q
 
     $("#bid-review-page").addClass 'loading'
     ProcureIo.Backbone.Bids.fetch({data: @filterOptions.toJSON()})

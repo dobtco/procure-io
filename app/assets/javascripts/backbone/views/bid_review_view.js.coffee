@@ -199,6 +199,13 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
 ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
   el: "#top-filter-wrapper"
 
+  render: ->
+    @$el.html JST['bid_review/top_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref})
+    rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
+
+ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
+  el: "#sorters-wrapper"
+
   initialize: ->
     @sortOptions = [{key: "createdAt", label: "Created at"}, {key: "stars", label: "Stars"}]
 
@@ -206,7 +213,7 @@ ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
       @sortOptions.push {key: ""+kf.id, label: kf.label}
 
   render: ->
-    @$el.html JST['bid_review/top_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref, sortOptions: @sortOptions})
+    @$el.html JST['bid_review/sorters']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref, sortOptions: @sortOptions})
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
@@ -295,6 +302,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
     "click [data-backbone-label]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
+    "submit .bid-search-form": "submitBidSearchForm"
 
   initialize: ->
     @project = @options.project
@@ -313,6 +321,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'reset', @renderLabelFilter, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderLabelAdmin, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderTopFilter, @
+    ProcureIo.Backbone.Bids.bind 'reset', @renderSorters, @
     ProcureIo.Backbone.Bids.bind 'reset', @renderSidebarFilter, @
 
     ProcureIo.Backbone.Labels = new ProcureIo.Backbone.LabelList()
@@ -371,6 +380,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   renderTopFilter: ->
     (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
 
+  renderSorters: ->
+    (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref})).render()
+
   renderLabelFilter: ->
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref})).render()
 
@@ -410,6 +422,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   toggleLabelAdmin: ->
     @$el.toggleClass 'editing-labels'
+
+  submitBidSearchForm: (e) ->
+    ProcureIo.Backbone.router.navigate @filteredHref({q: $(e.target).find("input").val(), page: 1}), {trigger: true}
+    e.preventDefault()
 
   sendBatchAction: (action, ids, options = {}) ->
     $("#bid-review-page").addClass 'loading'

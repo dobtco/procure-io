@@ -1,8 +1,9 @@
-.sort-wrapper
+%ul.sort-wrapper
   - for sortOption in @sortOptions
-    %a{"href" => @filteredHref({sort: sortOption.key, direction: (if @filterOptions.sort is sortOption.key and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != sortOption.key then false else @filterOptions.page)})}= sortOption.label
-    - if @filterOptions.sort is sortOption.key
-      - if @filterOptions.direction is "asc"
-        %i.icon-chevron-up
-      - else
-        %i.icon-chevron-down
+    %li
+      %a{"href" => @filteredHref({sort: sortOption.key, direction: (if @filterOptions.sort is sortOption.key and @filterOptions.direction != "asc" then "asc"), page: (if @filterOptions.sort != sortOption.key then false else @filterOptions.page)})}= sortOption.label
+      - if @filterOptions.sort is sortOption.key
+        - if @filterOptions.direction is "asc"
+          %i.icon-chevron-up
+        - else
+          %i.icon-chevron-down

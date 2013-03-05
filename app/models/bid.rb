@@ -60,6 +60,10 @@ class Bid < ActiveRecord::Base
       comments.map { |comment| comment.body }
     end
 
+    text :all_labels do
+      labels.map { |label| label.name }
+    end
+
     string :labels, multiple: true do
       labels.map { |label| label.name }
     end
@@ -68,6 +72,8 @@ class Bid < ActiveRecord::Base
   def self.search_by_params(params, pagination_info = false)
     Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
       with(:submitted, true)
+
+      fulltext(params[:q]) if params[:q] && !params[:q].blank?
 
       if params[:f2] == "dismissed"
         with(:dismissed, true)
