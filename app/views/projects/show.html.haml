@@ -16,7 +16,7 @@
     - if @project.amendments.any?
       #amendments
         %h4 Amendments
-        - @project.amendments.each do |amendment|
+        - @project.amendments.posted.each do |amendment|
           %h5
             = amendment.title
             %small Posted on #{amendment.posted_at.to_formatted_s(:readable_dateonly)}
