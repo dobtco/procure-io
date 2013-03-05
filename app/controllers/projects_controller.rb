@@ -9,6 +9,8 @@ class ProjectsController < ApplicationController
     }
 
     query_results = Project.search(:include => [:tags]) do
+      with(:posted, true)
+
       fulltext(params[:q]) if params[:q] && !params[:q].blank?
 
       if params[:category] && !params[:category].blank?
