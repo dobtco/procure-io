@@ -17,6 +17,7 @@
 #  updated_at               :datetime         not null
 #  name                     :string(255)
 #  notification_preferences :text
+#  account_disabled         :boolean          default(FALSE)
 #
 
 class Vendor < ActiveRecord::Base
@@ -48,6 +49,10 @@ class Vendor < ActiveRecord::Base
 
   def submitted_bid_for_project(project)
     bids.where("submitted_at IS NOT NULL").where(project_id: project.id).first
+  end
+
+  def active_for_authentication?
+    super && !self.account_disabled?
   end
 
   private

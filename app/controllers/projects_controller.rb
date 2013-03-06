@@ -1,5 +1,7 @@
 class ProjectsController < ApplicationController
-  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch]
+  include ActionView::Helpers::TextHelper
+
+  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch, :import_csv, :post_import_csv]
   before_filter :authenticate_officer!, except: [:index, :show]
   before_filter :project_is_posted_if_current_vendor, only: [:show]
 
@@ -83,6 +85,40 @@ class ProjectsController < ApplicationController
 
 
     redirect_to edit_project_path(@project)
+  end
+
+  def import_csv
+  end
+
+  def post_import_csv
+    require 'csv'
+
+    count = 0
+    label = @project.labels.where(name: "Imported from CSV").first_or_create(color: "4FEB5A")
+    csv = CSV.parse params[:file].read, headers: true
+    csv.each do |row|
+      new_hash = {}
+      row.to_hash.each_pair do |k,v|
+        new_hash.merge!({k.downcase => v})
+      end
+      vendor = Vendor.where(email: new_hash["email"])
+                     .first_or_create(password: SecureRandom.urlsafe_base64, name: new_hash["name"], account_disabled: true)
+      bid = vendor.bids.create(project_id: @project.id)
+
+      @project.response_fields.each do |response_field|
+        if (val = new_hash[response_field.label.downcase])
+          bid.bid_responses.create(response_field_id: response_field.id, value: val)
+        end
+      end
+
+      bid.submit
+      bid.save
+      bid.labels << label
+      count += 1
+    end
+
+    flash[:success] = "#{pluralize(count, 'record')} imported."
+    redirect_to project_bids_path(@project)
   end
 
   private

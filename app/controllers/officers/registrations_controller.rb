@@ -3,4 +3,3 @@ class Officers::RegistrationsController < Devise::RegistrationsController
     not_found
   end
 end
-

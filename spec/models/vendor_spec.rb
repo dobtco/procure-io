@@ -17,6 +17,7 @@
 #  updated_at               :datetime         not null
 #  name                     :string(255)
 #  notification_preferences :text
+#  account_disabled         :boolean          default(FALSE)
 #
 
 require 'spec_helper'

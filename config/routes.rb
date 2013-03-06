@@ -2,7 +2,7 @@ ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
   devise_for :officers, controllers: { registrations: 'officers/registrations', invitations: 'officers/invitations' }
-  devise_for :vendors
+  devise_for :vendors, controllers: { registrations: 'vendors/registrations' }
 
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
@@ -21,6 +21,8 @@ ProcureIo::Application.routes.draw do
   resources :projects do
     get 'mine', on: :collection
     get 'comments', on: :member
+    get 'import_csv' => 'projects#import_csv', on: :member, as: :import_csv
+    post 'import_csv' => 'projects#post_import_csv', on: :member
 
     resources :bids do
       put 'batch', on: :collection
