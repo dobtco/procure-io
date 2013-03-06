@@ -1,1 +1,1 @@
-%span.help-block{"data-rv-text" => "model.field_options.description"}
+%span.help-block= @field_options.description

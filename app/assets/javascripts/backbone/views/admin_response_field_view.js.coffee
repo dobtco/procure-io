@@ -14,7 +14,6 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   render: ->
     @$el.html JST['admin_response_field/view/base'](_.extend(@model.toJSON(), {cid: @model.cid}))
     @$el.find(".subtemplate-wrapper").html JST[@subTemplate](@model.toJSON())
-    rivets.bind(@$el, {model: @model})
 
     return @
 
@@ -74,11 +73,14 @@ ProcureIo.Backbone.EditCheckboxesResponseFieldView = ProcureIo.Backbone.AdminEdi
 
   initialize: ->
     ProcureIo.Backbone.AdminEditResponseFieldView.prototype.initialize.apply(@)
-    @events = _.extend @events,
+    @events = _.extend
       "input input[type=text]": "forceRender"
       "click input[type=checkbox]": "forceRender"
+    ,
+      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
 
   forceRender: ->
+    console.log 'forcerender'
     @model.trigger 'change'
 
 ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckboxesResponseFieldView.extend
@@ -89,7 +91,7 @@ ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckb
     @events = _.extend
       "click [data-backbone-defaultoption]": "defaultUpdated"
     ,
-      ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.events
+      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
 
   defaultUpdated: (e) ->
     @$el.find("[data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
@@ -101,9 +103,12 @@ ProcureIo.Backbone.EditRadioResponseFieldView = ProcureIo.Backbone.EditCheckboxe
   initialize: ->
     ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
     @events = _.extend
+      "input input[type=text]": "forceRender"
       "click [data-backbone-defaultoption]": "defaultUpdated"
     ,
-      ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.events
+      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
+
+    console.log @events
 
   defaultUpdated: (e) ->
     @$el.find("[data-backbone-defaultoption]").trigger('change')

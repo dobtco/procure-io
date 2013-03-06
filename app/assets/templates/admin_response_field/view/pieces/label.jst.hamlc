@@ -1,1 +1,1 @@
-%span{"data-rv-text" => "model.label"}
+%span= @label
