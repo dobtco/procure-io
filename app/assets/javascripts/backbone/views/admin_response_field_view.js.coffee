@@ -62,6 +62,13 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     options.splice index, 1
     @model.set "field_options.options", options
 
+  defaultUpdated: (e) ->
+    @$el.find("[data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
+    @forceRender()
+
+  forceRender: ->
+    @model.trigger 'change'
+
 ProcureIo.Backbone.EditTextResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/text'
 
@@ -73,48 +80,27 @@ ProcureIo.Backbone.EditCheckboxesResponseFieldView = ProcureIo.Backbone.AdminEdi
 
   initialize: ->
     ProcureIo.Backbone.AdminEditResponseFieldView.prototype.initialize.apply(@)
-    @events = _.extend
+    @extendEvents
       "input input[type=text]": "forceRender"
       "click input[type=checkbox]": "forceRender"
-    ,
-      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
-
-  forceRender: ->
-    console.log 'forcerender'
-    @model.trigger 'change'
 
 ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckboxesResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/dropdown'
 
   initialize: ->
-    ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
-    @events = _.extend
+    ProcureIo.Backbone.AdminEditResponseFieldView.prototype.initialize.apply(@)
+    @extendEvents
       "input input[type=text]": "forceRender"
       "click [data-backbone-defaultoption]": "defaultUpdated"
-    ,
-      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
-
-  defaultUpdated: (e) ->
-    @$el.find("[data-backbone-defaultoption]").not($(e.target)).attr('checked', false).trigger('change')
-    @forceRender()
 
 ProcureIo.Backbone.EditRadioResponseFieldView = ProcureIo.Backbone.EditCheckboxesResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/radio'
 
   initialize: ->
-    ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
-    @events = _.extend
+    ProcureIo.Backbone.AdminEditResponseFieldView.prototype.initialize.apply(@)
+    @extendEvents
       "input input[type=text]": "forceRender"
       "click [data-backbone-defaultoption]": "defaultUpdated"
-    ,
-      ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
-
-    console.log @events
-
-  defaultUpdated: (e) ->
-    @$el.find("[data-backbone-defaultoption]").trigger('change')
-    @forceRender()
-
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
   el: "#admin-response-field-page"

@@ -1,2 +1,2 @@
-- if @field_options.required?
+- if @field_options.required
   %span.required-asterisk *
