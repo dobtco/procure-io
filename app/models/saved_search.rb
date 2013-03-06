@@ -14,7 +14,7 @@
 class SavedSearch < ActiveRecord::Base
   belongs_to :vendor
 
-  serialize :search_parameters
+  serialize :search_parameters, Hash
 
   def execute(new_params = {})
     Project.search_by_params(search_parameters.merge(new_params))

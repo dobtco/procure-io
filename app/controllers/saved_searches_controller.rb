@@ -22,7 +22,7 @@ class SavedSearchesController < ApplicationController
 
   private
   def saved_search_params
-    params.require(:saved_search).permit({search_parameters: [:q, :category]}, :name)
+    params.permit(saved_search: [{search_parameters: [:q, :category]}, :name])[:saved_search]
   end
 
   def saved_search_exists?
