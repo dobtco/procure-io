@@ -8,6 +8,7 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
       "f1": "all"
       "f2": "open"
       "sort": "createdAt"
+      "page": 1
 
   reviewBids: (id, params) ->
     params = $.urlParams()

@@ -105,18 +105,13 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
         existingParams[k] = v
 
       newParams = {}
-      hasParams = false
 
       _.each existingParams, (val, key) ->
-        if val
-          hasParams = true
-          newParams[key] = val
+        newParams[key] = val if val
 
-      if hasParams
-        "/projects#{if format? then '.'+format else ''}?#{$.param(newParams)}"
-      else
-        "/projects#{if format? then '.'+format else ''}"
+      newParams["page"] ||= 1
 
+      "/projects#{if format? then '.'+format else ''}?#{$.param(newParams)}"
 
     ProcureIo.Backbone.router = new ProcureIo.Backbone.ProjectRouter()
 

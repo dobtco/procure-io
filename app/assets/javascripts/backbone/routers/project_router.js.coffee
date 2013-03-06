@@ -6,6 +6,7 @@ ProcureIo.Backbone.ProjectRouter = Backbone.Router.extend
   initialize: ->
     @filterOptions = new Backbone.Model
       "sort": "postedAt"
+      "page": 1
 
   projects: (id, params) ->
     params = $.urlParams()
