@@ -1,7 +1,7 @@
 ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
-  devise_for :officers, controllers: { registrations: 'officers/registrations' }
+  devise_for :officers, controllers: { registrations: 'officers/registrations', invitations: 'officers/invitations' }
   devise_for :vendors
 
   get 'settings' => 'users#settings', as: :settings

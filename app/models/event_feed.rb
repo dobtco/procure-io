@@ -29,6 +29,8 @@ class EventFeed < ActiveRecord::Base
 
   private
   def send_email
+    return if user.class.name == "Officer" && !user.signed_up? # don't send an email to an officer if they're not signed up
+
     if user.send_email_notifications_for?(event.event_type)
       NotificationMailer.notification_email(user, event).deliver
     end

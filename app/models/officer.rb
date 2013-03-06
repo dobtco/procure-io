@@ -53,6 +53,6 @@ class Officer < ActiveRecord::Base
 
   private
   def set_default_notification_preferences
-    self.notification_preferences = Officer.event_types.values
+    self.notification_preferences = Officer.event_types.except(:collaborator_added).values
   end
 end
