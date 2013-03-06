@@ -129,11 +129,19 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
+    ProcureIo.Backbone.ResponseFields.bind 'change add destroy', @handleFormUpdate, @
 
     @editView = undefined
 
     @render()
     ProcureIo.Backbone.ResponseFields.reset(@options.bootstrapData)
+
+    @formSaved = true
+    @saveFormButton = @$el.find("[data-backbone-save-form]")
+    @saveFormButton.button 'loading'
+    setInterval =>
+      @saveForm.call(@)
+    , 5000
 
   reset: ->
     $("#response-fields").html('')
@@ -178,7 +186,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     ProcureIo.Backbone.ResponseFields.create attrs
 
-  # todo scroll edit view when removing fields above it
+  # @todo scroll edit view when removing fields above it
   createAndShowEditView: (model, $responseFieldEl) ->
     if @editView
       if @editView.model.cid is model.cid then return
@@ -208,13 +216,19 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     @saveForm()
 
+  handleFormUpdate: ->
+    @formSaved = false
+    @saveFormButton.button('reset')
+
   saveForm: (e) ->
-    $(e.target).button 'loading'
+    return if @formSaved is true
+    @formSaved = true
+    @saveFormButton.button 'loading'
 
     $.ajax
       url: ProcureIo.Backbone.ResponseFields.url + "/batch"
       type: "PUT"
       contentType: "application/json"
       data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON()})
-      success: (data) =>
-        $(e.target).button 'reset'
+      # success: (data) =>
+      # @todo implement error callback
