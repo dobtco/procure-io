@@ -61,7 +61,7 @@ class Project < ActiveRecord::Base
     Project.search(:include => [:tags]) do
       with(:posted, true)
 
-      fulltext(params[:q]) if params[:q] && !params[:q].blank?
+      fulltext(ActionView::Helpers::TextHelper.remove_small_words(params[:q])) if params[:q] && !params[:q].blank?
 
       if params[:category] && !params[:category].blank?
         with(:tags).any_of([params[:category]])

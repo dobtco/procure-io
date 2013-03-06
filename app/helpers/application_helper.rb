@@ -63,4 +63,8 @@ module ApplicationHelper
     end
     flash_messages.join("\n").html_safe
   end
+
+  def remove_small_words(string)
+    string
+  end
 end

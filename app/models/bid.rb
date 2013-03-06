@@ -75,7 +75,7 @@ class Bid < ActiveRecord::Base
     Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
       with(:submitted, true)
 
-      fulltext(params[:q]) if params[:q] && !params[:q].blank?
+      fulltext(ActionView::Helpers::TextHelper.remove_small_words(params[:q])) if params[:q] && !params[:q].blank?
 
       with(:project_id, params[:project_id]) if params[:project_id]
 
