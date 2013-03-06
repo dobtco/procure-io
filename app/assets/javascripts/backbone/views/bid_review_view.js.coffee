@@ -30,11 +30,11 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
       e.preventDefault()
 
       labelName = $(@).find('input[name="label[name]"]').val()
-      labelColor = $(@).find('input[name="label[color]"]').val() || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
-      labelColor = labelColor.replace(/^\#/, '')
+      labelColor = $(@).find('input[name="label[color]"]').val().replace(/^\#/, '') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
       labelExists = ProcureIo.Backbone.Labels.existingNames().indexOf(labelName.toLowerCase()) != -1
 
       $(@).resetForm()
+
       $(".color-swatches .swatch.selected").removeClass 'selected'
       $(".color-swatches .swatch:eq(0)").addClass 'selected'
       $(".color-wrapper, .custom-color-input").addClass 'hide'

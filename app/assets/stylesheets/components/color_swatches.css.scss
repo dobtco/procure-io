@@ -42,3 +42,9 @@
     }
   }
 }
+
+.custom-color-input {
+  &.hide {
+    display: none;
+  }
+}
