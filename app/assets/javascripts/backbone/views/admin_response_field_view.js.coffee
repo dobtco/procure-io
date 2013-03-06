@@ -89,6 +89,7 @@ ProcureIo.Backbone.EditDropdownResponseFieldView = ProcureIo.Backbone.EditCheckb
   initialize: ->
     ProcureIo.Backbone.EditCheckboxesResponseFieldView.prototype.initialize.apply(@)
     @events = _.extend
+      "input input[type=text]": "forceRender"
       "click [data-backbone-defaultoption]": "defaultUpdated"
     ,
       ProcureIo.Backbone.AdminEditResponseFieldView.prototype.events
