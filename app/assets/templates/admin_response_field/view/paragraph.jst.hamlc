@@ -2,6 +2,6 @@
   != JST['admin_response_field/view/pieces/label'](@)
   != JST['admin_response_field/view/pieces/required'](@)
 
-%textarea
+%textarea{"class" => "rf-size-#{@field_options.size}"}
 
 != JST['admin_response_field/view/pieces/description'](@)

@@ -1,0 +1,28 @@
+.response-field-wrapper {
+  input[type=text] {
+    &.rf-size-small {
+
+    }
+
+    &.rf-size-medium {
+      width: 70%;
+    }
+
+    &.rf-size-large {
+      width: 100%;
+    }
+  }
+
+  textarea {
+    &.rf-size-medium {
+      width: 70%;
+      min-height: 100px;
+    }
+
+    &.rf-size-large {
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 240px;
+    }
+  }
+}

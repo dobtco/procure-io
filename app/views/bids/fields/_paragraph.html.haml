@@ -6,7 +6,8 @@
 %textarea{"name" => "response_fields[#{response_field.id}]", |
           "data-required" => response_field.field_options["required"] ? true : false, |
           "data-minlength" => !response_field.field_options["minlength"].blank? ? response_field.field_options["minlength"] : false, |
-          "data-maxlength" => !response_field.field_options["maxlength"].blank? ? response_field.field_options["maxlength"] : false }
+          "data-maxlength" => !response_field.field_options["maxlength"].blank? ? response_field.field_options["maxlength"] : false, |
+          "class" => "rf-size-#{response_field.field_options['size']}" }
   =value
 
 %span.help-block= response_field.field_options["description"]

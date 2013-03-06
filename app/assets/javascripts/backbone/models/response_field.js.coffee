@@ -4,3 +4,4 @@ ProcureIo.Backbone.ResponseField = Backbone.DeepModel.extend
     key_field: false
     field_options:
       required: true
+      size: "small"

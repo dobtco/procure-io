@@ -1,6 +1,6 @@
 ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   tagName: "div"
-  className: "response-field"
+  className: "response-field-wrapper"
 
   events:
     "click .subtemplate-wrapper": "focusEditView"
@@ -18,7 +18,7 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
     return @
 
   focusEditView: (e) ->
-    $target = if $(e.target).hasClass('response-field') then $(e.target) else $(e.target).closest(".response-field")
+    $target = if $(e.target).hasClass('response-field-wrapper') then $(e.target) else $(e.target).closest(".response-field-wrapper")
     @parentView.createAndShowEditView(@model, $target)
 
   clear: ->
@@ -115,7 +115,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
-    ProcureIo.Backbone.ResponseFields.bind 'change add destroy', @handleFormUpdate, @
+    ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
 
     @editView = undefined
 
