@@ -1,4 +1,0 @@
-- if @field_options.minlength?
-  %span min length: #{@field_options.minlength}
-- if @field_options.maxlength?
-  %span max length: #{@field_options.maxlength}

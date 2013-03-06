@@ -1,5 +1,9 @@
 %label min length
-%input{"type" => "text", "data-rv-value" => "model.field_options.minlength"}
+.input-append
+  %input.span2{"type" => "text", "data-rv-value" => "model.field_options.minlength"}
+  %span.add-on characters
 
 %label max length
-%input{"type" => "text", "data-rv-value" => "model.field_options.maxlength"}
+.input-append
+  %input.span2{"type" => "text", "data-rv-value" => "model.field_options.maxlength"}
+  %span.add-on characters

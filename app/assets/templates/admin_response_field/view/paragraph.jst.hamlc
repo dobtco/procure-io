@@ -4,6 +4,4 @@
 
 %textarea
 
-!= JST['admin_response_field/view/pieces/min_max_length'](@)
-
 != JST['admin_response_field/view/pieces/description'](@)
