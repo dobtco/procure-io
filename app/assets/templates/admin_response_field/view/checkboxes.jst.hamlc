@@ -2,7 +2,7 @@
   != JST['admin_response_field/view/pieces/label'](@)
   != JST['admin_response_field/view/pieces/required'](@)
 
-- for option in @field_options.options
+- for option in @field_options.options || []
   %div
     %label.checkbox
       %input{"type" => "checkbox", "checked" => option.checked, "onclick" => "javascript:return false;"}
