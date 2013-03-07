@@ -155,8 +155,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $("#response-fields").sortable
       forcePlaceholderSize: true
 
-    @createAndShowEditView(responseField)
-
   addAll: ->
     ProcureIo.Backbone.ResponseFields.each @addOne, @
 
@@ -185,6 +183,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     ProcureIo.Backbone.ResponseFields.create attrs,
       wait: true
+      success: (rf) =>
+        @createAndShowEditView(rf)
 
   # @todo scroll edit view when removing fields above it
   createAndShowEditView: (model) ->
