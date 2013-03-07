@@ -116,6 +116,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
+    ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
 
     @editView = undefined
 
@@ -139,6 +140,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
 
+    @toggleNoResponseFields()
+
     return @
 
   addOne: (responseField) ->
@@ -151,6 +154,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   addAll: ->
     ProcureIo.Backbone.ResponseFields.each @addOne, @
+
+  toggleNoResponseFields: ->
+    @$el.find("#no-response-fields")[if ProcureIo.Backbone.ResponseFields.length > 0 then 'hide' else 'show']()
 
   addNewField: (e) ->
     attrs =

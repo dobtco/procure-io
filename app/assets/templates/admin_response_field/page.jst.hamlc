@@ -22,4 +22,6 @@
 
   .span7
     %h4 Bid Form
+    #no-response-fields
+      No response fields yet. Why don't you add one?
     #response-fields
