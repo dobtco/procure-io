@@ -1,3 +1,5 @@
+@import "bootstrap/mixins";
+
 #response-fields {
   .response-field-wrapper {
     cursor: pointer;
@@ -36,4 +38,33 @@
 
 .required-asterisk {
   color: red;
+}
+
+
+.bid-form-span {
+  position: relative;
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  &.loading {
+    #loading-indicator {
+      display: block;
+    }
+
+    #no-response-fields, #response-fields {
+      @include opacity(75);
+    }
+  }
 }

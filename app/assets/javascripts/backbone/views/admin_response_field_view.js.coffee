@@ -145,6 +145,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     return @
 
   addOne: (responseField) ->
+    $(".bid-form-span").removeClass 'loading'
+
     view = new ProcureIo.Backbone["#{responseField.attributes.field_type.capitalize()}ResponseFieldView"]({model: responseField, parentView: @})
 
     el = view.render().el
@@ -152,6 +154,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $("#response-fields").sortable('destroy')
     $("#response-fields").sortable
       forcePlaceholderSize: true
+
+    @createAndShowEditView(responseField)
 
   addAll: ->
     ProcureIo.Backbone.ResponseFields.each @addOne, @
@@ -177,7 +181,10 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     if attrs.field_type is "dropdown"
       attrs.field_options.include_blank_option = false
 
-    ProcureIo.Backbone.ResponseFields.create attrs
+    $(".bid-form-span").addClass 'loading'
+
+    ProcureIo.Backbone.ResponseFields.create attrs,
+      wait: true
 
   # @todo scroll edit view when removing fields above it
   createAndShowEditView: (model) ->
@@ -192,7 +199,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $newEditEl = @editView.render().$el
     @$el.find("#edit-response-field-wrapper").html $newEditEl
     @$el.find("#response-field-tabs a[href=\"#editField\"]").click()
-
 
     if oldPadding
       $newEditEl.css {"padding-top": oldPadding}

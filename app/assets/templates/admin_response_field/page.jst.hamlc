@@ -20,8 +20,12 @@
     .form-actions
       %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => "All Changes Saved"} Save Form
 
-  .span7
+  .span7.bid-form-span
     %h4 Bid Form
     #no-response-fields
       No response fields yet. Why don't you add one?
     #response-fields
+
+    #loading-indicator
+      %i.icon-refresh.icon-spin
+      Loading...
