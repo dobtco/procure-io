@@ -49,7 +49,6 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     return @
 
   removeEditView: ->
-    $("#no-edit-response-field-wrapper").show()
     @parentView.editView = undefined
 
   addOption: ->
@@ -189,7 +188,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       oldPadding = @editView.$el.css('padding-top')
       @editView.remove()
 
-    $("#no-edit-response-field-wrapper").hide()
     @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]({model: model, parentView: @})
     $newEditEl = @editView.render().$el
     @$el.find("#edit-response-field-wrapper").html $newEditEl

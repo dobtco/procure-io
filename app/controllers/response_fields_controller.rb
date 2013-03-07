@@ -20,9 +20,11 @@ class ResponseFieldsController < ApplicationController
   end
 
   def batch
-    params[:response_fields].each do |response_field_params|
-      response_field = @project.response_fields.find(response_field_params[:id])
-      response_field.update_attributes pick(response_field_params, *allowed_params)
+    if params[:response_fields]
+      params[:response_fields].each do |response_field_params|
+        response_field = @project.response_fields.find(response_field_params[:id])
+        response_field.update_attributes pick(response_field_params, *allowed_params)
+      end
     end
 
     respond_to do |format|
