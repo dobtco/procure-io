@@ -14,12 +14,12 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   render: ->
     @$el.html JST['admin_response_field/view/base'](_.extend(@model.toJSON(), {cid: @model.cid}))
     @$el.find(".subtemplate-wrapper").html JST[@subTemplate](@model.toJSON())
-
+    @$el.data('cid', @model.cid)
     return @
 
   focusEditView: (e) ->
     $target = if $(e.target).hasClass('response-field-wrapper') then $(e.target) else $(e.target).closest(".response-field-wrapper")
-    @parentView.createAndShowEditView(@model, $target)
+    @parentView.createAndShowEditView(@model)
 
   clear: ->
     @model.destroy()
@@ -153,8 +153,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $("#response-fields").sortable
       forcePlaceholderSize: true
 
-    @createAndShowEditView(responseField, $(el))
-
   addAll: ->
     ProcureIo.Backbone.ResponseFields.each @addOne, @
 
@@ -182,7 +180,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     ProcureIo.Backbone.ResponseFields.create attrs
 
   # @todo scroll edit view when removing fields above it
-  createAndShowEditView: (model, $responseFieldEl) ->
+  createAndShowEditView: (model) ->
+    $responseFieldEl = $(".response-field-wrapper").filter(-> $(@).data('cid') == model.cid)
+
     if @editView
       if @editView.model.cid is model.cid then return
       oldPadding = @editView.$el.css('padding-top')
