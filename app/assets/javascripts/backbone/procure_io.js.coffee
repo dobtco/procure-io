@@ -15,4 +15,4 @@ ProcureIo.Backbone.Overrides =
     base + (if base.charAt(base.length - 1) == '/' then '' else '/') + encodeURIComponent(@id) + ".json"
 
 Backbone.View.prototype.extendEvents = (newEvents) ->
-  @events = _.extend newEvents, @events
+  _.extend @events, newEvents
