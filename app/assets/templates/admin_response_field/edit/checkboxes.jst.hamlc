@@ -4,6 +4,6 @@
   %label.checkbox
     %input{"type" => "text", "data-rv-value" => "option:label"}
     %input{"type" => "checkbox", "data-rv-checked" => "option:checked"}
-    %a.backbone-remove-option remove <span data-rv-text="index"></span></a>
+    %a.backbone-remove-option remove
 
 %a.backbone-add-option Add Option
