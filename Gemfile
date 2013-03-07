@@ -26,17 +26,22 @@ gem 'sunspot_solr'
 
 gem 'pg'
 
-group :test, :development do
+group :development do
   gem 'meta_request', '0.2.1'
   gem 'annotate'
   gem 'immigrant'
+  gem 'launchy'
+  gem 'letter_opener'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
+
+group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'database_cleaner'
-  gem 'launchy'
   gem 'simplecov', require: false
-  gem 'letter_opener'
   gem 'sunspot-rails-tester', git: 'git://github.com/adamjacobbecker/sunspot-rails-tester.git'
 end
 
