@@ -1,1 +1,2 @@
 != JST['admin_response_field/edit/groups/common']()
+!= JST['admin_response_field/edit/pieces/min_max']()

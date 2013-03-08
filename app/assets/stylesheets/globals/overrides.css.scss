@@ -47,3 +47,9 @@ body {
     margin-bottom: 0;
   }
 }
+
+.input-prepend, .input-append {
+  .parsley-error-list {
+    font-size: 14px;
+  }
+}
