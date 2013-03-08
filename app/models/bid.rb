@@ -18,6 +18,7 @@
 
 class Bid < ActiveRecord::Base
   include WatchableByUser
+  include PgSearch
 
   belongs_to :project
   belongs_to :vendor
@@ -31,6 +32,14 @@ class Bid < ActiveRecord::Base
   has_many :events, as: :targetable
 
   has_and_belongs_to_many :labels
+
+  pg_search_scope :full_search, associated_against: { bid_responses: [:value],
+                                                      vendor: [:name, :email],
+                                                      comments: [:body],
+                                                      labels: [:name] },
+                                using: {
+                                  tsearch: {prefix: true}
+                                }
 
   def self.search_by_project_and_params(project, params)
     return_object = { meta: {} }
@@ -56,12 +65,6 @@ class Bid < ActiveRecord::Base
                    .where("labels.name = ?", params[:label])
     end
 
-    # @todo fulltext stuff
-
-    return_object[:meta][:total] = query.count
-    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
-    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
-
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(["price"])
       query = query.joins("LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id")
@@ -73,6 +76,14 @@ class Bid < ActiveRecord::Base
     elsif params[:sort] == "created_at" || !params[:sort]
       query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
+
+    if params[:q] && !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
+
+    return_object[:meta][:total] = query.count
+    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
+    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
 
     return_object[:results] = query.limit(return_object[:meta][:per_page])
                                    .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])

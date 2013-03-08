@@ -49,8 +49,6 @@ class Project < ActiveRecord::Base
 
     query = self.posted
 
-    # @todo fulltext stuff
-
     if params[:q] && !params[:q].blank?
       query = query.full_search(params[:q])
     end
