@@ -47,6 +47,10 @@ class Project < ActiveRecord::Base
                    .where("tags.name = ?", params[:category])
     end
 
+    if params[:posted_after]
+      query = query.where(posted_at: params[:posted_after]..Time.now)
+    end
+
     return_object[:meta][:total] = query.count
     return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
     return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min

@@ -13,21 +13,7 @@ require 'database_cleaner'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
-$original_sunspot_session = Sunspot.session
-
 RSpec.configure do |config|
-
-  config.before do
-    Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
-  end
-
-  config.before :each, :solr => true do
-    Sunspot::Rails::Tester.start_original_sunspot_session
-    Sunspot.session = $original_sunspot_session
-    Sunspot.remove_all!
-    Project.reindex
-    Bid.reindex
-  end
 
   # ## Mock Framework
   #
