@@ -6,25 +6,14 @@ class ProjectsController < ApplicationController
   before_filter :project_is_posted_if_current_vendor, only: [:show]
 
   def index
-    pagination_info = {
-      per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
-      page: !params[:page].blank? ? params[:page].to_i : 1
-    }
-
-    query_results = Project.search_by_params(params, pagination_info)
-
-    @projects = query_results.results
-
-    pagination_info[:total] = query_results.total
-    pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
-    pagination_info[:page] = [pagination_info[:last_page], pagination_info[:page]].min
-
+    search_results = Project.search_by_params(params)
+    @projects = search_results[:results]
     @filter_params = { category: params[:category], q: params[:q] }
 
     respond_to do |format|
       format.html
-      format.json { render json: @projects, meta: pagination_info }
-      format.rss { render layout: false }
+      format.json { render json: @projects, meta: search_results[:meta] }
+      format.rss { render layout: false } # @todo fix me?
     end
   end
 

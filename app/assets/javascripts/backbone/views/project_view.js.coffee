@@ -14,7 +14,7 @@ ProcureIo.Backbone.ProjectSortView = Backbone.View.extend
 
   initialize: ->
     @filteredHref = @options.filteredHref
-    @sortOptions = [{key: "postedAt", label: "Posted At"},{key: "bidsDue", label: "Bids Due"}]
+    @sortOptions = [{key: "posted_at", label: "Posted At"},{key: "bids_due_at", label: "Bids Due"}]
     @render()
     ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
 

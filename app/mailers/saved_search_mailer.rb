@@ -3,13 +3,14 @@ class SavedSearchMailer < ActionMailer::Base
 
   include ActionView::Helpers::TextHelper
 
+  # @todo send more than 10 results
   def search_email(vendor)
     @count = 0
 
     @vendor = vendor
 
     vendor.saved_searches.each do |saved_search|
-      @count += saved_search.execute_since_last_search.total
+      @count += saved_search.execute_since_last_search[:meta][:total]
     end
 
     if @count > 0

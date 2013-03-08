@@ -9,20 +9,9 @@ class BidsController < ApplicationController
       format.html {}
 
       format.json do
-        pagination_info = {
-          per_page: !params[:per_page].blank? ? params[:per_page].to_i : 10,
-          page: !params[:page].blank? ? params[:page].to_i : 1
-        }
-
-        query_results = Bid.search_by_params(params.merge({project_id: @project.id}), pagination_info)
-
-        @bids = query_results.results
-
-        pagination_info[:total] = query_results.total
-        pagination_info[:last_page] = [(pagination_info[:total].to_f / pagination_info[:per_page]).ceil, 1].max
-        pagination_info[:page] = [pagination_info[:last_page], pagination_info[:page]].min
-
-        render json: @bids, each_serializer: BidWithReviewSerializer, scope: current_officer, meta: pagination_info
+        search_results = Bid.search_by_project_and_params(@project, params)
+        render json: search_results[:results], each_serializer: BidWithReviewSerializer,
+               scope: current_officer, meta: search_results[:meta]
       end
     end
   end

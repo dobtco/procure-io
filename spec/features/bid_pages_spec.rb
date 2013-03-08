@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Bid", solr: true do
+describe "Bid" do
 
   subject { page }
 

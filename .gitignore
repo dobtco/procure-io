@@ -19,7 +19,3 @@ coverage
 
 # database configuration
 config/database.yml
-
-# solr
-/solr/data
-/solr/pids
