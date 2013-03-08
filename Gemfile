@@ -18,8 +18,6 @@ gem 'etherpad-lite'
 gem 'factory_girl_rails'
 gem 'ffaker'
 gem 'delayed_job_active_record'
-gem 'sunspot_rails'
-gem 'sunspot_solr'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -42,7 +40,6 @@ group :test, :development do
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'simplecov', require: false
-  gem 'sunspot-rails-tester', git: 'git://github.com/adamjacobbecker/sunspot-rails-tester.git'
 end
 
 # Gems used only for assets and not required

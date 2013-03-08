@@ -25,15 +25,6 @@ class BidResponse < ActiveRecord::Base
   #   end
   # end
 
-  def sortable_value
-    case response_field.field_type
-    when "price"
-      value.to_f
-    else
-      value
-    end
-  end
-
   def display_value
     case response_field.field_type
     when "price"

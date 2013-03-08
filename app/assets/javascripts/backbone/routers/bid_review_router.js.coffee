@@ -7,7 +7,7 @@ ProcureIo.Backbone.BidReviewRouter = Backbone.Router.extend
     @filterOptions = new Backbone.Model
       "f1": "all"
       "f2": "open"
-      "sort": "createdAt"
+      "sort": "created_at"
       "page": 1
 
   reviewBids: (id, params) ->

@@ -24,96 +24,60 @@ class Bid < ActiveRecord::Base
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
-  has_many :bid_responses, dependent: :destroy, after_add: :force_index, after_remove: :force_index
+  has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy, after_add: :force_index, after_remove: :force_index
+  has_many :comments, as: :commentable, dependent: :destroy
 
   has_many :events, as: :targetable
 
-  has_and_belongs_to_many :labels, after_add: :force_index, after_remove: :force_index
+  has_and_belongs_to_many :labels
 
-  searchable do
-    text :vendor_name do vendor.name end
-    text :vendor_email do vendor.email end
+  def self.search_by_project_and_params(project, params)
+    return_object = { meta: {} }
+    return_object[:meta][:page] = [params[:page].to_i, 1].max
+    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    text :body do
-      bid_responses.map { |bid_response| bid_response.display_value }
+    query = project.submitted_bids
+
+    if params[:f2] == "dismissed"
+      query = query.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
+    elsif params[:f2] == "awarded"
+      query = query.where("dismissed_at IS NULL AND awarded_at IS NOT NULL")
+    else
+      query = query.where("dismissed_at IS NULL AND awarded_at IS NULL")
     end
 
-    boolean :submitted
-    boolean :dismissed
-    boolean :awarded
-
-    integer :total_stars
-    integer :total_comments
-    integer :project_id
-    integer :vendor_id
-
-    dynamic_string :bid_responses do
-      bid_responses.inject({}) do |hash, bid_response|
-        hash["b#{bid_response.response_field_id.to_s}"] = bid_response.sortable_value
-        hash
-      end
+    if params[:f1] == "starred"
+      query = query.where("total_stars > 0")
     end
 
-    time :submitted_at
-
-    text :comments do
-      comments.map { |comment| comment.body }
+    if params[:label] && !params[:label].blank?
+      query = query.joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
+                   .where("labels.name = ?", params[:label])
     end
 
-    text :all_labels do
-      labels.map { |label| label.name }
+    # @todo fulltext stuff
+
+    return_object[:meta][:total] = query.count
+    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
+    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
+
+    if params[:sort].to_i > 0
+      cast_int = ResponseField.find(params[:sort]).field_type.in?(["price"])
+      query = query.joins("LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id")
+                   .where("bid_responses.response_field_id IS NULL OR bid_responses.response_field_id = ?", params[:sort])
+                   .order("CASE WHEN bid_responses.response_field_id IS NULL then 1 else 0 end,
+                           bid_responses.value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "stars"
+      query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "created_at" || !params[:sort]
+      query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
 
-    string :labels, multiple: true do
-      labels.map { |label| label.name }
-    end
-  end
+    return_object[:results] = query.limit(return_object[:meta][:per_page])
+                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
 
-  def self.search_by_params(params, pagination_info = false)
-    Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
-      with(:submitted, true)
-
-      fulltext(ActionView::Helpers::TextHelper.remove_small_words(params[:q])) if params[:q] && !params[:q].blank?
-
-      with(:project_id, params[:project_id]) if params[:project_id]
-
-      if params[:f2] == "dismissed"
-        with(:dismissed, true)
-        with(:awarded, false)
-      elsif params[:f2] == "awarded"
-        with(:dismissed, false)
-        with(:awarded, true)
-      else
-        with(:dismissed, false)
-        with(:awarded, false)
-      end
-
-      if params[:f1] == "starred"
-        with(:total_stars).greater_than 0
-      end
-
-      if params[:label] && !params[:label].blank?
-        with(:labels).any_of([params[:label]])
-      end
-
-      if params[:sort].to_i > 0
-        dynamic :bid_responses do
-          order_by(:"b#{params[:sort]}", params[:direction] == 'asc' ? :asc : :desc)
-        end
-      elsif params[:sort] == "stars"
-        order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
-      elsif params[:sort] == "createdAt" || !params[:sort]
-        order_by(:submitted_at, params[:direction] == 'asc' ? :asc : :desc)
-      end
-
-      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page]) if pagination_info
-    end
-  end
-
-  def force_index(_)
-    self.solr_index!
+    return_object
   end
 
   def submit

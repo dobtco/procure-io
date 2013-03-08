@@ -16,6 +16,8 @@ class SavedSearch < ActiveRecord::Base
 
   serialize :search_parameters, Hash
 
+  before_create { self.last_emailed_at = Time.now }
+
   def execute(new_params = {})
     Project.search_by_params(search_parameters.merge(new_params))
   end

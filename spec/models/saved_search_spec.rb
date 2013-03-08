@@ -23,7 +23,7 @@ describe SavedSearch do
 
   it { should respond_to(:vendor) }
 
-  describe "execute", solr: true do
+  describe "execute" do
     it "should execute properly" do
       saved_searches(:one).execute.results.first.should == projects(:one)
     end
