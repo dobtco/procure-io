@@ -41,6 +41,8 @@ class BidResponse < ActiveRecord::Base
       "$#{value}"
     when "date"
       "#{value['month']}/#{value['day']}/#{value['year']}"
+    when "time"
+      "#{value['hours']}:#{value['minutes']}#{if !value['seconds'].blank? then ':'+value['seconds'] end} #{value['am_pm']}"
     when "website"
       "<a href='#{value}' target='_blank'>#{value}</a>"
     else
@@ -51,7 +53,12 @@ class BidResponse < ActiveRecord::Base
   def calculate_sortable_value
     self.sortable_value = case response_field.field_type
     when "date"
+      ['year', 'month', 'day'].each { |x| return 0 unless value[x] && !value[x].blank? }
       DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i
+    when "time"
+      hours = value['hours'].to_i
+      hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'
+      (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
     else
       self.value
     end

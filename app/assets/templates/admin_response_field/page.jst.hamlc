@@ -16,6 +16,7 @@
         %a.btn.btn-small{"data-backbone-add-field" => "price"} Price
         %a.btn.btn-small{"data-backbone-add-field" => "number"} Number
         %a.btn.btn-small{"data-backbone-add-field" => "date"} Date
+        %a.btn.btn-small{"data-backbone-add-field" => "time"} Time
         %a.btn.btn-small{"data-backbone-add-field" => "website"} Website
 
       .tab-pane#editField

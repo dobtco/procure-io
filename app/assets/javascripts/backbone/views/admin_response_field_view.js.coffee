@@ -24,7 +24,7 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   clear: ->
     @model.destroy()
 
-for i in ['checkboxes', 'radio', 'dropdown', 'text', 'paragraph', 'price', 'number', 'date', 'website']
+for i in ['checkboxes', 'radio', 'dropdown', 'text', 'paragraph', 'price', 'number', 'date', 'website', 'time']
   ProcureIo.Backbone["#{i.capitalize()}ResponseFieldView"] = ProcureIo.Backbone.AdminResponseFieldView.extend
     subTemplate: "admin_response_field/view/#{i}"
 
@@ -74,6 +74,9 @@ ProcureIo.Backbone.EditWebsiteResponseFieldView = ProcureIo.Backbone.AdminEditRe
 
 ProcureIo.Backbone.EditDateResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/date'
+
+ProcureIo.Backbone.EditTimeResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
+  subTemplate: 'admin_response_field/edit/time'
 
 ProcureIo.Backbone.EditPriceResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/price'

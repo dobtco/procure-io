@@ -21,5 +21,5 @@ class ResponseField < ActiveRecord::Base
 
   serialize :field_options, Hash
 
-  SERIALIZED_FIELDS = ["date", "checkboxes"]
+  SERIALIZED_FIELDS = ["date", "time", "checkboxes"]
 end
