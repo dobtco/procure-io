@@ -29,7 +29,7 @@ class BidsController < ApplicationController
       bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first_or_create
 
       case response_field.field_type
-      when "text", "paragraph", "dropdown", "radio", "price", "number"
+      when "text", "paragraph", "dropdown", "radio", "price", "number", "date"
         bid_response.update_attributes(value: params[:response_fields][response_field.id.to_s])
 
       when "checkboxes"
@@ -40,7 +40,7 @@ class BidsController < ApplicationController
           values[option["label"]] = params[:response_fields][response_field.id.to_s] ? "true" : "false"
         end
 
-        bid_response.update_attributes(value: values.to_yaml)
+        bid_response.update_attributes(value: values)
       end
     end
 

@@ -8,6 +8,7 @@
 #  value             :text
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  sortable_value    :string(255)
 #
 
 class BidResponse < ActiveRecord::Base
@@ -16,21 +17,44 @@ class BidResponse < ActiveRecord::Base
   belongs_to :bid
   belongs_to :response_field
 
-  # def value
-  #   case response_field.field_type
-  #   when "price"
-  #     YAML::load(read_attribute(:value))
-  #   else
-  #     read_attributes(:value)
-  #   end
-  # end
+  before_save :calculate_sortable_value
+
+  def value
+    if response_field.field_type.in?(ResponseField::SERIALIZED_FIELDS)
+      YAML::load(read_attribute(:value))
+    else
+      read_attribute(:value)
+    end
+  end
+
+  def value=(x)
+    if response_field.field_type.in?(ResponseField::SERIALIZED_FIELDS)
+      write_attribute(:value, x.to_yaml)
+    else
+      write_attribute(:value, x)
+    end
+  end
 
   def display_value
     case response_field.field_type
     when "price"
       "$#{value}"
+    when "date"
+      "#{value['month']}/#{value['day']}/#{value['year']}"
     else
       value
+    end
+  end
+
+  def calculate_sortable_value
+    p "20#{self.value['year']}".to_i
+    p self.value['month'].to_i
+    p self.value['day'].to_i
+    self.sortable_value = case self.response_field.field_type
+    when "date"
+      DateTime.new("20#{self.value['year']}".to_i, self.value['month'].to_i, self.value['day'].to_i).to_i
+    else
+      self.value
     end
   end
 end

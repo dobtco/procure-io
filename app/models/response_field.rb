@@ -20,4 +20,6 @@ class ResponseField < ActiveRecord::Base
   has_many :bid_responses, dependent: :destroy
 
   serialize :field_options, Hash
+
+  SERIALIZED_FIELDS = ["date", "checkboxes"]
 end

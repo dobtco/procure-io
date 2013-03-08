@@ -8,6 +8,7 @@
 #  value             :text
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  sortable_value    :string(255)
 #
 
 require 'spec_helper'

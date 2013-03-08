@@ -70,7 +70,7 @@ class Bid < ActiveRecord::Base
       query = query.joins(sanitize_sql_array(["LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id
                                                AND bid_responses.response_field_id = ?", params[:sort]]))
                    .order("CASE WHEN bid_responses.response_field_id IS NULL then 1 else 0 end,
-                           bid_responses.value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+                           bid_responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "stars"
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "created_at" || !params[:sort]

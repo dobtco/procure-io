@@ -1,0 +1,11 @@
+%label
+  != JST['admin_response_field/view/pieces/label'](@)
+  != JST['admin_response_field/view/pieces/required'](@)
+
+%input.span1{"type" => "text", "placeholder" => "MM"}
+\/
+%input.span1{"type" => "text", "placeholder" => "DD"}
+\/
+%input.span1{"type" => "text", "placeholder" => "YY"}
+
+!= JST['admin_response_field/view/pieces/description'](@)
