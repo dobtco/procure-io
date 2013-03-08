@@ -1,4 +1,4 @@
 %dl
   - for bid_response in @bid_responses
     %dt= bid_response.response_field.label
-    %dd= bid_response.value
+    %dd= bid_response.display_value

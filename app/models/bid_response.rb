@@ -15,4 +15,31 @@ class BidResponse < ActiveRecord::Base
 
   belongs_to :bid
   belongs_to :response_field
+
+  # def value
+  #   case response_field.field_type
+  #   when "price"
+  #     YAML::load(read_attribute(:value))
+  #   else
+  #     read_attributes(:value)
+  #   end
+  # end
+
+  def sortable_value
+    case response_field.field_type
+    when "price"
+      value.to_f
+    else
+      value
+    end
+  end
+
+  def display_value
+    case response_field.field_type
+    when "price"
+      "$#{value}"
+    else
+      value
+    end
+  end
 end

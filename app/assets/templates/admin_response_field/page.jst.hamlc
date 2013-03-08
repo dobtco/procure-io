@@ -13,6 +13,7 @@
         %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"} Checkboxes
         %a.btn.btn-small{"data-backbone-add-field" => "radio"} Radio
         %a.btn.btn-small{"data-backbone-add-field" => "dropdown"} Dropdown
+        %a.btn.btn-small{"data-backbone-add-field" => "price"} Price
 
       .tab-pane#editField
         #edit-response-field-wrapper

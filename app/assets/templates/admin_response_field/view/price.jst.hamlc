@@ -1,0 +1,9 @@
+%label
+  != JST['admin_response_field/view/pieces/label'](@)
+  != JST['admin_response_field/view/pieces/required'](@)
+
+.input-prepend
+  %span.add-on $
+  %input.span3{"type" => "text"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

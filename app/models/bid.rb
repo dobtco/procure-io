@@ -37,7 +37,7 @@ class Bid < ActiveRecord::Base
     text :vendor_email do vendor.email end
 
     text :body do
-      bid_responses.map { |bid_response| bid_response.value }
+      bid_responses.map { |bid_response| bid_response.display_value }
     end
 
     boolean :submitted
@@ -51,7 +51,7 @@ class Bid < ActiveRecord::Base
 
     dynamic_string :bid_responses do
       bid_responses.inject({}) do |hash, bid_response|
-        hash["b#{bid_response.response_field_id.to_s}"] = bid_response.value
+        hash["b#{bid_response.response_field_id.to_s}"] = bid_response.sortable_value
         hash
       end
     end

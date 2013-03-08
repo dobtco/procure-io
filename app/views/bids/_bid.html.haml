@@ -1,4 +1,4 @@
 %dl
   - @bid.bid_responses.each do |bid_response|
     %dt= bid_response.response_field.label
-    %dd= bid_response.value
+    %dd= bid_response.display_value
