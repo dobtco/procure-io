@@ -26,7 +26,7 @@ class BidsController < ApplicationController
     bid_errors = []
 
     @project.response_fields.each do |response_field|
-      bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first_or_create
+      bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first_or_initialize
 
       case response_field.field_type
       when "text", "paragraph", "dropdown", "radio", "price", "number", "date"

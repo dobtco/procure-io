@@ -66,7 +66,7 @@ class Bid < ActiveRecord::Base
     end
 
     if params[:sort].to_i > 0
-      cast_int = ResponseField.find(params[:sort]).field_type.in?(["price", "number"])
+      cast_int = ResponseField.find(params[:sort]).field_type.in?(["price", "number", "date"])
       query = query.joins(sanitize_sql_array(["LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id
                                                AND bid_responses.response_field_id = ?", params[:sort]]))
                    .order("CASE WHEN bid_responses.response_field_id IS NULL then 1 else 0 end,

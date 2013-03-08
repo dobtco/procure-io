@@ -6,6 +6,6 @@
 \/
 %input.span1{"type" => "text", "placeholder" => "DD"}
 \/
-%input.span1{"type" => "text", "placeholder" => "YY"}
+%input.span2{"type" => "text", "placeholder" => "YYYY"}
 
 != JST['admin_response_field/view/pieces/description'](@)

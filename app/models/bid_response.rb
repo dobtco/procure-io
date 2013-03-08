@@ -21,7 +21,7 @@ class BidResponse < ActiveRecord::Base
 
   def value
     if response_field.field_type.in?(ResponseField::SERIALIZED_FIELDS)
-      YAML::load(read_attribute(:value))
+      read_attribute(:value) ? YAML::load(read_attribute(:value)) : {}
     else
       read_attribute(:value)
     end
@@ -47,12 +47,9 @@ class BidResponse < ActiveRecord::Base
   end
 
   def calculate_sortable_value
-    p "20#{self.value['year']}".to_i
-    p self.value['month'].to_i
-    p self.value['day'].to_i
-    self.sortable_value = case self.response_field.field_type
+    self.sortable_value = case response_field.field_type
     when "date"
-      DateTime.new("20#{self.value['year']}".to_i, self.value['month'].to_i, self.value['day'].to_i).to_i
+      DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i
     else
       self.value
     end
