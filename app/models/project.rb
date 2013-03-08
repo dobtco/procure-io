@@ -33,56 +33,34 @@ class Project < ActiveRecord::Base
 
   has_and_belongs_to_many :tags
 
-  searchable do
-    text :title, default_boost: 2
-    text :body
+  def self.search_by_params(params)
+    return_object = { meta: {} }
+    return_object[:meta][:page] = [params[:page].to_i, 1].max
+    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    boolean :posted
-    time :bids_due_at
-    time :posted_at
+    query = self.posted
 
-    text :tags_text do
-      tags.map { |tag| tag.name }
+    # @todo fulltext stuff
+
+    if params[:category] && !params[:category].blank?
+      query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
+                   .where("tags.name = ?", params[:category])
     end
 
-    string :tags, multiple: true do
-      tags.map { |tag| tag.name }
+    return_object[:meta][:total] = query.count
+    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
+    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
+
+    if !params[:sort] || !params[:sort].in?(["posted_at", "bids_due_at"])
+      params[:sort] = "posted_at"
     end
 
-    text :amendments do
-      amendments.posted.map { |amendment| amendment.body }
-    end
-  end
+    query = query.order("#{params[:sort]} #{(params[:direction] && (params[:direction] == 'asc')) ? 'asc' : 'desc'}")
 
-  handle_asynchronously :solr_index
-  handle_asynchronously :remove_from_index
+    return_object[:results] = query.limit(return_object[:meta][:per_page])
+                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
 
-  def self.search_by_params(params, pagination_info = false)
-    Project.search(:include => [:tags]) do
-      with(:posted, true)
-
-      fulltext(ActionView::Helpers::TextHelper.remove_small_words(params[:q])) if params[:q] && !params[:q].blank?
-
-      if params[:category] && !params[:category].blank?
-        with(:tags).any_of([params[:category]])
-      end
-
-      if params[:posted_after]
-        with(:posted_at).greater_than params[:posted_after]
-      end
-
-      if params[:sort] == "bidsDue"
-        order_by(:bids_due_at, params[:direction] == 'asc' ? :asc : :desc)
-      elsif params[:sort] == "postedAt" || !params[:sort]
-        order_by(:posted_at, params[:direction] == 'asc' ? :asc : :desc)
-      end
-
-      if pagination_info
-        paginate(page: pagination_info[:page], per_page: pagination_info[:per_page])
-      else
-        paginate(page: 1, per_page: 50)
-      end
-    end
+    return_object
   end
 
   def abstract

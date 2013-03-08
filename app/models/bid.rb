@@ -24,96 +24,17 @@ class Bid < ActiveRecord::Base
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
-  has_many :bid_responses, dependent: :destroy, after_add: :force_index, after_remove: :force_index
+  has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews, dependent: :destroy
-  has_many :comments, as: :commentable, dependent: :destroy, after_add: :force_index, after_remove: :force_index
+  has_many :comments, as: :commentable, dependent: :destroy
 
   has_many :events, as: :targetable
 
-  has_and_belongs_to_many :labels, after_add: :force_index, after_remove: :force_index
+  has_and_belongs_to_many :labels
 
-  searchable do
-    text :vendor_name do vendor.name end
-    text :vendor_email do vendor.email end
-
-    text :body do
-      bid_responses.map { |bid_response| bid_response.display_value }
-    end
-
-    boolean :submitted
-    boolean :dismissed
-    boolean :awarded
-
-    integer :total_stars
-    integer :total_comments
-    integer :project_id
-    integer :vendor_id
-
-    dynamic_string :bid_responses do
-      bid_responses.inject({}) do |hash, bid_response|
-        hash["b#{bid_response.response_field_id.to_s}"] = bid_response.sortable_value
-        hash
-      end
-    end
-
-    time :submitted_at
-
-    text :comments do
-      comments.map { |comment| comment.body }
-    end
-
-    text :all_labels do
-      labels.map { |label| label.name }
-    end
-
-    string :labels, multiple: true do
-      labels.map { |label| label.name }
-    end
-  end
-
-  def self.search_by_params(params, pagination_info = false)
-    Bid.search(:include => [:labels, :bid_responses, :vendor, :project]) do
-      with(:submitted, true)
-
-      fulltext(ActionView::Helpers::TextHelper.remove_small_words(params[:q])) if params[:q] && !params[:q].blank?
-
-      with(:project_id, params[:project_id]) if params[:project_id]
-
-      if params[:f2] == "dismissed"
-        with(:dismissed, true)
-        with(:awarded, false)
-      elsif params[:f2] == "awarded"
-        with(:dismissed, false)
-        with(:awarded, true)
-      else
-        with(:dismissed, false)
-        with(:awarded, false)
-      end
-
-      if params[:f1] == "starred"
-        with(:total_stars).greater_than 0
-      end
-
-      if params[:label] && !params[:label].blank?
-        with(:labels).any_of([params[:label]])
-      end
-
-      if params[:sort].to_i > 0
-        dynamic :bid_responses do
-          order_by(:"b#{params[:sort]}", params[:direction] == 'asc' ? :asc : :desc)
-        end
-      elsif params[:sort] == "stars"
-        order_by(:total_stars, params[:direction] == 'asc' ? :asc : :desc)
-      elsif params[:sort] == "createdAt" || !params[:sort]
-        order_by(:submitted_at, params[:direction] == 'asc' ? :asc : :desc)
-      end
-
-      paginate(page: pagination_info[:page], per_page: pagination_info[:per_page]) if pagination_info
-    end
-  end
-
-  def force_index(_)
-    self.solr_index!
+  def self.search_by_params(params)
+    # do some stuff
+    self.all
   end
 
   def submit
