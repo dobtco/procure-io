@@ -1,0 +1,2 @@
+%label units
+%input{"type" => "text", "data-rv-value" => "model.field_options.units"}

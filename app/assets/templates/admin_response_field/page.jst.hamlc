@@ -14,6 +14,7 @@
         %a.btn.btn-small{"data-backbone-add-field" => "radio"} Radio
         %a.btn.btn-small{"data-backbone-add-field" => "dropdown"} Dropdown
         %a.btn.btn-small{"data-backbone-add-field" => "price"} Price
+        %a.btn.btn-small{"data-backbone-add-field" => "number"} Number
 
       .tab-pane#editField
         #edit-response-field-wrapper

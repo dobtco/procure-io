@@ -1,7 +1,5 @@
 %label min
-.input-append
-  %input.span2{"type" => "text", "data-rv-value" => "model.field_options.min"}
+%input.span2{"type" => "text", "data-rv-value" => "model.field_options.min"}
 
 %label max
-.input-append
-  %input.span2{"type" => "text", "data-rv-value" => "model.field_options.max"}
+%input.span2{"type" => "text", "data-rv-value" => "model.field_options.max"}
