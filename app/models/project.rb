@@ -92,6 +92,7 @@ class Project < ActiveRecord::Base
                   .where("bid_reviews.read = false OR bid_reviews.read IS NULL")
   end
 
+  # @todo these should be scopes
   def submitted_bids
     bids.where("submitted_at IS NOT NULL")
   end

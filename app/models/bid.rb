@@ -32,9 +32,50 @@ class Bid < ActiveRecord::Base
 
   has_and_belongs_to_many :labels
 
-  def self.search_by_params(params)
-    # do some stuff
-    self.all
+  def self.search_by_project_and_params(project, params)
+    return_object = { meta: {} }
+    return_object[:meta][:page] = [params[:page].to_i, 1].max
+    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
+
+    query = project.submitted_bids
+
+    if params[:f2] == "dismissed"
+      query = query.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
+    elsif params[:f2] == "awarded"
+      query = query.where("dismissed_at IS NULL AND awarded_at IS NOT NULL")
+    else
+      query = query.where("dismissed_at IS NULL AND awarded_at IS NULL")
+    end
+
+    if params[:f1] == "starred"
+      query = query.where("total_stars > 0")
+    end
+
+    if params[:label] && !params[:label].blank?
+      query = query.joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
+                   .where("labels.name = ?", params[:label])
+    end
+
+    # @todo fulltext stuff
+
+    return_object[:meta][:total] = query.count
+    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
+    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
+
+    if params[:sort].to_i > 0
+      query = query.joins("LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id")
+                   .where("bid_responses.response_field_id = ?", params[:sort])
+                   .order("bid_responses.value #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "stars"
+      query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "created_at" || !params[:sort]
+      query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    end
+
+    return_object[:results] = query.limit(return_object[:meta][:per_page])
+                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
+
+    return_object
   end
 
   def submit
