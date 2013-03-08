@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306155412) do
+ActiveRecord::Schema.define(:version => 20130308053849) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"

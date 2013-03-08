@@ -18,6 +18,7 @@ class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include PostableByOfficer
   include WatchableByUser
+  include PgSearch
 
   has_many :bids
   has_many :collaborators, order: 'created_at'
@@ -33,6 +34,11 @@ class Project < ActiveRecord::Base
 
   has_and_belongs_to_many :tags
 
+  pg_search_scope :full_search, against: [:title, :body],
+                                associated_against: { amendments: [:title, :body],
+                                                      questions: [:body, :answer_body],
+                                                      tags: [:name] }
+
   def self.search_by_params(params)
     return_object = { meta: {} }
     return_object[:meta][:page] = [params[:page].to_i, 1].max
@@ -41,6 +47,10 @@ class Project < ActiveRecord::Base
     query = self.posted
 
     # @todo fulltext stuff
+
+    if params[:q] && !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
 
     if params[:category] && !params[:category].blank?
       query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
