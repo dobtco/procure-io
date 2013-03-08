@@ -37,7 +37,10 @@ class Project < ActiveRecord::Base
   pg_search_scope :full_search, against: [:title, :body],
                                 associated_against: { amendments: [:title, :body],
                                                       questions: [:body, :answer_body],
-                                                      tags: [:name] }
+                                                      tags: [:name] },
+                                using: {
+                                  tsearch: {prefix: true}
+                                }
 
   def self.search_by_params(params)
     return_object = { meta: {} }
