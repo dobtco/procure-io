@@ -40,6 +40,11 @@
   color: red;
 }
 
+#addNewField {
+  > a {
+    margin-bottom: 8px;
+  }
+}
 
 .bid-form-span {
   position: relative;

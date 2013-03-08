@@ -41,6 +41,8 @@ class BidResponse < ActiveRecord::Base
       "$#{value}"
     when "date"
       "#{value['month']}/#{value['day']}/#{value['year']}"
+    when "website"
+      "<a href='#{value}' target='_blank'>#{value}</a>"
     else
       value
     end

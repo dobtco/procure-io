@@ -10,7 +10,7 @@
   - for label in @labels
     %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
 - for index, keyField of @pageOptions.attributes.keyFields
-  %td= @getValue(keyField.id)
+  %td!= @getValue(keyField.id)
 
 %td
   - if @dismissed_at

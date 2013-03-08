@@ -1,0 +1,7 @@
+%label
+  != JST['admin_response_field/view/pieces/label'](@)
+  != JST['admin_response_field/view/pieces/required'](@)
+
+%input{"type" => "text", "class" => "rf-size-#{@field_options.size}", "placeholder" => "http://"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

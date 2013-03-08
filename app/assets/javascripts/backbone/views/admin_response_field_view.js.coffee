@@ -24,7 +24,7 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
   clear: ->
     @model.destroy()
 
-for i in ['checkboxes', 'radio', 'dropdown', 'text', 'paragraph', 'price', 'number', 'date']
+for i in ['checkboxes', 'radio', 'dropdown', 'text', 'paragraph', 'price', 'number', 'date', 'website']
   ProcureIo.Backbone["#{i.capitalize()}ResponseFieldView"] = ProcureIo.Backbone.AdminResponseFieldView.extend
     subTemplate: "admin_response_field/view/#{i}"
 
@@ -43,7 +43,7 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
 
   render: ->
     @$el.html JST['admin_response_field/edit/base'](@model.toJSON())
-    @$el.find(".subtemplate-wrapper").html JST[@subTemplate](_.extend(@model.toJSON(), {cid: @model.cid}))
+    @$el.find(".edit-subtemplate-wrapper").html JST[@subTemplate](_.extend(@model.toJSON(), {cid: @model.cid}))
     rivets.bind(@$el, {model: @model})
 
     return @
@@ -68,6 +68,9 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
 
   forceRender: ->
     @model.trigger 'change'
+
+ProcureIo.Backbone.EditWebsiteResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
+  subTemplate: 'admin_response_field/edit/website'
 
 ProcureIo.Backbone.EditDateResponseFieldView = ProcureIo.Backbone.AdminEditResponseFieldView.extend
   subTemplate: 'admin_response_field/edit/date'
