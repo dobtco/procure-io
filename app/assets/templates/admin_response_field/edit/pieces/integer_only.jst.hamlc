@@ -1,0 +1,3 @@
+%label.checkbox
+  integer only?
+  %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.integer_only"}

@@ -1,3 +1,4 @@
 != JST['admin_response_field/edit/groups/common']()
 != JST['admin_response_field/edit/pieces/units']()
+!= JST['admin_response_field/edit/pieces/integer_only']()
 != JST['admin_response_field/edit/pieces/min_max']()
