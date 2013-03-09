@@ -46,26 +46,26 @@ describe Project do
 
   describe "submitted bids" do
     it "should return submitted bids" do
-      projects(:one).submitted_bids.should == [bids(:one)]
+      projects(:one).bids.submitted.should == [bids(:one)]
     end
 
     describe "when not submitted" do
       before { bids(:one).update_attributes(submitted_at: nil) }
       it "should return nothing" do
-        projects(:one).submitted_bids.should == []
+        projects(:one).bids.submitted.should == []
       end
     end
   end
 
   describe "dismissed bids" do
     it "should return nothing" do
-      projects(:one).dismissed_bids.should == []
+      projects(:one).bids.dismissed.should == []
     end
 
     describe "when dismissed" do
       before { bids(:one).update_attributes(dismissed_at: Time.now) }
       it "should return dismissed bids" do
-        projects(:one).dismissed_bids.should == [bids(:one)]
+        projects(:one).bids.dismissed.should == [bids(:one)]
       end
     end
   end
@@ -148,13 +148,13 @@ describe Project do
 
   describe "submitted bids" do
     it "should include bids where submitted_at is not null" do
-      projects(:one).submitted_bids.should include(bids(:one))
+      projects(:one).bids.submitted.should include(bids(:one))
     end
 
     describe "when null" do
       before { bids(:one).update_attributes(submitted_at: nil) }
       it "should not include bids where submitted_at is null" do
-        projects(:one).submitted_bids.length.should == 0
+        projects(:one).bids.submitted.length.should == 0
       end
     end
   end

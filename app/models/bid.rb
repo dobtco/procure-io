@@ -33,6 +33,10 @@ class Bid < ActiveRecord::Base
 
   has_and_belongs_to_many :labels
 
+  scope :submitted, where("submitted_at IS NOT NULL")
+  scope :dismissed, where("dismissed_at IS NOT NULL")
+  scope :awarded, where("awarded_at IS NOT NULL")
+
   pg_search_scope :full_search, associated_against: { bid_responses: [:value],
                                                       vendor: [:name, :email],
                                                       comments: [:body],
@@ -46,7 +50,7 @@ class Bid < ActiveRecord::Base
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    query = project.submitted_bids
+    query = project.bids.submitted
 
     if params[:f2] == "dismissed"
       query = query.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
