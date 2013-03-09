@@ -1,0 +1,7 @@
+%label
+  != JST['admin_response_field/view/pieces/label'](@)
+  != JST['admin_response_field/view/pieces/required'](@)
+
+%input{"type" => "file"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

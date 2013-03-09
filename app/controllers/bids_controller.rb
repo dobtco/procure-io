@@ -41,6 +41,10 @@ class BidsController < ApplicationController
         end
 
         bid_response.update_attributes(value: values)
+
+      when "file"
+        bid_response.upload = params[:response_fields][response_field.id.to_s]
+        bid_response.save!
       end
     end
 

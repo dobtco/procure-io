@@ -19,3 +19,6 @@ coverage
 
 # database configuration
 config/database.yml
+
+# uploads
+public/uploads

@@ -1,0 +1,9 @@
+%label
+  =response_field.label
+  - if response_field.field_options["required"]
+    %span.required-asterisk *
+
+%input{"type" => "file", "name" => "response_fields[#{response_field.id}]"}
+
+%span.help-block= response_field.field_options["description"]
+

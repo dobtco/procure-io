@@ -18,6 +18,7 @@
         %a.btn.btn-small{"data-backbone-add-field" => "date"} Date
         %a.btn.btn-small{"data-backbone-add-field" => "time"} Time
         %a.btn.btn-small{"data-backbone-add-field" => "website"} Website
+        %a.btn.btn-small{"data-backbone-add-field" => "file"} File
 
       .tab-pane#editField
         #edit-response-field-wrapper

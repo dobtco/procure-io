@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308183135) do
+ActiveRecord::Schema.define(:version => 20130309000625) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20130308183135) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "sortable_value"
+    t.string   "upload"
   end
 
   create_table "bid_reviews", :force => true do |t|

@@ -132,7 +132,7 @@ class Project < ActiveRecord::Base
       response = bid.bid_responses.where(response_field_id: response_field.id).first
       value = response ? response.value : nil
 
-      if response_field.field_options[:required] && (!value || value.blank?)
+      if response_field.field_options[:required] && (!response  || !response.upload) && (!value || value.blank?)
         errors << "#{response_field.label} is a required field."
       end
 

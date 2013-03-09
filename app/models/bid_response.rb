@@ -9,6 +9,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  sortable_value    :string(255)
+#  upload            :string(255)
 #
 
 class BidResponse < ActiveRecord::Base
@@ -18,6 +19,8 @@ class BidResponse < ActiveRecord::Base
   belongs_to :response_field
 
   before_save :calculate_sortable_value
+
+  mount_uploader :upload, BidResponseUploader
 
   def value
     if response_field.field_type.in?(ResponseField::SERIALIZED_FIELDS)
@@ -45,6 +48,8 @@ class BidResponse < ActiveRecord::Base
       "#{value['hours']}:#{value['minutes']}#{if !value['seconds'].blank? then ':'+value['seconds'] end} #{value['am_pm']}"
     when "website"
       "<a href='#{value}' target='_blank'>#{value}</a>"
+    when "file"
+      upload.url
     else
       value
     end
@@ -59,6 +64,8 @@ class BidResponse < ActiveRecord::Base
       hours = value['hours'].to_i
       hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'
       (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
+    when "file"
+      upload ? 1 : 0
     else
       self.value
     end

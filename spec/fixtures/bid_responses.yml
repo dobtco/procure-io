@@ -9,6 +9,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  sortable_value    :string(255)
+#  upload            :string(255)
 #
 
 one:
