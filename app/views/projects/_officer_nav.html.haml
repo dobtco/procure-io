@@ -12,8 +12,8 @@
   %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
     %a{"href" => project_questions_path(@project)}
       Answer Questions
-      - if @project.unanswered_questions.count > 0
-        %span.badge.badge-info= @project.unanswered_questions.count
+      - if @project.questions.unanswered.count > 0
+        %span.badge.badge-info= @project.questions.unanswered.count
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
     =link_to "Edit Project", edit_project_path(@project)
   %li{"class" => params[:controller] == "amendments" ? "active" : ""}

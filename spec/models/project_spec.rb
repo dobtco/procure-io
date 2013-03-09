@@ -74,20 +74,6 @@ describe Project do
     pending
   end
 
-  describe "unanswered questions" do
-    it "should include a blank answer body" do
-      projects(:one).unanswered_questions.should include(questions(:blank))
-    end
-
-    it "should include a nil answer body" do
-      projects(:one).unanswered_questions.should include(questions(:nil))
-    end
-
-    it "should not include a filled out answer body" do
-      projects(:one).unanswered_questions.should_not include(questions(:filled_out))
-    end
-  end
-
   describe "owner" do
     it "should have the correct owner" do
       projects(:one).owner.should == officers(:adam)

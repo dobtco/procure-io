@@ -82,10 +82,6 @@ class Project < ActiveRecord::Base
     truncate(self.body, length: 130, omission: "...")
   end
 
-  def unanswered_questions
-    questions.where("answer_body = '' OR answer_body IS NULL")
-  end
-
   def owner
     officers.where(collaborators: {owner: true}).first
   end
