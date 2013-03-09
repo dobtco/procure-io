@@ -36,32 +36,6 @@ describe Project do
   it { should respond_to(:labels) }
   it { should respond_to(:watches) }
 
-  describe "posted" do
-    it { should be_posted }
-    describe "when not posted" do
-      before { projects(:one).update_attributes(posted_at: nil) }
-      it { should_not be_posted }
-    end
-  end
-
-  describe "post by officer" do
-    before { projects(:one).update_attributes(posted_at: nil, posted_by_officer_id: nil) }
-
-    it "should properly post projects" do
-      projects(:one).should_not_receive(:save)
-      projects(:one).posted_at.should == nil
-      projects(:one).posted_by_officer_id.should == nil
-      projects(:one).post_by_officer(officers(:adam))
-      projects(:one).posted_at.should_not == nil
-      projects(:one).posted_by_officer_id.should == officers(:adam).id
-    end
-
-    it "should save when using dangerous version" do
-      projects(:one).should_receive(:save)
-      projects(:one).post_by_officer!(officers(:adam))
-    end
-  end
-
   describe "abstract" do
     before { projects(:one).update_attributes(body: "a"*140) }
     it "should truncate properly" do
