@@ -47,7 +47,7 @@ class Project < ActiveRecord::Base
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    query = self.posted
+    query = Project.posted
 
     if params[:q] && !params[:q].blank?
       query = query.full_search(params[:q])
