@@ -49,7 +49,11 @@ class BidResponse < ActiveRecord::Base
     when "website"
       "<a href='#{value}' target='_blank'>#{value}</a>"
     when "file"
-      upload.url
+      str = "<a href='#{upload.url}'>"
+      if upload.thumb
+        str += "<img src='#{upload.thumb.url}' /><br />"
+      end
+      str += "#{upload.file.filename}</a>"
     else
       value
     end

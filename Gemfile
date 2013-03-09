@@ -20,6 +20,7 @@ gem 'ffaker'
 gem 'delayed_job_active_record'
 gem 'pg_search'
 gem 'carrierwave'
+gem 'rmagick'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -58,7 +59,7 @@ group :assets do
   gem 'select2-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+  # gem 'therubyracer', :platfo s => :ruby
 
   gem 'uglifier', '>= 1.0.3'
 end
