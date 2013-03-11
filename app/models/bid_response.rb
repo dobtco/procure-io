@@ -53,7 +53,7 @@ class BidResponse < ActiveRecord::Base
       if upload.thumb
         str += "<img src='#{upload.thumb.url}' /><br />"
       end
-      str += "#{upload.file.filename}</a>"
+      str += "#{upload.file.filename.gsub(/\?.*$/, '')}</a>"
     else
       value
     end
