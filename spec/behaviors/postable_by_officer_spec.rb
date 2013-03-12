@@ -1,12 +1,7 @@
+require_relative '../../lib/fake_model'
 require_relative '../../lib/postable_by_officer'
 
-# stub the self.included method
-module PostableByOfficer
-  def self.included(*args)
-  end
-end
-
-class Postable
+class Postable < FakeModel
   attr_accessor :posted_at, :posted_by_officer_id
   include PostableByOfficer
 end
