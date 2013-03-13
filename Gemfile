@@ -20,7 +20,7 @@ gem 'ffaker'
 gem 'delayed_job_active_record'
 gem 'pg_search'
 gem 'carrierwave'
-gem 'rmagick'
+gem 'rmagick', '2.13.2'
 gem 'fog', '~> 1.3.1'
 
 # Bundle edge Rails instead:

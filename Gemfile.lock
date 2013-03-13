@@ -301,7 +301,7 @@ DEPENDENCIES
   pg_search
   rails (= 3.2.11)
   rails-backbone!
-  rmagick
+  rmagick (= 2.13.2)
   rspec-rails
   sass-rails (~> 3.2.3)
   select2-rails
