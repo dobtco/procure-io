@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130309000625) do
+ActiveRecord::Schema.define(:version => 20130313003836) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -163,6 +163,8 @@ ActiveRecord::Schema.define(:version => 20130309000625) do
     t.integer  "posted_by_officer_id"
     t.integer  "total_comments",            :default => 0, :null => false
     t.boolean  "has_unsynced_body_changes"
+    t.text     "form_description"
+    t.text     "form_confirmation_message"
   end
 
   create_table "projects_tags", :id => false, :force => true do |t|

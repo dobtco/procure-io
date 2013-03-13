@@ -1,0 +1,5 @@
+<label>Form Description</label>
+<textarea data-rv-value="project.form_description"></textarea>
+<label>Form Confirmation Message</label>
+<textarea data-rv-value="project.form_confirmation_message"></textarea>
+<span class="help-block">If no confirmation message is set, we'll just redirect the vendor to a copy of their bid.</span>

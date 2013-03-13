@@ -7,4 +7,6 @@
 
   .span5
     %h4 New Bid
+    - if @project.form_description
+      %span.help-block= @project.form_description
     = render "bids/form"

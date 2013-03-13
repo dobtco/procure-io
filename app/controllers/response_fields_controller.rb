@@ -27,6 +27,8 @@ class ResponseFieldsController < ApplicationController
       end
     end
 
+    @project.update_attributes pick(params[:project], :form_description, :form_confirmation_message)
+
     respond_to do |format|
       format.json { render json: @project.response_fields }
     end

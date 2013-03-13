@@ -53,6 +53,7 @@ class BidsController < ApplicationController
     if params[:draft_only] != 'true' && @bid.valid_bid?
       @bid.submit
       @bid.save
+      flash[:success] = @project.form_confirmation_message if @project.form_confirmation_message
       return redirect_to project_bid_path(@project, @bid)
     end
 

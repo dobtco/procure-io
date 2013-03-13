@@ -4,4 +4,4 @@
 
 #admin-response-field-page
   :javascript
-    new ProcureIo.Backbone.AdminResponseFieldPage({bootstrapData: #{@project.response_fields.to_json}, projectId: #{@project.id}});
+    new ProcureIo.Backbone.AdminResponseFieldPage({bootstrapData: #{@project.response_fields.to_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});

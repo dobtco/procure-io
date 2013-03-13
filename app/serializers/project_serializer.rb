@@ -1,6 +1,6 @@
 class ProjectSerializer < ActiveModel::Serializer
   attributes :id, :title, :abstract, :body, :bids_due_at, :posted_at, :key_fields, :bids_due_at_readable, :posted_at_readable,
-             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly
+             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly, :form_description, :form_confirmation_message
 
   has_many :tags
   has_many :labels

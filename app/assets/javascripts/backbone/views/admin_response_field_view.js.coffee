@@ -120,6 +120,17 @@ ProcureIo.Backbone.EditRadioResponseFieldView = ProcureIo.Backbone.EditCheckboxe
       "input input[type=text]": "forceRender"
       "click [data-backbone-defaultoption]": "defaultUpdated"
 
+ProcureIo.Backbone.AdminResponseFieldFormOptionsView = Backbone.View.extend
+  el: "#form-options-wrapper"
+
+  initialize: ->
+    @render()
+
+  render: ->
+    @$el.html JST['admin_response_field/form_options']()
+    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
+    return @
+
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
   el: "#admin-response-field-page"
 
@@ -129,16 +140,20 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   initialize: ->
     ProcureIo.Backbone.ResponseFields = new ProcureIo.Backbone.ResponseFieldList()
-    ProcureIo.Backbone.ResponseFields.url = "/projects/#{@options.projectId}/response_fields"
+    ProcureIo.Backbone.ResponseFields.url = "/projects/#{@options.project.id}/response_fields"
+    ProcureIo.Backbone.CurrentProject = new ProcureIo.Backbone.Project(@options.project)
+    ProcureIo.Backbone.CurrentProject.url = "/projects/#{@options.project.id}"
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
+    ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
 
     @editView = undefined
 
     @render()
+    @formOptionsView = new ProcureIo.Backbone.AdminResponseFieldFormOptionsView()
     ProcureIo.Backbone.ResponseFields.reset(@options.bootstrapData)
 
     @formSaved = true
@@ -154,6 +169,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   render: ->
     @$el.html JST['admin_response_field/page']()
+    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
@@ -248,6 +264,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       url: ProcureIo.Backbone.ResponseFields.url + "/batch"
       type: "PUT"
       contentType: "application/json"
-      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON()})
+      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), project: ProcureIo.Backbone.CurrentProject.toJSON()})
       # success: (data) =>
       # @todo implement error callback
