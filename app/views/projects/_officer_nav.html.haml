@@ -6,8 +6,8 @@
   %li{"class" => params[:controller] == "bids" ? "active" : ""}
     %a{"href" => project_bids_path(@project)}
       Review Bids
-      - if @project.unread_bids_for_officer(current_officer).count > 0
-        %span.badge.badge-info= @project.unread_bids_for_officer(current_officer).count
+      - if @project.bids.submitted.open.count > 0
+        %span.badge.badge-info= @project.bids.submitted.open.count
 
   %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
     %a{"href" => project_questions_path(@project)}
