@@ -63,7 +63,7 @@ class BidResponse < ActiveRecord::Base
     self.sortable_value = case response_field.field_type
     when "date"
       ['year', 'month', 'day'].each { |x| return 0 unless value[x] && !value[x].blank? }
-      DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i
+      DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_i rescue 0
     when "time"
       hours = value['hours'].to_i
       hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'

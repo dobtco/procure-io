@@ -8,19 +8,25 @@ class BidValidator
       bid_response = bid.bid_responses.where(response_field_id: response_field.id).first
       value = bid_response ? bid_response.value : nil
 
-      required_field(response_field, bid_response, value)
+      next if required_field(response_field, bid_response, value)
       min_max_length(response_field, bid_response, value)
       min_max(response_field, bid_response, value)
       integer_only(response_field, bid_response, value)
-      website(response_field, bid_response, value) if response_field.field_type == "website"
+      valid_website(response_field, bid_response, value) if response_field.field_type == "website"
+      valid_date(response_field, bid_response, value) if response_field.field_type == "date"
+      valid_time(response_field, bid_response, value) if response_field.field_type == "time"
     end
   end
 
   private
   def required_field(response_field, bid_response, value)
-    if response_field.field_options[:required] && (!bid_response  || !bid_response.upload?) && (!value || value.blank?)
-      @errors << "#{response_field.label} is a required field."
-    end
+    return false if !response_field.field_options[:required] # field is not required
+    return false if (bid_response && bid_response.upload?) # file has been uploaded
+    return false if (value && !value.blank? && !value.is_a?(Hash)) # value isn't blank (ignore hashes)
+    return false if response_field.field_type == "time" && (!value['hours'].blank? || !value['minutes'].blank? || !value['seconds'].blank?) # there is input in the time field
+    return false if response_field.field_type == "date" && (!value['year'].blank? || !value['month'].blank? || !value['day'].blank?) # there is input in the time field
+
+    @errors << "#{response_field.label} is a required field."
   end
 
   def min_max_length(response_field, bid_response, value)
@@ -49,10 +55,22 @@ class BidValidator
     end
   end
 
-  def website(response_field, bid_response, value)
+  def valid_website(response_field, bid_response, value)
     require 'uri'
     if !(value =~ URI::regexp)
       errors << "#{response_field.label} isn't a valid URL."
+    end
+  end
+
+  def valid_date(response_field, bid_response, value)
+    if !(DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i) rescue false)
+      errors << "#{response_field.label} isn't a valid date."
+    end
+  end
+
+  def valid_time(response_field, bid_response, value)
+    if !value['hours'].to_i.between?(1, 12) || !value['minutes'].to_i.between?(0, 60) || !value['seconds'].to_i.between?(0, 60)
+      errors << "#{response_field.label} isn't a valid time."
     end
   end
 end
