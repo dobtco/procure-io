@@ -1,9 +1,16 @@
+- bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first
+
 %label
   =response_field.label
   - if response_field.field_options["required"]
     %span.required-asterisk *
 
 %input{"type" => "file", "name" => "response_fields[#{response_field.id}]"}
+
+- if bid_response && bid_response.upload
+  %div
+    %strong Current Upload:
+    %a{"href" => bid_response.upload.url}= bid_response.upload.file.filename.gsub(/\?.*$/, '')
 
 %span.help-block= response_field.field_options["description"]
 
