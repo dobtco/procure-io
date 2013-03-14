@@ -7,7 +7,7 @@
 
 %input{"type" => "file", "name" => "response_fields[#{response_field.id}]"}
 
-- if bid_response && bid_response.upload
+- if bid_response && bid_response.upload?
   %div.current-upload
     %strong Current Upload:
     %a{"href" => bid_response.upload.url}= bid_response.upload.file.filename.gsub(/\?.*$/, '')

@@ -214,7 +214,8 @@ class Bid < ActiveRecord::Base
   end
 
   def bid_errors
-    project.validate_bid(self)
+    @bid_validator ||= BidValidator.new(self)
+    @bid_validator.errors
   end
 
   private

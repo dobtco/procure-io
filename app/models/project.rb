@@ -110,29 +110,6 @@ class Project < ActiveRecord::Base
     self.save
   end
 
-  def validate_bid(bid)
-    errors = []
-
-    response_fields.each do |response_field|
-      response = bid.bid_responses.where(response_field_id: response_field.id).first
-      value = response ? response.value : nil
-
-      if response_field.field_options[:required] && (!response  || !response.upload) && (!value || value.blank?)
-        errors << "#{response_field.label} is a required field."
-      end
-
-      if response_field.field_options[:minlength] && (!value || value.length < response_field.field_options[:minlength].to_i)
-        errors << "#{response_field.label} is too short. It should be #{response_field.field_options[:minlength]} characters or more."
-      end
-
-      if response_field.field_options[:maxlength] && (!value || value.length > response_field.field_options[:maxlength].to_i)
-        errors << "#{response_field.label} is too long. It should be #{response_field.field_options[:maxlength]} characters or less."
-      end
-    end
-
-    errors
-  end
-
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
