@@ -35,3 +35,6 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
   $("#save-draft-button").on "click", saveBidDraft
 
   setInterval saveBidDraft, 5000
+
+$(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
+  $(@).closest(".current-upload").remove()

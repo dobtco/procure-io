@@ -103,6 +103,7 @@ class BidsController < ApplicationController
     end
   end
 
+  # @todo security!
   def batch
     @bids = @project.bids.find(params[:ids])
 
@@ -177,7 +178,6 @@ class BidsController < ApplicationController
   end
 
   def bid_params
-
   end
 
   def my_bid_review_params

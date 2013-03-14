@@ -8,9 +8,10 @@
 %input{"type" => "file", "name" => "response_fields[#{response_field.id}]"}
 
 - if bid_response && bid_response.upload
-  %div
+  %div.current-upload
     %strong Current Upload:
     %a{"href" => bid_response.upload.url}= bid_response.upload.file.filename.gsub(/\?.*$/, '')
+    = link_to "(X)", project_bid_bid_response_path(@project, @bid, bid_response), method: :delete, remote: true, class: "js-remove-bid-response-upload"
 
 %span.help-block= response_field.field_options["description"]
 
