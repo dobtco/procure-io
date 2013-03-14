@@ -45,7 +45,7 @@ class Bid < ActiveRecord::Base
                                   tsearch: {prefix: true}
                                 }
 
-  def self.search_by_project_and_params(project, params)
+  def self.search_by_project_and_params(project, params, count_only = false)
     return_object = { meta: {} }
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
@@ -85,7 +85,10 @@ class Bid < ActiveRecord::Base
       query = query.full_search(params[:q])
     end
 
+    return query.count if count_only
+
     return_object[:meta][:total] = query.count
+    return_object[:meta][:counts] = self.build_counts_for_project_and_params(project, params)
     return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
     return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
 
@@ -93,6 +96,16 @@ class Bid < ActiveRecord::Base
                                    .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
 
     return_object
+  end
+
+  def self.build_counts_for_project_and_params(project, params)
+    {
+      all: self.search_by_project_and_params(project, params.merge(f1: "open"), true),
+      starred: self.search_by_project_and_params(project, params.merge({f1: "starred"}), true),
+      open: self.search_by_project_and_params(project, params.merge({f2: "open"}), true),
+      dismissed: self.search_by_project_and_params(project, params.merge({f2: "dismissed"}), true),
+      awarded: self.search_by_project_and_params(project, params.merge({f2: "awarded"}), true),
+    }
   end
 
   def submit

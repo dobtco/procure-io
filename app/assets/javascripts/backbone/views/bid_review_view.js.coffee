@@ -15,7 +15,10 @@ ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
 
   render: ->
-    @$el.html JST['bid_review/sidebar_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.parentView.filteredHref})
+    @$el.html JST['bid_review/sidebar_filter']
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      filteredHref: @options.parentView.filteredHref
+      counts: ProcureIo.Backbone.Bids.meta.counts
 
 ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
   el: "#label-filter-wrapper"
@@ -200,7 +203,11 @@ ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
   el: "#top-filter-wrapper"
 
   render: ->
-    @$el.html JST['bid_review/top_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref})
+    @$el.html JST['bid_review/top_filter']
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      filteredHref: @options.filteredHref
+      counts: ProcureIo.Backbone.Bids.meta.counts
+
     rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
 
 ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
