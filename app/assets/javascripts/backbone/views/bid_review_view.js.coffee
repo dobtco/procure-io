@@ -27,7 +27,9 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
     ProcureIo.Backbone.Labels.bind "add", @addOneLabel, @
 
   render: ->
-    @$el.html JST['bid_review/label_filter']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.project.filteredHref})
+    @$el.html JST['bid_review/label_filter']
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      filteredHref: @options.project.filteredHref
 
     @$el.find("#new-label-form").on "submit", (e) ->
       e.preventDefault()
@@ -127,7 +129,10 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
       @$el.popover 'show'
 
   render: ->
-    @$el.html JST['bid_review/label_admin'](_.extend(@model.toJSON(), {filteredHref: @options.parentView.options.filteredHref, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()}))
+    @$el.html JST['bid_review/label_admin'] _.extend @model.toJSON(),
+      filteredHref: @options.parentView.options.filteredHref
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+
     return @
 
   clear: ->
@@ -189,7 +194,10 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
     @model.bind "change", @render, @
 
   render: ->
-    @$el.html JST['bid_review/label'](_.extend(@model.toJSON(), {filteredHref: @options.parentView.options.filteredHref, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()}))
+    @$el.html JST['bid_review/label'] _.extend @model.toJSON(),
+      filteredHref: @options.parentView.options.filteredHref
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      count: ProcureIo.Backbone.Bids.meta.counts[@model.get('id')]
 
     if @model.get('name') is ProcureIo.Backbone.router.filterOptions.toJSON().label
       @$el.addClass('active')

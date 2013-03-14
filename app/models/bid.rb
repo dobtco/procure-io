@@ -99,13 +99,19 @@ class Bid < ActiveRecord::Base
   end
 
   def self.build_counts_for_project_and_params(project, params)
-    {
+    return_hash = {
       all: self.search_by_project_and_params(project, params.merge(f1: "open"), true),
       starred: self.search_by_project_and_params(project, params.merge({f1: "starred"}), true),
       open: self.search_by_project_and_params(project, params.merge({f2: "open"}), true),
       dismissed: self.search_by_project_and_params(project, params.merge({f2: "dismissed"}), true),
       awarded: self.search_by_project_and_params(project, params.merge({f2: "awarded"}), true),
     }
+
+    project.labels.each do |label|
+      return_hash[label.id] = self.search_by_project_and_params(project, params.merge({label: label.name}), true)
+    end
+
+    return_hash
   end
 
   def submit
