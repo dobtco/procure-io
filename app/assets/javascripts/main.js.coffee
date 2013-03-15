@@ -36,5 +36,19 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
 
   setInterval saveBidDraft, 5000
 
+ProcureIo.Tours["bids#index"] = [
+    el: ->
+      $("ul.nav")
+    text: "This is the bid review page."
+  ,
+    el: "#bid-review-page"
+    text: "This is the bid review page."
+]
+
+
 $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
   $(@).closest(".current-upload").remove()
+
+$(document).on "click", ".js-show-tour", (e) ->
+  return unless (tour = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
+  new DobtTour(tour)

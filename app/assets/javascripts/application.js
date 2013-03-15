@@ -17,6 +17,7 @@
 //= require jquery_ujs
 //= require jquery.form
 //= require jquery.sortable
+//= require dobt_tour
 //= require bootstrap
 //= require bootstrap.flash_button
 //= require parsley
@@ -35,5 +36,6 @@
 //= require_tree .
 
 var ProcureIo = {
-  PageSpecificScripts: {}
+  PageSpecificScripts: {},
+  Tours: {}
 }
