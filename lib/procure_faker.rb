@@ -20,6 +20,26 @@ module ProcureFaker
     end
   end
 
+  class Tag
+    def self.name(index = nil)
+      values = [
+        "Web Design",
+        "Web Development",
+        "Content Management",
+        "Procurement Software",
+        "Design",
+        "UX Strategy",
+        "Wireframing",
+        "Storyboarding",
+        "Video Production",
+        "Product Photography",
+        "Backend Programming"
+      ]
+
+      index && values[index] ? values[index] : values.sample
+    end
+  end
+
   class Project
     def self.title(index = nil)
       values = [

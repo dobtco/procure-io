@@ -110,7 +110,7 @@ FactoryGirl.define do
   end
 
   factory :tag do
-    name { Faker::Product::NOUN.rand }
+    sequence(:name) { |n| ProcureFaker::Tag.name(n) }
   end
 
   factory :amendment do
