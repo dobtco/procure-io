@@ -1,0 +1,11 @@
+.row-fluid
+  .span3
+    %ul.nav.nav-pills.nav-stacked
+      %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") ? "active" : ""}
+        =link_to "Collaborators", project_collaborators_path(@project)
+
+      %li{"class" => (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
+        =link_to "Import CSV", import_csv_project_path(@project)
+
+  .span9
+    = yield

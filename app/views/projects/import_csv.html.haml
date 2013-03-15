@@ -1,26 +1,27 @@
 = render "projects/officer_nav"
 
-.alert.alert-warning
-  <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
+= render layout: "projects/admin_sidebar" do
+  .alert.alert-warning
+    <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
 
-.readable-width
-  %p
-    <strong>1.</strong> Set up the <a href="#{project_response_fields_path(@project)}">response fields</a> to match the fields you've collected from your bidders
+  .readable-width
+    %p
+      <strong>1.</strong> Set up the <a href="#{project_response_fields_path(@project)}">response fields</a> to match the fields you've collected from your bidders
 
-  %p
-    <strong>2.</strong> Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
-    %br
-    %br
-    <code>Name</code>, <code>Email</code>,
-    != @project.response_fields.map {|rf| "<code>#{rf.label}</code>"}.join(", ")
-    %br
-    %br
-    Any additional columns will be ignored.
+    %p
+      <strong>2.</strong> Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
+      %br
+      %br
+      <code>Name</code>, <code>Email</code>,
+      != @project.response_fields.map {|rf| "<code>#{rf.label}</code>"}.join(", ")
+      %br
+      %br
+      Any additional columns will be ignored.
 
-  %p <strong>3.</strong> Save the spreadsheet as a CSV file and upload it here.
+    %p <strong>3.</strong> Save the spreadsheet as a CSV file and upload it here.
 
-= form_tag import_csv_project_path(@project), multipart: true do
-  %label{"for" => "file"} File to upload
-  = file_field_tag "file"
-  %div
-    %button.btn.btn-inverse Import
+  = form_tag import_csv_project_path(@project), multipart: true do
+    %label{"for" => "file"} File to upload
+    = file_field_tag "file"
+    %div
+      %button.btn.btn-inverse Import

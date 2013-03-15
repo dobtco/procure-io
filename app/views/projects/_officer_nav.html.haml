@@ -18,15 +18,13 @@
       - if @project.questions.unanswered.count > 0
         %span.badge.badge-info= @project.questions.unanswered.count
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
-    =link_to "Edit Project", edit_project_path(@project)
+    =link_to "Project Description", edit_project_path(@project)
   %li{"class" => params[:controller] == "response_fields" && params[:action] == "index" ? "active" : ""}
     =link_to "Response Fields", project_response_fields_path(@project)
   %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
     =link_to "Comments", comments_project_path(@project)
-  %li{"class" => params[:controller] == "collaborators" && params[:action] == "index" ? "active" : ""}
-    =link_to "Collaborators", project_collaborators_path(@project)
-  %li{"class" => params[:controller] == "projects" && params[:action] == "import_csv" ? "active" : ""}
-    =link_to "Import CSV", import_csv_project_path(@project)
+  %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") || (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
+    =link_to "Admin", project_collaborators_path(@project)
 
   %li.pull-right
     %a{"href" => project_path(@project)}

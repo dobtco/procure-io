@@ -1,18 +1,19 @@
 = render "projects/officer_nav"
 
-%table.table.table-nonfluid
-  %thead
-    %tr
-      %th Name
-      %th Actions
+= render layout: "projects/admin_sidebar" do
+  %table.table.table-nonfluid
+    %thead
+      %tr
+        %th Name
+        %th Actions
 
-  %tbody#collaborators-tbody
-    :javascript
-      new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@collaborators_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
+    %tbody#collaborators-tbody
+      :javascript
+        new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@collaborators_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
 
-%h5 Add Collaborator
-= form_for [@project, @project.collaborators.build] do |f|
-  = f.fields_for :officer do |f|
-    = f.text_field :email, autocomplete: "off", placeholder: "Email Address"
-  %br
-  = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."
+  %h5 Add Collaborator
+  = form_for [@project, @project.collaborators.build] do |f|
+    = f.fields_for :officer do |f|
+      = f.text_field :email, autocomplete: "off", placeholder: "Email Address"
+    %br
+    = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."
