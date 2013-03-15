@@ -10,13 +10,13 @@
 
     %p
       <strong>2.</strong> Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
-      %br
-      %br
+
+    %p
       <code>Name</code>, <code>Email</code>,
       != @project.response_fields.map {|rf| "<code>#{rf.label}</code>"}.join(", ")
-      %br
-      %br
-      Any additional columns will be ignored.
+
+    %p
+      If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
 
     %p <strong>3.</strong> Save the spreadsheet as a CSV file and upload it here.
 
