@@ -10,6 +10,14 @@ Procurement software for the 21st century.
 4. `rake db:setup`
 5. `rails server` or run with your choice of server (we like [pow](http://pow.cx/))
 
+#### Deploying to Heroku
+1. `heroku create YOUR_APP_NAME`
+2. `git push heroku master`
+3. `heroku run rake db:migrate`
+4. **optional** `heroku run rake db:seed`
+
+> Procure.io uses delayed_job to run tasks asynchronously. Running a worker dyno costs $34.50/month, so if you want to avoid this charge, you'll have to disable the worker in the `Procfile`, and configure delayed_job with `Delayed::Worker.delay_jobs = false`.
+
 #### Contributing
 
 Procure.io is very early-stage alpha software, but if you're interested in getting your hands dirty, contributions are more than welcome. Your workflow should look something like this:
