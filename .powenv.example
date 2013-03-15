@@ -1,5 +1,5 @@
 export ETHERPAD_HOST="http://etherpad_server.com:9001"
-export ETHERPAD_COOKIE_DOMAIN=".etherpad_service.com"
+export ETHERPAD_COOKIE_DOMAIN=".etherpad_server.com"
 export ETHERPAD_API_KEY=""
 export AWS_KEY=""
 export AWS_SECRET=""
