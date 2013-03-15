@@ -38,10 +38,10 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
 
 ProcureIo.Tours["bids#index"] = [
     el: ->
-      $("ul.nav")
-    text: "This is the bid review page."
+      $(".container > .btn-inverse")
+    text: "This ."
   ,
-    el: "#bid-review-page"
+    el: "a.vendor-name"
     text: "This is the bid review page."
 ]
 

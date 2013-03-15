@@ -3,11 +3,11 @@
   z-index: 999999;
   background-color:rgb(0, 0, 0);
   opacity: 0;
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  -ms-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
 }
 .dobttour-showElement {
   z-index: 9999999;
@@ -20,11 +20,11 @@
   border-radius: 4px;
   border: 1px solid rgba(0, 0, 0, 0.5);
   box-shadow: 0px 2px 15px rgba(0,0,0,0.4);
-  -webkit-transition: all 0.3s ease-out;
-  -moz-transition: all 0.3s ease-out;
-  -o-transition: all 0.3s ease-out;
-  -ms-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
+  -o-transition: all 0.1s ease-out;
+  -ms-transition: all 0.1s ease-out;
+  transition: all 0.1s ease-out;
 }
 .dobttour-helperNumberLayer {
   z-index: 9999999999 !important;
