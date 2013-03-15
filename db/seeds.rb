@@ -12,8 +12,7 @@ ActionMailer::Base.perform_deliveries = false
 3.times { FactoryGirl.create(:officer) }
 10.times { FactoryGirl.create(:vendor) }
 10.times { FactoryGirl.create(:tag) }
-40.times { FactoryGirl.create(:project) }
-25.times { FactoryGirl.create(:bid_with_reviews) }
+3.times { FactoryGirl.create(:project_with_bids) }
 2.times { FactoryGirl.create(:amendment) }
 5.times { FactoryGirl.create(:comment) }
 20.times { FactoryGirl.create(:question) }

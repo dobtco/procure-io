@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :bid do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
+    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
     sequence(:submitted_at) { |n| rand(1..8) == 1 ? nil : Time.now + n.seconds }
 
 
@@ -51,9 +51,17 @@ FactoryGirl.define do
   end
 
   factory :project do |project|
-    title { ProcureFaker::Project.title }
+    sequence(:title) { |n| ProcureFaker::Project.title(n) }
     body { ProcureFaker::Project.body }
     bids_due_at { Time.now + rand(1..8).weeks }
+
+    factory :project_with_bids do
+      after(:create) do |p|
+        Vendor.all.each do |v|
+          FactoryGirl.create(:bid_with_reviews, vendor: v, project: p) unless rand(1..8) == 1
+        end
+      end
+    end
 
     after(:create) do |p|
       if rand(1..2) == 1
@@ -65,7 +73,6 @@ FactoryGirl.define do
       p.response_fields.create(label: "Completion Time", field_type: "text", sort_order: 0)
       p.response_fields.create(label: "Total Cost", field_type: "text", sort_order: 1)
       p.tags << Tag.all(order: "RANDOM()").first
-      p.tags << Tag.all(order: "RANDOM()").first if rand(1..5) == 5
 
       Officer.all.each do |officer|
         officer.watch!("Project", p.id)
@@ -76,14 +83,14 @@ FactoryGirl.define do
       end
 
       FactoryGirl.create(:comment, commentable: p)
-      rand(0..5).times do
-        FactoryGirl.create(:label, project: p)
+      rand(0..5).times do |i|
+        FactoryGirl.create(:label, project: p, name: ProcureFaker::Label.name(i))
       end
     end
   end
 
   factory :vendor do
-    name { Faker::Name.name }
+    sequence(:name) { |n| ProcureFaker::Vendor.name(n) }
     sequence(:email) { |n| "vendor#{n}@example.com" }
     password 'password'
   end
