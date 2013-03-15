@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch, :import_csv, :post_import_csv]
+  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch, :import_csv, :post_import_csv, :wufoo_instructions]
   before_filter :authenticate_officer!, except: [:index, :show]
   before_filter :project_is_posted_if_current_vendor, only: [:show]
 
@@ -98,6 +98,9 @@ class ProjectsController < ApplicationController
 
     flash[:success] = "#{pluralize(count, 'record')} imported."
     redirect_to project_bids_path(@project)
+  end
+
+  def wufoo_instructions
   end
 
   private

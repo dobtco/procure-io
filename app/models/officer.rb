@@ -24,6 +24,7 @@
 #  invited_by_id            :integer
 #  invited_by_type          :string(255)
 #  notification_preferences :text
+#  authentication_token     :string(255)
 #
 
 class Officer < ActiveRecord::Base
@@ -33,7 +34,8 @@ class Officer < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :token_authenticatable
 
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true
@@ -42,6 +44,7 @@ class Officer < ActiveRecord::Base
 
   serialize :notification_preferences
   before_create :set_default_notification_preferences
+  before_create :reset_authentication_token
 
   def self.event_types
     Event.event_types.only(:project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :collaborator_added, :you_were_added)

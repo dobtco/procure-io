@@ -1,0 +1,20 @@
+= render "projects/officer_nav"
+
+= render layout: "projects/admin_sidebar" do
+  .alert.alert-warning
+    <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
+
+  .readable-width
+    %p
+      <strong>1.</strong> Your <a href="#{project_response_fields_path(@project)}">response field labels</a> need to match the field labels on your Wufoo form, like this:
+      = image_tag "matching-labels.png"
+
+    %p
+      <strong>2.</strong> In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>.
+
+    %p
+      <strong>3.</strong> In the Wufoo admin panel, find your form and add a new Webhook notification. Your webhook URL should be <code>#{wufoo_project_bids_url(@project, auth_token: current_officer.authentication_token)}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
+
+    %p
+      <strong>4.</strong> Sit back and watch the applications roll in!
+

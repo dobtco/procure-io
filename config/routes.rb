@@ -23,6 +23,7 @@ ProcureIo::Application.routes.draw do
     get 'comments', on: :member
     get 'import_csv' => 'projects#import_csv', on: :member, as: :import_csv
     post 'import_csv' => 'projects#post_import_csv', on: :member
+    get 'wufoo_instructions', on: :member
 
     resources :bids do
       put 'batch', on: :collection

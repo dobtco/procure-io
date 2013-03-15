@@ -10,6 +10,11 @@
   = f.label :title
   = f.text_field :title
 
+  %h4 Developer
+  = f.label "API Key"
+  %code= current_officer.authentication_token
+  Keep this safe!
+
   = render 'users/notification_settings', event_types: Officer.event_types
 
   .form-actions
