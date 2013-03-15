@@ -3,9 +3,6 @@ class AmendmentsController < ApplicationController
   before_filter :amendment_exists?, only: [:edit, :update, :destroy]
   before_filter :authenticate_and_authorize_officer!, only: [:index]
 
-  def index
-  end
-
   def create
     @amendment = @project.amendments.create
     redirect_to edit_project_amendment_path(@project, @amendment)
@@ -27,12 +24,12 @@ class AmendmentsController < ApplicationController
 
     flash[:success] = "Amendment saved successfully."
 
-    redirect_to edit_project_amendment_path(@project, @amendment)
+    redirect_to edit_project_path(@project)
   end
 
   def destroy
     @amendment.destroy
-    redirect_to project_amendments_path(@project)
+    redirect_to edit_project_path(@project)
   end
 
   private
