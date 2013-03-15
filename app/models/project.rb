@@ -110,6 +110,25 @@ class Project < ActiveRecord::Base
     self.save
   end
 
+  def create_bid_from_hash!(params, label_to_apply = nil)
+    raise "Required parameters not included." if !params["email"] || params["email"].blank?
+
+    vendor = Vendor.where(email: params["email"])
+                   .first_or_create(password: SecureRandom.urlsafe_base64, name: params["name"], account_disabled: true)
+
+    bid = vendor.bids.create(project_id: self.id)
+
+    self.response_fields.each do |response_field|
+      if (val = params[response_field.label.downcase])
+        bid.bid_responses.create(response_field_id: response_field.id, value: val)
+      end
+    end
+
+    bid.submit
+    bid.save
+    bid.labels << label_to_apply if label_to_apply
+  end
+
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,

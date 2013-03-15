@@ -90,19 +90,9 @@ class ProjectsController < ApplicationController
       row.to_hash.each_pair do |k,v|
         new_hash.merge!({k.downcase => v})
       end
-      vendor = Vendor.where(email: new_hash["email"])
-                     .first_or_create(password: SecureRandom.urlsafe_base64, name: new_hash["name"], account_disabled: true)
-      bid = vendor.bids.create(project_id: @project.id)
 
-      @project.response_fields.each do |response_field|
-        if (val = new_hash[response_field.label.downcase])
-          bid.bid_responses.create(response_field_id: response_field.id, value: val)
-        end
-      end
+      @project.create_bid_from_hash!(new_hash, label)
 
-      bid.submit
-      bid.save
-      bid.labels << label
       count += 1
     end
 

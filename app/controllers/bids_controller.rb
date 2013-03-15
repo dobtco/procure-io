@@ -4,6 +4,8 @@ class BidsController < ApplicationController
   before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
   before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews]
 
+  protect_from_forgery except: :wufoo
+
   def index
     respond_to do |format|
       format.html {}
@@ -166,6 +168,29 @@ class BidsController < ApplicationController
     respond_to do |format|
       format.json { render json: @reviews }
     end
+  end
+
+  def wufoo
+    data = {}
+
+    params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
+
+    params[:FieldStructure]["Fields"].each do |field|
+      field_ids = []
+
+      if field["SubFields"]
+        field["SubFields"].each { |subfield| field_ids << subfield["ID"] }
+      else
+        field_ids << field["ID"]
+      end
+
+      data[field["Title"].downcase] = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
+    end
+
+    label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
+    @project.create_bid_from_hash!(data, label)
+
+    render json: { status: "success" }
   end
 
   private
