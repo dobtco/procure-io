@@ -50,5 +50,16 @@ $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
   $(@).closest(".current-upload").remove()
 
 $(document).on "click", ".js-show-tour", (e) ->
-  return unless (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
-  $.intro(steps)
+  if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
+    $.intro(steps)
+  else
+    $(@).tooltip
+      title: "Sorry, no help is available for this page."
+      placement: "left"
+      trigger: 'click'
+
+    $(@).tooltip('show')
+
+    $(@).on "mouseout.showtour", =>
+      $(@).tooltip('destroy')
+      $(@).off "showtour"
