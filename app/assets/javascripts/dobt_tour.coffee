@@ -1,6 +1,6 @@
 class window.DobtTour
   constructor: (steps) ->
-    @steps = steps
+    @steps = $.extend [], steps
     @currentStep = 0
     return unless @steps.length > 0
     @start()
@@ -79,7 +79,9 @@ class window.DobtTour
     else
       $el = $(step['el']).slice(0, 1)
 
-    if $el.length == 0 then @nextStep()
+    if $el.length == 0
+      @steps.splice(@currentStep, 1)
+      return @showCurrentStep()
 
     @setHelperLayer($el, step['text'])
     setTimeout =>
