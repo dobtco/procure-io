@@ -1,4 +1,4 @@
-.dobttour-overlay {
+.introjs-overlay {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -13,11 +13,11 @@
   -ms-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.dobttour-showElement {
+.introjs-showElement {
   z-index: 9999999;
   position: relative;
 }
-.dobttour-helperLayer {
+.introjs-helperLayer {
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 9999998;
   position: absolute;
@@ -30,7 +30,7 @@
   -ms-transition: all 0.3s ease-out;
   transition: all 0.3s ease-out;
 }
-.dobttour-helperNumberLayer {
+.introjs-helperNumberLayer {
   z-index: 9999999999 !important;
   padding: 2px;
   background: #ff3019; /* Old browsers */
@@ -54,7 +54,7 @@
   left: -16px;
   top: -16px;
 }
-.dobttour-tooltip:before {
+.introjs-tooltip:before {
   border: 5px solid white;
   content:'';
   border-top-color:transparent;
@@ -65,7 +65,7 @@
   top: -10px;
 
 }
-.dobttour-tooltip {
+.introjs-tooltip {
   position: absolute;
   padding: 10px;
   background-color: white;
@@ -77,15 +77,15 @@
   -ms-transition: all 0.1s ease-out;
   transition: all 0.1s ease-out;
 }
-.dobttour-tooltipbuttons {
+.introjs-tooltipbuttons {
   font-size: 10px;
   text-align: right;
 }
-.dobttour-tooltipbuttons .dobttour-skipbutton {
+.introjs-tooltipbuttons .introjs-skipbutton {
   margin-right: 5px;
   color: gray;
 }
-.dobttour-tooltipbuttons .dobttour-nextbutton {
+.introjs-tooltipbuttons .introjs-nextbutton {
   font-weight: bold;
   color: #2071d3;
   font-size: 11px;

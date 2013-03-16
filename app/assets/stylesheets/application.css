@@ -13,6 +13,6 @@
  *= require _font-awesome
  *= require plugins/bootstrap-switch
  *= require select2
- *= require dobttour
+ *= require jquery.intro
  *= require_tree .
  */

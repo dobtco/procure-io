@@ -17,7 +17,7 @@
 //= require jquery_ujs
 //= require jquery.form
 //= require jquery.sortable
-//= require dobt_tour
+//= require jquery.intro
 //= require bootstrap
 //= require bootstrap.flash_button
 //= require parsley

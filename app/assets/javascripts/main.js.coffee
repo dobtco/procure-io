@@ -50,5 +50,5 @@ $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
   $(@).closest(".current-upload").remove()
 
 $(document).on "click", ".js-show-tour", (e) ->
-  return unless (tour = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
-  new DobtTour(tour)
+  return unless (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
+  $.intro(steps)
