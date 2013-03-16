@@ -20,11 +20,6 @@ class window.DobtTour
 
   addOverlay: ->
     @$overlayDiv = $("<div class='dobttour-overlay'></div>")
-    @$overlayDiv.css
-      width: $(document.body).width()
-      height: $(document.body).height()
-      top: 0
-      left: 0
 
     @$overlayDiv.on "click", =>
       @endTour()
