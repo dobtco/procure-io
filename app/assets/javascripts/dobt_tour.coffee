@@ -9,6 +9,14 @@ class window.DobtTour
     @addOverlay()
     @addHelperLayer()
     @showCurrentStep()
+    $(document).on "keydown", (e) =>
+      @keydown(e)
+
+  keydown: (e) ->
+    switch e.keyCode
+      when 27 then @endTour()
+      when 37 then @previousStep()
+      when 39 then @nextStep()
 
   addOverlay: ->
     @$overlayDiv = $("<div class='dobttour-overlay'></div>")
@@ -86,10 +94,16 @@ class window.DobtTour
     if !@steps[@currentStep + 1]?
       @$helperLayerDiv.find(".dobttour-nextbutton").text("Done!")
 
+  previousStep: ->
+    @changeStep(-1)
+
   nextStep: ->
+    @changeStep(1)
+
+  changeStep: (delta) ->
     $(".dobttour-showElement").removeClass("dobttour-showElement")
-    @endTour() unless @steps[@currentStep + 1]
-    @currentStep++
+    return @endTour() unless @steps[@currentStep + delta]?
+    @currentStep = @currentStep + delta
     @showCurrentStep()
 
   endTour: ->
@@ -99,3 +113,4 @@ class window.DobtTour
     @$overlayDiv.fadeOut 100, ->
       $(@).remove()
 
+    $(document).off "keydown", @keydown

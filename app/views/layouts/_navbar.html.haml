@@ -29,13 +29,13 @@
                 %li
                   =link_to "Settings", settings_path
             %li
+              %a.js-show-tour
+                %i.icon-question-sign
+            %li
               %a{"href" => notifications_path}
                 %i.icon-envelope
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
-            %li
-              %a.js-show-tour
-                tour
             %li
               %a{"href" => signout_path, "data-method" => "delete", "rel" => "nofollow"}
                 %i.icon-signout
