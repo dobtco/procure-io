@@ -53,6 +53,7 @@ $(document).on "click", ".js-show-tour", (e) ->
   if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
     $.intro(steps)
   else
+    return if $(@).data('tooltip')
     $(@).tooltip
       title: "Sorry, no help is available for this page."
       placement: "left"
