@@ -60,11 +60,13 @@ class window.DobtTour
     @$helperLayerDiv.find(".dobttour-tooltiptext").text(text)
     @$helperLayerDiv.find(".dobttour-tooltip").css({opacity: 0})
 
-    setTimeout =>
-      @$helperLayerDiv.find(".dobttour-tooltip").css
-        opacity: 1
-        bottom: -(@$helperLayerDiv.find(".dobttour-tooltip").outerHeight() + 10)
-    , 100
+    $tooltipClone = @$helperLayerDiv.find(".dobttour-tooltip").clone().appendTo("body").css({"transition": "none"}).css({"width":$el.outerWidth() + 10})
+    height = $tooltipClone.outerHeight()
+    $tooltipClone.remove()
+
+    @$helperLayerDiv.find(".dobttour-tooltip").css
+      opacity: 1
+      bottom: -(height + 10)
 
   showCurrentStep: ->
     step = @steps[@currentStep]
@@ -77,7 +79,9 @@ class window.DobtTour
     if $el.length == 0 then @nextStep()
 
     @setHelperLayer($el, step['text'])
-    $el.addClass('dobttour-showElement')
+    setTimeout =>
+      $el.addClass('dobttour-showElement')
+    , 200
 
     if !@steps[@currentStep + 1]?
       @$helperLayerDiv.find(".dobttour-nextbutton").text("Done!")
