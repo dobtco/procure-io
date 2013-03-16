@@ -9,7 +9,7 @@ class window.DobtTour
     @addOverlay()
     @addHelperLayer()
     @showCurrentStep()
-    $(document).on "keydown", (e) =>
+    $(document).on "keydown.dobttour", (e) =>
       @keydown(e)
 
   keydown: (e) ->
@@ -108,4 +108,4 @@ class window.DobtTour
     @$overlayDiv.fadeOut 100, ->
       $(@).remove()
 
-    $(document).off "keydown", @keydown
+    $(document).off "dobttour"
