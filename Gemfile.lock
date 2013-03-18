@@ -163,7 +163,7 @@ GEM
       rack-contrib
       rails
     mime-types (1.21)
-    multi_json (1.7.0)
+    multi_json (1.7.1)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.6.6)
