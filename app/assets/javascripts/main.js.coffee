@@ -41,13 +41,19 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
   setInterval saveBidDraft, 5000
 
 ProcureIo.Tours["bids#index"] = [
-    el: ->
-      $(".container > .btn-inverse")
-    text: "This ."
+    el: "#bids-table"
+    text: "These are the bids that you've received to date."
+    placement: "top"
   ,
-    el: "a.vendor-name"
-    text: "This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page."
+    el: "#actions-wrapper"
+    text: "You can execute batch actions by checking multiple bids and then clicking one of these actions."
     placement: 'right'
+  ,
+    el: ".search-query"
+    text: "You can also search the full text of your bids. Go nuts!"
+  ,
+    el: "a.vendor-name:eq(0)"
+    text: "To view a bid, just click the vendor's name. Have fun!"
 ]
 
 $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
