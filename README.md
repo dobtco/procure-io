@@ -1,4 +1,4 @@
-Procure.io [![](https://travis-ci.org/adamjacobbecker/procure-io.png)](https://travis-ci.org/adamjacobbecker/procure-io) [![](https://codeclimate.com/github/adamjacobbecker/procure-io.png)](https://codeclimate.com/github/adamjacobbecker/procure-io)
+Procure.io [![](https://travis-ci.org/dobtco/procure-io.png)](https://travis-ci.org/dobtco/procure-io) [![](https://codeclimate.com/github/dobtco/procure-io.png)](https://codeclimate.com/github/dobtco/procure-io)
 --------
 
 Procurement software for the 21st century.
