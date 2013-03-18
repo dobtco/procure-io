@@ -46,7 +46,8 @@ ProcureIo.Tours["bids#index"] = [
     text: "This ."
   ,
     el: "a.vendor-name"
-    text: "This is the bid review page."
+    text: "This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page. This is the bid review page."
+    placement: 'right'
 ]
 
 $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
