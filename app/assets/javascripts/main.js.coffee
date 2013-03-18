@@ -2,7 +2,8 @@ $ ->
   ProcureIo.PageSpecificScripts[$('body').data('controller')]?()
   ProcureIo.PageSpecificScripts["#{$('body').data('controller')}##{$('body').data('action')}"]?()
 
-  $(".show-tour-link").show() if ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"]?
+  if ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"]?
+    setTimeout ( -> $(".show-tour-link").fadeIn(200) ), 300
 
 
 $(document).on "click", "[data-toggle-text]", ->
@@ -54,15 +55,3 @@ $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
 $(document).on "click", ".show-tour-link", (e) ->
   if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
     $.intro(steps)
-  else
-    return if $(@).data('tooltip')
-    $(@).tooltip
-      title: "Sorry, no help is available for this page."
-      placement: "left"
-      trigger: 'click'
-
-    $(@).tooltip('show')
-
-    $(@).on "mouseout.showtour", =>
-      $(@).tooltip('destroy')
-      $(@).off "showtour"
