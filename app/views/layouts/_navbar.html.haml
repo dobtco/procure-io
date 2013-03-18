@@ -29,9 +29,6 @@
                 %li
                   =link_to "Settings", settings_path
             %li
-              %a.js-show-tour
-                %i.icon-question-sign
-            %li
               %a{"href" => notifications_path}
                 %i.icon-envelope
                 - if current_user.unread_notification_count > 0
@@ -44,3 +41,5 @@
           - else
             %li
               %a{"href" => new_vendor_session_path} Vendor Login
+        %a.show-tour-link.pull-right
+          %span.label.label-success Explain this page

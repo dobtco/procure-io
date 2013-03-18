@@ -2,6 +2,9 @@ $ ->
   ProcureIo.PageSpecificScripts[$('body').data('controller')]?()
   ProcureIo.PageSpecificScripts["#{$('body').data('controller')}##{$('body').data('action')}"]?()
 
+  $(".show-tour-link").show() if ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"]?
+
+
 $(document).on "click", "[data-toggle-text]", ->
   newText = $(@).data('toggle-text')
   $(@).data "toggle-text", $(@).text()
@@ -45,11 +48,10 @@ ProcureIo.Tours["bids#index"] = [
     text: "This is the bid review page."
 ]
 
-
 $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
   $(@).closest(".current-upload").remove()
 
-$(document).on "click", ".js-show-tour", (e) ->
+$(document).on "click", ".show-tour-link", (e) ->
   if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
     $.intro(steps)
   else
