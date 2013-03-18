@@ -65,7 +65,7 @@ class jQueryIntroJs
               </div>
               <div class="introjs-tooltipbuttons">
                 <a class="introjs-skipbutton">Skip</a>
-                <a class="introjs-nextbutton">Next →</a>
+                <a class="introjs-nextbutton">#{if @steps[@currentStep + 1]? then 'Next →' else 'Done!'}</a>
               </div>
             </div>
           </div>
