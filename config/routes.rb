@@ -21,8 +21,10 @@ ProcureIo::Application.routes.draw do
   resources :projects do
     get 'mine', on: :collection
     get 'comments', on: :member
-    get 'import_csv' => 'projects#import_csv', on: :member, as: :import_csv
+    get 'import_csv' => 'projects#import_csv', on: :member
     post 'import_csv' => 'projects#post_import_csv', on: :member
+    get 'export_csv' => 'projects#export_csv', on: :member
+    post 'export_csv' => 'projects#post_export_csv', on: :member
     get 'wufoo' => "projects#wufoo", on: :member
     post 'wufoo' => "projects#post_wufoo", on: :member
 

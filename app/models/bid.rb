@@ -238,6 +238,16 @@ class Bid < ActiveRecord::Base
     @bid_validator.errors
   end
 
+  def text_status
+    if dismissed_at
+      "Dismissed"
+    elsif awarded_at
+      "Awarded"
+    else
+      "Open"
+    end
+  end
+
   private
   def create_bid_awarded_events!(officer)
     event = events.create(event_type: Event.event_types[:bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)

@@ -101,6 +101,36 @@ class ProjectsController < ApplicationController
     redirect_to project_bids_path(@project)
   end
 
+  def export_csv
+  end
+
+  def post_export_csv
+    require 'csv'
+    @bids = @project.bids.submitted
+
+    bids_csv = CSV.generate do |csv|
+      headers = ["Name", "Email"]
+      headers.push *@project.response_fields.map(&:label)
+      headers.push "Labels", "Status", "Submitted At"
+      csv << headers
+
+      @bids.each do |bid|
+        bid_row = [bid.vendor.name, bid.vendor.email]
+        bid_responses = bid.bid_responses
+
+        @project.response_fields.each do |response_field|
+          response = bid_responses.select { |br| br.response_field_id == response_field.id }[0]
+          bid_row.push(response ? response.value : '')
+        end
+
+        bid_row.push bid.labels.map(&:name).join(', '), bid.text_status, bid.submitted_at
+        csv << bid_row
+      end
+    end
+
+    send_data(bids_csv, type: 'test/csv', filename: "#{@project.title.parameterize.underscore}_bids_export_#{Time.now.strftime("%m_%d_%y")}.csv")
+  end
+
   def wufoo
   end
 

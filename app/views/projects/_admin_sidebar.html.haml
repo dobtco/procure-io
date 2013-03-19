@@ -5,7 +5,10 @@
         =link_to "Collaborators", project_collaborators_path(@project)
 
       %li{"class" => (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
-        =link_to "Import CSV", import_csv_project_path(@project)
+        =link_to "Import bids from CSV", import_csv_project_path(@project)
+
+      %li{"class" => (params[:controller] == "projects" && params[:action] == "export_csv") ? "active" : ""}
+        =link_to "Export bids", export_csv_project_path(@project)
 
       %li{"class" => (params[:controller] == "projects" && params[:action] == "wufoo") ? "active" : ""}
         =link_to "Wufoo Integration", wufoo_project_path(@project)
