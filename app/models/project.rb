@@ -23,7 +23,7 @@ class Project < ActiveRecord::Base
   include PgSearch
 
   has_many :bids
-  has_many :collaborators, order: 'created_at'
+  has_many :collaborators, order: 'created_at', dependent: :destroy
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions, dependent: :destroy
