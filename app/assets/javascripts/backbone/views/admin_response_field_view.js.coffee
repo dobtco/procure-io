@@ -163,6 +163,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       @saveForm.call(@)
     , 5000
 
+    $(window).bind 'beforeunload', =>
+      if @formSaved then undefined else 'You have unsaved changes. If you leave this page, you will lose those changes!'
+
   reset: ->
     $("#response-fields").html('')
     @addAll()
