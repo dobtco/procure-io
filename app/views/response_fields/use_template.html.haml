@@ -1,5 +1,8 @@
 = render "projects/officer_nav"
 
+- if @project.response_fields.count > 0
+  .alert.alert-danger <strong>Careful!</strong> If you import one of these templates, you will lose your current response fields.
+
 .row-fluid
   .span7
     %h4 Available templates
