@@ -7,8 +7,8 @@
       %li{"class" => (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
         =link_to "Import CSV", import_csv_project_path(@project)
 
-      %li{"class" => (params[:controller] == "projects" && params[:action] == "wufoo_instructions") ? "active" : ""}
-        =link_to "Wufoo Integration", wufoo_instructions_project_path(@project)
+      %li{"class" => (params[:controller] == "projects" && params[:action] == "wufoo") ? "active" : ""}
+        =link_to "Wufoo Integration", wufoo_project_path(@project)
 
   .span9
     = yield

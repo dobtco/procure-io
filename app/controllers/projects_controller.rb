@@ -1,9 +1,12 @@
 class ProjectsController < ApplicationController
   include ActionView::Helpers::TextHelper
 
-  before_filter :project_exists?, only: [:show, :edit, :update, :collaborators, :comments, :watch, :import_csv, :post_import_csv, :wufoo_instructions]
+  before_filter :project_exists?, except: [:index, :mine, :new, :create]
   before_filter :authenticate_officer!, except: [:index, :show]
+  before_filter :authorize_officer!, except: [:index, :show, :mine, :new, :create]
   before_filter :project_is_posted_if_current_vendor, only: [:show]
+
+  protect_from_forgery except: :post_wufoo
 
   def index
     search_results = Project.search_by_params(params)
@@ -42,13 +45,11 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    authorize! :collaborate_on, @project
     current_officer.read_notifications(@project, :you_were_added)
     get_pad(@project)
   end
 
   def update
-    authorize! :collaborate_on, @project
     @project.update_attributes(project_params)
 
     if params[:project][:posted_at] == "1" && !@project.posted?
@@ -100,12 +101,39 @@ class ProjectsController < ApplicationController
     redirect_to project_bids_path(@project)
   end
 
-  def wufoo_instructions
+  def wufoo
+  end
+
+  def post_wufoo
+    data = {}
+
+    params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
+
+    params[:FieldStructure]["Fields"].each do |field|
+      field_ids = []
+
+      if field["SubFields"]
+        field["SubFields"].each { |subfield| field_ids << subfield["ID"] }
+      else
+        field_ids << field["ID"]
+      end
+
+      data[field["Title"].downcase] = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
+    end
+
+    label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
+    @project.create_bid_from_hash!(data, label)
+
+    render json: { status: "success" }
   end
 
   private
   def project_exists?
     @project = Project.find(params[:id])
+  end
+
+  def authorize_officer!
+    authorize! :collaborate_on, @project
   end
 
   def get_pad(project_to_sync = nil)
