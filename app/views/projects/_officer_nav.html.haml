@@ -19,7 +19,7 @@
         %span.badge.badge-info= @project.questions.unanswered.count
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
     =link_to "Project Description", edit_project_path(@project)
-  %li{"class" => params[:controller] == "response_fields" && params[:action] == "index" ? "active" : ""}
+  %li{"class" => params[:controller] == "response_fields" ? "active" : ""}
     =link_to "Response Fields", project_response_fields_path(@project)
   %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
     =link_to "Comments", comments_project_path(@project)

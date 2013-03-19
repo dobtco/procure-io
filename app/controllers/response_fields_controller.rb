@@ -41,6 +41,11 @@ class ResponseFieldsController < ApplicationController
     end
   end
 
+  def use_template
+    @form_templates = FormTemplate.paginate(page: params[:page])
+    @template = FormTemplate.find(params[:template_id]) if params[:template_id]
+  end
+
   private
   def project_exists?
     @project = Project.find(params[:project_id])

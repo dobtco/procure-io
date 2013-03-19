@@ -166,12 +166,24 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     $(window).bind 'beforeunload', =>
       if @formSaved then undefined else 'You have unsaved changes. If you leave this page, you will lose those changes!'
 
+    $("#form-template-form").on "submit", (e) ->
+      $(e.target).ajaxSubmit
+        success: ->
+          $(e.target).find("button").flash_button("success", "Saved!")
+          $(e.target).resetForm()
+
+          setTimeout ->
+            $(e.target).addClass('hide')
+          , 990
+
+      e.preventDefault()
+
   reset: ->
     $("#response-fields").html('')
     @addAll()
 
   render: ->
-    @$el.html JST['admin_response_field/page']()
+    @$el.html JST['admin_response_field/page'](ProcureIo.Backbone.CurrentProject.toJSON())
     rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
 
     @$el.find("#response-fields").bind 'sortupdate', =>

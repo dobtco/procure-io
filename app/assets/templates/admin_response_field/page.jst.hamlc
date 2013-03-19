@@ -31,6 +31,17 @@
     .form-actions
       %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => "All Changes Saved"} Save Form
 
+    %p
+      %a.smaller{"href" => "/projects/#{@id}/response_fields/use_template"} Import response fields from template
+
+    %p
+      %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"} Save response fields as a template
+
+    %form#form-template-form.hide{"action" => "/form_templates", "method" => "post"}
+      %input{"type" => "hidden", "name" => "project_id", "value" => @id}
+      %input{"type" => "text", "name" => "name", "placeholder" => "Name for this template"}
+      %button.btn.btn-inverse Save
+
   .span7.bid-form-span
     %h4 Bid Form
     %span.help-block{"data-rv-text" => "project.form_description"}
