@@ -1,9 +1,9 @@
 Procure.io [![](https://travis-ci.org/dobtco/procure-io.png)](https://travis-ci.org/dobtco/procure-io) [![](https://codeclimate.com/github/dobtco/procure-io.png)](https://codeclimate.com/github/dobtco/procure-io)
 --------
 
-[![procure.io screenshot](http://www.dobt.co/img/screenshot.png)](http://www.dobt.co/img/screenshot.png)
-
 Procurement software for the 21st century.
+
+[![procure.io screenshot](http://www.dobt.co/img/screenshot.png)](http://www.dobt.co/img/screenshot.png)
 
 #### Setting up your development environment
 1. `git clone` the repo
