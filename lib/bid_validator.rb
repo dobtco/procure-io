@@ -20,8 +20,8 @@ class BidValidator
     return false if !response_field.field_options[:required] || # field is not required
                     (bid_response && bid_response.upload?) || # file has been uploaded
                     (value && !value.blank? && !value.is_a?(Hash)) || # value isn't blank (ignore hashes)
-                    response_field.field_type == "time" && (!value['hours'].blank? || !value['minutes'].blank? || !value['seconds'].blank?) || # there is input in the time field
-                    response_field.field_type == "date" && (!value['year'].blank? || !value['month'].blank? || !value['day'].blank?) # there is input in the time field
+                    response_field.field_type == "time" && value && (!value['hours'].blank? || !value['minutes'].blank? || !value['seconds'].blank?) || # there is input in the time field
+                    response_field.field_type == "date" && value && (!value['year'].blank? || !value['month'].blank? || !value['day'].blank?) # there is input in the time field
 
     @errors << "#{response_field.label} is a required field."
   end
