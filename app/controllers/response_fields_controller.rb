@@ -46,6 +46,21 @@ class ResponseFieldsController < ApplicationController
     @template = FormTemplate.find(params[:template_id]) if params[:template_id]
   end
 
+  def post_use_template
+    @project.response_fields.destroy_all
+    @template = FormTemplate.find(params[:template_id])
+
+    @project.form_description = @template.form_description if @template.form_description
+    @project.form_confirmation_message = @template.form_confirmation_message if @template.form_confirmation_message
+    @project.save
+
+    @template.response_fields.each do |response_field|
+      @project.response_fields << ResponseField.new(response_field)
+    end
+
+    redirect_to project_response_fields_path(@project)
+  end
+
   private
   def project_exists?
     @project = Project.find(params[:project_id])

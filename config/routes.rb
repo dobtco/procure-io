@@ -39,7 +39,8 @@ ProcureIo::Application.routes.draw do
     resources :questions
     resources :collaborators
     resources :response_fields do
-      get 'use_template', on: :collection
+      get 'use_template' => 'response_fields#use_template', on: :collection
+      post 'use_template' => 'response_fields#post_use_template', on: :collection
       put 'batch', on: :collection
     end
   end

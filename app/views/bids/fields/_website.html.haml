@@ -1,13 +1,13 @@
 %label
-  =response_field.label
-  - if response_field.field_options["required"]
+  =response_field[:label]
+  - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-%input{"type" => "text", "name" => "response_fields[#{response_field.id}]", "value" => value, |
-       "data-required" => response_field.field_options["required"] ? true : false, |
-       "class" => "rf-size-#{response_field.field_options['size']}", |
+%input{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
+       "data-required" => response_field[:field_options]["required"] ? true : false, |
+       "class" => "rf-size-#{response_field[:field_options]['size']}", |
        "data-type" => "urlstrict", |
        "placeholder" => "http://" }
 
-%span.help-block= response_field.field_options["description"]
+%span.help-block= response_field[:field_options]["description"]
 

@@ -1,14 +1,14 @@
 %label
-  =response_field.label
-  - if response_field.field_options["required"]
+  =response_field[:label]
+  - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
 .input-prepend
   %span.add-on $
-  %input.span3{"type" => "text", "name" => "response_fields[#{response_field.id}]", "value" => value, |
-               "data-required" => response_field.field_options["required"] ? true : false, |
-               "data-min" => !response_field.field_options["min"].blank? ? response_field.field_options["min"] : false, |
-               "data-max" => !response_field.field_options["max"].blank? ? response_field.field_options["max"] : false }
+  %input.span3{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
+               "data-required" => response_field[:field_options]["required"] ? true : false, |
+               "data-min" => !response_field[:field_options]["min"].blank? ? response_field[:field_options]["min"] : false, |
+               "data-max" => !response_field[:field_options]["max"].blank? ? response_field[:field_options]["max"] : false }
 
-%span.help-block= response_field.field_options["description"]
+%span.help-block= response_field[:field_options]["description"]
 

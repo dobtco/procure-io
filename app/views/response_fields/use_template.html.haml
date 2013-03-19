@@ -14,7 +14,7 @@
           %tr
             %td= form_template.name
             %td
-              %a Use
+              = link_to "Use", use_template_project_response_fields_path(@project, template_id: form_template.id), method: :post
               &middot;
               %a{"href" => use_template_project_response_fields_path(@project, template_id: form_template.id)} Preview
 
@@ -27,9 +27,9 @@
       .help-block #{@template.form_description}
       - @template.response_fields.each do |response_field|
         .response-field-wrapper
-          = render "bids/fields/#{response_field.field_type.downcase}", response_field: response_field, value: nil
+          = render "bids/fields/#{response_field[:field_type].downcase}", response_field: response_field, value: nil
       %div
-        %button.btn.btn-inverse Use this template
+        = link_to "Use this template", use_template_project_response_fields_path(@project, template_id: @template.id), method: :post
 
     - else
       %h4 Preview

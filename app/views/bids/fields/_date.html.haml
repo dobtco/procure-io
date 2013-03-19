@@ -1,15 +1,15 @@
 - if !value || !value.is_a?(Hash) then value = {} end
 
 %label
-  =response_field.label
-  - if response_field.field_options["required"]
+  =response_field[:label]
+  - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-%input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field.id}][month]", "value" => value['month']}
+%input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][month]", "value" => value['month']}
 \/
-%input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field.id}][day]", "value" => value['day']}
+%input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field[:id]}][day]", "value" => value['day']}
 \/
-%input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field.id}][year]", "value" => value['year']}
+%input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year']}
 
-%span.help-block= response_field.field_options["description"]
+%span.help-block= response_field[:field_options]["description"]
 

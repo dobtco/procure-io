@@ -1,11 +1,11 @@
 %label
-  =response_field.label
-  - if response_field.field_options["required"]
+  =response_field[:label]
+  - if response_field[:field_options]["required"]
     %span.required-asterisk *
-%select{"name" => "response_fields[#{response_field.id}]"}
-  - if response_field.field_options["include_blank_option"]
+%select{"name" => "response_fields[#{response_field[:id]}]"}
+  - if response_field[:field_options]["include_blank_option"]
     %option{"value" => ""}
-  - response_field.field_options["options"].each_with_index do |option, i|
+  - response_field[:field_options]["options"].each_with_index do |option, i|
     %option{"value" => option["label"], "selected" => value == option["label"] || (value.blank? && option["checked"]) ? true : false}= option["label"]
 
-%span.help-block= response_field.field_options["description"]
+%span.help-block= response_field[:field_options]["description"]
