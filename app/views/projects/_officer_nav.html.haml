@@ -23,7 +23,7 @@
     =link_to "Response Fields", project_response_fields_path(@project)
   %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
     =link_to "Comments", comments_project_path(@project)
-  %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") || (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
+  %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") || (params[:controller] == "projects" && params[:action] == "import_csv") || (params[:controller] == "projects" && params[:action] == "export_csv") || (params[:controller] == "projects" && params[:action] == "wufoo") ? "active" : ""}
     =link_to "Admin", project_collaborators_path(@project)
 
   %li.pull-right
