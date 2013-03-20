@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   before_filter :question_exists?, only: [:update]
   before_filter :authenticate_vendor!, only: [:create]
   before_filter :authenticate_and_authorize_officer!, only: [:index, :update]
+  before_filter { |c| c.check_enabled!('questions') }
 
   def create
     question = @project.questions.build(body: params[:body])

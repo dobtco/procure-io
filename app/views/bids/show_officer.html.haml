@@ -7,8 +7,9 @@
   :javascript
     new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
 
-#comment-page
-  :javascript
-    new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});
+- if PROCURE_IO_CONFIG[:comments_enabled]
+  #comment-page
+    :javascript
+      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});
 
 = link_to @bid.watched_by?(current_user) ? "Watching Bid" : "Watch Bid", watches_path("Bid", @bid), method: :post, class: "btn #{@bid.watched_by?(current_user) ? 'btn-inverse' : ''}"

@@ -50,7 +50,11 @@ class Officer < ActiveRecord::Base
   before_create :reset_authentication_token
 
   def self.event_types
-    Event.event_types.only(:project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :collaborator_added, :you_were_added)
+    types = [:collaborator_added, :you_were_added]
+    types.push(:project_comment) if PROCURE_IO_CONFIG[:comments_enabled]
+    types.push(:bid_comment) if PROCURE_IO_CONFIG[:bid_review_enabled] && PROCURE_IO_CONFIG[:comments_enabled]
+    types.push(:bid_awarded, :bid_unawarded) if PROCURE_IO_CONFIG[:bid_review_enabled]
+    Event.event_types.only(*types)
   end
 
   def self.roles

@@ -6,23 +6,29 @@
 %hr
 
 %ul.nav.nav-tabs
-  %li{"class" => params[:controller] == "bids" ? "active" : ""}
-    %a{"href" => project_bids_path(@project)}
-      Review Bids
-      - if @project.bids.submitted.open.count > 0
-        %span.badge.badge-info= @project.bids.submitted.open.count
+  - if PROCURE_IO_CONFIG[:bid_review_enabled]
+    %li{"class" => params[:controller] == "bids" ? "active" : ""}
+      %a{"href" => project_bids_path(@project)}
+        Review Bids
+        - if @project.bids.submitted.open.count > 0
+          %span.badge.badge-info= @project.bids.submitted.open.count
 
-  %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
-    %a{"href" => project_questions_path(@project)}
-      Answer Questions
-      - if @project.questions.unanswered.count > 0
-        %span.badge.badge-info= @project.questions.unanswered.count
+  - if PROCURE_IO_CONFIG[:questions_enabled]
+    %li{"class" => params[:controller] == "questions" && params[:action] == "index" ? "active" : ""}
+      %a{"href" => project_questions_path(@project)}
+        Answer Questions
+        - if @project.questions.unanswered.count > 0
+          %span.badge.badge-info= @project.questions.unanswered.count
+
   %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
     =link_to "Project Description", edit_project_path(@project)
   %li{"class" => params[:controller] == "response_fields" ? "active" : ""}
     =link_to "Response Fields", project_response_fields_path(@project)
-  %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
-    =link_to "Comments", comments_project_path(@project)
+
+  - if PROCURE_IO_CONFIG[:comments_enabled]
+    %li{"class" => params[:controller] == "projects" && params[:action] == "comments" ? "active" : ""}
+      =link_to "Comments", comments_project_path(@project)
+
   %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") || (params[:controller] == "projects" && params[:action] == "import_csv") || (params[:controller] == "projects" && params[:action] == "export_csv") || (params[:controller] == "projects" && params[:action] == "wufoo") ? "active" : ""}
     =link_to "Admin", project_collaborators_path(@project)
 

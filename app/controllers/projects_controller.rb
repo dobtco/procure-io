@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, except: [:index, :show]
   before_filter :authorize_officer!, except: [:index, :show, :mine, :new, :create]
   before_filter :project_is_posted_if_current_vendor, only: [:show]
+  before_filter only: [:comments] { |c| c.check_enabled!('comments') }
 
   protect_from_forgery except: :post_wufoo
 
