@@ -25,7 +25,10 @@
 #  invited_by_type          :string(255)
 #  notification_preferences :text
 #  authentication_token     :string(255)
+#  role                     :integer          default(1)
 #
+
+require_dependency 'enum'
 
 class Officer < ActiveRecord::Base
   include SharedUserMethods
@@ -48,6 +51,12 @@ class Officer < ActiveRecord::Base
 
   def self.event_types
     Event.event_types.only(:project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :collaborator_added, :you_were_added)
+  end
+
+  def self.roles
+    @roles ||= Enum.new(
+      :user, :admin, :god
+    )
   end
 
   def signed_up?
