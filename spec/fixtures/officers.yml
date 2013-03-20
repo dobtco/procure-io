@@ -25,6 +25,7 @@
 #  invited_by_type          :string(255)
 #  notification_preferences :text
 #  authentication_token     :string(255)
+#  role                     :integer          default(1)
 #
 
 adam:
@@ -33,6 +34,7 @@ adam:
   name: Adam
   title: DOBTCOCTO
   encrypted_password: "phooey"
+  role: 1
 
 clay:
   id: 2
@@ -40,3 +42,4 @@ clay:
   name: Clay
   title: DOBTCOCEO
   encrypted_password: "phooey"
+  role: 1

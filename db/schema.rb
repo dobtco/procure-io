@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319015840) do
+ActiveRecord::Schema.define(:version => 20130320150251) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20130319015840) do
     t.string   "invited_by_type"
     t.text     "notification_preferences"
     t.string   "authentication_token"
+    t.integer  "role",                                   :default => 1
   end
 
   add_index "officers", ["authentication_token"], :name => "index_officers_on_authentication_token", :unique => true
