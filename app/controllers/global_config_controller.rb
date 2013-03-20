@@ -6,7 +6,18 @@ class GlobalConfigController < ApplicationController
   end
 
   def put
-    @global_config.update_attributes(global_config_params)
+    @global_config.assign_attributes(global_config_params)
+
+    event_hooks = {}
+
+    (params[:event_hooks] || []).each do |k, v|
+      next unless params[:event_hooks][k]['enabled']
+      event_hooks[k.to_i] = v
+    end
+
+    @global_config.event_hooks = event_hooks
+    @global_config.save
+
     flash[:success] = "Successfully updated site configuration."
     redirect_to global_config_path
   end

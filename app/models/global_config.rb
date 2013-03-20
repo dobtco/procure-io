@@ -13,19 +13,32 @@
 #  updated_at             :datetime         not null
 #
 
+require_dependency 'enum'
+
 class GlobalConfig < ActiveRecord::Base
   serialize :event_hooks, Hash
 
   validates_inclusion_of :singleton_guard, in: [0]
 
-  class << self
-    def instance
-      begin
-        find(1)
-      rescue ActiveRecord::RecordNotFound
-        # slight race condition here, but it will only happen once
-        row = GlobalConfig.create(singleton_guard: 0)
-      end
+  def self.instance
+    begin
+      find(1)
+    rescue ActiveRecord::RecordNotFound
+      # slight race condition here, but it will only happen once
+      row = GlobalConfig.create(singleton_guard: 0)
     end
+  end
+
+  def self.event_hooks
+    @event_hooks ||= Enum.new(
+      :twitter, :custom_http
+    )
+  end
+
+  def self.event_hook_name_for(event_hook)
+    {
+      :twitter => "Twitter",
+      :custom_http => "Custom HTTP"
+    }[event_hook.to_sym]
   end
 end
