@@ -22,6 +22,11 @@ class Ability
     can :watch, Bid do |bid| can :collaborate_on, bid.project end
   end
 
+  def officer_admin(user)
+    can [:collaborate_on, :watch, :destroy], Project
+    can [:watch], Bid
+  end
+
   def officer_god(user)
     # @todo are there unintended consequences of this?
     can :manage, :all
