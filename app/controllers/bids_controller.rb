@@ -1,8 +1,8 @@
 class BidsController < ApplicationController
   before_filter :project_exists?
-  before_filter :bid_exists?, only: [:show, :update, :reviews]
+  before_filter :bid_exists?, only: [:show, :update, :reviews, :destroy]
   before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
-  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews]
+  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy]
 
   def index
     respond_to do |format|
@@ -103,7 +103,6 @@ class BidsController < ApplicationController
     end
   end
 
-  # @todo security!
   def batch
     @bids = @project.bids.find(params[:ids])
 
@@ -166,6 +165,13 @@ class BidsController < ApplicationController
     respond_to do |format|
       format.json { render json: @reviews }
     end
+  end
+
+  def destroy
+    authorize! :destroy, @bid
+    @bid.destroy
+    flash[:success] = "Bid was successfully destroyed."
+    redirect_to project_bids_path(@project)
   end
 
   private

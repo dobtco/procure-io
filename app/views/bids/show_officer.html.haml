@@ -1,5 +1,8 @@
 = render "projects/officer_nav"
 
+- if can? :destroy, @bid
+  = link_to "Delete bid", project_bid_path(@project, @bid), method: :delete, confirm: "Are you sure you want to delete this bid?"
+
 #bid-page
   :javascript
     new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
