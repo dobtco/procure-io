@@ -23,6 +23,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_enabled!(feature)
+    if !PROCURE_IO_CONFIG[:"#{feature}_enabled"]
+      flash[:error] = "Sorry, that feature is not enabled."
+      redirect_to :root
+    end
+  end
+
   private
   def not_found
     raise ActionController::RoutingError.new('Not Found')

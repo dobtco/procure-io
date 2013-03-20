@@ -4,4 +4,4 @@
   %p Want your data without the bells and whistles of Procure.io? We understand. You can download an Excel-compatible CSV export of your bids below.
 
   %div
-    = link_to "Download Bids as CSV", export_csv_project_path(@project), class: "btn btn-inverse", method: :post
+    = link_to "Download #{pluralize(@project.bids.submitted.count, 'bid')} as CSV", export_csv_project_path(@project), class: "btn btn-inverse", method: :post

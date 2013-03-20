@@ -39,8 +39,9 @@ class Vendor < ActiveRecord::Base
   before_create :set_default_notification_preferences
 
   def self.event_types
-    Event.event_types.only(:vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed, :vendor_bid_undismissed,
-                           :project_amended)
+    types = [:project_amended]
+    types.push(:vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed, :vendor_bid_undismissed) if PROCURE_IO_CONFIG[:bid_submission_enabled]
+    Event.event_types.only(*types)
   end
 
   def bid_for_project(project)

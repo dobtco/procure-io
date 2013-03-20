@@ -3,6 +3,8 @@ class BidsController < ApplicationController
   before_filter :bid_exists?, only: [:show, :update, :reviews, :destroy]
   before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
   before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy]
+  before_filter only: [:index, :show, :batch, :reviews] { |c| c.check_enabled!('bid_review') }
+  before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
 
   def index
     respond_to do |format|
