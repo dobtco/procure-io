@@ -25,6 +25,7 @@ class Ability
   def officer_admin(user)
     can [:collaborate_on, :watch, :destroy], Project
     can [:watch, :destroy], Bid
+    can :manage, GlobalConfig
   end
 
   def officer_god(user)

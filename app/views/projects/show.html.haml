@@ -28,7 +28,7 @@
                 method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
     %h4 Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
-    - if PROCURE_IO_CONFIG[:bid_submission_enabled]
+    - if GlobalConfig.instance[:bid_submission_enabled]
       - if vendor_signed_in?
         - if (bid = current_vendor.bid_for_project(@project))
           - if bid.submitted_at
@@ -40,7 +40,7 @@
       - elsif !officer_signed_in?
         #{link_to "Sign in", new_vendor_session_path} to bid.
 
-    - if PROCURE_IO_CONFIG[:questions_enabled]
+    - if GlobalConfig.instance[:questions_enabled]
       %h4 Questions
       - if vendor_signed_in?
         #ask-question.collapse

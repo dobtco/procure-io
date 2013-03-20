@@ -7,6 +7,9 @@ ProcureIo::Application.routes.draw do
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
 
+  get 'global_config' => 'global_config#get', as: :global_config
+  put 'global_config' => 'global_config#put'
+
   resources :notifications, only: [:index, :update]
 
   resources :saved_searches, only: [:index, :create, :destroy]

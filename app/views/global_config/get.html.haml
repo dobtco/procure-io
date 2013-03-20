@@ -1,0 +1,27 @@
+!= page_header "Site Settings"
+
+= form_for @global_config do |f|
+  %h4 Enable/Disable Features
+
+  %label.checkbox
+    .switch
+      = f.check_box :bid_review_enabled
+    Bid review
+
+  %label.checkbox
+    .switch
+      = f.check_box :bid_submission_enabled
+    Bid submission
+
+  %label.checkbox
+    .switch
+      = f.check_box :comments_enabled
+    Comments
+
+  %label.checkbox
+    .switch
+      = f.check_box :questions_enabled
+    Questions
+
+  .form-actions
+    = f.submit "Save", class: "btn btn-inverse"
