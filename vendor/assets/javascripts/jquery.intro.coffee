@@ -86,7 +86,7 @@ class jQueryIntroJs
 
     if $el.length == 0
       @steps.splice(@currentStep, 1)
-      return @showCurrentStep()
+      return (if @steps.length == @currentStep then @endTour() else @showCurrentStep())
 
     @setHelperLayer($el, step['text'], step['placement'], step['minWidth'])
     setTimeout =>

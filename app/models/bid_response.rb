@@ -54,6 +54,12 @@ class BidResponse < ActiveRecord::Base
         str += "<img src='#{upload.thumb.url}' /><br />"
       end
       str += "#{upload.file.filename.gsub(/\?.*$/, '')}</a>"
+    when "checkboxes"
+      str = "<table class='table table-bordered table-nonfluid'>"
+      value.each do |k, v|
+        str += "<tr><th>#{k}</th><td>#{v}</td></tr>"
+      end
+      str += "</table>"
     else
       value
     end
