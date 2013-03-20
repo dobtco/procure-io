@@ -37,10 +37,10 @@
           - current_value = @global_config.event_hooks[v]
           .tab-pane{"id" => "event-hook-#{v}"}
             %label.checkbox
-              %input{"type" => "checkbox", "name" => "event_hooks[#{v}][enabled]", "checked" => current_value}
+              %input{"type" => "checkbox", "name" => "event_hooks[#{v}][enabled]", "checked" => current_value && current_value['enabled']}
               Enabled?
 
-            = render "global_config/event_hook_options/#{k.to_s}", k: k, v: v
+            = render "global_config/event_hook_options/#{k.to_s}", k: k, v: v, current_value: current_value
 
   .form-actions
     = f.submit "Save", class: "btn btn-inverse"

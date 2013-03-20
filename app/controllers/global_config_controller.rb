@@ -11,7 +11,6 @@ class GlobalConfigController < ApplicationController
     event_hooks = {}
 
     (params[:event_hooks] || []).each do |k, v|
-      next unless params[:event_hooks][k]['enabled']
       event_hooks[k.to_i] = v
     end
 
