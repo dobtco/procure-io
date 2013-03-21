@@ -21,6 +21,7 @@
       %code :bids_due_at
     %dd Bids Due At
 
+  = render "global_config/event_hook_options/pieces/enabled_hidden", v: v, current_value: current_value
   %input{"type" => "hidden", "name" => "event_hooks[#{v}][oauth_token]", "placeholder" => "URL", "value" => current_value && current_value['oauth_token']}
   %input{"type" => "hidden", "name" => "event_hooks[#{v}][oauth_token_secret]", "placeholder" => "URL", "value" => current_value && current_value['oauth_token_secret']}
   %input{"type" => "hidden", "name" => "event_hooks[#{v}][account_name]", "placeholder" => "URL", "value" => current_value && current_value['account_name']}

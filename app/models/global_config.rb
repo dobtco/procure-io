@@ -16,6 +16,8 @@
 require_dependency 'enum'
 
 class GlobalConfig < ActiveRecord::Base
+  include ActionView::Helpers::TextHelper
+
   serialize :event_hooks, Hash
 
   validates_inclusion_of :singleton_guard, in: [0]
@@ -46,7 +48,13 @@ class GlobalConfig < ActiveRecord::Base
     event_hooks.select { |k, v| v['enabled'] }.each do |k, v|
       case k
       when GlobalConfig.event_hooks[:twitter]
-        # tweet it!
+        client = ProcureIoTwitterOAuth.client(token: v['oauth_token'], secret: v['oauth_token_secret'])
+        client.update(
+          truncate(v['tweet_body'].gsub(':title', project.title)
+                                  .gsub(':bids_due_at', project.bids_due_at.to_formatted_s(:readable_dateonly)),
+                   length: 140)
+        )
+
       when GlobalConfig.event_hooks[:custom_http]
         HTTParty.post(v['url'],
                       body: ProjectSerializer.new(project, root: false).to_json,
