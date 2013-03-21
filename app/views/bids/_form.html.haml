@@ -11,7 +11,7 @@
             %li= e
 
   - @project.response_fields.each do |response_field|
-    .response-field-wrapper
+    .response-field-wrapper.control-group
       = render "bids/fields/#{response_field.field_type.downcase}", response_field: response_field, |
         value: (r = @bid.bid_responses.where(response_field_id: response_field.id).first) ? r.value : ''
 
