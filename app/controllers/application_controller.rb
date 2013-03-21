@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_enabled!(feature)
-    if !PROCURE_IO_CONFIG[:"#{feature}_enabled"]
+    if !GlobalConfig.instance[:"#{feature}_enabled"]
       flash[:error] = "Sorry, that feature is not enabled."
       redirect_to :root
     end

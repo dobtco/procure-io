@@ -133,6 +133,8 @@ class Project < ActiveRecord::Base
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "ProjectPosted")
+
+    GlobalConfig.instance.delay.run_event_hooks_for_project!(self)
   end
 
   def after_unpost_by_officer(officer)
