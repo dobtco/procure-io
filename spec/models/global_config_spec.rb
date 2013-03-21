@@ -3,7 +3,6 @@
 # Table name: global_configs
 #
 #  id                     :integer          not null, primary key
-#  singleton_guard        :integer
 #  bid_review_enabled     :boolean          default(TRUE)
 #  bid_submission_enabled :boolean          default(TRUE)
 #  comments_enabled       :boolean          default(TRUE)

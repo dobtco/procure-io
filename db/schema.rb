@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130320181304) do
+ActiveRecord::Schema.define(:version => 20130321203809) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(:version => 20130320181304) do
   end
 
   create_table "global_configs", :force => true do |t|
-    t.integer  "singleton_guard"
     t.boolean  "bid_review_enabled",     :default => true
     t.boolean  "bid_submission_enabled", :default => true
     t.boolean  "comments_enabled",       :default => true
@@ -135,8 +134,6 @@ ActiveRecord::Schema.define(:version => 20130320181304) do
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
   end
-
-  add_index "global_configs", ["singleton_guard"], :name => "index_global_configs_on_singleton_guard", :unique => true
 
   create_table "labels", :force => true do |t|
     t.integer  "project_id"
@@ -190,6 +187,7 @@ ActiveRecord::Schema.define(:version => 20130320181304) do
     t.boolean  "has_unsynced_body_changes"
     t.text     "form_description"
     t.text     "form_confirmation_message"
+    t.string   "abstract"
   end
 
   create_table "projects_tags", :id => false, :force => true do |t|

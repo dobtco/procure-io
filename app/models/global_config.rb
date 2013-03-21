@@ -3,7 +3,6 @@
 # Table name: global_configs
 #
 #  id                     :integer          not null, primary key
-#  singleton_guard        :integer
 #  bid_review_enabled     :boolean          default(TRUE)
 #  bid_submission_enabled :boolean          default(TRUE)
 #  comments_enabled       :boolean          default(TRUE)
@@ -18,18 +17,9 @@ require_dependency 'enum'
 class GlobalConfig < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
 
+  acts_as_singleton
+
   serialize :event_hooks, Hash
-
-  validates_inclusion_of :singleton_guard, in: [0]
-
-  def self.instance
-    begin
-      find(1)
-    rescue ActiveRecord::RecordNotFound
-      # slight race condition here, but it will only happen once
-      row = GlobalConfig.create(singleton_guard: 0)
-    end
-  end
 
   def self.event_hooks
     @event_hooks ||= Enum.new(
