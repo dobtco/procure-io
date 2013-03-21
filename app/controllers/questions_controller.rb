@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
   end
 
   def index
+    current_officer.read_notifications(@project, :question_asked)
     @questions = @project.questions.paginate(page: params[:page])
     @questions_json = ActiveModel::ArraySerializer.new(@questions,
                                                        each_serializer: OfficerQuestionSerializer).to_json

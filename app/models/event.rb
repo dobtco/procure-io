@@ -24,7 +24,8 @@ class Event < ActiveRecord::Base
   def self.event_types
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
-      :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended, :collaborator_added, :you_were_added
+      :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended, :collaborator_added, :you_were_added,
+      :question_asked, :question_answered
     )
   end
 
@@ -40,7 +41,9 @@ class Event < ActiveRecord::Base
       :vendor_bid_undismissed => "Bid Undismissed",
       :project_amended => "Project Amended",
       :collaborator_added => "Collaborator Added",
-      :you_were_added => "You are added"
+      :you_were_added => "You are added",
+      :question_asked => "Question asked",
+      :question_answered => "Question answered"
     }[event_type.to_sym]
   end
 
@@ -49,53 +52,57 @@ class Event < ActiveRecord::Base
   end
 
   def path
-    case event_type
-    when Event.event_types[:project_comment]
+    case Event.event_types[event_type]
+    when :project_comment
       comments_project_path(targetable_id)
-    when Event.event_types[:bid_comment]
+    when :bid_comment
       project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
-    when Event.event_types[:bid_awarded], Event.event_types[:bid_unawarded], Event.event_types[:vendor_bid_awarded],
-         Event.event_types[:vendor_bid_unawarded], Event.event_types[:vendor_bid_dismissed], Event.event_types[:vendor_bid_undismissed]
+    when :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed,
+         :vendor_bid_undismissed
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
-    when Event.event_types[:project_amended]
+    when :project_amended, :question_asked, :question_answered
       project_path(targetable_id)
-    when Event.event_types[:collaborator_added]
+    when :collaborator_added
       project_collaborators_path(targetable_id)
-    when Event.event_types[:you_were_added]
+    when :you_were_added
       edit_project_path(targetable_id)
     end
   end
 
   def text
-    case event_type
-    when Event.event_types[:project_comment]
+    case Event.event_types[event_type]
+    when :project_comment
       "#{data['officer']['display_name']} commented on #{data['commentable']['title']}."
-    when Event.event_types[:bid_comment]
+    when :bid_comment
       "#{data['officer']['display_name']} commented on #{data['commentable']['vendor']['display_name']}'s bid for #{data['commentable']['project']['title']}."
-    when Event.event_types[:bid_awarded]
+    when :bid_awarded
       "#{data['officer']['display_name']} awarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:bid_unawarded]
+    when :bid_unawarded
       "#{data['officer']['display_name']} unawarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:vendor_bid_awarded]
+    when :vendor_bid_awarded
       "#{data['officer']['display_name']} has awarded your bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:vendor_bid_unawarded]
+    when :vendor_bid_unawarded
       "#{data['officer']['display_name']} has unawarded your bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:vendor_bid_dismissed]
+    when :vendor_bid_dismissed
       "#{data['officer']['display_name']} has dismissed your bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:vendor_bid_undismissed]
+    when :vendor_bid_undismissed
       "#{data['officer']['display_name']} has undismissed your bid on #{data['bid']['project']['title']}."
-    when Event.event_types[:project_amended]
+    when :project_amended
       "The project #{data['title']} has been amended."
-    when Event.event_types[:collaborator_added]
+    when :collaborator_added
       "#{data['officer']['display_name']} was added as a collaborator on #{data['project']['title']}."
-    when Event.event_types[:you_were_added]
+    when :you_were_added
       "#{data['officer']['display_name']} added you as a collaborator on #{data['project']['title']}."
+    when :question_asked
+      "#{data['vendor']['display_name']} asked a question about #{data['project']['title']}."
+    when :question_answered
+      "#{data['officer']['display_name']} answered your question about #{data['project']['title']}."
     end
   end
 
   def additional_text
-    case event_type
-    when Event.event_types[:you_were_added]
+    case Event.event_types[event_type]
+    when :you_were_added
       "You have automatically been subscribed to all updates on this project."
     end
   end

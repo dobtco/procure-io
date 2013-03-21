@@ -25,10 +25,9 @@ class Comment < ActiveRecord::Base
 
   after_save :calculate_commentable_total_comments!
   after_create :subscribe_officer_if_never_subscribed!
-  after_create do
-    return if comment_type # don't proceed if this is an automatically-generated comment
-    self.delay.generate_events
-  end
+  after_create :generate_events
+
+  handle_asynchronously :generate_events
 
   default_scope order("created_at")
 
@@ -47,6 +46,8 @@ class Comment < ActiveRecord::Base
   end
 
   def generate_events
+    return if comment_type # don't proceed if this is an automatically-generated comment
+
     if self.commentable.class.name == "Project"
       event = commentable.events.create(event_type: Event.event_types[:project_comment],
                                         data: CommentSerializer.new(self, root: false).to_json)

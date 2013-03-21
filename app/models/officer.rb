@@ -51,6 +51,7 @@ class Officer < ActiveRecord::Base
 
   def self.event_types
     types = [:collaborator_added, :you_were_added]
+    types.push(:question_asked) if GlobalConfig.instance[:questions_enabled]
     types.push(:project_comment) if GlobalConfig.instance[:comments_enabled]
     types.push(:bid_comment) if GlobalConfig.instance[:bid_review_enabled] && GlobalConfig.instance[:comments_enabled]
     types.push(:bid_awarded, :bid_unawarded) if GlobalConfig.instance[:bid_review_enabled]
