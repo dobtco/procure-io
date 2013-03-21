@@ -197,7 +197,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:title, :body, :bids_due_at)
+    params.require(:project).permit(:title, :abstract, :body, :bids_due_at)
   end
 
   def project_is_posted_if_current_vendor

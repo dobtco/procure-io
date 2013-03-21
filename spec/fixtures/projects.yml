@@ -14,11 +14,13 @@
 #  has_unsynced_body_changes :boolean
 #  form_description          :text
 #  form_confirmation_message :text
+#  abstract                  :string(255)
 #
 
 one:
   id: 1
   title: "Bluth Banana Stand Rebuild"
+  abstract: "Bananas."
   body: "We need someone to rebuild our banana stand."
   posted_at: <%= Time.now.to_s(:db) %>
   posted_by_officer_id: 1

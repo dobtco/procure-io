@@ -14,6 +14,7 @@
 #  has_unsynced_body_changes :boolean
 #  form_description          :text
 #  form_confirmation_message :text
+#  abstract                  :string(255)
 #
 
 require 'spec_helper'

@@ -34,6 +34,8 @@
 
     =link_to "New Amendment", project_amendments_path(@project), method: :post
 
+  = f.label :abstract
+  = f.text_area :abstract
 
   = f.label :body
   - if @pad

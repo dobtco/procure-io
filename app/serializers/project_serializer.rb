@@ -5,6 +5,10 @@ class ProjectSerializer < ActiveModel::Serializer
   has_many :tags
   has_many :labels
 
+  def abstract
+    object.abstract_or_truncated_body
+  end
+
   def bids_due_at_readable
     object.bids_due_at.to_formatted_s(:readable) if object.bids_due_at
   end

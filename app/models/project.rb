@@ -14,6 +14,7 @@
 #  has_unsynced_body_changes :boolean
 #  form_description          :text
 #  form_confirmation_message :text
+#  abstract                  :string(255)
 #
 
 class Project < ActiveRecord::Base
@@ -80,8 +81,8 @@ class Project < ActiveRecord::Base
     return_object
   end
 
-  def abstract
-    truncate(self.body, length: 130, omission: "...")
+  def abstract_or_truncated_body
+    read_attribute(:abstract) || truncate(self.body, length: 130, omission: "...")
   end
 
   def owner

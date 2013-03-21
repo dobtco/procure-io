@@ -6,6 +6,10 @@
 
 .row-fluid
   .span7
+    - if @project.abstract
+      %h4 Abstract
+      %p= @project.abstract
+
     %h4 Project Description
 
     - if @project.amendments.posted.any?
