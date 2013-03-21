@@ -41,4 +41,17 @@ class GlobalConfig < ActiveRecord::Base
       :custom_http => "Custom HTTP"
     }[event_hook.to_sym]
   end
+
+  def run_event_hooks_for_project!(project)
+    event_hooks.select { |k, v| v['enabled'] }.each do |k, v|
+      case k
+      when GlobalConfig.event_hooks[:twitter]
+        # tweet it!
+      when GlobalConfig.event_hooks[:custom_http]
+        HTTParty.post(v['url'],
+                      body: ProjectSerializer.new(project, root: false).to_json,
+                      headers: { 'Content-Type' => 'application/json' } ) rescue ArgumentError
+      end
+    end
+  end
 end
