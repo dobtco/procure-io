@@ -1,0 +1,30 @@
+- unless current_value && current_value['account_name']
+  %a{"href" => global_config_twitter_oauth_path} Connect your twitter acount
+
+- else
+  <strong>@#{current_value['account_name']}</strong> is linked.
+  = link_to "Unlink", global_config_twitter_oauth_path, method: :delete
+
+  .control-group
+    %textarea{"name" => "event_hooks[#{v}][tweet_body]", "placeholder" => "Compose a tweet...", |
+              "data-max-chars" => "110", "data-max-chars-display" => "#tweet-chars-remaining"}= current_value && current_value['tweet_body']
+    %span.help-block
+      Around
+      %code#tweet-chars-remaining
+      characters remaining.
+
+  %dl.dl-horizontal
+    %dt
+      %code :title
+    %dd Project Title
+    %dt
+      %code :bids_due_at
+    %dd Bids Due At
+
+  = render "global_config/event_hook_options/pieces/enabled_hidden", v: v, current_value: current_value
+  %input{"type" => "hidden", "name" => "event_hooks[#{v}][oauth_token]", "placeholder" => "URL", "value" => current_value && current_value['oauth_token']}
+  %input{"type" => "hidden", "name" => "event_hooks[#{v}][oauth_token_secret]", "placeholder" => "URL", "value" => current_value && current_value['oauth_token_secret']}
+  %input{"type" => "hidden", "name" => "event_hooks[#{v}][account_name]", "placeholder" => "URL", "value" => current_value && current_value['account_name']}
+
+
+%p Procure.io will send a tweet whenever a new project is posted.

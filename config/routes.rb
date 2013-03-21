@@ -7,6 +7,13 @@ ProcureIo::Application.routes.draw do
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
 
+  get 'global_config' => 'global_config#get', as: :global_config
+  put 'global_config' => 'global_config#put'
+
+  get 'global_config/twitter_oauth' => 'global_config#twitter_oauth', as: :global_config_twitter_oauth
+  get 'global_config/twitter_oauth/callback' => 'global_config#twitter_oauth_callback', as: :global_config_twitter_oauth_callback
+  delete 'global_config/twitter_oauth' => 'global_config#twitter_oauth_destroy'
+
   resources :notifications, only: [:index, :update]
 
   resources :saved_searches, only: [:index, :create, :destroy]
