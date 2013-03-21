@@ -23,6 +23,7 @@ gem 'carrierwave'
 gem 'rmagick', '2.13.2'
 gem 'fog', '~> 1.3.1'
 gem 'httparty'
+gem 'twitter_oauth'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
