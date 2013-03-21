@@ -40,10 +40,10 @@ describe Project do
   it { should respond_to(:watches) }
 
   describe "abstract" do
-    before { projects(:one).update_attributes(body: "a"*140) }
+    before { projects(:one).update_attributes(body: "a"*140, abstract: nil) }
     it "should truncate properly" do
-      projects(:one).abstract.length.should be < 140
-      projects(:one).abstract.should match /a\.\.\.$/
+      projects(:one).abstract_or_truncated_body.length.should be < 140
+      projects(:one).abstract_or_truncated_body.should match /a\.\.\.$/
     end
   end
 
