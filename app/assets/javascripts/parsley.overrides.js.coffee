@@ -26,6 +26,10 @@ window.ParsleyConfig = $.extend true, {}, window.ParsleyConfig,
       return val <= nbWords;
 
     date: (val) ->
+      val = $.extend {}, val
+
+      return true if !val['month'] && !val['year'] && !val['day']
+
       for i of val
         val[i] = if isNaN(parseInt(val[i], 10)) then 0 else parseInt(val[i], 10)
 
