@@ -38,11 +38,11 @@ class BidValidator
   end
 
   def min_max(response_field, bid_response, value)
-    if response_field.field_options[:min] && (!value || value.to_f < response_field.field_options[:min].to_f)
+    if response_field.field_options[:min] && (value.to_f < response_field.field_options[:min].to_f)
       errors << "#{response_field.label} is too small. It should be #{response_field.field_options[:min]} or more."
     end
 
-    if response_field.field_options[:max] && (!value || value.to_f < response_field.field_options[:max].to_f)
+    if response_field.field_options[:max] && (value.to_f > response_field.field_options[:max].to_f)
       errors << "#{response_field.label} is too large. It should be #{response_field.field_options[:max]} or less."
     end
   end
