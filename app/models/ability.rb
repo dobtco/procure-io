@@ -26,6 +26,10 @@ class Ability
     can [:collaborate_on, :watch, :destroy], Project
     can [:watch, :destroy], Bid
     can :manage, GlobalConfig
+    can :read, Officer
+    can :update, Officer do |officer|
+      officer.role != Officer.roles[:god]
+    end
   end
 
   def officer_god(user)

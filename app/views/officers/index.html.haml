@@ -1,0 +1,7 @@
+!= page_header "Officers"
+
+%ul
+  - @officers.each do |officer|
+    %li= link_to officer.display_name, edit_officer_path(officer)
+
+= will_paginate @officers, class: "pagination pagination-centered"

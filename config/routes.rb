@@ -18,7 +18,7 @@ ProcureIo::Application.routes.draw do
 
   resources :saved_searches, only: [:index, :create, :destroy]
 
-  resources :officers, only: [] do
+  resources :officers, only: [:index, :edit, :update] do
     get 'typeahead', on: :collection
   end
 
