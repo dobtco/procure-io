@@ -16,6 +16,4 @@
     %option{"value" => "AM", "selected" => if value['am_pm'] == "AM" then true end} AM
     %option{"value" => "PM", "selected" => if value['am_pm'] == "PM" then true end} PM
 
-  %input{"type" => "hidden", "data-required" => response_field[:field_options]["required"] ? true : false, "data-time" => true, "value" => value && (!value['hours'].blank? || !value['minutes'].blank? || !value['seconds'].blank?) && "#{value['hours']},#{value['minutes']},#{value['seconds']}"}
-
 %span.help-block= response_field[:field_options]["description"]

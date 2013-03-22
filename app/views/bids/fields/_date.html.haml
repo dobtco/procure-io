@@ -5,14 +5,11 @@
   - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-.input-group-date
-  %input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][month]", "value" => value['month']}
-  \/
-  %input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field[:id]}][day]", "value" => value['day']}
-  \/
-  %input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year']}
-
-  %input{"type" => "hidden", "data-required" => response_field[:field_options]["required"] ? true : false, "data-date" => true, "value" => value && "#{value['month']},#{value['day']},#{value['year']}"}
+%input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][month]", "value" => value['month'], "data-group" => response_field[:id], "data-date" => true}
+\/
+%input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field[:id]}][day]", "value" => value['day'], "data-group" => response_field[:id], "data-date" => true}
+\/
+%input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year'], "data-group" => response_field[:id], "data-date" => true}
 
 %span.help-block= response_field[:field_options]["description"]
 

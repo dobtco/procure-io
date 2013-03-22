@@ -664,7 +664,7 @@
     * @return {Boolean} Is field valid or not
     */
     , validate: function ( errorBubbling ) {
-      var val = this.$element.data('file-exists') === 'exists'  ?  'true' : this.getVal()
+      var val = this.$element.data('file-exists') === 'exists' ?  'true' : this.getVal()
         , valid = null;
 
       // do not even bother trying validating a field w/o constraints
@@ -954,6 +954,7 @@
       this.isRadioOrCheckbox = true;
       this.isRadio = this.$element.is( 'input[type=radio]' );
       this.isCheckbox = this.$element.is( 'input[type=checkbox]' );
+      this.isDataGroup = this.$element.is( 'input[data-group]' );
       this.errorClassHandler = options.errors.classHandler( element, this.isRadioOrCheckbox ) || this.$element.parent();
     }
 
@@ -1011,6 +1012,17 @@
         $( this.siblings + ':checked' ).each( function () {
           values.push( $( this ).val() );
         } );
+
+        return values;
+      }
+
+      if ( this.isDataGroup ) {
+        var values = {}
+
+        $(this.siblings).each(function(k, v){
+          var matches = $(this).attr('name').match(/\[([^\[]*)\]$/);
+          if (matches && matches[1]) values[matches[1]] = $(this).val()
+        });
 
         return values;
       }
@@ -1262,7 +1274,7 @@
     // if it is a Parsley supported single element, bind it too, except inputs type hidden
     // add here a return instance, cuz' we could call public methods on single elems with data[ option ]() above
     } else if ( $( this ).is( options.inputs ) && !$( this ).is( options.excluded ) ) {
-      newInstance = bind( $( this ), !$( this ).is( 'input[type=radio], input[type=checkbox]' ) ? 'parsleyField' : 'parsleyFieldMultiple' );
+      newInstance = bind( $( this ), !$( this ).is( 'input[type=radio], input[type=checkbox], input[data-group]' ) ? 'parsleyField' : 'parsleyFieldMultiple' );
     }
 
     return 'function' === typeof fn ? fn() : newInstance;
