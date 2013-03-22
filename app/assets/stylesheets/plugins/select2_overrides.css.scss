@@ -1,7 +1,9 @@
 @import "bootstrap/mixins";
 
 .select2-container {
-    margin-bottom:9px;
+    margin: 0 0 9px 0 !important;
+    display: block;
+    float: none !important;
 }
 
 .select2-container-multi .select2-choices {

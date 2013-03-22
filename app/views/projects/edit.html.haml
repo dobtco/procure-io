@@ -1,49 +1,55 @@
 = render "projects/officer_nav"
 
 = form_for @project do |f|
-  = f.label :posted_at, "Live?"
-  .switch{"data-on-label" => "Yes", "data-off-label" => "No"}
-    = f.check_box :posted_at
+  .row-fluid
+    .span6
+      = f.label :body
+      - if @pad
+        #etherpad.readable-width
+          :javascript
+            $("#etherpad").pad({padId: '#{@pad.id}'})
+      - else
+        = f.text_area :body
 
-  = f.label :title
-  = f.text_field :title, class: "span4"
+    .span6
+      = f.label :posted_at, "Live?"
+      .switch{"data-on-label" => "Yes", "data-off-label" => "No"}
+        = f.check_box :posted_at
 
-  = f.label :tags
-  = f.text_field :tags, value: @project.tags.map(&:name).join(",")
+      = f.label :title
+      = f.text_field :title, class: "span10"
 
-  :javascript
-    $("#project_tags").select2({
-      tags: #{Tag.all_for_select2.to_json},
-      tokenSeparators: [','],
-      width: "resolve"
-    });
+      = f.label :tags
+      = f.text_field :tags, value: @project.tags.map(&:name).join(",")
 
-  = f.label :bids_due_at
-  = f.datetime_select :bids_due_at, {}, style: "width: 100px;"
-
-  %div
-    %label Amendments
-
-    - if @project.amendments.length > 0
-      %ul
-        - @project.amendments.each do |amendment|
-          %li
-            %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
-    - else
-      %div No amendments.
-
-    =link_to "New Amendment", project_amendments_path(@project), method: :post
-
-  = f.label :abstract
-  = f.text_area :abstract
-
-  = f.label :body
-  - if @pad
-    #etherpad.readable-width
       :javascript
-        $("#etherpad").pad({padId: '#{@pad.id}'})
-  - else
-    = f.text_area :body
+        $("#project_tags").select2({
+          tags: #{Tag.all_for_select2.to_json},
+          tokenSeparators: [','],
+          width: "off",
+          containerCssClass: 'span10'
+        });
+
+      = f.label :bids_due_at
+      = f.datetime_select :bids_due_at, {}, style: "width: 100px;"
+
+      %div
+        %label
+          Amendments
+          = link_to "New Amendment", project_amendments_path(@project), method: :post, class: "btn btn-mini"
+
+        - if @project.amendments.length > 0
+          %ul
+            - @project.amendments.each do |amendment|
+              %li
+                %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
+        - else
+          %div No amendments.
+
+
+      = f.label :abstract
+      = f.text_area :abstract, class: "span10"
+
 
   .form-actions
     = f.submit "Update Project", class: "btn btn-inverse"

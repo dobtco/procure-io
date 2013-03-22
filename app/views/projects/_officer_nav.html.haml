@@ -24,7 +24,7 @@
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
-    %li{"class" => params[:controller] == "projects" && params[:action] == "edit" ? "active" : ""}
+    %li{"class" => (params[:controller] == "projects" && params[:action] == "edit") || params[:controller] == "amendments" ? "active" : ""}
       =link_to "Project Description", edit_project_path(@project)
     %li{"class" => params[:controller] == "response_fields" ? "active" : ""}
       =link_to "Response Fields", project_response_fields_path(@project)
