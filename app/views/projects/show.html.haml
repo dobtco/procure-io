@@ -2,7 +2,8 @@
   .alert.alert-success
     You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
 
-!=page_header @project.title
+!= page_header @project.title do
+  %small Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
 
 .row-fluid
   .span7
@@ -10,10 +11,10 @@
       %h4 Abstract
       %p= @project.abstract
 
-    %h4 Project Description
-
-    - if @project.amendments.posted.any?
-      .alert.alert-info Be sure to read the <a href="#amendments">#{pluralize(@project.amendments.posted.length, 'amendment')}</a> in addition to this description.
+    %h4
+      Project Description
+      - if @project.amendments.posted.any?
+        %small Jump to <a href="#amendments">#{pluralize(@project.amendments.posted.length, 'amendment')}</a>.
 
     %p= simple_format @project.body
 
@@ -31,7 +32,6 @@
       = link_to @project.watched_by?(current_user) ? "Watching Project" : "Watch Project", watches_path("Project", @project), |
                 method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
-    %h4 Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
     - if GlobalConfig.instance[:bid_submission_enabled]
       - if vendor_signed_in?
         - if (bid = current_vendor.bid_for_project(@project))
@@ -54,7 +54,8 @@
             = f.submit "Submit Question", class: "btn btn-inverse"
         %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
       - elsif officer_signed_in? && (can? :collaborate_on, @project)
-        #{link_to "Click here", project_questions_path(@project)} to answer questions.
+        .alert.alert-success
+          #{link_to "Click here", project_questions_path(@project)} to answer questions.
       - elsif !officer_signed_in?
         #{link_to "Sign in", new_vendor_session_path} to ask a question.
 

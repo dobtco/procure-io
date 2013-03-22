@@ -8,8 +8,8 @@ module ApplicationHelper
     end
   end
 
-  def page_header(text)
-    "<h3>#{text}</h3>"
+  def page_header(text, &block)
+    "<h3>#{text}#{" " + capture(&block) if block_given?}</h3>"
   end
 
   def signout_path
