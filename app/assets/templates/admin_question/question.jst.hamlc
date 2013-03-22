@@ -1,4 +1,4 @@
-%td= @created_at
+%td= @created_at_readable
 %td= @vendor.name
 %td= @body
 %td
