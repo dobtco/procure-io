@@ -36,7 +36,18 @@ window.ParsleyConfig = $.extend true, {}, window.ParsleyConfig,
 
       return (1 <= month <= 12) && (1 <= day <= 31) && (1900 <= year <= 2100)
 
+    time: (val) ->
+      return true if !val
+
+      pieces = val.split(',')
+      hours = parseInt(pieces[0], 10)
+      minutes = parseInt(pieces[1], 10)
+      seconds = parseInt(pieces[2], 10)
+
+      return (1 <= hours <= 12) && (0 <= minutes <= 60) && (0 <= seconds <= 60)
+
   messages:
     minwords: "This value should have %s words at least."
     maxwords: "This value should have %s words maximum."
     date: "This value should be a valid date."
+    time: "This value should be a valid time."
