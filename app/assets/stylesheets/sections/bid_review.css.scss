@@ -65,6 +65,15 @@
       display: block;
     }
   }
+
+  .sidebar-wrapper {
+    a {
+      .badge {
+        float: right;
+        margin-top: -2px;
+      }
+    }
+  }
 }
 
 #bids-table {
@@ -118,7 +127,7 @@
     display: none;
     color: #fff;
     text-shadow: none;
-    margin-top: 2px;
+    margin: 2px 4px 0 0;
   }
 
   li.active {

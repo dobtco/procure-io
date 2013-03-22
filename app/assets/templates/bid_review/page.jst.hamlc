@@ -1,5 +1,5 @@
 .row-fluid
-  .span3
+  .span3.sidebar-wrapper
     #sidebar-filter-wrapper
 
     #label-filter-wrapper
