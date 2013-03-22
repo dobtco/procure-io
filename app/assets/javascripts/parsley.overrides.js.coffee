@@ -35,7 +35,18 @@ window.ParsleyConfig = $.extend true, {}, window.ParsleyConfig,
 
       (1 <= val['month'] <= 12) && (1 <= val['day'] <= 31) && (1900 <= val['year'] <= 2100)
 
+    time: (val) ->
+      val = $.extend {}, val
+
+      return true if !val['hours'] && !val['minutes'] && !val['seconds']
+
+      for i of val
+        val[i] = if isNaN(parseInt(val[i], 10)) then 0 else parseInt(val[i], 10)
+
+      (1 <= val['hours'] <= 12) && (0 <= val['minutes'] <= 60) && (0 <= val['seconds'] <= 60)
+
   messages:
     minwords: "This value should have %s words at least."
     maxwords: "This value should have %s words maximum."
     date: "This value should be a valid date."
+    time: "This value should be a valid time."

@@ -5,15 +5,14 @@
   - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-.input-group-time
-  %input.span2{"type" => "text", "placeholder" => "HH", "name" => "response_fields[#{response_field[:id]}][hours]", "value" => value['hours']}
-  \:
-  %input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][minutes]", "value" => value['minutes']}
-  \:
-  %input.span2{"type" => "text", "placeholder" => "SS", "name" => "response_fields[#{response_field[:id]}][seconds]", "value" => value['seconds']}
+%input.span2{"type" => "text", "placeholder" => "HH", "name" => "response_fields[#{response_field[:id]}][hours]", "value" => value['hours'], "data-group" => response_field[:id], "data-time" => true, "data-required" => response_field[:field_options]["required"] ? true : false}
+\:
+%input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][minutes]", "value" => value['minutes'], "data-group" => response_field[:id], "data-time" => true, "data-required" => response_field[:field_options]["required"] ? true : false}
+\:
+%input.span2{"type" => "text", "placeholder" => "SS", "name" => "response_fields[#{response_field[:id]}][seconds]", "value" => value['seconds'], "data-group" => response_field[:id], "data-time" => true, "data-required" => response_field[:field_options]["required"] ? true : false}
 
-  %select.span2{"name" => "response_fields[#{response_field[:id]}][am_pm]"}
-    %option{"value" => "AM", "selected" => if value['am_pm'] == "AM" then true end} AM
-    %option{"value" => "PM", "selected" => if value['am_pm'] == "PM" then true end} PM
+%select.span2{"name" => "response_fields[#{response_field[:id]}][am_pm]"}
+  %option{"value" => "AM", "selected" => if value['am_pm'] == "AM" then true end} AM
+  %option{"value" => "PM", "selected" => if value['am_pm'] == "PM" then true end} PM
 
 %span.help-block= response_field[:field_options]["description"]
