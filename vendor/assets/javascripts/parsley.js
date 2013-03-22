@@ -664,7 +664,7 @@
     * @return {Boolean} Is field valid or not
     */
     , validate: function ( errorBubbling ) {
-      var val = this.getVal()
+      var val = this.$element.data('file-exists') === 'exists'  ?  'true' : this.getVal()
         , valid = null;
 
       // do not even bother trying validating a field w/o constraints

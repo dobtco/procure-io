@@ -20,7 +20,9 @@ $(document).on "click", ".show-tour-link", (e) ->
     $.intro(steps)
 
 $(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
+  $fileInput = $(@).closest('.control-group').find('input[type=file]')
   $(@).closest(".current-upload").remove()
+  $fileInput.data('file-exists', false).trigger('change')
 
 $(document).on "input", "[data-max-chars]", ->
   value = $(@).val()
