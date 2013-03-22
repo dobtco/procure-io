@@ -28,9 +28,16 @@
                     =link_to "Saved Searches", saved_searches_path
                 %li
                   =link_to "Settings", settings_path
-                - if can? :manage, GlobalConfig
-                  %li
-                    =link_to "Global Config", global_config_path
+
+                - if (can? :manage, GlobalConfig) || (can? :update, Officer)
+                  %li.divider
+                  - if can? :manage, GlobalConfig
+                    %li
+                      =link_to "Global Config", global_config_path
+
+                  - if can? :update, Officer
+                    %li
+                      =link_to "Officers Admin", officers_path
             %li
               %a{"href" => notifications_path}
                 %i.icon-envelope
