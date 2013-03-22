@@ -12,7 +12,7 @@
   \/
   %input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year']}
 
-  %input{"type" => "hidden", "data-required" => response_field[:field_options]["required"] ? true : false, "data-type" => "dateIso", "value" => value && (DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_formatted_s(:iso)[0,10] rescue false)}
+  %input{"type" => "hidden", "data-required" => response_field[:field_options]["required"] ? true : false, "data-date" => true, "value" => value && "#{value['month']},#{value['day']},#{value['year']}"}
 
 %span.help-block= response_field[:field_options]["description"]
 

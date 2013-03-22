@@ -25,7 +25,7 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
     day = $el.find("input:eq(1)").val()
     year = $el.find("input:eq(2)").val()
 
-    $el.find("input:eq(3)").val(if year or month or day then "#{year}-#{month}-#{day}" else "").parsley('validate')
+    $el.find("input:eq(3)").val(if year or month or day then "#{month},#{day},#{year}" else "").parsley('validate')
 
   $(".input-group-date input[type=text]").on "input change", (e) ->
     calculateHiddenDate($(@).closest(".input-group-date"))

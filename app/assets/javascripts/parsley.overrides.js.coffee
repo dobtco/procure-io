@@ -25,6 +25,18 @@ window.ParsleyConfig = $.extend true, {}, window.ParsleyConfig,
 
       return val <= nbWords;
 
+    date: (val) ->
+      return true if !val
+
+      pieces = val.split(',')
+      month = parseInt(pieces[0], 10)
+      day = parseInt(pieces[1], 10)
+      year = parseInt(pieces[2], 10)
+      if pieces[2].length == 2 then year += 2000
+
+      return (1 <= month <= 12) && (1 <= day <= 31) && (1900 <= year <= 2100)
+
   messages:
     minwords: "This value should have %s words at least."
     maxwords: "This value should have %s words maximum."
+    date: "This value should be a valid date."
