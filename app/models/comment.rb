@@ -27,8 +27,6 @@ class Comment < ActiveRecord::Base
   after_create :subscribe_officer_if_never_subscribed!
   after_create :generate_events
 
-  handle_asynchronously :generate_events
-
   default_scope order("created_at")
 
   private
@@ -66,4 +64,6 @@ class Comment < ActiveRecord::Base
       end
     end
   end
+
+  handle_asynchronously :generate_events
 end
