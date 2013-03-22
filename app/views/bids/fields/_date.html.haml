@@ -5,11 +5,14 @@
   - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-%input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][month]", "value" => value['month']}
-\/
-%input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field[:id]}][day]", "value" => value['day']}
-\/
-%input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year']}
+.input-group-date
+  %input.span2{"type" => "text", "placeholder" => "MM", "name" => "response_fields[#{response_field[:id]}][month]", "value" => value['month']}
+  \/
+  %input.span2{"type" => "text", "placeholder" => "DD", "name" => "response_fields[#{response_field[:id]}][day]", "value" => value['day']}
+  \/
+  %input.span2{"type" => "text", "placeholder" => "YYYY", "name" => "response_fields[#{response_field[:id]}][year]", "value" => value['year']}
+
+  %input{"type" => "hidden", "data-required" => response_field[:field_options]["required"] ? true : false, "data-type" => "dateIso", "value" => value && (DateTime.new(value['year'].to_i, value['month'].to_i, value['day'].to_i).to_formatted_s(:iso)[0,10] rescue false)}
 
 %span.help-block= response_field[:field_options]["description"]
 
