@@ -1,5 +1,5 @@
 .action-header
-  %h4.pull-left Bid from #{@vendor.name}
+  %h4.pull-left Bid from #{@vendor.display_name}
 
   .pull-right
 
@@ -58,7 +58,7 @@
 
     %dl
       %dt Contact Name
-      %dd= @vendor.name
+      %dd= @vendor.display_name
       %dt Email Address
       %dd= @vendor.email
 

@@ -5,7 +5,7 @@
     %span= @total_stars
 
 %td
-  %a.vendor-name{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.name
+  %a.vendor-name{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.display_name
 
   - for label in @labels
     %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
