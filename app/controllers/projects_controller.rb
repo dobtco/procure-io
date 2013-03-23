@@ -149,7 +149,18 @@ class ProjectsController < ApplicationController
         field_ids << field["ID"]
       end
 
-      data[field["Title"].downcase] = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
+      val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
+
+      case field["Type"]
+      when "date"
+        val = "#{val[4..5]}/#{val[6..7]}/#{val[0..3]}"
+      when "radio", "checkbox"
+        val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(", ")
+      when "file"
+        val = params.values_at("#{field_ids[0]}-url")
+      end
+
+      data[field["Title"].downcase] = val
     end
 
     label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
