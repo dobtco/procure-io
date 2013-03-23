@@ -11,7 +11,6 @@
 #  posted_at                 :datetime
 #  posted_by_officer_id      :integer
 #  total_comments            :integer          default(0), not null
-#  has_unsynced_body_changes :boolean
 #  form_description          :text
 #  form_confirmation_message :text
 #  abstract                  :string(255)
