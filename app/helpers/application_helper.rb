@@ -1,4 +1,14 @@
 module ApplicationHelper
+  def active?(action, class_to_add = "active")
+    pieces = action.split("#")
+
+    if pieces.length == 2
+      (pieces[0] == params[:controller]) && (pieces[1] == params[:action]) ? class_to_add : false
+    else
+      pieces[0] == params[:controller] ? class_to_add : false
+    end
+  end
+
   def full_title(page_title)
     base_title = "Procure.io"
     if page_title.empty?

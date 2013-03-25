@@ -11,7 +11,6 @@
 #  posted_at                 :datetime
 #  posted_by_officer_id      :integer
 #  total_comments            :integer          default(0), not null
-#  has_unsynced_body_changes :boolean
 #  form_description          :text
 #  form_confirmation_message :text
 #  abstract                  :string(255)
@@ -22,6 +21,8 @@ class Project < ActiveRecord::Base
   include PostableByOfficer
   include WatchableByUser
   include PgSearch
+
+  attr_accessor :updating_officer_id
 
   has_many :bids
   has_many :collaborators, order: 'created_at', dependent: :destroy
@@ -34,6 +35,10 @@ class Project < ActiveRecord::Base
   has_many :amendments, dependent: :destroy
 
   has_many :events, as: :targetable
+
+  has_many :project_revisions, dependent: :destroy, order: 'created_at DESC'
+
+  after_update :generate_project_revisions_if_body_changed!
 
   has_and_belongs_to_many :tags
 
@@ -141,5 +146,10 @@ class Project < ActiveRecord::Base
   def after_unpost_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "ProjectUnposted")
+  end
+
+  def generate_project_revisions_if_body_changed!
+    return unless body_changed?
+    project_revisions.create(body: body_was, saved_by_officer_id: updating_officer_id)
   end
 end

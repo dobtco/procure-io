@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130321203809) do
+ActiveRecord::Schema.define(:version => 20130323045855) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -175,6 +175,14 @@ ActiveRecord::Schema.define(:version => 20130321203809) do
   add_index "officers", ["invited_by_id"], :name => "index_officers_on_invited_by_id"
   add_index "officers", ["reset_password_token"], :name => "index_officers_on_reset_password_token", :unique => true
 
+  create_table "project_revisions", :force => true do |t|
+    t.text     "body"
+    t.integer  "project_id"
+    t.integer  "saved_by_officer_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
   create_table "projects", :force => true do |t|
     t.string   "title"
     t.text     "body"
@@ -184,7 +192,6 @@ ActiveRecord::Schema.define(:version => 20130321203809) do
     t.datetime "posted_at"
     t.integer  "posted_by_officer_id"
     t.integer  "total_comments",            :default => 0, :null => false
-    t.boolean  "has_unsynced_body_changes"
     t.text     "form_description"
     t.text     "form_confirmation_message"
     t.string   "abstract"
@@ -286,6 +293,8 @@ ActiveRecord::Schema.define(:version => 20130321203809) do
   add_foreign_key "event_feeds", "events", :name => "event_feeds_event_id_fk"
 
   add_foreign_key "labels", "projects", :name => "labels_project_id_fk"
+
+  add_foreign_key "project_revisions", "projects", :name => "project_revisions_project_id_fk"
 
   add_foreign_key "projects", "officers", :name => "projects_posted_by_officer_id_fk", :column => "posted_by_officer_id"
 

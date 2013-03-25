@@ -41,6 +41,10 @@ ProcureIo::Application.routes.draw do
       resources :bid_responses, only: :destroy
     end
 
+    resources :project_revisions, only: [:show] do
+      post 'restore', on: :member
+    end
+
     resources :amendments
     resources :labels, only: [:create, :destroy, :update]
     resources :questions

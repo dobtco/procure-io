@@ -47,23 +47,16 @@ class ProjectsController < ApplicationController
 
   def edit
     current_officer.read_notifications(@project, :you_were_added)
-    get_pad(@project)
   end
 
   def update
-    @project.update_attributes(project_params)
+    @project.updating_officer_id = current_officer.id
+    @project.assign_attributes(project_params)
 
     if params[:project][:posted_at] == "1" && !@project.posted?
       @project.post_by_officer!(current_officer)
     elsif params[:project][:posted_at] == "0" && @project.posted?
       @project.unpost_by_officer(current_officer)
-    end
-
-    if get_pad
-      @project.body = @pad.html
-      @project.has_unsynced_body_changes = false
-    else
-      @project.has_unsynced_body_changes = true
     end
 
     @project.save
@@ -178,37 +171,15 @@ class ProjectsController < ApplicationController
     authorize! :collaborate_on, @project
   end
 
-  def get_pad(project_to_sync = nil)
-    begin
-      session[:ep_sessions] ||= {}
-      ether = EtherpadLite.connect(ENV['ETHERPAD_HOST'], ENV['ETHERPAD_API_KEY'])
-      @group = ether.group("project_group_#{@project.id}")
-      @pad = @group.pad('pad') # pad is named 'pad'
-    rescue Exception => e
-      # @todo send an alert somewhere?
-      Rails.logger.error e
-      return false
-    end
-
-    if project_to_sync && project_to_sync.has_unsynced_body_changes
-      @pad.html = "<div>"+project_to_sync.body+"</div>"
-      project_to_sync.update_attributes(has_unsynced_body_changes: false)
-    end
-
-    author = ether.author("officer_#{current_officer.id}", name: current_officer.display_name)
-    sess = session[:ep_sessions][@group.id] ? ether.get_session(session[:ep_sessions][@group.id]) : @group.create_session(author, 60)
-    if sess.expired?
-      sess.delete
-      sess = @group.create_session(author, 60)
-    end
-    session[:ep_sessions][@group.id] = sess.id
-    # Set the EtherpadLite session cookie. This will automatically be picked up by the jQuery plugin's iframe.
-    cookies[:sessionID] = { value: sess.id, domain: ENV['ETHERPAD_COOKIE_DOMAIN'] }
-    return true
-  end
-
   def project_params
-    params.require(:project).permit(:title, :abstract, :body, :bids_due_at)
+    filtered_params = params.require(:project).permit(:title, :abstract, :body, :bids_due_at)
+
+    if filtered_params[:body]
+      require 'sanitize'
+      filtered_params[:body] = Sanitize.clean(filtered_params[:body], Sanitize::Config::RELAXED)
+    end
+
+    filtered_params
   end
 
   def project_is_posted_if_current_vendor
