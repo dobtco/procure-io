@@ -4,12 +4,15 @@
   .row-fluid
     .span6
       = f.label :body
-      - if @pad
-        #etherpad.readable-width
-          :javascript
-            $("#etherpad").pad({padId: '#{@pad.id}'})
-      - else
-        = f.text_area :body
+      = f.text_area :body
+
+      %h5 Revisions
+      %ul
+        - @project.project_revisions.each do |project_revision|
+          %li
+            %a{"href" => project_project_revision_path(@project, project_revision)}
+              #{project_revision.created_at.to_formatted_s(:readable)} by #{project_revision.saved_by_officer ? project_revision.saved_by_officer.display_name : 'Unknown'}
+
 
     .span6
       = f.label :posted_at, "Live?"

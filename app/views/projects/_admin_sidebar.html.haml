@@ -1,16 +1,16 @@
 .row-fluid
   .span3
     %ul.nav.nav-pills.nav-stacked
-      %li{"class" => (params[:controller] == "collaborators" && params[:action] == "index") ? "active" : ""}
+      %li{"class" => active?("collaborators#index")}
         =link_to "Collaborators", project_collaborators_path(@project)
 
-      %li{"class" => (params[:controller] == "projects" && params[:action] == "import_csv") ? "active" : ""}
+      %li{"class" => active?("projects#import_csv")}
         =link_to "Import bids from CSV", import_csv_project_path(@project)
 
-      %li{"class" => (params[:controller] == "projects" && params[:action] == "export_csv") ? "active" : ""}
+      %li{"class" => active?("projects#export_csv")}
         =link_to "Export bids", export_csv_project_path(@project)
 
-      %li{"class" => (params[:controller] == "projects" && params[:action] == "wufoo") ? "active" : ""}
+      %li{"class" => active?("projects#wufoo")}
         =link_to "Wufoo Integration", wufoo_project_path(@project)
 
   .span9

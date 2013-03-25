@@ -1,0 +1,26 @@
+= render "projects/officer_nav"
+
+%form.edit_project
+  .row-fluid
+    .span6
+      %label Body
+      %textarea#project_body{"readonly" => true}= @project_revision.body
+
+      %h5 Revisions
+      %ul
+        - @project.project_revisions.each do |project_revision|
+          - if project_revision.id == @project_revision.id
+            %li= project_revision.created_at
+          - else
+            %li= link_to project_revision.created_at, project_project_revision_path(@project, project_revision)
+
+    .span6
+      .alert.alert-info
+        <strong>Hey there!</strong> You're viewing a revision that was saved on #{@project_revision.created_at.to_formatted_s(:readable)} by #{@project_revision.saved_by_officer ? @project_revision.saved_by_officer.display_name : 'Unknown'}.
+
+
+      %p
+        = link_to raw("&larr; Back to current version"), edit_project_path(@project)
+
+      %p
+        = link_to "Restore this version", restore_project_project_revision_path(@project, @project_revision), method: :post
