@@ -5,8 +5,8 @@ ProcureIo.Backbone.CollaboratorView = Backbone.View.extend
     "click [data-backbone-clear]": "clear"
 
   initialize: ->
-    @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "change", @render
+    @listenTo @model, "destroy", @remove
     @isOwner = (ProcureIo.Backbone.Collaborators.ownerId == ProcureIo.CurrentOfficerId)
 
   render: ->

@@ -27,8 +27,8 @@ ProcureIo.Backbone.ProjectView = Backbone.View.extend
 
   initialize: ->
     @parentView = @options.parentView
-    @model.bind "destroy", @remove, @
-    @model.bind "change", @render, @
+    @listenTo @model, "destroy", @remove
+    @listenTo @model, "change", @render
 
   render: ->
     @$el.html JST['project/project'](_.extend(@model.toJSON(), {filteredHref: @parentView.filteredHref}))

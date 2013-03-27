@@ -12,7 +12,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
   initialize: ->
     @bid = new ProcureIo.Backbone.Bid(@options.bootstrapData)
     @bid.url = "/projects/#{@options.project.id}/bids/#{@bid.id}.json"
-    @bid.bind "change", @render, @
+    @listenTo @bid,  "change", @render
     @render()
 
   render: ->

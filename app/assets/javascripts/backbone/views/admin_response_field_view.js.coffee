@@ -7,8 +7,8 @@ ProcureIo.Backbone.AdminResponseFieldView = Backbone.View.extend
     "click .remove-field-button": "clear"
 
   initialize: ->
-    @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "change", @render
+    @listenTo @model, "destroy", @remove
     @parentView = @options.parentView
 
   render: ->
@@ -37,8 +37,8 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     "click .backbone-remove-option": "removeOption"
 
   initialize: ->
-    @model.bind "destroy", @removeEditView, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "destroy", @removeEditView
+    @listenTo @model, "destroy", @remove
     @parentView = @options.parentView
 
   render: ->

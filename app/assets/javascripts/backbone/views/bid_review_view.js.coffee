@@ -4,8 +4,8 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
   el: "#actions-wrapper"
 
   initialize: ->
-    ProcureIo.Backbone.Labels.bind "add", @render, @
-    ProcureIo.Backbone.Labels.bind "remove", @render, @
+    @listenTo ProcureIo.Backbone.Labels, "add", @render
+    @listenTo ProcureIo.Backbone.Labels, "remove", @render
 
   render: ->
     bidsChecked = ProcureIo.Backbone.Bids.find (b) -> b.attributes.checked
@@ -24,7 +24,7 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
   el: "#label-filter-wrapper"
 
   initialize: ->
-    ProcureIo.Backbone.Labels.bind "add", @addOneLabel, @
+    @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
 
   render: ->
     @$el.html JST['bid_review/label_filter']
@@ -85,7 +85,7 @@ ProcureIo.Backbone.BidReviewLabelAdminListView = Backbone.View.extend
   el: "#label-admin-wrapper"
 
   initialize: ->
-    ProcureIo.Backbone.Labels.bind "add", @addOneLabel, @
+    @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
 
   render: ->
     @$el.html JST['bid_review/label_admin_list']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.project.filteredHref})
@@ -109,8 +109,8 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
     "click a": "showEditPane"
 
   initialize: ->
-    @model.bind "destroy", @remove, @
-    @model.bind "change", @render, @
+    @listenTo @model, "destroy", @remove
+    @listenTo @model, "change", @render
 
   showEditPane: ->
 
@@ -146,7 +146,7 @@ ProcureIo.Backbone.BidReviewLabelEditView = Backbone.View.extend
   initialize: ->
     @label = @options.label
     @parentView = @options.parentView
-    @label.bind "destroy", @remove, @
+    @listenTo @label, "destroy", @remove
 
   render: ->
     @$el.html JST['bid_review/label_edit']({label: @label})
@@ -190,8 +190,8 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   tagName: "li"
 
   initialize: ->
-    @model.bind "destroy", @remove, @
-    @model.bind "change", @render, @
+    @listenTo @model, "destroy", @remove
+    @listenTo @model, "change", @render
 
   render: ->
     @$el.html JST['bid_review/label'] _.extend @model.toJSON(),
@@ -240,9 +240,8 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   initialize: ->
     @parentView = @options.parentView
-    @model.bind "destroy", @remove, @
-    @model.bind "change", @render, @
-    @model.bind "change:checked", @parentView.renderActions, @parentView
+    @listenTo @model, "destroy", @remove
+    @listenTo @model, "change", @render
 
   render: ->
 
@@ -331,13 +330,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
     ProcureIo.Backbone.Bids.bind 'reset', @removeLoadingSpinner, @
 
-    ProcureIo.Backbone.Bids.bind 'reset', @renderActions, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderPagination, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderLabelFilter, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderLabelAdmin, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderTopFilter, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderSorters, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderSidebarFilter, @
+    ProcureIo.Backbone.Bids.bind 'reset', @renderAllSubviews, @
 
     ProcureIo.Backbone.Labels = new ProcureIo.Backbone.LabelList()
     ProcureIo.Backbone.Labels.url = "/projects/#{@options.project.id}/labels"
@@ -367,7 +360,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
 
     ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
-    ProcureIo.Backbone.router.filterOptions.bind "change", @renderAllSubviews, @
+    ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
 
     @subviews = {}
 
@@ -375,10 +368,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     Backbone.history.start
       pushState: true
-
-  renderAllSubviews: ->
-    for subview in @subviews
-      subview.render()
 
   reset: ->
     $("#bids-tbody").html('')
@@ -389,29 +378,25 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 
-  renderSidebarFilter: ->
+  renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
-
-  renderTopFilter: ->
     (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
-
-  renderSorters: ->
     (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref})).render()
-
-  renderLabelFilter: ->
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref})).render()
-
-  renderLabelAdmin: ->
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
-
-  renderActions: ->
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project})).render()
-
-  renderPagination: ->
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
+
+  renderExistingSubviews: ->
+    for subview in @subviews
+      subview.render()
+
+  renderSubview: (name) ->
+    @subviews[name]?.render()
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
+    @listenTo bid, "change:checked", ( => @renderSubview('actions') )
     $("#bids-tbody").append(view.render().el)
 
   addAll: ->

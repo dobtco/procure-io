@@ -5,8 +5,8 @@ ProcureIo.Backbone.AdminQuestionView = Backbone.View.extend
     "click [data-backbone-save]": "save"
 
   initialize: ->
-    @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "change", @render
+    @listenTo @model, "destroy", @remove
 
   render: ->
     @$el.html JST['admin_question/question'](@model.toJSON())

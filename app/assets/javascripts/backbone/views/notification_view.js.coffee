@@ -3,8 +3,8 @@ ProcureIo.Backbone.NotificationView = Backbone.View.extend
     "click [data-backbone-toggleread]": "toggleRead"
 
   initialize: ->
-    @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "change", @render
+    @listenTo @model, "destroy", @remove
 
   render: ->
     @$el.html JST['notification/notification'](@model.toJSON())

@@ -6,8 +6,8 @@ ProcureIo.Backbone.QuestionView = Backbone.View.extend
   #   "click [data-backbone-clear]": "clear"
 
   initialize: ->
-    @model.bind "change", @render, @
-    @model.bind "destroy", @remove, @
+    @listenTo @model, "change", @render
+    @listenTo @model, "destroy", @remove
 
   render: ->
     @$el.html JST['question/question'](@model.toJSON())
