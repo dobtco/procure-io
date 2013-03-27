@@ -16,3 +16,4 @@ ActionMailer::Base.perform_deliveries = false
 2.times { FactoryGirl.create(:amendment) }
 5.times { FactoryGirl.create(:comment) }
 20.times { FactoryGirl.create(:question) }
+20.times { FactoryGirl.create(:project) }
