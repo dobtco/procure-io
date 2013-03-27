@@ -5,7 +5,7 @@
   - if response_field[:field_options]["required"]
     %span.required-asterisk *
 
-%input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-file-exists" => (bid_response && bid_response.upload?) ? 'exists' : false}
+%input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-value" => (bid_response && bid_response.upload?) ? 'exists' : false}
 
 - if bid_response && bid_response.upload?
   %div.current-upload
