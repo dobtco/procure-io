@@ -48,6 +48,7 @@ FactoryGirl.define do
     title { Faker::Company.position }
     sequence(:email) { |n| "officer#{n}@example.gov" }
     password 'password'
+    role { Officer.roles[:god] }
   end
 
   factory :project do |project|
