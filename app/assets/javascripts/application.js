@@ -12,6 +12,7 @@
 //
 //= require_self
 //= require prototype_hacks
+//= require moment.min
 //= require jquery
 //= require jquery.mixins
 //= require jquery_ujs

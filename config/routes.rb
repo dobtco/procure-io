@@ -36,7 +36,7 @@ ProcureIo::Application.routes.draw do
     post 'wufoo' => "projects#post_wufoo", on: :member
 
     resources :reports, only: [] do
-      get 'bids', on: :collection
+      get 'bids_over_time', on: :collection
     end
 
     resources :bids do

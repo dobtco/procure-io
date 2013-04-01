@@ -1,8 +1,8 @@
 .row-fluid
   .span3
     %ul.nav.nav-pills.nav-stacked
-      %li{"class" => active?("reports#bids")}
-        =link_to "Bids", bids_project_reports_path(@project)
+      %li{"class" => active?("reports#bids_over_time")}
+        =link_to "Bids over time", bids_over_time_project_reports_path(@project)
 
   .span9
     = yield
