@@ -13,6 +13,8 @@
 #
 
 class BidResponse < ActiveRecord::Base
+  include ActionView::Helpers::TextHelper
+
   default_scope({include: :response_field, joins: :response_field, order: "response_fields.sort_order"})
 
   belongs_to :bid
@@ -76,8 +78,10 @@ class BidResponse < ActiveRecord::Base
       (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
     when "file"
       upload ? 1 : 0
+    when "checkboxes"
+      self.value.is_a?(Hash) ? self.value.values[0] : nil
     else
-      self.value
+      truncate(self.value, length: 255, omission: "")
     end
   end
 end
