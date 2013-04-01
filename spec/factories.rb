@@ -24,7 +24,11 @@ FactoryGirl.define do
         if response_field.label == "Completion Time"
           b.bid_responses.create(response_field_id: response_field.id, value: "#{rand(1..8)} weeks")
         elsif response_field.label == "Total Cost"
-          b.bid_responses.create(response_field_id: response_field.id, value: "$#{rand(1000..5000)}")
+          b.bid_responses.create(response_field_id: response_field.id, value: "#{rand(1000..5000)}")
+        elsif response_field.label == "Your Approach"
+          b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.paragraphs.join("\n\n"))
+        elsif response_field.label == "Security"
+          b.bid_responses.create(response_field_id: response_field.id, value: {"I understand all of the security procedures necessary for this software." => true})
         else
           b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
         end
@@ -72,7 +76,10 @@ FactoryGirl.define do
       p.officers << Officer.all
       p.collaborators.first.update_attributes owner: true
       p.response_fields.create(label: "Completion Time", field_type: "text", sort_order: 0)
-      p.response_fields.create(label: "Total Cost", field_type: "text", sort_order: 1)
+      p.response_fields.create(label: "Total Cost", field_type: "price", sort_order: 1, field_options: {required: true})
+      p.response_fields.create(label: "Your Approach", field_type: "paragraph", sort_order: 2, field_options: {size: 'large', required: true, description: "How would you complete this project?"})
+      p.response_fields.create(label: "Security", field_type: "checkboxes", sort_order: 3,
+                               field_options: {required: true, options: {label: "I understand all of the security procedures necessary for this software.", checked: false}})
       p.tags << Tag.all(order: "RANDOM()").first
 
       Officer.all.each do |officer|
