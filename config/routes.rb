@@ -35,6 +35,10 @@ ProcureIo::Application.routes.draw do
     get 'wufoo' => "projects#wufoo", on: :member
     post 'wufoo' => "projects#post_wufoo", on: :member
 
+    resources :reports, only: [] do
+      get 'bids', on: :collection
+    end
+
     resources :bids do
       put 'batch', on: :collection
       get 'reviews', on: :member

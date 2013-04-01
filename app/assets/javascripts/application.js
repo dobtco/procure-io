@@ -18,6 +18,8 @@
 //= require jquery.form
 //= require jquery.sortable
 //= require jquery.intro
+//= require d3.v3.min
+//= require rickshaw.min
 //= require bootstrap
 //= require bootstrap.flash_button
 //= require parsley
