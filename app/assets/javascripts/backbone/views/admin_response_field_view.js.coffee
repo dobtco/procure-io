@@ -212,21 +212,28 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   addNewField: (e) ->
     attrs =
+      label: "Untitled"
+      key_field: false
       field_type: $(e.target).data("backbone-add-field")
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
-      field_options: {}
+      field_options:
+        required: true
 
-    if attrs.field_type is "checkboxes" or attrs.field_type is "dropdown" or attrs.field_type is "radio"
-      attrs.field_options.options = [
-        label: "",
-        checked: false
-      ,
-        label: "",
-        checked: false
-      ]
+    switch attrs.field_type
+      when "checkboxes", "dropdown", "radio"
+        attrs.field_options.options = [
+          label: "",
+          checked: false
+        ,
+          label: "",
+          checked: false
+        ]
 
-    if attrs.field_type is "dropdown"
-      attrs.field_options.include_blank_option = false
+      when "dropdown"
+        attrs.field_options.include_blank_option = false
+
+      when "text", "paragraph"
+        attrs.field_options.size = "small"
 
     $(".bid-form-span").addClass 'loading'
 
