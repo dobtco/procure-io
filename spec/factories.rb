@@ -2,8 +2,7 @@ FactoryGirl.define do
   factory :bid do
     vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
     project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
-    sequence(:submitted_at) { |n| rand(1..8) == 1 ? nil : Time.now + n.seconds }
-
+    submitted_at { rand(1..8) == 1 ? nil : (Time.now - rand(0..5).days) }
 
     factory :bid_with_reviews do
       after(:create) do |b|
@@ -18,7 +17,7 @@ FactoryGirl.define do
 
     after(:create) do |b|
       # make sure the first project is posted, since we're giving it lots of bids
-      if Project.first then Project.first.update_attributes(posted_at: Time.now, posted_by_officer_id: Officer.first.id) end
+      if Project.first then Project.first.update_attributes(posted_at: Time.now - 7.days, posted_by_officer_id: Officer.first.id) end
 
       b.project.response_fields.each do |response_field|
         if response_field.label == "Completion Time"
@@ -70,7 +69,9 @@ FactoryGirl.define do
 
     after(:create) do |p|
       if rand(1..2) == 1
-        p.post_by_officer!(Officer.all(order: "RANDOM()").first)
+        p.posted_by_officer_id = Officer.all(order: "RANDOM()").first.id
+        p.posted_at = (Time.now - rand(7..14).days)
+        p.save
       end
 
       p.officers << Officer.all
