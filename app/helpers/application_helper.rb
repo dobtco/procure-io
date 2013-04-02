@@ -1,8 +1,12 @@
 module ApplicationHelper
   def active?(action, class_to_add = "active")
-    pieces = action.split("#")
+    pieces = action.split(/\#|\?/)
 
-    if pieces.length == 2
+    if pieces.length == 3
+      params_pieces = pieces[2].split("=")
+      (pieces[0] == params[:controller]) && (pieces[1] == params[:action] && params[params_pieces[0]] == params_pieces[1]) ? class_to_add : false
+
+    elsif pieces.length == 2
       (pieces[0] == params[:controller]) && (pieces[1] == params[:action]) ? class_to_add : false
     else
       pieces[0] == params[:controller] ? class_to_add : false

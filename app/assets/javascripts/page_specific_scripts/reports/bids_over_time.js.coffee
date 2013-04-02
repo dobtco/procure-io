@@ -1,27 +1,17 @@
 ProcureIo.PageSpecificScripts["reports#bids_over_time"] = ->
 
-  graph = new Rickshaw.Graph
-    element: $("#chart")[0]
-    renderer: "line"
-    interpolation: 'linear'
-    height: 250
-    series: [
-      color: 'steelblue'
-      data: ProcureIo.chartData
-      name: "Bids per day"
-    ]
+  $.getScript "https://www.google.com/jsapi", ->
+    google.load "visualization", "1",
+      packages:["corechart"]
+      callback: ->
+        data = google.visualization.arrayToDataTable ProcureIo.chartData
 
-  y_axis = new Rickshaw.Graph.Axis.Y
-    graph: graph,
-    orientation: 'left'
-    element: $("#y-axis")[0]
+        options =
+          chartArea:
+            width: '90%'
+            height: '70%'
+          legend:
+            position: 'bottom'
 
-  hoverDetail = new Rickshaw.Graph.HoverDetail
-    graph: graph
-    yFormatter: (y) ->
-      parseInt(y, 10)
-
-    xFormatter: (x) ->
-      moment.unix(x).format('M/D/YY')
-
-  graph.render()
+        chart = new google.visualization.LineChart(document.getElementById('chart'))
+        chart.draw(data, options)
