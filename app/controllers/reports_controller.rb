@@ -15,6 +15,30 @@ class ReportsController < ApplicationController
     end
   end
 
+  def response_field
+    @response_field = @project.response_fields.find(params[:response_field_id])
+    @data = []
+
+    max = @response_field.bid_responses.order("sortable_value DESC").first.value.to_f
+    interval = max / 5
+
+    ranges = []
+    counter = 0
+    5.times do |i|
+      ranges.push counter..(counter + interval)
+      counter = counter + interval
+    end
+
+    ranges.each_with_index do |range, i|
+      @data.push({
+        x: i,
+        y: @project.bids.includes(:bid_responses).select { |bid|
+          range.cover?(bid.bid_responses.where(response_field_id: @response_field.id).first.value.to_f)
+        }.length
+      })
+    end
+  end
+
   private
   def project_exists?
     @project = Project.find(params[:project_id])

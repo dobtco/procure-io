@@ -22,4 +22,5 @@ class ResponseField < ActiveRecord::Base
   serialize :field_options, Hash
 
   SERIALIZED_FIELDS = ["date", "time", "checkboxes"]
+  REPORTABLE_FIELDS = ["price", "number"]
 end

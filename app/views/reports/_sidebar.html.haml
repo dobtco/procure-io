@@ -4,5 +4,9 @@
       %li{"class" => active?("reports#bids_over_time")}
         =link_to "Bids over time", bids_over_time_project_reports_path(@project)
 
+      - @project.response_fields.where("field_type IN (?)", ResponseField::REPORTABLE_FIELDS).each do |response_field|
+        %li
+          =link_to response_field.label, response_field_project_reports_path(@project, response_field_id: response_field.id)
+
   .span9
     = yield

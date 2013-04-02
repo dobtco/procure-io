@@ -1,0 +1,9 @@
+= render "projects/officer_nav"
+
+= render layout: "reports/sidebar" do
+  #chart-container
+    #y-axis
+    #chart
+
+  :javascript
+    ProcureIo.chartData = #{@data.to_json};
