@@ -1,10 +1,10 @@
 %h3 Sign up
 
-.row-fluid
-  .span6
-    = form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-      = devise_error_messages!
+= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+  = devise_error_messages!
 
+  .row-fluid
+    .span4
       .control-group
         = f.label :email
         = f.text_field :email, :autofocus => true
@@ -25,8 +25,8 @@
         %label Address
         %textarea
 
-      .form-actions
-        = f.submit "Sign up", class: "btn btn-primary"
+    .span8
+      != Faker::Lorem.paragraphs(3).join("<br /><br />")
 
-  .span6
-    != Faker::Lorem.paragraphs(3).join("<br /><br />")
+  .form-actions
+    = f.submit "Sign up", class: "btn btn-primary"
