@@ -27,7 +27,7 @@ FactoryGirl.define do
         elsif response_field.label == "Your Approach"
           b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.paragraphs.join("\n\n"))
         elsif response_field.label == "Security"
-          b.bid_responses.create(response_field_id: response_field.id, value: {"I understand all of the security procedures necessary for this software." => true})
+          b.bid_responses.create(response_field_id: response_field.id, value: {"I understand all of the necessary security procedures." => true})
         else
           b.bid_responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
         end
