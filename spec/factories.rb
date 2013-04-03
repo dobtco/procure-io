@@ -80,7 +80,7 @@ FactoryGirl.define do
       p.response_fields.create(label: "Total Cost", field_type: "price", sort_order: 1, field_options: {"required" => true})
       p.response_fields.create(label: "Your Approach", field_type: "paragraph", sort_order: 2, field_options: {"size" => 'large', "required" => true, "description" => "How would you complete this project?"})
       p.response_fields.create(label: "Security", field_type: "checkboxes", sort_order: 3,
-                               field_options: {"required" => true, "options" => [{"label" => "I understand all of the security procedures necessary for this software.", "checked" => false}]})
+                               field_options: {"required" => true, "options" => [{"label" => "I understand all of the necessary security procedures.", "checked" => false}]})
       p.tags << Tag.all(order: "RANDOM()").first
 
       Officer.all.each do |officer|
