@@ -7,4 +7,4 @@
 
 - if !ProcureIo.CurrentVendorId && !ProcureIo.CurrentOfficerId
   %p
-    <a href="/vendors/sign_in">Sign in</a> to save this search.
+    <a href="/vendors/sign_in">Sign in</a> to get notified of new projects like these.
