@@ -7,6 +7,7 @@
     %tr
       %th Type
       %th Project Title
+      %th # Bids
       %th Bids Due
 
   %tbody
@@ -14,6 +15,7 @@
       %tr
         %td= project.tags.map(&:name).join(', ')
         %td= link_to project.title, edit_project_path(project)
+        %td= link_to project.bids.submitted.count, project_bids_path(project)
         %td= project.bids_due_at.to_formatted_s(:readable)
 
 = will_paginate @projects, class: "pagination pagination-centered"

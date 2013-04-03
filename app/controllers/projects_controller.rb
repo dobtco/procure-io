@@ -27,7 +27,7 @@ class ProjectsController < ApplicationController
   end
 
   def mine
-    @projects = current_officer.projects.order("created_at DESC").paginate(page: params[:page])
+    @projects = current_officer.projects.order("title").paginate(page: params[:page])
   end
 
   def show
