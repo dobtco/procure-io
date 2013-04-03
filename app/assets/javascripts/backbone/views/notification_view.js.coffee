@@ -1,4 +1,5 @@
 ProcureIo.Backbone.NotificationView = Backbone.View.extend
+  className: "notification"
   events:
     "click [data-backbone-toggleread]": "toggleRead"
 

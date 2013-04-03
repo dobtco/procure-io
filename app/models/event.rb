@@ -60,7 +60,9 @@ class Event < ActiveRecord::Base
     when :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed,
          :vendor_bid_undismissed
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
-    when :project_amended, :question_asked, :question_answered
+    when :question_asked
+      project_questions_path(targetable_id)
+    when :project_amended, :question_answered
       project_path(targetable_id)
     when :collaborator_added
       project_collaborators_path(targetable_id)

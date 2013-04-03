@@ -4,3 +4,4 @@
 &nbsp;
 
 %a{"href" => @path}= @text
+%span.created-at= moment(@created_at).fromNow()
