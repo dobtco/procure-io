@@ -34,32 +34,32 @@
       display: block;
     }
   }
-}
 
-.project {
-  padding: 12px 0;
-  border-top: 1px dashed #ccc;
+  .project {
+    padding: 12px 0;
+    border-top: 1px dashed #ccc;
 
-  &:first-child {
-    border-top: 0;
-  }
+    &:first-child {
+      border-top: 0;
+    }
 
-  .project-name {
-    font-size: 16px;
-    font-weight: bold;
-  }
+    .project-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
 
-  .project-department {
-    font-size: 12px;
-    color: #aaa;
-  }
+    .project-department {
+      font-size: 12px;
+      color: #aaa;
+    }
 
-  .bottom-info {
-    font-size: 12px;
-    color: #aaa;
+    .bottom-info {
+      font-size: 12px;
+      color: #aaa;
 
-    > span {
-      margin: 0 2px;
+      > span {
+        margin: 0 2px;
+      }
     }
   }
 }

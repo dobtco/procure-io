@@ -87,7 +87,7 @@ class Project < ActiveRecord::Base
   end
 
   def abstract_or_truncated_body
-    read_attribute(:abstract) || truncate(self.body, length: 130, omission: "...")
+    !read_attribute(:abstract).blank? ? read_attribute(:abstract) : truncate(self.body, length: 130, omission: "...")
   end
 
   def owner
