@@ -24,4 +24,7 @@
       Procure.io!
 
       - unless signed_in?
-        %a.pull-right{"href" => new_officer_session_path} Officer Login
+        %span.pull-right
+          %a{"href" => new_officer_session_path} Officer Login
+          &middot;
+          %a{"href" => new_vendor_session_path} Vendor Login

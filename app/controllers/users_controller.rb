@@ -1,5 +1,22 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:signin, :post_signin]
+
+  def signin
+  end
+
+  def post_signin
+    @user = Vendor.find_for_authentication pick(params, :email)
+    @user = Officer.find_for_authentication pick(params, :email) if !@user
+
+    if @user && @user.valid_password?(params[:password])
+      warden.set_user @user, scope: @user.class.name.downcase.to_sym
+      flash[:success] = "Successfully signed in."
+      redirect_to root_path
+    else
+      flash[:error] = "Wrong username/password."
+      redirect_to signin_path
+    end
+  end
 
   def settings
     officer_signed_in? ? officer_settings : vendor_settings

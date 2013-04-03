@@ -36,7 +36,7 @@
       - if vendor_signed_in?
         - if (bid = current_vendor.bid_for_project(@project))
           - if bid.submitted_at
-            You submitted <a href="#{project_bid_path(@project, bid)}">your bid</a> on #{bid.submitted_at}.
+            You submitted <a href="#{project_bid_path(@project, bid)}">your bid</a> on #{bid.submitted_at.to_formatted_s(:readable)}.
           - else
             =link_to "Continue Writing Bid", new_project_bid_path(@project), class: "btn btn-inverse"
         - else

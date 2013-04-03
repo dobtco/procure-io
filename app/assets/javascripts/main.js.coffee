@@ -30,3 +30,10 @@ $(document).on "input", "[data-max-chars]", ->
   max = $(@).data('max-chars')
   remaining = if !value then max else max - count
   $($(@).data('max-chars-display')).text(remaining)
+
+$(document).on "click", ".js-dropdown-login-toggle", (e) ->
+  $(".dropdown-login-form input[type=text]:eq(0)").focus()
+  $(document).bind "keydown.closeloginmodal", (e) ->
+    if e.keyCode is 27
+      $(document).off ".closeloginmodal"
+      $(".dropdown.open").removeClass('open')

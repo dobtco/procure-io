@@ -23,6 +23,7 @@
 //= require bootstrap.flash_button
 //= require parsley
 //= require parsley.overrides
+//= require jquery.hotkeys
 //= require jquery.switch
 //= require underscore
 //= require underscore.mixin.deepExtend

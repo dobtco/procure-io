@@ -49,7 +49,10 @@
 
 
           - else
-            %li
-              %a{"href" => new_vendor_session_path} Vendor Login
+            %li.dropdown
+              %a.dropdown-toggle.js-dropdown-login-toggle{"href" => "#", "data-toggle" => "dropdown"} Sign in <strong class="caret"></strong>
+              = render "layouts/dropdown_login_form"
+
+
         %a.show-tour-link.pull-right
           %span.label.label-success Explain this page
