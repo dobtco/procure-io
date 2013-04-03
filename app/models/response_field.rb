@@ -23,4 +23,5 @@ class ResponseField < ActiveRecord::Base
 
   SERIALIZED_FIELDS = ["date", "time", "checkboxes"]
   REPORTABLE_FIELDS = ["price", "number"]
+  OPTIONS_FIELDS = ["checkboxes", "radio", "dropdown"]
 end

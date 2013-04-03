@@ -37,7 +37,7 @@ class BidsController < ApplicationController
       when "checkboxes"
         values = {}
 
-        response_field.field_options["options"].each_with_index do |option, index|
+        (response_field[:field_options]["options"] || []).each_with_index do |option, index|
           label = response_field.field_options["options"][index]["label"]
           values[option["label"]] = params[:response_fields][response_field.id.to_s] && params[:response_fields][response_field.id.to_s][index.to_s] == "on"
         end
