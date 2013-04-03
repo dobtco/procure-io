@@ -1,7 +1,11 @@
 = render "projects/officer_nav"
 
 = render layout: "reports/sidebar" do
-  #chart
 
-  :javascript
-    ProcureIo.chartData = #{@data.to_json};
+  - if @data.length > 1
+    #chart
+
+    :javascript
+      ProcureIo.chartData = #{@data.to_json};
+  - else
+    %p Sorry, no data to display.

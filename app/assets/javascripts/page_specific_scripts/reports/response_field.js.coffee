@@ -1,5 +1,7 @@
 ProcureIo.PageSpecificScripts["reports#response_field"] = ->
 
+  return unless ProcureIo.chartData?
+
   $.getScript "https://www.google.com/jsapi", ->
     google.load "visualization", "1",
       packages:["corechart"]
