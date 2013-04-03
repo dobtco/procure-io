@@ -2,7 +2,9 @@
   %h1 Welcome to Procure.io.
   %p Procure.io is an easier way to do government contracting. You can <a href="#{new_vendor_registration_path}">register</a> to bid on these projects in just 5 seconds.
 
-%h4 Featured Projects
+%h4
+  Featured Projects
+  %small= link_to "See all", projects_path
 
 .row-fluid.featured-projects
   - @featured_projects.each do |project|
