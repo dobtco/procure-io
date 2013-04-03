@@ -34,8 +34,9 @@
       %li{"class" => active?("projects#comments")}
         =link_to "Comments", comments_project_path(@project)
 
-    %li{"class" => active?("reports")}
-      =link_to "Reports", bids_over_time_project_reports_path(@project)
+    - if @project.posted?
+      %li{"class" => active?("reports")}
+        =link_to "Reports", bids_over_time_project_reports_path(@project)
 
     %li{"class" => active?("collaborators") || active?("projects#import_csv") || active?("projects#export_csv") || active?("projects#wufoo")}
       =link_to "Admin", project_collaborators_path(@project)

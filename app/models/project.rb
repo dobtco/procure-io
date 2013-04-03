@@ -24,6 +24,8 @@ class Project < ActiveRecord::Base
 
   attr_accessor :updating_officer_id
 
+  is_impressionable
+
   has_many :bids
   has_many :collaborators, order: 'created_at', dependent: :destroy
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',

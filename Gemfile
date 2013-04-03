@@ -26,6 +26,7 @@ gem 'twitter_oauth'
 gem 'acts_as_singleton'
 gem 'bootstrap-wysihtml5-rails'
 gem 'sanitize'
+gem 'impressionist'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
