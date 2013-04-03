@@ -10,6 +10,8 @@ class ReportsController < ApplicationController
     dates.each do |d|
       @data.push [ d.to_time.to_formatted_s(:readable_dateonly), bids.select { |b| b.submitted_at.to_date == d }.length ]
     end
+
+    render "reports/common"
   end
 
   def impressions
@@ -27,6 +29,8 @@ class ReportsController < ApplicationController
         @data.push [ d.to_time.to_formatted_s(:readable_dateonly), @project.impressions.where(created_at: d.beginning_of_day..d.end_of_day).count ]
       end
     end
+
+    render "reports/common"
   end
 
   def response_field
@@ -54,6 +58,8 @@ class ReportsController < ApplicationController
         ]
       end
     end
+
+    render "reports/common"
   end
 
   private
