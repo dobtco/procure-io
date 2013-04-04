@@ -14,5 +14,7 @@ ProcureIo.chart = (chartType) ->
           legend:
             position: 'bottom'
 
+        options["pointSize"] = 8 if ProcureIo.chartData.length < 3
+
         chart = new google.visualization[chartType](document.getElementById('chart'))
         chart.draw(data, options)
