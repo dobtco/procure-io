@@ -13,6 +13,9 @@ ProcureIo.chart = (chartType) ->
             height: '70%'
           legend:
             position: 'bottom'
+          vAxis:
+            minValue: 5
+            format: '#'
 
         options["pointSize"] = 8 if ProcureIo.chartData.length < 3
 
