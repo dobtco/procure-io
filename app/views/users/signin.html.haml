@@ -1,6 +1,6 @@
 !=page_header "Sign in"
 
-= form_tag signin_path, method: :post do
+= form_tag users_signin_path, method: :post do
 
   %label Email
   = text_field_tag :email, nil, placeholder: "Email Address"

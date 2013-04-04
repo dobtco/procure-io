@@ -22,8 +22,8 @@ ProcureIo::Application.routes.draw do
     get 'typeahead', on: :collection
   end
 
-  get 'signin' => 'users#signin', as: :signin
-  post 'signin' => 'users#post_signin'
+  get 'users/signin' => 'users#signin', as: :users_signin
+  post 'users/signin' => 'users#post_signin'
 
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches

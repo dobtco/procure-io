@@ -22,9 +22,3 @@
   %footer#footer
     .container
       Procure.io!
-
-      - unless signed_in?
-        %span.pull-right
-          %a{"href" => new_officer_session_path} Officer Login
-          &middot;
-          %a{"href" => new_vendor_session_path} Vendor Login
