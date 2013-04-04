@@ -24,6 +24,8 @@ ProcureIo::Application.routes.draw do
 
   get 'users/signin' => 'users#signin', as: :users_signin
   post 'users/signin' => 'users#post_signin'
+  get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
+  post 'users/forgot_password' => 'users#post_forgot_password'
 
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches

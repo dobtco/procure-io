@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, except: [:signin, :post_signin]
+  before_filter :authenticate_user!, except: [:signin, :post_signin, :forgot_password, :post_forgot_password]
 
   def signin
   end
@@ -15,6 +15,23 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Wrong username/password."
       redirect_to users_signin_path
+    end
+  end
+
+  def forgot_password
+  end
+
+  def post_forgot_password
+    @user = Vendor.find_for_authentication pick(params, :email)
+    @user = Officer.find_for_authentication pick(params, :email) if !@user
+
+    if @user
+      @user.class.send_reset_password_instructions pick(params, :email)
+      flash[:success] = "Check your email."
+      redirect_to root_path
+    else
+      flash[:error] = "Couldn't find a user with that email address."
+      redirect_to users_forgot_password_path
     end
   end
 
