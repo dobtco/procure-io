@@ -14,19 +14,7 @@ class UsersController < ApplicationController
     if @user && @user.valid_password?(params[:password])
       warden.set_user @user, scope: @user.class.name.downcase.to_sym
       flash[:success] = "Successfully signed in."
-
-      logger.info URI(request.referer).path
-      logger.info users_signin_path
-      logger.info "FUFU"
-      if (path = URI(request.referer).path) != users_signin_path
-        redirect_to path
-      elsif (path = session[:signin_redirect])
-        session.delete(:signin_redirect)
-        redirect_to path
-      else
-        redirect_to root_path
-      end
-
+      redirect_to successful_signin_redirect_path
     else
       flash[:error] = "Wrong username/password."
       redirect_to users_signin_path
@@ -89,5 +77,20 @@ class UsersController < ApplicationController
 
   def vendor_params
     params.require(:vendor).permit(:name)
+  end
+
+  def successful_signin_redirect_path
+    if URI(request.referer).path != users_signin_path
+      path = URI(request.referer).path
+    elsif session[:signin_redirect]
+      path = session[:signin_redirect]
+      session.delete(:signin_redirect)
+    else
+      path = root_path
+    end
+
+    path = mine_projects_path if officer_signed_in? and path == root_path
+
+    path
   end
 end
