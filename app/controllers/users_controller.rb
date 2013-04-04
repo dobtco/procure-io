@@ -2,6 +2,9 @@ class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [:signin, :post_signin, :forgot_password, :post_forgot_password]
 
   def signin
+    if (path = URI(request.referer).path) != users_signin_path
+      session[:signin_redirect] = path
+    end
   end
 
   def post_signin
@@ -11,7 +14,19 @@ class UsersController < ApplicationController
     if @user && @user.valid_password?(params[:password])
       warden.set_user @user, scope: @user.class.name.downcase.to_sym
       flash[:success] = "Successfully signed in."
-      redirect_to root_path
+
+      logger.info URI(request.referer).path
+      logger.info users_signin_path
+      logger.info "FUFU"
+      if (path = URI(request.referer).path) != users_signin_path
+        redirect_to path
+      elsif (path = session[:signin_redirect])
+        session.delete(:signin_redirect)
+        redirect_to path
+      else
+        redirect_to root_path
+      end
+
     else
       flash[:error] = "Wrong username/password."
       redirect_to users_signin_path

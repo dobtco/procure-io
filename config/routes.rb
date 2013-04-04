@@ -1,8 +1,8 @@
 ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
-  devise_for :officers, controllers: { registrations: 'officers/registrations', invitations: 'officers/invitations' }
-  devise_for :vendors, controllers: { registrations: 'vendors/registrations' }
+  devise_for :officers, controllers: { registrations: 'officers/registrations', invitations: 'officers/invitations', sessions: 'users/sessions' }
+  devise_for :vendors, controllers: { registrations: 'vendors/registrations', sessions: 'users/sessions' }
 
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
@@ -22,8 +22,8 @@ ProcureIo::Application.routes.draw do
     get 'typeahead', on: :collection
   end
 
-  get 'users/signin' => 'users#signin', as: :users_signin
-  post 'users/signin' => 'users#post_signin'
+  get 'users/sign_in' => 'users#signin', as: :users_signin
+  post 'users/sign_in' => 'users#post_signin'
   get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
   post 'users/forgot_password' => 'users#post_forgot_password'
 
