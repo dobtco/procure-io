@@ -14,6 +14,7 @@
 #  form_description          :text
 #  form_confirmation_message :text
 #  abstract                  :string(255)
+#  featured                  :boolean
 #
 
 class Project < ActiveRecord::Base
@@ -43,6 +44,8 @@ class Project < ActiveRecord::Base
   after_update :generate_project_revisions_if_body_changed!
 
   has_and_belongs_to_many :tags
+
+  scope :featured, where(featured: true)
 
   pg_search_scope :full_search, against: [:title, :body],
                                 associated_against: { amendments: [:title, :body],

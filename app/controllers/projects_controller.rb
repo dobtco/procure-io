@@ -173,7 +173,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    filtered_params = params.require(:project).permit(:title, :abstract, :body, :bids_due_at)
+    filtered_params = params.require(:project).permit(:featured, :title, :abstract, :body, :bids_due_at)
 
     if filtered_params[:body]
       require 'sanitize'

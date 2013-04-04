@@ -10,6 +10,8 @@
   - @featured_projects.each do |project|
     .span4.project
       = link_to project.title, project, class: "project-title"
+      - if project.featured?
+        %i.icon-star
       .abstract
         = project.abstract_or_truncated_body
         = link_to "Read more", project

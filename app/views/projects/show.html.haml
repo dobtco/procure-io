@@ -3,7 +3,10 @@
     You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
 
 != page_header @project.title do
-  %small Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
+  %small
+    - if @project.featured
+      %i.icon-star
+    Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
 
 .row-fluid
   .span7
@@ -42,7 +45,7 @@
         - else
           =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
       - elsif !officer_signed_in?
-        #{link_to "Sign in", new_vendor_session_path} to bid.
+        #{link_to "Sign in", users_signin_path} to bid.
 
     - if GlobalConfig.instance[:questions_enabled]
       %h4 Questions
@@ -57,7 +60,7 @@
         .alert.alert-success
           #{link_to "Click here", project_questions_path(@project)} to answer questions.
       - elsif !officer_signed_in?
-        #{link_to "Sign in", new_vendor_session_path} to ask a question.
+        #{link_to "Sign in", users_signin_path} to ask a question.
 
       #questions-list
         :javascript

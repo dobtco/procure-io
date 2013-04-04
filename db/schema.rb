@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130403231904) do
+ActiveRecord::Schema.define(:version => 20130404174024) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -220,6 +220,7 @@ ActiveRecord::Schema.define(:version => 20130403231904) do
     t.text     "form_description"
     t.text     "form_confirmation_message"
     t.string   "abstract"
+    t.boolean  "featured"
   end
 
   create_table "projects_tags", :id => false, :force => true do |t|

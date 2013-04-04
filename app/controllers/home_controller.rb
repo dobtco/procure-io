@@ -1,8 +1,9 @@
 class HomeController < ApplicationController
   def index
-    return redirect_to mine_projects_path if officer_signed_in?
+    @featured_projects = Project.posted.featured.order("RANDOM()").limit(3)
 
-    # @todo:
-    @featured_projects = Project.order("RANDOM()").limit(3)
+    if @featured_projects.length < 3
+      @featured_projects = @featured_projects + Project.posted.order("RANDOM()").limit(3 - @featured_projects.length)
+    end
   end
 end
