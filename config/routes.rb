@@ -43,7 +43,6 @@ ProcureIo::Application.routes.draw do
     resources :reports, only: [] do
       get 'bids_over_time', on: :collection
       get 'impressions', on: :collection
-      get 'unique_impressions', on: :collection
       get 'response_field', on: :collection
     end
 

@@ -15,20 +15,11 @@ class ReportsController < ApplicationController
   end
 
   def impressions
-    @data = [['Date', '# of impressions']]
+    @data = [['Date', 'Impressions', 'Unique Impressions']]
+    uniques = @project.impressions.select("DISTINCT(impressions.ip_address)").group("impressions.created_at::date").count
 
-    @project.impressions.group("impressions.created_at::date").count.each do |date, count|
-      @data.push [date, count]
-    end
-
-    render "reports/common"
-  end
-
-  def unique_impressions
-    @data = [['Date', '# of unique impressions']]
-
-    @project.impressions.select("DISTINCT(impressions.ip_address)").group("impressions.created_at::date").count.each do |date, count|
-      @data.push [date, count]
+    @project.impressions.group("impressions.created_at::date").order("impressions.created_at::date").count.each do |date, count|
+      @data.push [date, count, uniques[date]]
     end
 
     render "reports/common"
