@@ -10,9 +10,9 @@ ProcureIo.Backbone =
 
 ProcureIo.Backbone.Overrides =
   modelUrl: ->
-    base = _.result(@, 'urlRoot') || _.result(@collection, 'baseUrl') || urlError()
+    base = _.result(@, 'urlRoot') || _.result(@collection, 'baseUrl') || _.result(@collection, 'url')
     return base if this.isNew()
-    base + (if base.charAt(base.length - 1) == '/' then '' else '/') + encodeURIComponent(@id) + ".json"
+    base.split('?')[0] + (if base.charAt(base.length - 1) == '/' then '' else '/') + encodeURIComponent(@id) + ".json"
 
 Backbone.View.prototype.extendEvents = (newEvents) ->
   _.extend @events, newEvents
