@@ -1,6 +1,9 @@
 %h4 Comments
 
 .readable-width-large
+  .loading-comments
+    %i.icon-refresh.icon-spin
+    Loading
   #comments-wrapper
 
   %h5 New Comment

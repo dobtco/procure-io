@@ -10,7 +10,8 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     "click [data-backbone-label]": "toggleLabeled"
 
   initialize: ->
-    @bid = new ProcureIo.Backbone.Bid(@options.bootstrapData)
+    @$el = @options.el if @options.el?
+    @bid = @options.bid || new ProcureIo.Backbone.Bid(@options.bootstrapData)
     @bid.url = "/projects/#{@options.project.id}/bids/#{@bid.id}.json"
     @listenTo @bid,  "change", @render
     @render()

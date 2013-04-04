@@ -235,6 +235,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   className: "bid-tr"
 
   events:
+    "click .vendor-name": "openBid"
     "click [data-backbone-star]": "toggleStarred"
     "click [data-backbone-read]": "toggleRead"
 
@@ -242,13 +243,18 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @parentView = @options.parentView
     @listenTo @model, "destroy", @remove
     @listenTo @model, "change", @render
+    @listenTo @model, "sync", @checkForRefetch
 
-  render: ->
-
+  checkForRefetch: ->
     # @todo this could cause some terrible recursion
-    if ProcureIo.Backbone.router.filterOptions.get("f1") is "starred" and @model.get("total_stars") < 1
+    if (ProcureIo.Backbone.router.filterOptions.get("f1") == "starred" && @model.get("total_stars") < 1) ||
+       (ProcureIo.Backbone.router.filterOptions.get("f2") == "open" && (@model.get("dismissed_at") || @model.get("awarded_at"))) ||
+       (ProcureIo.Backbone.router.filterOptions.get("f2") == "dismissed" && !@model.get("dismissed_at")) ||
+       (ProcureIo.Backbone.router.filterOptions.get("f2") == "awarded" && !@model.get("awarded_at"))
+
       @parentView.refetch()
 
+  render: ->
     getValue = (id) =>
       response = _.find @model.get('bid_responses'), (bidResponse) ->
         bidResponse.response_field_id is id
@@ -258,7 +264,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
     rivets.bind(@$el, {bid: @model})
 
-    if !@model.get("my_bid_review.read") then @$el.addClass('bid-tr-unread')
+    @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')
 
     @$el.find(".total-stars").tooltip
       title: "Loading..."
@@ -295,6 +301,44 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   clear: ->
     @model.destroy()
+
+  openBid: (e) ->
+    return if e.metaKey
+    e.preventDefault()
+
+    if !@bidOpened
+      @bidOpened = true
+      $.ajax
+        url: "/projects/#{@parentView.project.id}/bids/#{@model.id}/read_notifications.json"
+        type: "POST"
+
+    @toggleRead() unless @model.get('my_bid_review.read')
+
+    @$modal = $("""
+      <div class="modal container hide modal-fullscreen" tabindex="-1">
+        <div class="modal-body">
+          <div class="modal-bid-view-wrapper"></div>
+          <div class="modal-comments-view-wrapper"></div>
+        </div>
+      </div>
+    """).appendTo("body")
+
+    @modalBidView = new ProcureIo.Backbone.BidPageView
+      bid: @model
+      project: @parentView.project
+      el: @$modal.find(".modal-bid-view-wrapper")
+
+    if ProcureIo.GlobalConfig.comments_enabled
+      @modalCommentsView = new ProcureIo.Backbone.CommentPageView
+        commentableType: "bid"
+        commentableId: @model.id
+        el: @$modal.find(".modal-comments-view-wrapper")
+
+    @$modal.modal('show')
+
+    @$modal.on "hidden", =>
+      @modalBidView.remove()
+      @$modal.remove()
 
   toggleStarred: ->
     @model.set 'my_bid_review.starred', (if @model.get('my_bid_review.starred') then false else true)
@@ -409,7 +453,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     e.preventDefault()
 
   dismissCheckedBids: ->
-    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
+    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) ->
+      b.set("set_dismissed", true)
+      b.attributes.id
+
     @sendBatchAction('dismiss', ids)
 
   awardCheckedBids: ->
