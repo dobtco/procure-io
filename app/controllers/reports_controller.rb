@@ -24,6 +24,16 @@ class ReportsController < ApplicationController
     render "reports/common"
   end
 
+  def unique_impressions
+    @data = [['Date', '# of unique impressions']]
+
+    @project.impressions.select("DISTINCT(impressions.ip_address)").group("impressions.created_at::date").count.each do |date, count|
+      @data.push [date, count]
+    end
+
+    render "reports/common"
+  end
+
   def response_field
     @response_field = @project.response_fields.find(params[:response_field_id])
 

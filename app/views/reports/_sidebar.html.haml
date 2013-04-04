@@ -6,6 +6,8 @@
         =link_to "Bids over time", bids_over_time_project_reports_path(@project)
       %li{"class" => active?("reports#impressions")}
         =link_to "Impressions", impressions_project_reports_path(@project)
+      %li{"class" => active?("reports#unique_impressions")}
+        =link_to "Unique Impressions", unique_impressions_project_reports_path(@project)
 
     %h4 Response Fields
     %ul.nav.nav-pills.nav-stacked
