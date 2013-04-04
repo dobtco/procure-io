@@ -68,8 +68,10 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
   el: "#comment-page"
 
   initialize: ->
+    @$el = @options.el if @options.el?
+
     ProcureIo.Backbone.Comments = new ProcureIo.Backbone.CommentList()
-    ProcureIo.Backbone.Comments.url = "/comments"
+    ProcureIo.Backbone.Comments.url = "/comments?commentable_type=#{@options.commentableType}&commentable_id=#{@options.commentableId}"
 
     ProcureIo.Backbone.Comments.bind 'add', @addOne, @
     ProcureIo.Backbone.Comments.bind 'reset', @reset, @
@@ -80,9 +82,13 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
       commentable_type: @options.commentableType
       commentable_id: @options.commentableId
 
-    ProcureIo.Backbone.Comments.reset(@options.bootstrapData)
+    if @options.bootstrapData
+      ProcureIo.Backbone.Comments.reset(@options.bootstrapData)
+    else
+      ProcureIo.Backbone.Comments.fetch()
 
   reset: ->
+    @$el.find(".loading-comments").hide()
     $("#comments-wrapper").html('')
     @addAll()
 

@@ -1,8 +1,16 @@
 class CommentsController < ApplicationController
-  before_filter :commentable_exists?, only: :create
+  before_filter :commentable_exists?, only: [:index, :create]
   before_filter :comment_exists?, only: :destroy
   before_filter :comment_is_mine?, only: :destroy
   before_filter { |c| c.check_enabled!('comments') }
+
+  def index
+    @comments = @commentable.comments
+
+    respond_to do |format|
+      format.json { render json: @comments, root: false }
+    end
+  end
 
   def create
     @comment = @commentable.comments.create(officer_id: current_officer.id, body: params[:body])
