@@ -4,4 +4,4 @@
   - @projects.each do |project|
     %li
       = link_to project.title, project_path(project)
-      %small last updated #{project.updated_at}
+      %small last updated #{project.updated_at.to_formatted_s(:readable)}
