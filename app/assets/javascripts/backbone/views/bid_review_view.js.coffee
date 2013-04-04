@@ -264,7 +264,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
     rivets.bind(@$el, {bid: @model})
 
-    if !@model.get("my_bid_review.read") then @$el.addClass('bid-tr-unread')
+    @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')
 
     @$el.find(".total-stars").tooltip
       title: "Loading..."
@@ -305,6 +305,8 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   openBid: (e) ->
     return if e.metaKey
     e.preventDefault()
+
+    @toggleRead() unless @model.get('my_bid_review.read')
 
     @$modal = $("""
       <div class="modal hide bid-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
