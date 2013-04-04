@@ -30,6 +30,7 @@ ProcureIo.Backbone.NotificationPage = Backbone.View.extend
 
   reset: ->
     $("#notifications-list").html('')
+    $("#no-notifications")[if ProcureIo.Backbone.Notifications.length > 0 then "hide" else "show"]()
     @addAll()
 
   # render: ->

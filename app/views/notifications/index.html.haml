@@ -1,5 +1,6 @@
 !=page_header "Notifications"
 
+%p#no-notifications.hide No notifications to display.
 #notifications-list
   :javascript
     new ProcureIo.Backbone.NotificationPage({bootstrapData: #{@notifications_json}});
