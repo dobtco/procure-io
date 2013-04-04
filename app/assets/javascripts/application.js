@@ -22,6 +22,8 @@
 //= require procureio.chart
 //= require bootstrap
 //= require bootstrap.flash_button
+//= require bootstrap-modal
+//= require bootstrap-modalmanager
 //= require parsley
 //= require parsley.overrides
 //= require jquery.hotkeys

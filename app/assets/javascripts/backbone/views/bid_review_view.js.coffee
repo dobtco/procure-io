@@ -306,12 +306,19 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     return if e.metaKey
     e.preventDefault()
 
+    if !@bidOpened
+      @bidOpened = true
+      $.ajax
+        url: "/projects/#{@parentView.project.id}/bids/#{@model.id}/read_notifications.json"
+        type: "POST"
+
     @toggleRead() unless @model.get('my_bid_review.read')
 
     @$modal = $("""
-      <div class="modal hide bid-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal container hide modal-fullscreen" tabindex="-1">
         <div class="modal-body">
           <div class="modal-bid-view-wrapper"></div>
+          <div class="modal-comments-view-wrapper"></div>
         </div>
       </div>
     """).appendTo("body")
@@ -321,9 +328,15 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       project: @parentView.project
       el: @$modal.find(".modal-bid-view-wrapper")
 
+    if ProcureIo.GlobalConfig.comments_enabled
+      @modalCommentsView = new ProcureIo.Backbone.CommentPageView
+        commentableType: "bid"
+        commentableId: @model.id
+        el: @$modal.find(".modal-comments-view-wrapper")
+
     @$modal.modal('show')
 
-    @$modal.on "hide", =>
+    @$modal.on "hidden", =>
       @modalBidView.remove()
       @$modal.remove()
 

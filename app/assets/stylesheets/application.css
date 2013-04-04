@@ -9,7 +9,9 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require main
+ *= require bootstrap
+ *= require bootstrap.responsive
+ *= require bootstrap-modal
  *= require _font-awesome
  *= require plugins/bootstrap-switch
  *= require select2
