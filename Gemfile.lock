@@ -143,6 +143,11 @@ GEM
       coffee-script (>= 1.0.0)
       sprockets (>= 2.0.3)
       tilt (>= 1.3.3)
+    heroku-api (0.2.1)
+      excon (~> 0.13.3)
+    heroku_san (4.2.5)
+      heroku-api (>= 0.1.2)
+      rake
     hike (1.2.1)
     httparty (0.10.2)
       multi_json (~> 1.0)
@@ -309,6 +314,7 @@ DEPENDENCIES
   foreigner (= 1.4.0)
   haml
   haml_coffee_assets
+  heroku_san
   httparty
   immigrant
   impressionist

@@ -41,6 +41,7 @@ group :development do
   gem 'letter_opener'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'heroku_san'
 end
 
 group :test, :development do
