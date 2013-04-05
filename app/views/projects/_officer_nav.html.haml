@@ -13,19 +13,26 @@
     - if GlobalConfig.instance[:bid_review_enabled]
       %li{"class" => active?("bids")}
         %a{"href" => project_bids_path(@project)}
-          Review Bids
+          %span
+            %span.visible-desktop Review Bids
+            %span.hidden-desktop Bids
           - if @project.bids.submitted.open.count > 0
             %span.badge.badge-info= @project.bids.submitted.open.count
 
     - if GlobalConfig.instance[:questions_enabled]
       %li{"class" => active?("questions#index")}
         %a{"href" => project_questions_path(@project)}
-          Answer Questions
+          %span
+            %span.visible-desktop Answer Questions
+            %span.hidden-desktop Questions
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
     %li{"class" => active?("projects#edit") || active?("amendments") || active?("project_revisions")}
-      =link_to "Project Description", edit_project_path(@project)
+      %a{"href" => edit_project_path(@project)}
+        %span
+          %span.visible-desktop Project Description
+          %span.hidden-desktop Description
 
     %li{"class" => active?("response_fields")}
       =link_to "Response Fields", project_response_fields_path(@project)
@@ -43,5 +50,7 @@
 
     %li.pull-right
       %a{"href" => project_path(@project)}
-        View Project
-        %i.icon-share-alt
+        %span
+          %span.visible-desktop
+            View
+          %i.icon-share-alt
