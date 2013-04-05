@@ -64,7 +64,7 @@ describe "Project" do
         it { should have_selector('form.edit_project') }
 
         describe "project page" do
-          before { click_link("View Project") }
+          before { click_link("View") }
           it { should have_text("You're a collaborator on this project") }
         end
 
