@@ -63,3 +63,14 @@
     }
   }
 }
+
+#project-filter-form {
+  input {
+    box-sizing: border-box;
+    height: inherit;
+  }
+
+  input, select {
+    width: 100%;
+  }
+}
