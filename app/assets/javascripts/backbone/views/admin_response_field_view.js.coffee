@@ -149,6 +149,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
+    ProcureIo.Backbone.ResponseFields.bind 'destroy', @ensureEditViewScrolled, @
 
     @editView = undefined
 
@@ -242,7 +243,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       success: (rf) =>
         @createAndShowEditView(rf)
 
-  # @todo scroll edit view when removing fields above it
   createAndShowEditView: (model) ->
     $responseFieldEl = $(".response-field-wrapper").filter(-> $(@).data('cid') == model.cid)
 
@@ -251,7 +251,11 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       oldPadding = @editView.$el.css('padding-top')
       @editView.remove()
 
-    @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]({model: model, parentView: @})
+    @editView = new ProcureIo.Backbone["Edit#{model.attributes.field_type.capitalize()}ResponseFieldView"]
+      model: model
+      parentView: @
+      $responseFieldEl: $responseFieldEl
+
     $newEditEl = @editView.render().$el
     @$el.find("#edit-response-field-wrapper").html $newEditEl
     @$el.find("#response-field-tabs a[href=\"#editField\"]").click()
@@ -265,6 +269,14 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     if ($(window).height() - $responseFieldEl.offset().top) < 200
       $(window).scrollTo($responseFieldEl, 200)
+
+
+  ensureEditViewScrolled: ->
+    return unless @editView
+
+    @editView.$el.animate
+      "padding-top": Math.max(0, @editView.options.$responseFieldEl.offset().top - $("#response-fields").offset().top - 25)
+    , 'fast'
 
   updateSortOrder: ->
     i = 0
