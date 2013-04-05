@@ -263,6 +263,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       "padding-top": Math.max(0, $responseFieldEl.offset().top - $("#response-fields").offset().top - 25)
     , 'fast'
 
+    if ($(window).height() - $responseFieldEl.offset().top) < 200
+      $(window).scrollTo($responseFieldEl, 200)
+
   updateSortOrder: ->
     i = 0
 

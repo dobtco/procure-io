@@ -19,6 +19,7 @@
 //= require jquery.form
 //= require jquery.sortable
 //= require jquery.intro
+//= require jquery.scrollto
 //= require procureio.chart
 //= require bootstrap
 //= require bootstrap.flash_button
