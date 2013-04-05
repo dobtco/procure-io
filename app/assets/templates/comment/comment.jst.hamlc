@@ -1,7 +1,7 @@
 .author
   %img.gravatar{"src" => @officer.gravatar_url}
   %span.author-name #{@officer.name}
-  %span.posted-at at #{@created_at_readable}
+  %span.posted-at #{moment(@created_at).fromNow()}
 
 - if @currentOfficerId == @officer.id
   %a.delete{"data-backbone-clear" => "true"} Delete
