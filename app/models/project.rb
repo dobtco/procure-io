@@ -46,6 +46,7 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :tags
 
   scope :featured, where(featured: true)
+  scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
 
   pg_search_scope :full_search, against: [:title, :body],
                                 associated_against: { amendments: [:title, :body],
@@ -60,7 +61,7 @@ class Project < ActiveRecord::Base
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    query = Project.posted
+    query = Project.open_for_bids.posted
 
     if params[:q] && !params[:q].blank?
       query = query.full_search(params[:q])

@@ -10,15 +10,24 @@ class ProjectsController < ApplicationController
   protect_from_forgery except: :post_wufoo
 
   def index
+    GlobalConfig.instance[:search_projects_enabled] ? index_advanced : index_basic
+  end
+
+  def index_advanced
     search_results = Project.search_by_params(params)
     @projects = search_results[:results]
     @filter_params = { category: params[:category], q: params[:q] }
 
     respond_to do |format|
-      format.html
+      format.html { render "projects/index_advanced" }
       format.json { render json: @projects, meta: search_results[:meta] }
       format.rss { render layout: false } # @todo fix me?
     end
+  end
+
+  def index_basic
+    @projects = Project.open_for_bids.posted
+    render "projects/index_basic"
   end
 
   def comments
