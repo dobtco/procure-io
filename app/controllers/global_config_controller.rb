@@ -43,7 +43,7 @@ class GlobalConfigController < ApplicationController
     event_hooks = @global_config.event_hooks
     event_hooks[GlobalConfig.event_hooks[:twitter]] ||= {
       "enabled" => "on",
-      "tweet_body" => "Posted a project, \":title\"! Bids due at :bids_due_at."
+      "tweet_body" => "Posted a project, \":title\"!"
     }
     event_hooks[GlobalConfig.event_hooks[:twitter]]["oauth_token"] = access_token.token
     event_hooks[GlobalConfig.event_hooks[:twitter]]["oauth_token_secret"] = access_token.secret

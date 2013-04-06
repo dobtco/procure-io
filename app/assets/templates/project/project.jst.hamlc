@@ -14,7 +14,10 @@
   &middot;
 
   %span.project-bids-due-at
-    Bids due on #{@bids_due_at_readable_dateonly}
+    - if @bids_due_at
+      Bids due on #{@bids_due_at_readable_dateonly}
+    - else
+      Open for bids
 
   &middot;
 

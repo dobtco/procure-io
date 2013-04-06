@@ -12,7 +12,10 @@ class Ability
   private
 
   def vendor(user)
-    can :create, Bid do |bid| bid.project.bids_due_at > Time.now && !user.submitted_bid_for_project(bid.project) end
+    can :create, Bid do |bid|
+      (!bid.project.bids_due_at || (bid.project.bids_due_at > Time.now)) && !user.submitted_bid_for_project(bid.project)
+    end
+
     can :watch, Project, posted: true
   end
 

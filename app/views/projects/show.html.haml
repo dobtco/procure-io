@@ -6,7 +6,10 @@
   %small
     - if @project.featured
       %i.icon-star
-    Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
+    - if @project.bids_due_at
+      Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
+    - else
+      Open for bids
 
 .row-fluid
   .span7
