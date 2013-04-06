@@ -1,6 +1,7 @@
 class SavedSearchesController < ApplicationController
   before_filter :authenticate_vendor!
   before_filter :saved_search_exists?, only: :destroy
+  before_filter { |c| c.check_enabled!('save_searches') }
 
   def index
     @saved_searches = current_vendor.saved_searches.paginate(page: params[:page])

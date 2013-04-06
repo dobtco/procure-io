@@ -2,6 +2,7 @@ class WatchesController < ApplicationController
   before_filter :authenticate_user!, only: :post
   before_filter :authenticate_vendor!, only: :vendor_projects
   before_filter :load_and_authorize_watchable!, only: :post
+  before_filter only: [:vendor_projects] { |c| c.check_enabled!('watch_projects') }
 
   def post
     current_user.send(current_user.watches?(params[:watchable_type], params[:watchable_id]) ? :unwatch! : :watch!,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406004215) do
+ActiveRecord::Schema.define(:version => 20130406004710) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -126,14 +126,17 @@ ActiveRecord::Schema.define(:version => 20130406004215) do
   end
 
   create_table "global_configs", :force => true do |t|
-    t.boolean  "bid_review_enabled",     :default => true
-    t.boolean  "bid_submission_enabled", :default => true
-    t.boolean  "comments_enabled",       :default => true
-    t.boolean  "questions_enabled",      :default => true
+    t.boolean  "bid_review_enabled",      :default => true
+    t.boolean  "bid_submission_enabled",  :default => true
+    t.boolean  "comments_enabled",        :default => true
+    t.boolean  "questions_enabled",       :default => true
     t.text     "event_hooks"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
-    t.boolean  "amendments_enabled",     :default => true
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "amendments_enabled",      :default => true
+    t.boolean  "watch_projects_enabled",  :default => true
+    t.boolean  "save_searches_enabled",   :default => true
+    t.boolean  "search_projects_enabled", :default => true
   end
 
   create_table "impressions", :force => true do |t|
