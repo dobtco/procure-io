@@ -10,6 +10,7 @@
 #  event_hooks            :text
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  amendments_enabled     :boolean          default(TRUE)
 #
 
 require_dependency 'enum'

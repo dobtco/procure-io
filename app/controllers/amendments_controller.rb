@@ -2,6 +2,7 @@ class AmendmentsController < ApplicationController
   before_filter :project_exists?
   before_filter :amendment_exists?, only: [:edit, :update, :destroy]
   before_filter :authenticate_and_authorize_officer!, only: [:index]
+  before_filter { |c| c.check_enabled!('amendments') }
 
   def create
     @amendment = @project.amendments.create

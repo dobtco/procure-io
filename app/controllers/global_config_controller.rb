@@ -69,6 +69,6 @@ class GlobalConfigController < ApplicationController
   end
 
   def global_config_params
-    params.require(:global_config).permit(:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled)
+    params.require(:global_config).permit(:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled, :amendments_enabled)
   end
 end

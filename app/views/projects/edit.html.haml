@@ -40,18 +40,19 @@
       = f.label :bids_due_at
       = f.datetime_select :bids_due_at, {include_blank: true}, style: "width: 100px;"
 
-      %div
-        %label
-          Amendments
-          = link_to "New Amendment", project_amendments_path(@project), method: :post, class: "btn btn-mini"
+      - if GlobalConfig.instance[:amendments_enabled]
+        %div
+          %label
+            Amendments
+            = link_to "New Amendment", project_amendments_path(@project), method: :post, class: "btn btn-mini"
 
-        - if @project.amendments.length > 0
-          %ul
-            - @project.amendments.each do |amendment|
-              %li
-                %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
-        - else
-          %div No amendments.
+          - if @project.amendments.length > 0
+            %ul
+              - @project.amendments.each do |amendment|
+                %li
+                  %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
+          - else
+            %div No amendments.
 
 
       = f.label :abstract
