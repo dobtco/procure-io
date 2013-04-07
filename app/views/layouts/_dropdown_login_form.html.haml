@@ -1,11 +1,13 @@
 .dropdown-menu
   = form_tag users_signin_path, method: :post, class: "dropdown-login-form" do
-    %h4 Sign in to Procure.io
-    = text_field_tag :email, nil, placeholder: "Email Address"
-    = password_field_tag :password, nil, placeholder: "Password"
+    %h4= t('.sign_in', site_name: t('site_name'))
+    = text_field_tag :email, nil, placeholder: t('email_address')
+    = password_field_tag :password, nil, placeholder: t('password')
     .login-button-wrapper
-      %button.btn.btn-primary Sign in
-      or <a href="#{new_vendor_registration_path}">sign up</a>.
+      %button.btn.btn-primary= t('sign_in')
+      = t('.or_sign_up.line_html', link: link_to(t('.or_sign_up.link'), new_vendor_registration_path))
+
+
 
     .forgot-password-wrapper
-      Did you <a href="#{users_forgot_password_path}">forget your password</a>?
+      = t('.forgot_password.line_html', link: link_to(t('.forgot_password.link'), users_forgot_password_path))

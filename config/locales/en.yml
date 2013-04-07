@@ -2,4 +2,26 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  site_name: Procure.io
+  sign_in: Sign in
+  email_address: Email Address
+  password: Password
+
+  layouts:
+    navbar:
+      my_projects: My Projects
+      watched_projects: Watched Projects
+      saved_searches: Saved Searches
+      browse_projects: Browse Projects
+      show_tour: Explain this page
+      global_config: Global Config
+      officers_admin: Officers Admin
+
+    dropdown_login_form:
+      sign_in: Sign in to %{site_name}
+      or_sign_up:
+        line_html: or %{link}
+        link: sign up
+      forgot_password:
+        line_html: Did you %{link}?
+        link: forget your password
