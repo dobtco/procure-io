@@ -1,14 +1,14 @@
-!=page_header "My Projects"
+!=page_header t('.header')
 
-%a.btn.btn-small{"href" => new_project_path} New Project
+%a.btn.btn-small{"href" => new_project_path}= t('actions.project.new')
 
 %table.table.table-boredered
   %thead
     %tr
-      %th Type
-      %th Project Title
-      %th # Bids
-      %th Bids Due
+      %th= t('.type')
+      %th= t('.project_title')
+      %th= t('.number_bids')
+      %th= t('.bids_due')
 
   %tbody
     - @projects.each do |project|
@@ -20,6 +20,6 @@
           - if project.bids_due_at
             = project.bids_due_at.to_formatted_s(:readable)
           - else
-            Open for bids
+            = t('projects.open_for_bids')
 
 = will_paginate @projects, class: "pagination pagination-centered"

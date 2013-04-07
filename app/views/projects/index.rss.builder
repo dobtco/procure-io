@@ -1,8 +1,8 @@
 xml.instruct! :xml, version: "1.0"
 xml.rss version: "2.0" do
   xml.channel do
-    xml.title "Project Listings"
-    xml.description "Project listings on Procure.io."
+    xml.title t('.title')
+    xml.description t('.description', site_name: t('globals.site_name'))
     xml.link projects_url(@filter_params)
 
     for project in @projects

@@ -3,7 +3,7 @@
     %h3
       = @project.title
 
-    = link_to raw(@project.watched_by?(current_user) ? "Watching Project <i class='icon-star'></i>" : "Watch Project <i class='icon-star-empty'></i>"), |
+    = link_to raw(@project.watched_by?(current_user) ? t('projects.watching_project_html') : t('projects.watch_project_html')), |
               watches_path("Project", @project), method: :post, |
               class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
@@ -14,8 +14,8 @@
       %li{"class" => active?("bids")}
         %a{"href" => project_bids_path(@project)}
           %span
-            %span.visible-desktop Review Bids
-            %span.hidden-desktop Bids
+            %span.visible-desktop= t('.bids.long')
+            %span.hidden-desktop= t('.bids.short')
           - if @project.bids.submitted.open.count > 0
             %span.badge.badge-info= @project.bids.submitted.open.count
 
@@ -23,34 +23,33 @@
       %li{"class" => active?("questions#index")}
         %a{"href" => project_questions_path(@project)}
           %span
-            %span.visible-desktop Answer Questions
-            %span.hidden-desktop Questions
+            %span.visible-desktop= t('.questions.long')
+            %span.hidden-desktop= t('.questions.short')
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
     %li{"class" => active?("projects#edit") || active?("amendments") || active?("project_revisions")}
       %a{"href" => edit_project_path(@project)}
         %span
-          %span.visible-desktop Project Description
-          %span.hidden-desktop Description
+          %span.visible-desktop= t('.description.long')
+          %span.hidden-desktop= t('.description.short')
 
     %li{"class" => active?("response_fields")}
-      =link_to "Response Fields", project_response_fields_path(@project)
+      =link_to t('.response_fields'), project_response_fields_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled]
       %li{"class" => active?("projects#comments")}
-        =link_to "Comments", comments_project_path(@project)
+        =link_to t('.comments'), comments_project_path(@project)
 
     - if @project.posted?
       %li{"class" => active?("reports")}
-        =link_to "Reports", bids_over_time_project_reports_path(@project)
+        =link_to t('.reports'), bids_over_time_project_reports_path(@project)
 
     %li{"class" => active?("collaborators") || active?("projects#import_csv") || active?("projects#export_csv") || active?("projects#wufoo")}
-      =link_to "Admin", project_collaborators_path(@project)
+      =link_to t('.admin'), project_collaborators_path(@project)
 
     %li.pull-right
       %a{"href" => project_path(@project)}
         %span
-          %span.visible-desktop
-            View
+          %span.visible-desktop= t('.view')
           %i.icon-share-alt

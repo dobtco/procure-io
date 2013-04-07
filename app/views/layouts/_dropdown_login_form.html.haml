@@ -1,10 +1,10 @@
 .dropdown-menu
   = form_tag users_signin_path, method: :post, class: "dropdown-login-form" do
-    %h4= t('.sign_in', site_name: t('site_name'))
-    = text_field_tag :email, nil, placeholder: t('email_address')
-    = password_field_tag :password, nil, placeholder: t('password')
+    %h4= t('.sign_in', site_name: t('globals.site_name'))
+    = text_field_tag :email, nil, placeholder: t('globals.email_address')
+    = password_field_tag :password, nil, placeholder: t('globals.password')
     .login-button-wrapper
-      %button.btn.btn-primary= t('sign_in')
+      %button.btn.btn-primary= t('globals.sign_in')
       = t('.or_sign_up.line_html', link: link_to(t('.or_sign_up.link'), new_vendor_registration_path))
 
 

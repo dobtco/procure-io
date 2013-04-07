@@ -1,10 +1,10 @@
-!=page_header "New Project"
+!=page_header t('.header')
 
-%p First, tell us some basic info about your project.
+%p= t('.instructions')
 
 = form_for @project do |f|
   = f.label :title
   = f.text_field :title
 
   .form-actions
-    = f.submit "Next →", class: "btn btn-inverse"
+    = f.submit t('.next_html'), class: "btn btn-inverse"

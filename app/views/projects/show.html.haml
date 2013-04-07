@@ -1,69 +1,69 @@
 - if can? :collaborate_on, @project
-  .alert.alert-success
-    You're a collaborator on this project. #{link_to "Click here", edit_project_path(@project)} for the admin page.
+  .alert.alert-success= t('.you_are_collaborator.line_html', link: link_to(t('.you_are_collaborator.link'), edit_project_path(@project)))
 
 != page_header @project.title do
   %small
     - if @project.featured
       %i.icon-star
     - if @project.bids_due_at
-      Bids due on #{@project.bids_due_at.to_formatted_s(:readable)}
+      = t('projects.bids_due_on', date: @project.bids_due_at.to_formatted_s(:readable))
     - else
-      Open for bids
+      = t('projects.open_for_bids')
 
 .row-fluid
   .span7
     - if @project.abstract
-      %h4 Abstract
+      %h4= t('projects.abstract')
       %p= @project.abstract
 
     %h4
-      Project Description
+      = t('projects.description')
       - if @project.amendments.posted.any?
-        %small Jump to <a href="#amendments">#{pluralize(@project.amendments.posted.length, 'amendment')}</a>.
+        %small= t('.jump_to_amendments_html', count: @project.amendments.posted.length)
 
     %p= simple_format @project.body
 
     - if @project.amendments.posted.any?
       #amendments
-        %h4 Amendments
+        %h4= t('projects.amendments')
         - @project.amendments.posted.each do |amendment|
           %h5
             = amendment.title
-            %small Posted on #{amendment.posted_at.to_formatted_s(:readable_dateonly)}
+            %small= t('amendments.posted_on', date: amendment.posted_at.to_formatted_s(:readable_dateonly))
           %p= simple_format amendment.body
 
   .span5
     - if vendor_signed_in?
-      = link_to @project.watched_by?(current_user) ? "Watching Project" : "Watch Project", watches_path("Project", @project), |
+      = link_to @project.watched_by?(current_user) ? t('projects.watching_project_html') : t('projects.watch_project_html'), watches_path("Project", @project), |
                 method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
 
     - if GlobalConfig.instance[:bid_submission_enabled]
       - if vendor_signed_in?
         - if (bid = current_vendor.bid_for_project(@project))
           - if bid.submitted_at
-            You submitted <a href="#{project_bid_path(@project, bid)}">your bid</a> on #{bid.submitted_at.to_formatted_s(:readable)}.
+            = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
           - else
-            =link_to "Continue Writing Bid", new_project_bid_path(@project), class: "btn btn-inverse"
+            =link_to t('.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
         - else
-          =link_to "Bid Now", new_project_bid_path(@project), class: "btn btn-inverse"
+          =link_to t('.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
       - elsif !officer_signed_in?
-        #{link_to "Sign in", users_signin_path} to bid.
+        = t('.sign_in_to_bid.line_html', link: link_to(t('.sign_in_to_bid.link'), users_signin_path))
+
 
     - if GlobalConfig.instance[:questions_enabled]
-      %h4 Questions
+      %h4= t('projects.questions')
       - if vendor_signed_in?
         #ask-question.collapse
           = form_for [@project, Question.new] do |f|
             = f.text_area :body, cols: nil, rows: nil, class: "span8"
             %br
-            = f.submit "Submit Question", class: "btn btn-inverse"
+            = f.submit t('actions.question.create'), class: "btn btn-inverse"
         %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
       - elsif officer_signed_in? && (can? :collaborate_on, @project)
         .alert.alert-success
-          #{link_to "Click here", project_questions_path(@project)} to answer questions.
+          = t('.click_here_to_answer_questions.line_html', link: link_to(t('.click_here_to_answer_questions.link'), project_questions_path(@project)))
       - elsif !officer_signed_in?
-        #{link_to "Sign in", users_signin_path} to ask a question.
+        = t('.sign_in_to_ask_question.line_html', link: link_to(t('.sign_in_to_ask_question.link'), users_signin_path))
 
       #questions-list
         :javascript

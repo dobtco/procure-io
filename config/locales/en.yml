@@ -2,11 +2,15 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  site_name: Procure.io
-  sign_in: Sign in
-  email_address: Email Address
-  password: Password
-  actions: Actions
+  globals:
+    site_name: Procure.io
+    sign_in: Sign in
+    email_address: Email Address
+    password: Password
+    actions: Actions
+    unknown_officer: Unknown
+    experimental_follow_steps_html: >
+      <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
 
   confirmations:
     bid:
@@ -23,6 +27,7 @@ en:
     amendment:
       delete: "Delete Amendment"
       update: "Update Amendment"
+      new: "New Amendment"
 
     collaborator:
       create: "Add Collaborator"
@@ -31,8 +36,15 @@ en:
     officer:
       update: "Update Officer"
 
+    project:
+      update: "Update Project"
+      new: "New Project"
+
+    question:
+      create: "Submit Question"
+
   postable_by_officer:
-    live: Live?
+    live: Live
 
   layouts:
     application:
@@ -57,6 +69,7 @@ en:
         link: forget your password
 
   amendments:
+    posted_on: "Posted on %{date}"
     edit:
       delete_amendment: Delete Amendment
       update_amendment: Update Amendment
@@ -111,8 +124,128 @@ en:
     index:
       header: "Officers"
 
+  project_revisions:
+    show:
+      alert_html: >
+        <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
+      back_to_current_html: "&larr; Back to current version"
+      restore: "Restore this version"
+
   projects:
     open_for_bids: Open for bids
+    revisions: "Revisions"
+    amendments: Amendments
+    questions: Questions
+    abstract: "Abstract"
+    description: "Project Description"
+    bids_due_on: "Bids due on %{date}"
+    watching_project_html: "Watching Project <i class='icon-star'></i>"
+    watch_project_html: "Watch Project <i class='icon-star-empty'></i>"
+
+    admin_sidebar:
+      collaborators: "Collaborators"
+      import_bids: "Import bids from CSV"
+      export_bids: "Export bids"
+      wufoo_integration: "Wufoo Integration"
+
+    officer_nav:
+      bids:
+        long: Review Bids
+        short: Bids
+      questions:
+        long: Answer Questions
+        short: Questions
+      description:
+        long: Project Description
+        short: Description
+      response_fields: "Response Fields"
+      comments: "Comments"
+      reports: Reports
+      admin: Admin
+      view: View
+
+    edit:
+      revision_link_text: >
+        %{date} by %{officer}
+      no_amendments: No amendments.
+
+    export_csv:
+      description: >
+        Want your data without the bells and whistles of %{site_name}? We understand. You can download an Excel-compatible CSV export of your bids below.
+      link_text:
+        one: "Download 1 bid as CSV"
+        other: "Download %{count} bids as CSV"
+
+    import_csv:
+      step_1:
+        line_html: "Set up the %{link} to match the fields you've collected from your bidders."
+        link: response fields
+      step_2:
+        line_1: >
+          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
+        line_2: >
+          If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
+      step_3: >
+        Save the spreadsheet as a CSV file and upload it here.
+      file_to_import: "File to import"
+      upload: "Upload"
+
+    index:
+      title: "Project Listings"
+      description: "Project listings on %{site_name}."
+
+    index_advanced:
+      header: "Browse Projects"
+
+    index_basic:
+      header: "Projects"
+      read_more: "Read more"
+
+    mine:
+      header: "My Projects"
+      type: Type
+      project_title: Project Title
+      number_bids: "# of bids"
+      bids_due: Bids due
+
+    new:
+      header: "New Project"
+      instructions: "First, tell us some basic info about your project."
+      next_html: "Next →"
+
+    show:
+      you_are_collaborator:
+        line_html: "You're a collaborator on this project. %{link} for the admin page."
+        link: Click here
+      jump_to_amendments_html:
+        one: >
+          Jump to <a href="#amendments">1 amendment</a>.
+        other: >
+          Jump to <a href="#amendments">%{count} amendments</a>.
+      you_submitted_your_bid:
+        line_html: "You submitted %{link} on %{date}."
+        link: your bid
+      continue_writing_bid: "Continue Writing Bid"
+      bid_now: Bid Now
+      sign_in_to_bid:
+        line_html: "%{link} to bid."
+        link: Sign in
+      sign_in_to_ask_question:
+        line_html: "%{link} to ask a question."
+        link: Sign in
+      click_here_to_answer_questions:
+        line_html: "%{link} to answer questions."
+        link: Click here
+
+    wufoo:
+      step_1:
+        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
+        link: response field labels
+      step_2_html: "In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>."
+      step_3_html: >
+        In the Wufoo admin panel, find your form and add a new Webhook notification. Your webhook URL should be
+        <code>%{url}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
+      step_4: Sit back and watch the applications roll in!
 
   mailers:
     notification:

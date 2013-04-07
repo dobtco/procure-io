@@ -1,27 +1,29 @@
 = render "projects/officer_nav"
 
 = render layout: "projects/admin_sidebar" do
-  .alert.alert-warning
-    <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
+  .alert.alert-warning= t('globals.experimental_follow_steps_html')
 
   .readable-width
     %p
-      <strong>1.</strong> Set up the <a href="#{project_response_fields_path(@project)}">response fields</a> to match the fields you've collected from your bidders
+      <strong>1.</strong>
+      = t('projects.import_csv.step_1.line_html', link: link_to(t('projects.import_csv.step_1.link'), project_response_fields_path(@project)))
 
     %p
-      <strong>2.</strong> Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
+      <strong>2.</strong>
+      = t('projects.import_csv.step_2.line_1')
 
     %p
       <code>Name</code>, <code>Email</code>,
       != @project.response_fields.map {|rf| "<code>#{rf.label}</code>"}.join(", ")
 
-    %p
-      If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
+    %p= t('projects.import_csv.step_2.line_2')
 
-    %p <strong>3.</strong> Save the spreadsheet as a CSV file and upload it here.
+    %p
+      <strong>3.</strong>
+      = t('projects.import_csv.step_3')
 
   = form_tag import_csv_project_path(@project), multipart: true do
-    %label{"for" => "file"} File to upload
+    %label{"for" => "file"}= t('projects.import_csv.file_to_import')
     = file_field_tag "file"
     %div
-      %button.btn.btn-inverse Import
+      %button.btn.btn-inverse= t('projects.import_csv.upload')

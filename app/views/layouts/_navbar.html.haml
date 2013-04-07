@@ -5,7 +5,7 @@
         %i.icon-bar
         %i.icon-bar
         %i.icon-bar
-      %a.brand{"href" => root_path}= t('site_name')
+      %a.brand{"href" => root_path}= t('globals.site_name')
       .nav-collapse.collapse
         %ul.nav
           %li
@@ -52,7 +52,7 @@
 
           - else
             %li.dropdown
-              %a.dropdown-toggle.js-dropdown-login-toggle{"href" => "#", "data-toggle" => "dropdown"} #{t('sign_in')} <strong class="caret"></strong>
+              %a.dropdown-toggle.js-dropdown-login-toggle{"href" => "#", "data-toggle" => "dropdown"} #{t('globals.sign_in')} <strong class="caret"></strong>
               = render "layouts/dropdown_login_form"
 
 

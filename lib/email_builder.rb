@@ -2,7 +2,7 @@
 
 module EmailBuilder
   def build_email(to, email_key, params={})
-    params[:site_name] = I18n.t('site_name')
+    params[:site_name] = I18n.t('globals.site_name')
     # params[:base_url] = Discourse.base_url
     # params[:user_preferences_url] = "#{Discourse.base_url}/user_preferences"
 

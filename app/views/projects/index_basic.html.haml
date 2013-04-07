@@ -1,4 +1,4 @@
-!= page_header "Projects"
+!= page_header t('.header')
 
 .basic-projects-list
   - @projects.each do |project|
@@ -8,9 +8,9 @@
         %i.icon-star
       .abstract
         = project.abstract_or_truncated_body
-        = link_to "Read more", project
+        = link_to t('.read_more'), project
       .bids-due
         - if project.bids_due_at
-          Bids due on #{project.bids_due_at.to_formatted_s(:readable_dateonly)}
+          = t('projects.bids_due_on', date: project.bids_due_at.to_formatted_s(:readable_dateonly))
         - else
-          Open for bids
+          = t('projects.open_for_bids')

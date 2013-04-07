@@ -6,16 +6,16 @@
       = f.label :body
       = f.text_area :body
 
-      %h5 Revisions
+      %h5= t('projects.revisions')
       %ul
         - @project.project_revisions.each do |project_revision|
           %li
             %a{"href" => project_project_revision_path(@project, project_revision)}
-              #{project_revision.created_at.to_formatted_s(:readable)} by #{project_revision.saved_by_officer ? project_revision.saved_by_officer.display_name : 'Unknown'}
+              = t('.revision_link_text', date: project_revision.created_at.to_formatted_s(:readable), officer: project_revision.saved_by_officer ? project_revision.saved_by_officer.display_name : t('globals.unknown_officer'))
 
 
     .span6
-      = f.label :posted_at, "Live"
+      = f.label :posted_at, t('postable_by_officer.live')
       .switch
         = f.check_box :posted_at
 
@@ -43,8 +43,8 @@
       - if GlobalConfig.instance[:amendments_enabled]
         %div
           %label
-            Amendments
-            = link_to "New Amendment", project_amendments_path(@project), method: :post, class: "btn btn-mini"
+            = t('projects.amendments')
+            = link_to t('actions.amendment.new'), project_amendments_path(@project), method: :post, class: "btn btn-mini"
 
           - if @project.amendments.length > 0
             %ul
@@ -52,7 +52,7 @@
                 %li
                   %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
           - else
-            %div No amendments.
+            %div= t('.no_amendments')
 
 
       = f.label :abstract
@@ -60,4 +60,4 @@
 
 
   .form-actions
-    = f.submit "Update Project", class: "btn btn-inverse"
+    = f.submit t('actions.project.update'), class: "btn btn-inverse"
