@@ -1,17 +1,17 @@
 = render "projects/officer_nav"
 
 = form_for [@project, @amendment] do |f|
-  = f.label :posted_at, "Live?"
-  .switch{"data-on-label" => "Yes", "data-off-label" => "No"}
+  = f.label :posted_at, t('.live')
+  .switch
     = f.check_box :posted_at
 
   = f.label :title
-  = f.text_field :title
+  = f.text_field :title, class: "span6"
 
   = f.label :body
-  = f.text_area :body
+  = f.text_area :body, cols: false, rows: 10, class: "span6"
 
   .form-actions
-    = f.submit "Update Amendment", class: "btn btn-inverse"
+    = f.submit t('.update_amendment'), class: "btn btn-inverse"
 
-=link_to "Delete Amendment", project_amendment_path(@project, @amendment), method: :delete, confirm: "Are you sure you want to delete this amendment?"
+=link_to t('.delete_amendment'), project_amendment_path(@project, @amendment), method: :delete, confirm: t('confirmations.delete', item: 'amendment')

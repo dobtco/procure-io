@@ -2,11 +2,11 @@
 
 .row-fluid
   .span7
-    %h4 Project Description
+    %h4= t('bids.project_description')
     %p= simple_format @project.body
 
   .span5
-    %h4 New Bid
+    %h4= t('.new_bid')
     - if @project.form_description
       %span.help-block= @project.form_description
     = render "bids/form"

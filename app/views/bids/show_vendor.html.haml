@@ -2,20 +2,20 @@
 
 .row-fluid
   .span7
-    %h4 Project Description
+    %h4= t('bids.project_description')
     %p= simple_format @project.body
 
   .span5
-    %h4 My Bid
+    %h4= t('.my_bid')
 
     %div
       - if @bid.dismissed?
-        %span.badge.badge-important Dismissed
+        %span.badge.badge-important= t('bids.dismissed')
       - elsif @bid.awarded?
-        %span.badge.badge-success Awarded
+        %span.badge.badge-success= t('bids.awarded')
       - else
-        %span.badge.badge-info Open
+        %span.badge.badge-info= t('bids.open')
 
-    = link_to "← Return to project", @project
+    = link_to t('.return_to_project_html'), @project
 
     = render "bid"

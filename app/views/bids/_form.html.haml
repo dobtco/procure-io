@@ -16,8 +16,8 @@
         value: (r = @bid.bid_responses.where(response_field_id: response_field.id).first) ? r.value : ''
 
   .form-actions
-    %button.btn.btn-inverse Submit Bid
-    %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"} Save Draft
+    %button.btn.btn-inverse= t('.submit_bid')
+    %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"}= t('.save_draft')
 
 - if @bid.id
   :javascript
