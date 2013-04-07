@@ -247,6 +247,16 @@ en:
         <code>%{url}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
       step_4: Sit back and watch the applications roll in!
 
+  reports:
+    sidebar:
+      general_stats: "General Stats"
+      bids_over_time: Bids over time
+      impressions: Impressions
+      response_fields: Response fields
+
+    common:
+      no_data: "Sorry, no data to display."
+
   mailers:
     notification:
       subject: "%{event_text}"
@@ -257,5 +267,19 @@ en:
         %{event_additional_text}
 
         %{event_url}
+
+        -- %{site_name}
+
+    saved_searches:
+      pluralized_count:
+        one: 1 new result
+        other: "%{count} new results"
+      subject: "%{pluralized_count} for your saved searches on %{site_name}"
+      text: |
+        Hey %{name},
+
+        We found %{pluralized_count} for your saved searches on %{site_name}.
+
+        %{results}
 
         -- %{site_name}

@@ -3,11 +3,11 @@
 %table.table.table-nonfluid
   %thead
     %tr
-      %th Created at
-      %th Vendor
-      %th{"width" => "35%"} Body
-      %th{"width" => "35%"} Answer
-      %th Actions
+      %th= Question.human_attribute_name(:created_at)
+      %th= Question.human_attribute_name(:vendor)
+      %th{"width" => "35%"}= Question.human_attribute_name(:body)
+      %th{"width" => "35%"}= Question.human_attribute_name(:answer_body)
+      %th= t('globals.actions')
 
   %tbody#questions-tbody
     :javascript

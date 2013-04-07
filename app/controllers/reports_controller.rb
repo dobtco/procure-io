@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   before_filter :project_exists?
 
   def bids_over_time
-    dates = @project.posted_at.to_date..([Time.now, @project.bids_due_at].min).to_date
+    dates = @project.posted_at.to_date..(@project.bids_due_at ? [Time.now, @project.bids_due_at].min : Time.now).to_date
     bids = @project.bids.submitted
     @data = [['Date', '# of bids']]
 

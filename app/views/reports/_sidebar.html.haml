@@ -1,13 +1,13 @@
 .row-fluid
   .span3
-    %h4 General Stats
+    %h4= t('.general_stats')
     %ul.nav.nav-pills.nav-stacked
       %li{"class" => active?("reports#bids_over_time")}
-        =link_to "Bids over time", bids_over_time_project_reports_path(@project)
+        =link_to t('.bids_over_time'), bids_over_time_project_reports_path(@project)
       %li{"class" => active?("reports#impressions")}
-        =link_to "Impressions", impressions_project_reports_path(@project)
+        =link_to t('.impressions'), impressions_project_reports_path(@project)
 
-    %h4 Response Fields
+    %h4= t('.response_fields')
     %ul.nav.nav-pills.nav-stacked
       - @project.response_fields.where("field_type IN (?)", ResponseField::REPORTABLE_FIELDS).each do |response_field|
         %li{"class" => active?("reports#response_field?response_field_id=#{response_field.id}")}
