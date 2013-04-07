@@ -30,6 +30,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def only_unauthenticated_user
+    redirect_to(root_path) if current_user
+  end
+
   private
   def not_found
     raise ActionController::RoutingError.new('Not Found')

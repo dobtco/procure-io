@@ -1,16 +1,16 @@
-!=page_header "Sign in"
+!=page_header t('globals.sign_in')
 
 = form_tag users_signin_path, method: :post do
 
-  %label Email
-  = text_field_tag :email, nil, placeholder: "Email Address"
+  %label= t('globals.email_address')
+  = text_field_tag :email, nil, placeholder: t('globals.email_address')
 
-  %label Password
-  = password_field_tag :password, nil, placeholder: "Password"
+  %label= t('globals.password')
+  = password_field_tag :password, nil, placeholder: t('globals.password')
 
   .form-actions
-    %button.btn.btn-primary Sign in
-    or <a href="#{new_vendor_registration_path}">sign up</a>.
+    %button.btn.btn-primary= t('globals.sign_in')
+    = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), new_vendor_registration_path))
 
   .forgot-password-wrapper
-    Did you <a href="#{users_forgot_password_path}">forget your password</a>?
+    = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), users_forgot_password_path))

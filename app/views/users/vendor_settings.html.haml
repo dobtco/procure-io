@@ -1,8 +1,8 @@
-!=page_header "Settings"
+!=page_header t('.header')
 
 = form_for current_vendor, url: settings_path do |f|
 
-  %h4 Profile
+  %h4= t('.profile')
 
   = f.label :name
   = f.text_field :name

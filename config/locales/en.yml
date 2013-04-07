@@ -5,12 +5,17 @@ en:
   globals:
     site_name: Procure.io
     sign_in: Sign in
+    sign_up: Sign up
     email_address: Email Address
     password: Password
     actions: Actions
     unknown_officer: Unknown
     experimental_follow_steps_html: >
       <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
+    show: "show"
+    hide: "hide"
+    show_paren: "(show)"
+    hide_paren: "(hide)"
 
   confirmations:
     bid:
@@ -43,6 +48,9 @@ en:
     question:
       create: "Submit Question"
 
+    saved_search:
+      delete: "Delete Saved Search"
+
   postable_by_officer:
     live: Live
 
@@ -61,12 +69,6 @@ en:
 
     dropdown_login_form:
       sign_in: Sign in to %{site_name}
-      or_sign_up:
-        line_html: or %{link}
-        link: sign up
-      forgot_password:
-        line_html: Did you %{link}?
-        link: forget your password
 
   amendments:
     posted_on: "Posted on %{date}"
@@ -256,6 +258,44 @@ en:
 
     common:
       no_data: "Sorry, no data to display."
+
+  saved_searches:
+    current_results: Current Results
+    index:
+      header: "Saved Searches"
+      description: "These are your saved searches. You'll receive daily emails with links to any new projects posted that match these parameters."
+      view_results: View Results
+
+  users:
+    notification_settings:
+      header: "Email Notifications"
+
+    forgot_password:
+      header: "Forgot password"
+      send_instructions: "Send reset password instructions"
+
+    officer_settings:
+      header: "Settings"
+      profile: "Profile"
+      dev_header: "Developer"
+      api_key: API Key
+
+    vendor_settings:
+      header: "Settings"
+      profile: Profile
+
+    or_sign_up:
+      line_html: or %{link}
+      link: sign up
+
+    forgot_password:
+      line_html: Did you %{link}?
+      link: forget your password
+
+  watches:
+    last_updated: "last updated %{date}"
+    vendor_projects:
+      header: Watched Projects
 
   mailers:
     notification:

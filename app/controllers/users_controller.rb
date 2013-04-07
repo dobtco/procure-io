@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, except: [:signin, :post_signin, :forgot_password, :post_forgot_password]
+  before_filter :only_unauthenticated_user, only: [:signin, :post_signin, :forgot_password, :post_forgot_password]
 
   def signin
     if (path = URI(request.referer).path) != users_signin_path
