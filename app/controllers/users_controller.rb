@@ -13,10 +13,10 @@ class UsersController < ApplicationController
 
     if @user && @user.valid_password?(params[:password])
       warden.set_user @user, scope: @user.class.name.downcase.to_sym
-      flash[:success] = "Successfully signed in."
+      flash[:success] = t('devise.sessions.signed_in')
       redirect_to successful_signin_redirect_path
     else
-      flash[:error] = "Wrong username/password."
+      flash[:error] = t('devise.failure.invalid')
       redirect_to users_signin_path
     end
   end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
     if @user
       @user.class.send_reset_password_instructions pick(params, :email)
-      flash[:success] = "Check your email."
+      flash[:success] = t('devise.passwords.send_instructions')
       redirect_to root_path
     else
       flash[:error] = "Couldn't find a user with that email address."
