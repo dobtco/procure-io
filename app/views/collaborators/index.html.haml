@@ -4,8 +4,8 @@
   %table.table.table-nonfluid
     %thead
       %tr
-        %th Name
-        %th Actions
+        %th= t('.name')
+        %th= t('actions')
 
     %tbody#collaborators-tbody
       :javascript
@@ -14,6 +14,6 @@
   %h5 Add Collaborator
   = form_for [@project, @project.collaborators.build] do |f|
     = f.fields_for :officer do |f|
-      = f.text_field :email, autocomplete: "off", placeholder: "Email Address"
+      = f.text_field :email, autocomplete: "off", placeholder: t('email_address')
     %br
-    = f.submit "Add Collaborator", class: "btn btn-inverse", "data-loading-text" => "Adding..."
+    = f.submit t('actions.collaborator.create'), class: "btn btn-inverse", "data-loading-text" => t('actions.collaborator.create_loading')

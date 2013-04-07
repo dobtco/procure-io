@@ -1,6 +1,6 @@
-!= page_header "Editing officer \"#{@officer.display_name}\""
+!= page_header= t('.header', name: @officer.display_name)
 
-= link_to raw("&larr; Back to list of officers"), officers_path
+= link_to t('.back_to_list_html'), officers_path
 
 = form_for @officer do |f|
 
@@ -17,4 +17,4 @@
   = f.select :role, options_for_select((@officer.role == Officer.roles[:god] ? Officer.roles : Officer.roles.except(:god)), @officer.role)
 
   .form-actions
-    = f.submit "Update Officer", class: "btn btn-inverse"
+    = f.submit t('actions.officer.update'), class: "btn btn-inverse"

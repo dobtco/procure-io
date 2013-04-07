@@ -1,7 +1,7 @@
 = render "projects/officer_nav"
 
 = form_for [@project, @amendment] do |f|
-  = f.label :posted_at, t('.live')
+  = f.label :posted_at, t('postable_by_officer.live')
   .switch
     = f.check_box :posted_at
 
@@ -12,6 +12,6 @@
   = f.text_area :body, cols: false, rows: 10, class: "span6"
 
   .form-actions
-    = f.submit t('.update_amendment'), class: "btn btn-inverse"
+    = f.submit t('actions.amendment.update'), class: "btn btn-inverse"
 
-=link_to t('.delete_amendment'), project_amendment_path(@project, @amendment), method: :delete, confirm: t('confirmations.delete', item: 'amendment')
+=link_to t('actions.amendment.delete'), project_amendment_path(@project, @amendment), method: :delete, confirm: t('confirmations.amendment.delete')

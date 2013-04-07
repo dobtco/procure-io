@@ -6,13 +6,33 @@ en:
   sign_in: Sign in
   email_address: Email Address
   password: Password
+  actions: Actions
 
   confirmations:
-    delete: "Are you sure you want to delete this %{item}?"
+    bid:
+      delete: "Are you sure you want to delete this bid?"
+
+    amendment:
+      delete: "Are you sure you want to delete this amendment?"
 
   actions:
-    delete: "Delete %{item}"
-    update: "Update %{item}"
+    bid:
+      delete: "Delete Bid"
+      update: "Update Bid"
+
+    amendment:
+      delete: "Delete Amendment"
+      update: "Update Amendment"
+
+    collaborator:
+      create: "Add Collaborator"
+      create_loading: "Adding Collaborator..."
+
+    officer:
+      update: "Update Officer"
+
+  postable_by_officer:
+    live: Live?
 
   layouts:
     application:
@@ -38,7 +58,6 @@ en:
 
   amendments:
     edit:
-      live: Live?
       delete_amendment: Delete Amendment
       update_amendment: Update Amendment
 
@@ -63,3 +82,47 @@ en:
     show_vendor:
       my_bid: My Bid
       return_to_project_html: "&larr; Return to Project"
+
+  collaborators:
+    index:
+      name: Name
+
+  home:
+    index:
+      hero:
+        header: Welcome to Procure.io.
+        content:
+          line_html: "Procure.io is an easier way to do government contracting. You can %{link} to bid on these projects in just 5 seconds."
+          link: register
+      featured_projects: Featured Projects
+      see_all: See all
+      read_more: Read more
+
+  notifications:
+    header: "Notifications"
+    index:
+      none: "No notifications to display."
+
+  officers:
+    edit:
+      header: "Editing officer %{name}"
+      back_to_list_html: "&larr; Back to list of officers"
+
+    index:
+      header: "Officers"
+
+  projects:
+    open_for_bids: Open for bids
+
+  mailers:
+    notification:
+      subject: "%{event_text}"
+      text: |
+        Hey %{name},
+
+        %{event_text}
+        %{event_additional_text}
+
+        %{event_url}
+
+        -- %{site_name}
