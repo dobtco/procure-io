@@ -11,7 +11,7 @@
   %div.current-upload
     %strong Current Upload:
     %a{"href" => response.upload.url}= response.upload.file.filename.gsub(/\?.*$/, '')
-    = link_to "(X)", project_bid_response_path(@project, @bid, response), method: :delete, remote: true, class: "js-remove-bid-response-upload"
+    = link_to "(X)", project_response_path(@project, @bid, response), method: :delete, remote: true, class: "js-remove-bid-response-upload"
 
 %span.help-block= response_field[:field_options]["description"]
 
