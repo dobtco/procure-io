@@ -3,14 +3,11 @@ class UsersController < ApplicationController
   before_filter :only_unauthenticated_user, only: [:signin, :post_signin, :forgot_password, :post_forgot_password]
 
   def signin
-    if (path = URI(request.referer).path) != users_signin_path
-      session[:signin_redirect] = path
-    end
+    session[:signin_redirect] = path if (path = URI(request.referer).path) != users_signin_path
   end
 
   def post_signin
-    @user = Vendor.find_for_authentication pick(params, :email)
-    @user = Officer.find_for_authentication pick(params, :email) if !@user
+    @user = Vendor.find_for_authentication(params[:email]) || Officer.find_for_authentication(params[:email])
 
     if @user && @user.valid_password?(params[:password])
       warden.set_user @user, scope: @user.class.name.downcase.to_sym
@@ -53,22 +50,23 @@ class UsersController < ApplicationController
 
   def post_settings
     officer_signed_in? ? post_officer_settings : post_vendor_settings
+    redirect_to settings_path
   end
 
   def post_officer_settings
-    current_officer.assign_attributes(officer_params)
-    current_officer.notification_preferences = params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    current_officer.save
+    current_officer.update_attributes(officer_params.merge(
+      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
+    ))
+
     flash[:success] = "Settings successfully updated."
-    redirect_to settings_path
   end
 
   def post_vendor_settings
-    current_vendor.assign_attributes(vendor_params)
-    current_vendor.notification_preferences = params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    current_vendor.save
+    current_vendor.update_attributes(vendor_params.merge(
+      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
+    ))
+
     flash[:success] = "Settings successfully updated."
-    redirect_to settings_path
   end
 
   private
@@ -80,7 +78,7 @@ class UsersController < ApplicationController
     params.require(:vendor).permit(:name)
   end
 
-  def successful_signin_redirect_path
+  def get_path_from_referer_or_session
     if URI(request.referer).path != users_signin_path
       path = URI(request.referer).path
     elsif session[:signin_redirect]
@@ -90,8 +88,12 @@ class UsersController < ApplicationController
       path = root_path
     end
 
-    path = mine_projects_path if officer_signed_in? and path == root_path
+    path
+  end
 
+  def successful_signin_redirect_path
+    path = get_path_from_referer_or_session
+    path = mine_projects_path if officer_signed_in? and path == root_path
     path
   end
 end
