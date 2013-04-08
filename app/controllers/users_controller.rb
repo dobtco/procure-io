@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def post_signin
-    @user = Vendor.find_for_authentication(params[:email]) || Officer.find_for_authentication(params[:email])
+    @user = Vendor.find_for_authentication(email: params[:email]) || Officer.find_for_authentication(email: params[:email])
 
     if @user && @user.valid_password?(params[:password])
       warden.set_user @user, scope: @user.class.name.downcase.to_sym
