@@ -14,6 +14,8 @@ ProcureIo::Application.routes.draw do
   get 'global_config/twitter_oauth/callback' => 'global_config#twitter_oauth_callback', as: :global_config_twitter_oauth_callback
   delete 'global_config/twitter_oauth' => 'global_config#twitter_oauth_destroy'
 
+  get 'vendor_registration_form' => 'global_config#get_vendor_registration_form', as: :vendor_registration_form
+
   resources :notifications, only: [:index, :update]
 
   resources :saved_searches, only: [:index, :create, :destroy]
@@ -61,11 +63,14 @@ ProcureIo::Application.routes.draw do
     resources :labels, only: [:create, :destroy, :update]
     resources :questions
     resources :collaborators
-    resources :response_fields do
-      get 'use_template' => 'response_fields#use_template', on: :collection
-      post 'use_template' => 'response_fields#post_use_template', on: :collection
-      put 'batch', on: :collection
-    end
+
+    get 'response_fields' => 'projects#response_fields', on: :member
+    get 'use_response_field_template' => 'projects#use_response_field_template', on: :member
+    post 'use_response_field_template' => 'projects#post_use_response_field_template', on: :member
+  end
+
+  resources :response_fields do
+    put 'batch', on: :collection
   end
 
   resources :form_templates, only: [:create]

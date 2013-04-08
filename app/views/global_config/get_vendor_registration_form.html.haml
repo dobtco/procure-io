@@ -1,0 +1,12 @@
+!= page_header "Vendor Registration Form"
+
+.alert.alert-info We already ask for basic information like Name and Email Address.
+
+#admin-response-field-page
+  :javascript
+    new ProcureIo.Backbone.AdminResponseFieldPage({
+      formName: "Vendor Registration Form",
+      bootstrapData: #{@global_config.response_fields.to_json},
+      response_fieldable_id: #{@global_config.id},
+      response_fieldable_type: "GlobalConfig"
+    });

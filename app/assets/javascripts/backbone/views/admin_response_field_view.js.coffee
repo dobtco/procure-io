@@ -140,14 +140,16 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   initialize: ->
     ProcureIo.Backbone.ResponseFields = new ProcureIo.Backbone.ResponseFieldList()
-    ProcureIo.Backbone.ResponseFields.url = "/projects/#{@options.project.id}/response_fields"
-    ProcureIo.Backbone.CurrentProject = new ProcureIo.Backbone.Project(@options.project)
-    ProcureIo.Backbone.CurrentProject.url = "/projects/#{@options.project.id}"
+    ProcureIo.Backbone.ResponseFields.urlParams = "response_fieldable_id=#{@options.response_fieldable_id}&response_fieldable_type=#{@options.response_fieldable_type}"
+    ProcureIo.Backbone.ResponseFields.baseUrl = "/response_fields?#{ProcureIo.Backbone.ResponseFields.urlParams}"
+
+    # ProcureIo.Backbone.CurrentProject = new ProcureIo.Backbone.Project(@options.project)
+    # ProcureIo.Backbone.CurrentProject.url = "/projects/#{@options.project.id}"
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
-    ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
+    # ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy', @ensureEditViewScrolled, @
 
@@ -184,8 +186,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['admin_response_field/page'](ProcureIo.Backbone.CurrentProject.toJSON())
-    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
+    @$el.html JST['admin_response_field/page']({project: ProcureIo.Backbone.CurrentProject?.toJSON(), options: @options})
+    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject?})
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
@@ -298,9 +300,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @saveFormButton.button 'loading'
 
     $.ajax
-      url: ProcureIo.Backbone.ResponseFields.url + "/batch"
+      url: "/response_fields/batch?#{ProcureIo.Backbone.ResponseFields.urlParams}"
       type: "PUT"
       contentType: "application/json"
-      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), project: ProcureIo.Backbone.CurrentProject.toJSON()})
+      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), project: ProcureIo.Backbone.CurrentProject?.toJSON()})
       # success: (data) =>
       # @todo implement error callback

@@ -23,6 +23,8 @@ class GlobalConfig < ActiveRecord::Base
 
   acts_as_singleton
 
+  has_many :response_fields, as: :response_fieldable, dependent: :destroy
+
   serialize :event_hooks, Hash
 
   def self.event_hooks
