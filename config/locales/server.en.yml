@@ -78,7 +78,7 @@ en:
 
   bids:
     dismissed: Dismissed
-    awarded: Awarded
+    awarded: Accepted
     open: Open
 
     project_description: Project Description

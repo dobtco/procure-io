@@ -17,12 +17,12 @@ en:
     label: Label
     undismiss: Undismiss
     dismiss: Dismiss
-    unaward: Unaward
-    award: Award
+    unaward: Unaccept
+    award: Accept
     dismissed: Dismissed
     undismissed: Undismissed
-    awarded: Awarded
-    unawarded: Unawarded
+    awarded: Accepted
+    unawarded: Unaccepted
     open: Open
     submitted_on: Submitted on
     contact_name: Contact Name
@@ -41,7 +41,7 @@ en:
     status: Status
     open_bids: Open Bids
     dismissed_bids: Dismissed Bids
-    awarded_bids: Awarded Bids
+    awarded_bids: Accepted Bids
     search: Search
     search_bids: Search bids...
     searches_all_fields: Searches all fields...
@@ -116,11 +116,11 @@ en:
 
 
     comment:
-      awarded: awarded the bid.
-      awarded_from: awarded the bid from
+      awarded: accepted the bid.
+      awarded_from: accepted the bid from
       dismissed: dismissed the bid.
-      unawarded: unawarded the bid.
-      unawarded_from: unawarded the bid from
+      unawarded: unaccepted the bid.
+      unawarded_from: unaccepted the bid from
       undismissed: undismissed the bid.
       posted: posted the project.
       unposted: unposted the project.
