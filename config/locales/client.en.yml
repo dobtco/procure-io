@@ -1,3 +1,6 @@
+# WHEN CHANGING THIS FILE YOU MUST GENERATE THE JS MANUALLY!
+# Run `rake i18n:js:export` after modifying this file.
+
 en:
   js:
     "on": "on"
