@@ -36,8 +36,7 @@ class Bid < ActiveRecord::Base
   scope :submitted, where("submitted_at IS NOT NULL")
   scope :dismissed, where("dismissed_at IS NOT NULL")
   scope :awarded, where("awarded_at IS NOT NULL")
-  # @todo :open name clash
-  scope :open, where("dismissed_at IS NULL AND awarded_at IS NULL")
+  scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
 
   pg_search_scope :full_search, associated_against: { responses: [:value],
                                                       vendor: [:name, :email],
