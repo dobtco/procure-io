@@ -21,5 +21,5 @@
 #       only: "*"
 #
 translations:
-  - file: 'public/javascripts/en.js'
+  - file: 'app/assets/javascripts/i18n_translations/en.js'
     only: ["en.js.*"]
