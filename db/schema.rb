@@ -109,10 +109,9 @@ ActiveRecord::Schema.define(:version => 20130408212810) do
   create_table "form_templates", :force => true do |t|
     t.string   "name"
     t.text     "response_fields"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.text     "form_description"
-    t.text     "form_confirmation_message"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.text     "form_options"
   end
 
   create_table "global_configs", :force => true do |t|
@@ -207,13 +206,12 @@ ActiveRecord::Schema.define(:version => 20130408212810) do
     t.string   "title"
     t.text     "body"
     t.datetime "bids_due_at"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.datetime "posted_at"
     t.integer  "posted_by_officer_id"
-    t.integer  "total_comments",            :default => 0, :null => false
-    t.text     "form_description"
-    t.text     "form_confirmation_message"
+    t.integer  "total_comments",       :default => 0, :null => false
+    t.text     "form_options"
     t.string   "abstract"
     t.boolean  "featured"
   end

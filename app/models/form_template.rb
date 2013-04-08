@@ -13,4 +13,5 @@
 
 class FormTemplate < ActiveRecord::Base
   serialize :response_fields
+  serialize :form_options, Hash
 end

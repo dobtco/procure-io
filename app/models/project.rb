@@ -11,8 +11,6 @@
 #  posted_at                 :datetime
 #  posted_by_officer_id      :integer
 #  total_comments            :integer          default(0), not null
-#  form_description          :text
-#  form_confirmation_message :text
 #  abstract                  :string(255)
 #  featured                  :boolean
 #
@@ -44,6 +42,8 @@ class Project < ActiveRecord::Base
   after_update :generate_project_revisions_if_body_changed!
 
   has_and_belongs_to_many :tags
+
+  serialize :form_options, Hash
 
   scope :featured, where(featured: true)
   scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)

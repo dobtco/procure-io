@@ -184,8 +184,7 @@ class ProjectsController < ApplicationController
     @project.response_fields.destroy_all
     @template = FormTemplate.find(params[:template_id])
 
-    @project.form_description = @template.form_description if @template.form_description
-    @project.form_confirmation_message = @template.form_confirmation_message if @template.form_confirmation_message
+    @project.form_options = @template.form_options
     @project.save
 
     @template.response_fields.each do |response_field|
