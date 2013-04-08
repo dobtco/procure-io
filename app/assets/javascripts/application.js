@@ -11,6 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_self
+//= require i18n
+//= require i18n/translations
+//= require i18n.extensions
 //= require prototype_hacks
 //= require moment.min
 //= require jquery

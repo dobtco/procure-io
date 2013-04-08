@@ -1,5 +1,5 @@
-<label>Form Description</label>
+<label>#{I18n.js('response_field.form_description')}</label>
 <textarea data-rv-value="project.form_description"></textarea>
-<label>Form Confirmation Message</label>
+<label>#{I18n.js('response_field.form_confirmation_message')}</label>
 <textarea data-rv-value="project.form_confirmation_message"></textarea>
-<span class="help-block">If no confirmation message is set, we'll just redirect the vendor to a copy of their bid.</span>
+<span class="help-block">#{I18n.js('response_field.no_confirmation_message')}</span>

@@ -213,7 +213,7 @@ en:
     new:
       header: "New Project"
       instructions: "First, tell us some basic info about your project."
-      next_html: "Next →"
+      next_html: "Next &rarr;"
 
     show:
       you_are_collaborator:
@@ -323,3 +323,4 @@ en:
         %{results}
 
         -- %{site_name}
+

@@ -1,9 +1,9 @@
-%label min length
+%label= I18n.js('response_field.min_length')
 .input-append
   %input.span2{"type" => "text", "data-rv-value" => "model.field_options.minlength"}
-  %span.add-on characters
+  %span.add-on= I18n.js('characters')
 
-%label max length
+%label= I18n.js('response_field.max_length')
 .input-append
   %input.span2{"type" => "text", "data-rv-value" => "model.field_options.maxlength"}
-  %span.add-on characters
+  %span.add-on= I18n.js('characters')

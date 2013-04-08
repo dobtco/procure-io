@@ -2,11 +2,13 @@
 
 %label.checkbox
   %input{"type" => "radio", "data-backbone-defaultoption" => "true", "data-rv-name" => "model.cid"}
-  No default selected
+  = I18n.js('response_field.no_default_selected')
 
 %div{"data-rv-each-option" => "model.field_options.options"}
   %input{"type" => "radio", "data-backbone-defaultoption" => "true", "data-rv-checked" => "option:checked", "data-rv-name" => "model.cid"}
   %input{"type" => "text", "data-rv-value" => "option:label"}
-  %a.backbone-remove-option remove <span data-rv-text="index"></span></a>
+  %a.backbone-remove-option
+    = I18n.js('remove')
+    <span data-rv-text="index"></span></a>
 
-%a.backbone-add-option Add Option
+%a.backbone-add-option= I18n.js('response_field.add_option')

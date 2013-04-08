@@ -27,6 +27,7 @@ gem 'acts_as_singleton'
 gem 'bootstrap-wysihtml5-rails'
 gem 'sanitize'
 gem 'impressionist'
+gem 'i18n-js'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

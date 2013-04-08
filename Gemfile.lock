@@ -154,6 +154,8 @@ GEM
       multi_xml (>= 0.5.2)
     httpclient (2.3.3)
     i18n (0.6.1)
+    i18n-js (2.1.2)
+      i18n
     immigrant (0.1.4)
       activerecord (>= 3.0)
       foreigner (>= 1.2.1)
@@ -316,6 +318,7 @@ DEPENDENCIES
   haml_coffee_assets
   heroku_san
   httparty
+  i18n-js
   immigrant
   impressionist
   jquery-rails

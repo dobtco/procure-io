@@ -2,25 +2,25 @@
   .span5
     %ul.nav.nav-tabs#response-field-tabs
       %li.active
-        %a{"href" => "#addNewField", "data-toggle" => "tab"} Add New Field
+        %a{"href" => "#addNewField", "data-toggle" => "tab"}= I18n.js('response_field.add_new_field')
       %li
-        %a{"href" => "#editField", "data-toggle" => "tab"} Edit Field
+        %a{"href" => "#editField", "data-toggle" => "tab"}= I18n.js('response_field.edit_field')
       %li
-        %a{"href" => "#formOptions", "data-toggle" => "tab"} Form Options
+        %a{"href" => "#formOptions", "data-toggle" => "tab"}= I18n.js('response_field.form_options')
 
     .tab-content
       .tab-pane.active#addNewField
-        %a.btn.btn-small{"data-backbone-add-field" => "text"} Text
-        %a.btn.btn-small{"data-backbone-add-field" => "paragraph"} Paragraph
-        %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"} Checkboxes
-        %a.btn.btn-small{"data-backbone-add-field" => "radio"} Radio
-        %a.btn.btn-small{"data-backbone-add-field" => "dropdown"} Dropdown
-        %a.btn.btn-small{"data-backbone-add-field" => "price"} Price
-        %a.btn.btn-small{"data-backbone-add-field" => "number"} Number
-        %a.btn.btn-small{"data-backbone-add-field" => "date"} Date
-        %a.btn.btn-small{"data-backbone-add-field" => "time"} Time
-        %a.btn.btn-small{"data-backbone-add-field" => "website"} Website
-        %a.btn.btn-small{"data-backbone-add-field" => "file"} File
+        %a.btn.btn-small{"data-backbone-add-field" => "text"}= I18n.js('field_types.text')
+        %a.btn.btn-small{"data-backbone-add-field" => "paragraph"}= I18n.js('field_types.paragraph')
+        %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"}= I18n.js('field_types.checkboxes')
+        %a.btn.btn-small{"data-backbone-add-field" => "radio"}= I18n.js('field_types.radio')
+        %a.btn.btn-small{"data-backbone-add-field" => "dropdown"}= I18n.js('field_types.dropdown')
+        %a.btn.btn-small{"data-backbone-add-field" => "price"}= I18n.js('field_types.price')
+        %a.btn.btn-small{"data-backbone-add-field" => "number"}= I18n.js('field_types.number')
+        %a.btn.btn-small{"data-backbone-add-field" => "date"}= I18n.js('field_types.date')
+        %a.btn.btn-small{"data-backbone-add-field" => "time"}= I18n.js('field_types.time')
+        %a.btn.btn-small{"data-backbone-add-field" => "website"}= I18n.js('field_types.website')
+        %a.btn.btn-small{"data-backbone-add-field" => "file"}= I18n.js('field_types.file')
 
       .tab-pane#editField
         #edit-response-field-wrapper
@@ -29,26 +29,26 @@
         #form-options-wrapper
 
     .form-actions
-      %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => "All Changes Saved"} Save Form
+      %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => I18n.js('all_changes_saved')}
+        = I18n.js('save_form')
 
     %p
-      %a.smaller{"href" => "/projects/#{@id}/response_fields/use_template"} Import response fields from template
+      %a.smaller{"href" => "/projects/#{@id}/response_fields/use_template"}= I18n.js('response_field.import')
 
     %p
-      %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"} Save response fields as a template
+      %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.js('response_field.save')
 
     %form#form-template-form.hide{"action" => "/form_templates", "method" => "post"}
       %input{"type" => "hidden", "name" => "project_id", "value" => @id}
-      %input{"type" => "text", "name" => "name", "placeholder" => "Name for this template"}
-      %button.btn.btn-inverse Save
+      %input{"type" => "text", "name" => "name", "placeholder" => I18n.js('response_field.new_name')}
+      %button.btn.btn-inverse= I18n.js('save')
 
   .span7.bid-form-span
-    %h4 Bid Form
+    %h4= I18n.js('bid_form')
     %span.help-block{"data-rv-text" => "project.form_description"}
-    #no-response-fields
-      No response fields yet. Why don't you add one?
+    #no-response-fields= I18n.js('response_field.none')
     #response-fields
 
     #loading-indicator
       %i.icon-refresh.icon-spin
-      Loading...
+      = I18n.js('loading')

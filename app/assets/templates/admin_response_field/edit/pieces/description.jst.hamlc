@@ -1,2 +1,2 @@
-%label description
+%label= I18n.js('response_field.description')
 %textarea{"data-rv-value" => "model.field_options.description"}

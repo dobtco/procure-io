@@ -1,0 +1,61 @@
+en:
+  js:
+    save: "Save"
+    saving: "Saving..."
+    loading: "Loading..."
+    characters: characters
+    editing: "Editing"
+    remove: "Remove"
+    save_form: Save Form
+    all_changes_saved: All Changes Saved
+    bid_form: Bid Form
+
+    response_field:
+      description: description
+      integer_only: integer only
+      key_field: key field
+      label: label
+      min: min
+      max: max
+      min_length: min length
+      max_length: max_length
+      required: required
+      size: size
+      small: small
+      medium: medium
+      large: large
+      units: units
+      add_option: Add option
+      include_blank: Include blank option
+      is_default: Default?
+      value: Value
+      no_default_selected: No default selected
+      remove_field: Remove field
+      form_description: Form Description
+      form_confirmation_message: Form Confirmation Message
+      no_confirmation_message: "If no confirmation message is set, we'll just redirect the vendor to a copy of their bid."
+
+      add_new_field: Add New Field
+      edit_field: Edit Field
+      form_options: Form Options
+
+      import: Import response fields from template
+      save: Save response fields as a template
+      new_name: "Name for this template"
+
+      none: "No response fields yet. Why don't you add one?"
+
+    field_types:
+      text: text
+      paragraph: paragraph
+      checkboxes: checkboxes
+      radio: radio
+      dropdown: dropdown
+      price: price
+      number: number
+      date: date
+      time: time
+      website: website
+      file: file
+
+
