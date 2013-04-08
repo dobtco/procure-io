@@ -6,8 +6,9 @@
       %li
         %a{"href" => "#editField", "data-toggle" => "tab"}= I18n.js('response_field.edit_field')
 
-      - #%li
-      - # %a{"href" => "#formOptions", "data-toggle" => "tab"}= I18n.js('response_field.form_options')
+      - if @options.formOptions
+        %li
+          %a{"href" => "#formOptions", "data-toggle" => "tab"}= I18n.js('response_field.form_options')
 
     .tab-content
       .tab-pane.active#addNewField
@@ -26,8 +27,9 @@
       .tab-pane#editField
         #edit-response-field-wrapper
 
-      - #.tab-pane#formOptions
-      - #  #form-options-wrapper
+      - if @options.formOptions
+        .tab-pane#formOptions
+          #form-options-wrapper
 
     .form-actions
       %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => I18n.js('all_changes_saved')}
@@ -45,7 +47,7 @@
 
   .span7.bid-form-span
     %h4= @options.formName
-    %span.help-block{"data-rv-text" => "project.form_description"}
+    %span.help-block{"data-rv-text" => "formOptions.form_description"}
     #no-response-fields= I18n.js('response_field.none')
     #response-fields
 

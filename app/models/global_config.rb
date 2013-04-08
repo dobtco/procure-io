@@ -14,6 +14,7 @@
 #  watch_projects_enabled  :boolean          default(TRUE)
 #  save_searches_enabled   :boolean          default(TRUE)
 #  search_projects_enabled :boolean          default(TRUE)
+#  form_options            :text
 #
 
 require_dependency 'enum'
@@ -26,6 +27,7 @@ class GlobalConfig < ActiveRecord::Base
   has_many :response_fields, as: :response_fieldable, dependent: :destroy
 
   serialize :event_hooks, Hash
+  serialize :form_options, Hash
 
   def self.event_hooks
     @event_hooks ||= Enum.new(

@@ -128,7 +128,7 @@ ProcureIo.Backbone.AdminResponseFieldFormOptionsView = Backbone.View.extend
 
   render: ->
     @$el.html JST['admin_response_field/form_options']()
-    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
+    rivets.bind(@$el, {formOptions: ProcureIo.Backbone.CurrentResponseFieldable})
     return @
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
@@ -143,13 +143,13 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     ProcureIo.Backbone.ResponseFields.urlParams = "response_fieldable_id=#{@options.response_fieldable_id}&response_fieldable_type=#{@options.response_fieldable_type}"
     ProcureIo.Backbone.ResponseFields.baseUrl = "/response_fields?#{ProcureIo.Backbone.ResponseFields.urlParams}"
 
-    # ProcureIo.Backbone.CurrentProject = new ProcureIo.Backbone.Project(@options.project)
-    # ProcureIo.Backbone.CurrentProject.url = "/projects/#{@options.project.id}"
+    if @options.formOptions
+      ProcureIo.Backbone.CurrentResponseFieldable = new ProcureIo.Backbone.ResponseFieldable(@options.formOptions)
+      ProcureIo.Backbone.CurrentResponseFieldable.bind 'change', @handleFormUpdate, @
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
-    # ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy', @ensureEditViewScrolled, @
 
@@ -186,8 +186,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['admin_response_field/page']({project: ProcureIo.Backbone.CurrentProject?.toJSON(), options: @options})
-    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject?})
+    @$el.html JST['admin_response_field/page']({formOptions: ProcureIo.Backbone.CurrentResponseFieldable?.toJSON(), options: @options})
+    rivets.bind(@$el, {formOptions: ProcureIo.Backbone.CurrentResponseFieldable})
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
@@ -303,6 +303,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       url: "/response_fields/batch?#{ProcureIo.Backbone.ResponseFields.urlParams}"
       type: "PUT"
       contentType: "application/json"
-      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), project: ProcureIo.Backbone.CurrentProject?.toJSON()})
+      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), form_options: ProcureIo.Backbone.CurrentResponseFieldable?.toJSON()})
       # success: (data) =>
       # @todo implement error callback

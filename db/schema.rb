@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406004710) do
+ActiveRecord::Schema.define(:version => 20130408212810) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -127,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20130406004710) do
     t.boolean  "watch_projects_enabled",  :default => true
     t.boolean  "save_searches_enabled",   :default => true
     t.boolean  "search_projects_enabled", :default => true
+    t.text     "form_options"
   end
 
   create_table "impressions", :force => true do |t|
