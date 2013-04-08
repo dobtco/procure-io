@@ -76,9 +76,14 @@ class UsersController < ApplicationController
   end
 
   def vendor_profile
+    @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
+      response_field[:field_options]["vendor_edit"]
+    end
   end
 
   def post_vendor_profile
+    @vendor_profile.save unless @vendor_profile.id
+
     save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
     if @vendor_profile.responsable_valid?
