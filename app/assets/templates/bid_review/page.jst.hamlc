@@ -11,7 +11,7 @@
 
     #loading-indicator
       %i.icon-refresh.icon-spin
-      Loading...
+      = I18n.js('loading')
 
     #top-filter-wrapper
 
@@ -25,9 +25,9 @@
       %thead
         %tr
           %th{"style" => "width: 50px;"} &nbsp;
-          %th Vendor Name
+          %th= I18n.js('vendor_name')
           - for index, keyField of @keyFields
             %th= keyField.label
-          %th Status
+          %th= I18n.js('status')
 
       %tbody#bids-tbody

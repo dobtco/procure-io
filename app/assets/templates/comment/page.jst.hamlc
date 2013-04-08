@@ -1,12 +1,12 @@
-%h4 Comments
+%h4= I18n.js('comments')
 
 .readable-width-large
   .loading-comments
     %i.icon-refresh.icon-spin
-    Loading
+    = I18n.js('loading')
   #comments-wrapper
 
-  %h5 New Comment
+  %h5= I18n.js('new_comment')
   %form#new-comment-form
     %textarea
-    %button.btn.btn-inverse.pull-right{"data-loading-text" => "Posting..."} Post Comment
+    %button.btn.btn-inverse.pull-right{"data-loading-text" => I18n.js('posting')}= I18n.js('post_comment')

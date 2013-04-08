@@ -1,22 +1,22 @@
 %ul.nav.nav-tabs
   %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"}
-      Open Bids
+      = I18n.js('open_bids')
       %span.badge= @counts["open"]
   %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"}
-      Dismissed Bids
+      = I18n.js('dismissed_bids')
       %span.badge= @counts["dismissed"]
   %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"}
-      Awarded Bids
+      = I18n.js('awarded_bids')
       %span.badge= @counts["awarded"]
 
 .query-wrapper
   %form.bid-search-form.form-search
     .input-append
-      %input.search-query{"type" => "text", "placeholder" => "Search bids...", "value" => @filterOptions.q}
-      %button.btn.btn-inverse Search
+      %input.search-query{"type" => "text", "placeholder" => I18n.js('search_bids'), "value" => @filterOptions.q}
+      %button.btn.btn-inverse= I18n.js('search')
     .clear-search
       %a{"href" => @filteredHref({q: false, page: false}), "data-backbone-updatefilter" => "true", "data-rv-show" => "filterOptions.q"}
         %i.icon-remove-sign

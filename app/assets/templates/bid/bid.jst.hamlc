@@ -1,11 +1,11 @@
 .action-header
-  %h4.pull-left Bid from #{@vendor.display_name}
+  %h4.pull-left #{I18n.js('bid_from')} #{@vendor.display_name}
 
   .pull-right
 
     .btn-group
       %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
-        Label
+        = I18n.js('label')
         %b.caret
       %ul.dropdown-menu
         - for label in @projectLabels
@@ -17,15 +17,15 @@
 
     %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
       - if @dismissed_at
-        Undismiss
+        = I18n.js('undismiss')
       - else
-        Dismiss
+        = I18n.js('dismiss')
 
     %button.btn.btn-success{"data-backbone-award" => "true"}
       - if @awarded_at
-        Unaward
+        = I18n.js('unaward')
       - else
-        Award
+        = I18n.js('award')
 
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
@@ -42,14 +42,14 @@
         %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @dismissed_at
-        %span.badge.badge-important Dismissed
+        %span.badge.badge-important= I18n.js('dismissed')
       - else if @awarded_at
-        %span.badge.badge-success Awarded
+        %span.badge.badge-success= I18n.js('awarded')
       - else
-        %span.badge.badge-info Open
+        %span.badge.badge-info= I18n.js('open')
 
     %p
-      %span Submitted on #{@submitted_at_readable}
+      %span #{I18n.js('submitted_on')} #{@submitted_at_readable}
 
     %p
       %a{"href" => "#comment-page"}
@@ -57,9 +57,9 @@
         = if @total_comments is 1 then "comment" else "comments"
 
     %dl
-      %dt Contact Name
+      %dt= I18n.js('contact_name')
       %dd= @vendor.display_name
-      %dt Email Address
+      %dt= I18n.js('email_address')
       %dd= @vendor.email
 
   .span9

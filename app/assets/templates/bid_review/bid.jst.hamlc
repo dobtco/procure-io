@@ -14,8 +14,8 @@
 
 %td
   - if @dismissed_at
-    %span.badge.badge-important Dismissed
+    %span.badge.badge-important= I18n.js('dismissed')
   - else if @awarded_at
-    %span.badge.badge-success Awarded
+    %span.badge.badge-success= I18n.js('awarded')
   - else
-    %span.badge Open
+    %span.badge= I18n.js('open')

@@ -1,5 +1,5 @@
-%h5 Edit Labels
+%h5= I18n.js('edit_labels')
 
 %ul.nav.nav-pills.nav-stacked.filter-nav#labels-admin-list
 
-%a.smaller{"data-backbone-togglelabeladmin" => "true"} Done Editing Labels
+%a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.js('done_editing_labels')

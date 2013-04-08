@@ -6,4 +6,4 @@
     %i.icon-envelope
 %td
   - if @isOwner && !@owner
-    %button.btn.btn-danger{"data-backbone-clear" => "true"} Remove
+    %button.btn.btn-danger{"data-backbone-clear" => "true"}= I18n.js('remove')

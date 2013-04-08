@@ -1,10 +1,10 @@
 %p
-  %a{"href" => @filteredHref({page: false, sort: false, direction: false}, 'rss')} RSS feed for this search
+  %a{"href" => @filteredHref({page: false, sort: false, direction: false}, 'rss')}= I18n.js('rss_for_search')
 
 - if ProcureIo.CurrentVendorId
   %p
-    %button.btn.btn-primary#save-search-button{"data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"} Save Search
+    %button.btn.btn-primary#save-search-button{"data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"}= I18n.js('save_search')
 
 - if !ProcureIo.CurrentVendorId && !ProcureIo.CurrentOfficerId
   %p
-    <a href="/users/sign_in">Sign in</a> to get notified of new projects like these.
+    <a href="/users/sign_in">#{I18n.js('sign_in')}</a> #{I18n.js('to_get_notified')}

@@ -1,20 +1,20 @@
 - unless @filterOptions.f2 is "awarded"
   %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
     - if @filterOptions.f2 is "dismissed"
-      Undismiss
+      = I18n.js('undismiss')
     - else
-      Dismiss
+      = I18n.js('dismiss')
 
 - unless @filterOptions.f2 is "dismissed"
   %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
     - if @filterOptions.f2 is "awarded"
-      Unaward
+      = I18n.js('unaward')
     - else
-      Award
+      = I18n.js('award')
 
 .btn-group
   %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
-    Label
+    = I18n.js('label')
     %b.caret
   %ul.dropdown-menu
     - @labels.each (label) ->
