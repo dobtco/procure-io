@@ -120,10 +120,10 @@ class ProjectsController < ApplicationController
 
       @bids.each do |bid|
         bid_row = [bid.vendor.name, bid.vendor.email]
-        bid_responses = bid.bid_responses
+        responses = bid.responses
 
         @project.response_fields.each do |response_field|
-          response = bid_responses.select { |br| br.response_field_id == response_field.id }[0]
+          response = responses.select { |br| br.response_field_id == response_field.id }[0]
           bid_row.push(response ? response.value : '')
         end
 

@@ -32,7 +32,7 @@ class Project < ActiveRecord::Base
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions, dependent: :destroy
-  has_many :response_fields, dependent: :destroy
+  has_many :response_fields, as: :response_fieldable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
@@ -132,7 +132,7 @@ class Project < ActiveRecord::Base
 
     self.response_fields.each do |response_field|
       if (val = params[response_field.label.downcase])
-        bid.bid_responses.create(response_field_id: response_field.id, value: val)
+        bid.responses.create(response_field_id: response_field.id, value: val)
       end
     end
 

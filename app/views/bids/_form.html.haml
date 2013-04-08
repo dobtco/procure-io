@@ -13,7 +13,7 @@
   - @project.response_fields.each do |response_field|
     .response-field-wrapper.control-group
       = render "bids/fields/#{response_field.field_type.downcase}", response_field: response_field, |
-        value: (r = @bid.bid_responses.where(response_field_id: response_field.id).first) ? r.value : ''
+        value: (r = @bid.responses.where(response_field_id: response_field.id).first) ? r.value : ''
 
   .form-actions
     %button.btn.btn-inverse= t('.submit_bid')

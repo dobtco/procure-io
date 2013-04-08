@@ -28,9 +28,9 @@ class ReportsController < ApplicationController
   def response_field
     @response_field = @project.response_fields.find(params[:response_field_id])
 
-    if @response_field.bid_responses.order("sortable_value DESC").first
+    if @response_field.responses.order("sortable_value DESC").first
       @data = [['Price Range', '# of bids']]
-      max = @response_field.bid_responses.order("sortable_value DESC").first.value.to_i.round(-3)
+      max = @response_field.responses.order("sortable_value DESC").first.value.to_i.round(-3)
       interval = max / 8
 
       ranges = []
@@ -44,8 +44,8 @@ class ReportsController < ApplicationController
       ranges.each do |range|
         @data.push [
           "$#{range.first} to #{range.last}",
-          @project.bids.submitted.includes(:bid_responses).select { |bid|
-            range.cover? bid.bid_responses.where(response_field_id: @response_field.id).first.value.to_f
+          @project.bids.submitted.includes(:responses).select { |bid|
+            range.cover? bid.responses.where(response_field_id: @response_field.id).first.value.to_f
           }.length
         ]
       end

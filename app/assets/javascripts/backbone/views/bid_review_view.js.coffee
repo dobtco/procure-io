@@ -256,7 +256,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   render: ->
     getValue = (id) =>
-      response = _.find @model.get('bid_responses'), (bidResponse) ->
+      response = _.find @model.get('responses'), (bidResponse) ->
         bidResponse.response_field_id is id
 
       if response then response.display_value else ""

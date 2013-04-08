@@ -28,11 +28,11 @@ class BidsController < ApplicationController
     bid_errors = []
 
     @project.response_fields.each do |response_field|
-      bid_response = @bid.bid_responses.where(response_field_id: response_field.id).first_or_initialize
+      response = @bid.responses.where(response_field_id: response_field.id).first_or_initialize
 
       case response_field.field_type
       when "text", "paragraph", "dropdown", "radio", "price", "number", "date", "website", "time"
-        bid_response.update_attributes(value: params[:response_fields][response_field.id.to_s])
+        response.update_attributes(value: params[:response_fields][response_field.id.to_s])
 
       when "checkboxes"
         values = {}
@@ -42,11 +42,11 @@ class BidsController < ApplicationController
           values[option["label"]] = params[:response_fields][response_field.id.to_s] && params[:response_fields][response_field.id.to_s][index.to_s] == "on"
         end
 
-        bid_response.update_attributes(value: values)
+        response.update_attributes(value: values)
 
       when "file"
-        bid_response.upload = params[:response_fields][response_field.id.to_s]
-        bid_response.save!
+        response.upload = params[:response_fields][response_field.id.to_s]
+        response.save!
       end
     end
 

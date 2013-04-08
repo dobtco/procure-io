@@ -50,7 +50,7 @@ ProcureIo::Application.routes.draw do
       put 'batch', on: :collection
       get 'reviews', on: :member
       post 'read_notifications', on: :member
-      resources :bid_responses, only: :destroy
+      resources :responses, only: :destroy
     end
 
     resources :project_revisions, only: [:show] do

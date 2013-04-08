@@ -23,16 +23,6 @@ ActiveRecord::Schema.define(:version => 20130406004710) do
     t.text     "title"
   end
 
-  create_table "bid_responses", :force => true do |t|
-    t.integer  "bid_id"
-    t.integer  "response_field_id"
-    t.text     "value"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-    t.string   "sortable_value"
-    t.string   "upload"
-  end
-
   create_table "bid_reviews", :force => true do |t|
     t.boolean  "starred"
     t.boolean  "read"
@@ -243,14 +233,26 @@ ActiveRecord::Schema.define(:version => 20130406004710) do
   end
 
   create_table "response_fields", :force => true do |t|
-    t.integer  "project_id"
+    t.integer  "response_fieldable_id"
+    t.string   "response_fieldable_type"
     t.string   "label"
     t.string   "field_type"
     t.text     "field_options"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.integer  "sort_order",    :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "sort_order",              :null => false
     t.boolean  "key_field"
+  end
+
+  create_table "responses", :force => true do |t|
+    t.integer  "responsable_id"
+    t.string   "responsable_type"
+    t.integer  "response_field_id"
+    t.text     "value"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "sortable_value"
+    t.string   "upload"
   end
 
   create_table "saved_searches", :force => true do |t|
@@ -302,9 +304,6 @@ ActiveRecord::Schema.define(:version => 20130406004710) do
   add_foreign_key "amendments", "officers", :name => "amendments_posted_by_officer_id_fk", :column => "posted_by_officer_id"
   add_foreign_key "amendments", "projects", :name => "amendments_project_id_fk"
 
-  add_foreign_key "bid_responses", "bids", :name => "bid_responses_bid_id_fk"
-  add_foreign_key "bid_responses", "response_fields", :name => "bid_responses_response_field_id_fk"
-
   add_foreign_key "bid_reviews", "bids", :name => "bid_reviews_bid_id_fk"
   add_foreign_key "bid_reviews", "officers", :name => "bid_reviews_officer_id_fk"
 
@@ -335,7 +334,7 @@ ActiveRecord::Schema.define(:version => 20130406004710) do
   add_foreign_key "questions", "projects", :name => "questions_project_id_fk"
   add_foreign_key "questions", "vendors", :name => "questions_vendor_id_fk"
 
-  add_foreign_key "response_fields", "projects", :name => "response_fields_project_id_fk"
+  add_foreign_key "responses", "response_fields", :name => "responses_response_field_id_fk"
 
   add_foreign_key "saved_searches", "vendors", :name => "saved_searches_vendor_id_fk"
 

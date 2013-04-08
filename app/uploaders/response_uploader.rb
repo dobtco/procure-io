@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class BidResponseUploader < CarrierWave::Uploader::Base
+class ResponseUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
   include CarrierWave::RMagick
 
