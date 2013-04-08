@@ -22,7 +22,7 @@ one:
   sort_order: 0
   key_field: true
   field_options:
-    required: true
+    "required": true
 
 two:
   id: 2

@@ -4,10 +4,10 @@
   / We need to display server-side validations for users without js.
   / Besides, we're already writing the server-side validations for security purposes anyway.
   %noscript
-    - if @bid.id && @bid.bid_errors && !@bid.bid_errors.empty?
+    - if @bid.id && @bid.responsable_errors && !@bid.responsable_errors.empty?
       .alert.alert-danger
         %ul
-          - @bid.bid_errors.each do |e|
+          - @bid.responsable_errors.each do |e|
             %li= e
 
   - @project.response_fields.each do |response_field|

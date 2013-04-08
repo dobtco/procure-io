@@ -19,13 +19,13 @@
 class Bid < ActiveRecord::Base
   include WatchableByUser
   include PgSearch
+  include IsResponsable
 
   belongs_to :project
   belongs_to :vendor
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
-  has_many :responses, as: :responsable, dependent: :destroy
   has_many :bid_reviews, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
 
@@ -230,15 +230,6 @@ class Bid < ActiveRecord::Base
     self.save
   end
 
-  def valid_bid?
-    bid_errors.empty? ? true : false
-  end
-
-  def bid_errors
-    @bid_validator ||= BidValidator.new(self)
-    @bid_validator.errors
-  end
-
   def text_status
     if dismissed_at
       "Dismissed"
@@ -247,6 +238,10 @@ class Bid < ActiveRecord::Base
     else
       "Open"
     end
+  end
+
+  def responsable_validator
+    @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
 
   private

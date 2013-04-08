@@ -25,8 +25,6 @@ class BidsController < ApplicationController
   def create
     @bid = current_vendor.bids.where(project_id: @project.id).first_or_create
 
-    bid_errors = []
-
     @project.response_fields.each do |response_field|
       response = @bid.responses.where(response_field_id: response_field.id).first_or_initialize
 
@@ -52,7 +50,7 @@ class BidsController < ApplicationController
 
     @bid.save
 
-    if params[:draft_only] != 'true' && @bid.valid_bid?
+    if params[:draft_only] != 'true' && @bid.responsable_valid?
       @bid.submit
       @bid.save
       flash[:success] = @project.form_options["form_confirmation_message"] if @project.form_options["form_confirmation_message"]
