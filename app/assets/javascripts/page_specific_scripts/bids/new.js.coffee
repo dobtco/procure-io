@@ -10,14 +10,14 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
 
   saveBidDraft = ->
     return if draft_saved is true
-    form = $("#new-bid-form")
+    form = $("#responsable-form")
     form.find("input[name=draft_only]").val('true')
     form.ajaxSubmit()
     form.find("input[name=draft_only]").val('')
     draft_saved = true
     save_draft_button.button('loading')
 
-  $("#new-bid-form :input").on "input change", handleFormUpdate
+  $("#responsable-form :input").on "input change", handleFormUpdate
   $("#save-draft-button").on "click", saveBidDraft
 
   setInterval saveBidDraft, 5000

@@ -7,6 +7,4 @@
 
   .span5
     %h4= t('.new_bid')
-    - if @project.form_options["form_description"]
-      %span.help-block= @project.form_options["form_description"]
-    = render "bids/form"
+    = render "shared/form", form_action: project_bids_path, responsable: @bid, response_fieldable: @project

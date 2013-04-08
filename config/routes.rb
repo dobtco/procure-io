@@ -7,6 +7,9 @@ ProcureIo::Application.routes.draw do
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
 
+  get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
+  post 'vendor_profile' => 'users#post_vendor_profile'
+
   get 'global_config' => 'global_config#get', as: :global_config
   put 'global_config' => 'global_config#put'
 

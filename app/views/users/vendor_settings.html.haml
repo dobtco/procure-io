@@ -2,6 +2,10 @@
 
 = form_for current_vendor, url: settings_path do |f|
 
+  %h4= t('.vendor_profile')
+  = link_to t('.edit_profile'), vendor_profile_path
+
+
   %h4= t('.profile')
 
   = f.label :name

@@ -2,17 +2,18 @@
 #
 # Table name: projects
 #
-#  id                        :integer          not null, primary key
-#  title                     :string(255)
-#  body                      :text
-#  bids_due_at               :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  posted_at                 :datetime
-#  posted_by_officer_id      :integer
-#  total_comments            :integer          default(0), not null
-#  abstract                  :string(255)
-#  featured                  :boolean
+#  id                   :integer          not null, primary key
+#  title                :string(255)
+#  body                 :text
+#  bids_due_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  posted_at            :datetime
+#  posted_by_officer_id :integer
+#  total_comments       :integer          default(0), not null
+#  form_options         :text
+#  abstract             :string(255)
+#  featured             :boolean
 #
 
 class Project < ActiveRecord::Base

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130408212810) do
+ActiveRecord::Schema.define(:version => 20130408231054) do
 
   create_table "amendments", :force => true do |t|
     t.integer  "project_id"
@@ -269,6 +269,12 @@ ActiveRecord::Schema.define(:version => 20130408212810) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "vendor_profiles", :force => true do |t|
+    t.integer  "vendor_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "vendors", :force => true do |t|
     t.string   "email",                    :default => "",    :null => false
     t.string   "encrypted_password",       :default => "",    :null => false
@@ -336,5 +342,7 @@ ActiveRecord::Schema.define(:version => 20130408212810) do
   add_foreign_key "responses", "response_fields", :name => "responses_response_field_id_fk"
 
   add_foreign_key "saved_searches", "vendors", :name => "saved_searches_vendor_id_fk"
+
+  add_foreign_key "vendor_profiles", "vendors", :name => "vendor_profiles_vendor_id_fk"
 
 end
