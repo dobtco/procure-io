@@ -141,6 +141,10 @@ class Project < ActiveRecord::Base
     bid.labels << label_to_apply if label_to_apply
   end
 
+  def open_for_bids?
+    !bids_due_at || (bids_due_at > Time.now)
+  end
+
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
