@@ -42,7 +42,7 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     @parentView = @options.parentView
 
   render: ->
-    @$el.html JST['admin_response_field/edit/base'](@model.toJSON())
+    @$el.html JST['admin_response_field/edit/base'](_.extend(@model.toJSON(), options: @parentView.options))
     @$el.find(".edit-subtemplate-wrapper").html JST[@subTemplate](_.extend(@model.toJSON(), {cid: @model.cid}))
     rivets.bind(@$el, {model: @model})
 
@@ -221,6 +221,10 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
       field_options:
         required: true
+
+    if @options.showVendorOfficerToggle
+      attrs["field_options"]["vendor_edit"] = true
+      attrs["field_options"]["vendor_see"] = true
 
     switch attrs.field_type
       when "checkboxes", "dropdown", "radio"

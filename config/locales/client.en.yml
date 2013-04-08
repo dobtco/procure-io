@@ -100,6 +100,9 @@ en:
 
       none: "No response fields yet. Why don't you add one?"
 
+      vendor_edit: "Can the vendor edit this attribute?"
+      vendor_see: "Can the vendor see this attribute?"
+
     field_types:
       text: text
       paragraph: paragraph
