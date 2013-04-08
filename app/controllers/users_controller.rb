@@ -3,7 +3,9 @@ class UsersController < ApplicationController
   before_filter :only_unauthenticated_user, only: [:signin, :post_signin, :forgot_password, :post_forgot_password]
 
   def signin
-    session[:signin_redirect] = path if (path = URI(request.referer).path) != users_signin_path
+    if (path = URI(request.referer).path) != users_signin_path
+      session[:signin_redirect] = path
+    end
   end
 
   def post_signin
