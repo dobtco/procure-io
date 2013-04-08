@@ -30,23 +30,10 @@ class Event < ActiveRecord::Base
   end
 
   def self.event_name_for(event_type)
-    {
-      :project_comment => "Project Comment",
-      :bid_comment => "Bid Comment",
-      :bid_awarded => "Bid Awarded",
-      :bid_unawarded => "Bid Unawarded",
-      :vendor_bid_awarded => "Bid Awarded",
-      :vendor_bid_unawarded => "Bid Unawarded",
-      :vendor_bid_dismissed => "Bid Dismissed",
-      :vendor_bid_undismissed => "Bid Undismissed",
-      :project_amended => "Project Amended",
-      :collaborator_added => "Collaborator Added",
-      :you_were_added => "You are added",
-      :question_asked => "Question asked",
-      :question_answered => "Question answered"
-    }[event_type.to_sym]
+    I18n.t("events.name.#{event_type}")
   end
 
+  # @todo remember why i did this?
   def data
     ActiveSupport::JSON.decode(read_attribute(:data))
   end
@@ -72,40 +59,36 @@ class Event < ActiveRecord::Base
   end
 
   def text
-    case Event.event_types[event_type]
-    when :project_comment
-      "#{data['officer']['display_name']} commented on #{data['commentable']['title']}."
-    when :bid_comment
-      "#{data['officer']['display_name']} commented on #{data['commentable']['vendor']['display_name']}'s bid for #{data['commentable']['project']['title']}."
-    when :bid_awarded
-      "#{data['officer']['display_name']} awarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
-    when :bid_unawarded
-      "#{data['officer']['display_name']} unawarded #{data['bid']['vendor']['display_name']}'s bid on #{data['bid']['project']['title']}."
-    when :vendor_bid_awarded
-      "#{data['officer']['display_name']} has awarded your bid on #{data['bid']['project']['title']}."
-    when :vendor_bid_unawarded
-      "#{data['officer']['display_name']} has unawarded your bid on #{data['bid']['project']['title']}."
-    when :vendor_bid_dismissed
-      "#{data['officer']['display_name']} has dismissed your bid on #{data['bid']['project']['title']}."
-    when :vendor_bid_undismissed
-      "#{data['officer']['display_name']} has undismissed your bid on #{data['bid']['project']['title']}."
-    when :project_amended
-      "The project #{data['title']} has been amended."
-    when :collaborator_added
-      "#{data['officer']['display_name']} was added as a collaborator on #{data['project']['title']}."
-    when :you_were_added
-      "#{data['officer']['display_name']} added you as a collaborator on #{data['project']['title']}."
-    when :question_asked
-      "#{data['vendor']['display_name']} asked a question about #{data['project']['title']}."
-    when :question_answered
-      "#{data['officer']['display_name']} answered your question about #{data['project']['title']}."
-    end
+    I18n.t("events.text.#{Event.event_types[event_type]}", i18n_interpolation_data)
   end
 
   def additional_text
-    case Event.event_types[event_type]
-    when :you_were_added
-      "You have automatically been subscribed to all updates on this project."
+    I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
+  end
+
+  def i18n_interpolation_data
+    @i18n_interpolation_data ||= calculate_i18n_interpolation_data
+  end
+
+  private
+
+  def calculate_i18n_interpolation_data
+    return_hash = {}
+
+    attrs = [
+      "officer.display_name", "commentable.title", "commentable.vendor.display_name", "commentable.project.title",
+      "bid.vendor.display_name", "bid.project.title", "title", "project.title", "vendor.display_name"
+    ]
+
+    attrs.each do |a|
+      keys = a.split('.')
+      value = nil
+      keys.each do |k|
+        break if !(value = (value ? value : data)[k])
+      end
+      return_hash[keys.join('_').to_sym] = value
     end
+
+    return_hash
   end
 end
