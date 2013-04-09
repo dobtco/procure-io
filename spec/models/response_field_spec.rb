@@ -26,7 +26,7 @@ describe ResponseField do
   it { should respond_to(:sort_order) }
   it { should respond_to(:key_field) }
 
-  it { should respond_to(:project) }
+  it { should respond_to(:response_fieldable) }
   it { should respond_to(:responses) }
 
   describe "default scope" do

@@ -16,7 +16,8 @@
 
 one:
   id: 1
-  project_id: 1
+  response_fieldable_id: 1
+  response_fieldable_type: Project
   label: Name
   field_type: text
   sort_order: 0
@@ -26,7 +27,8 @@ one:
 
 two:
   id: 2
-  project_id: 1
+  response_fieldable_id: 1
+  response_fieldable_type: Project
   label: Essay
   field_type: paragraph
   sort_order: 1
