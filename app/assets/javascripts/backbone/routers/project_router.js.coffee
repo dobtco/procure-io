@@ -10,7 +10,7 @@ ProcureIo.Backbone.ProjectRouter = Backbone.Router.extend
 
   projects: (id, params) ->
     params = $.urlParams()
-    if _.isEmpty(params) then @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}", {replace: true}
+    if _.isEmpty(params) then return @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}", {replace: true}
     @filterOptions.set "q", params?.q
     @filterOptions.set "category", params?.category
     @filterOptions.set "page", params?.page
