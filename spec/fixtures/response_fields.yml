@@ -2,30 +2,33 @@
 #
 # Table name: response_fields
 #
-#  id            :integer          not null, primary key
-#  project_id    :integer
-#  label         :string(255)
-#  field_type    :string(255)
-#  field_options :text
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  sort_order    :integer          not null
-#  key_field     :boolean
+#  id                      :integer          not null, primary key
+#  response_fieldable_id   :integer
+#  response_fieldable_type :string(255)
+#  label                   :string(255)
+#  field_type              :string(255)
+#  field_options           :text
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  sort_order              :integer          not null
+#  key_field               :boolean
 #
 
 one:
   id: 1
-  project_id: 1
+  response_fieldable_id: 1
+  response_fieldable_type: Project
   label: Name
   field_type: text
   sort_order: 0
   key_field: true
   field_options:
-    required: true
+    "required": true
 
 two:
   id: 2
-  project_id: 1
+  response_fieldable_id: 1
+  response_fieldable_type: Project
   label: Essay
   field_type: paragraph
   sort_order: 1

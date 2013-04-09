@@ -6,7 +6,7 @@ class BidSerializer < ActiveModel::Serializer
   has_one :project
   has_one :vendor
 
-  has_many :bid_responses
+  has_many :responses
   has_many :labels
 
   def submitted_at_readable

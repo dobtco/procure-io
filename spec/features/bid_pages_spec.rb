@@ -186,8 +186,8 @@ describe "Bid" do
       describe "basic rendering" do
         it { should have_text(bids(:one).vendor.name) }
         it "should show all responses" do
-          bids(:one).bid_responses.each do |bid_response|
-            page.should have_selector('dd', bid_response.value)
+          bids(:one).responses.each do |response|
+            page.should have_selector('dd', response.value)
           end
         end
       end

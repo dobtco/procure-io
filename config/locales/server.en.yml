@@ -284,6 +284,11 @@ en:
     vendor_settings:
       header: "Settings"
       profile: Profile
+      vendor_profile: Vendor Profile
+      edit: Edit Profile
+
+    vendor_profile:
+      header: Vendor Profile
 
     or_sign_up:
       line_html: or %{link}

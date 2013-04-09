@@ -27,7 +27,7 @@
   .span5
     - if @template
       %h4 Previewing "#{@template.name}"
-      .help-block #{@template.form_description}
+      .help-block #{@template.form_options["form_description"]}
       - @template.response_fields.each do |response_field|
         .response-field-wrapper
           = render "bids/fields/#{response_field[:field_type].downcase}", response_field: response_field, value: nil

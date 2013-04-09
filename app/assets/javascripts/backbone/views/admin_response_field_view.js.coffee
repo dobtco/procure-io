@@ -42,7 +42,7 @@ ProcureIo.Backbone.AdminEditResponseFieldView = Backbone.View.extend
     @parentView = @options.parentView
 
   render: ->
-    @$el.html JST['admin_response_field/edit/base'](@model.toJSON())
+    @$el.html JST['admin_response_field/edit/base'](_.extend(@model.toJSON(), options: @parentView.options))
     @$el.find(".edit-subtemplate-wrapper").html JST[@subTemplate](_.extend(@model.toJSON(), {cid: @model.cid}))
     rivets.bind(@$el, {model: @model})
 
@@ -128,7 +128,7 @@ ProcureIo.Backbone.AdminResponseFieldFormOptionsView = Backbone.View.extend
 
   render: ->
     @$el.html JST['admin_response_field/form_options']()
-    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
+    rivets.bind(@$el, {formOptions: ProcureIo.Backbone.CurrentResponseFieldable})
     return @
 
 ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
@@ -140,14 +140,16 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
   initialize: ->
     ProcureIo.Backbone.ResponseFields = new ProcureIo.Backbone.ResponseFieldList()
-    ProcureIo.Backbone.ResponseFields.url = "/projects/#{@options.project.id}/response_fields"
-    ProcureIo.Backbone.CurrentProject = new ProcureIo.Backbone.Project(@options.project)
-    ProcureIo.Backbone.CurrentProject.url = "/projects/#{@options.project.id}"
+    ProcureIo.Backbone.ResponseFields.urlParams = "response_fieldable_id=#{@options.response_fieldable_id}&response_fieldable_type=#{@options.response_fieldable_type}"
+    ProcureIo.Backbone.ResponseFields.baseUrl = "/response_fields?#{ProcureIo.Backbone.ResponseFields.urlParams}"
+
+    if @options.formOptions
+      ProcureIo.Backbone.CurrentResponseFieldable = new ProcureIo.Backbone.ResponseFieldable(@options.formOptions)
+      ProcureIo.Backbone.CurrentResponseFieldable.bind 'change', @handleFormUpdate, @
 
     ProcureIo.Backbone.ResponseFields.bind 'add', @addOne, @
     ProcureIo.Backbone.ResponseFields.bind 'reset', @reset, @
     ProcureIo.Backbone.ResponseFields.bind 'change', @handleFormUpdate, @
-    ProcureIo.Backbone.CurrentProject.bind 'change', @handleFormUpdate, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy add reset', @toggleNoResponseFields, @
     ProcureIo.Backbone.ResponseFields.bind 'destroy', @ensureEditViewScrolled, @
 
@@ -184,8 +186,8 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['admin_response_field/page'](ProcureIo.Backbone.CurrentProject.toJSON())
-    rivets.bind(@$el, {project: ProcureIo.Backbone.CurrentProject})
+    @$el.html JST['admin_response_field/page']({formOptions: ProcureIo.Backbone.CurrentResponseFieldable?.toJSON(), options: @options})
+    rivets.bind(@$el, {formOptions: ProcureIo.Backbone.CurrentResponseFieldable})
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
@@ -219,6 +221,10 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       sort_order: ProcureIo.Backbone.ResponseFields.nextSortOrder()
       field_options:
         required: true
+
+    if @options.showVendorOfficerToggle
+      attrs["field_options"]["vendor_edit"] = true
+      attrs["field_options"]["vendor_see"] = true
 
     switch attrs.field_type
       when "checkboxes", "dropdown", "radio"
@@ -298,9 +304,9 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
     @saveFormButton.button 'loading'
 
     $.ajax
-      url: ProcureIo.Backbone.ResponseFields.url + "/batch"
+      url: "/response_fields/batch?#{ProcureIo.Backbone.ResponseFields.urlParams}"
       type: "PUT"
       contentType: "application/json"
-      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), project: ProcureIo.Backbone.CurrentProject.toJSON()})
+      data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), form_options: ProcureIo.Backbone.CurrentResponseFieldable?.toJSON()})
       # success: (data) =>
       # @todo implement error callback

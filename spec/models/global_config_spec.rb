@@ -14,6 +14,7 @@
 #  watch_projects_enabled  :boolean          default(TRUE)
 #  save_searches_enabled   :boolean          default(TRUE)
 #  search_projects_enabled :boolean          default(TRUE)
+#  form_options            :text
 #
 
 require 'spec_helper'

@@ -31,7 +31,7 @@ describe Bid do
   it { should respond_to(:project) }
   it { should respond_to(:vendor) }
   it { should respond_to(:dismissed_by_officer) }
-  it { should respond_to(:bid_responses) }
+  it { should respond_to(:responses) }
   it { should respond_to(:bid_reviews) }
   it { should respond_to(:comments) }
   it { should respond_to(:labels) }
