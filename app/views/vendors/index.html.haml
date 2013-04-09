@@ -2,4 +2,4 @@
 
 #vendors-admin-page
   :javascript
-    new ProcureIo.Backbone.VendorsAdminPage();
+    new ProcureIo.Backbone.VendorsAdminPage({key_fields: #{GlobalConfig.instance.key_fields.to_json}});

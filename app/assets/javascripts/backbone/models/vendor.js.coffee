@@ -1,2 +1,2 @@
-ProcureIo.Backbone.Vendor = Backbone.Model.extend
+ProcureIo.Backbone.Vendor = Backbone.DeepModel.extend
   url: ProcureIo.Backbone.Overrides.modelUrl

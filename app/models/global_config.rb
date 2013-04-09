@@ -29,6 +29,14 @@ class GlobalConfig < ActiveRecord::Base
   serialize :event_hooks, Hash
   serialize :form_options, Hash
 
+  def key_fields
+    if response_fields.where(key_field: true).any?
+      response_fields.where(key_field: true)
+    else
+      response_fields.limit(2)
+    end
+  end
+
   def self.event_hooks
     @event_hooks ||= Enum.new(
       :twitter, :custom_http

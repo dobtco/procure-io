@@ -3,10 +3,12 @@ ProcureIo.Backbone.VendorSortView = Backbone.View.extend
 
   initialize: ->
     @filteredHref = @options.filteredHref
-    @sortOptions = [
-      key: "name"
-      label: "Name"
-    ]
+
+    @sortOptions = [{key: "name", label: "Name"}, {key: "email", label: "Email"}]
+
+    _.each @options.parentView.options.key_fields, (kf) =>
+      @sortOptions.push {key: ""+kf.id, label: kf.label}
+
     @render()
     ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
 
@@ -17,11 +19,19 @@ ProcureIo.Backbone.VendorView = Backbone.View.extend
   tagName: "tr"
   className: "vendor"
 
-  initialize: ->
-    @parentView = @options.parentView
-
   render: ->
-    @$el.html JST['vendors_admin/vendor'](_.extend(@model.toJSON(), {filteredHref: @parentView.filteredHref}))
+    getValue = (id) =>
+      response = _.find @model.get('vendor_profile.responses'), (response) ->
+        response.response_field_id is id
+
+      if response then response.display_value else ""
+
+    @$el.html JST['vendors_admin/vendor']
+      vendor: @model.toJSON()
+      filteredHref: @options.parentView.filteredHref
+      keyFields: @options.parentView.options.key_fields
+      getValue: getValue
+
     return @
 
 ProcureIo.Backbone.VendorsAdminPage = Backbone.View.extend
@@ -61,7 +71,7 @@ ProcureIo.Backbone.VendorsAdminPage = Backbone.View.extend
 
     @render()
 
-    @sortView = new ProcureIo.Backbone.VendorSortView({filteredHref: @filteredHref})
+    @sortView = new ProcureIo.Backbone.VendorSortView({filteredHref: @filteredHref, parentView: @})
 
     Backbone.history.start
       pushState: true
@@ -71,8 +81,9 @@ ProcureIo.Backbone.VendorsAdminPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['vendors_admin/page']()
-    # rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
+    @$el.html JST['vendors_admin/page']
+      keyFields: @options.key_fields
+    rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 
   renderPagination: ->

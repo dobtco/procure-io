@@ -1,2 +1,4 @@
-%td= @name
-%td= @email
+%td= @vendor.name
+%td= @vendor.email
+- for index, keyField of @keyFields
+  %td!= @getValue(keyField.id)

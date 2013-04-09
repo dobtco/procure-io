@@ -1,8 +1,11 @@
 != JST['shared/loading_indicator']()
 
-#sort-wrapper.pull-left
+%form#vendor-filter-form.pull-left
+  %input.search-query{"type" => "text", "placeholder" => I18n.js('searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
 
-#pagination-wrapper.pull-right.faded-while-loading
+.pull-right
+  #pagination-wrapper.faded-while-loading.pull-right
+  #sort-wrapper.pull-right
 
 .clearfix &nbsp;
 
@@ -11,4 +14,6 @@
     %tr
       %th Name
       %th Email
+      - for index, keyField of @keyFields
+        %th= keyField.label
   %tbody#vendors-admin-tbody

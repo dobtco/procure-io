@@ -42,11 +42,9 @@ class Vendor < ActiveRecord::Base
   serialize :notification_preferences
   before_create :set_default_notification_preferences
 
-  pg_search_scope :full_search, associated_against: { responses: [:value] },
-                                using: {
-                                  tsearch: {prefix: true}
-                                }
-
+  pg_search_scope :full_search, against: [:email, :name],
+                                associated_against: { responses: [:value] },
+                                using: { tsearch: { prefix: true } }
 
   def self.search_by_params(params, count_only = false)
     return_object = { meta: {} }
