@@ -38,8 +38,10 @@
                       =link_to t('.global_config'), global_config_path
 
                   - if can? :update, Officer
-                    %li
-                      =link_to t('.officers_admin'), officers_path
+                    %li= link_to t('.officers_admin'), officers_path
+                  - if can? :view, Vendor
+                    %li= link_to t('.vendors_admin'), vendors_path
+
             %li
               %a{"href" => notifications_path}
                 %i.icon-envelope

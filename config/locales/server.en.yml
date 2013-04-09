@@ -66,6 +66,7 @@ en:
       show_tour: Explain this page
       global_config: Global Config
       officers_admin: Officers Admin
+      vendors_admin: Vendors Admin
 
     dropdown_login_form:
       sign_in: Sign in to %{site_name}

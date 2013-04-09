@@ -27,6 +27,8 @@ ProcureIo::Application.routes.draw do
     get 'typeahead', on: :collection
   end
 
+  resources :vendors, only: [:index]
+
   get 'users/sign_in' => 'users#signin', as: :users_signin
   post 'users/sign_in' => 'users#post_signin'
   get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password

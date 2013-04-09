@@ -33,6 +33,7 @@ class Ability
     can :update, Officer do |officer|
       officer.role != Officer.roles[:god]
     end
+    can :manage, Vendor
   end
 
   def officer_god(user)

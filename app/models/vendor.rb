@@ -22,6 +22,7 @@
 
 class Vendor < ActiveRecord::Base
   include SharedUserMethods
+  include PgSearch
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -36,9 +37,46 @@ class Vendor < ActiveRecord::Base
   has_many :watches, as: :user
 
   has_one :vendor_profile, dependent: :destroy
+  has_many :responses, through: :vendor_profile
 
   serialize :notification_preferences
   before_create :set_default_notification_preferences
+
+  pg_search_scope :full_search, associated_against: { responses: [:value] },
+                                using: {
+                                  tsearch: {prefix: true}
+                                }
+
+
+  def self.search_by_params(params, count_only = false)
+    return_object = { meta: {} }
+    return_object[:meta][:page] = [params[:page].to_i, 1].max
+    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
+
+    query = Vendor
+
+    if params[:sort] == "stars"
+      query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "name" || !params[:sort]
+      query = query.order("name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    end
+
+    if params[:q] && !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
+
+    return query.count if count_only
+
+    return_object[:meta][:total] = query.count
+    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
+    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
+
+    return_object[:results] = query.limit(return_object[:meta][:per_page])
+                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
+
+    return_object
+  end
+
 
   def self.event_types
     types = [:project_amended]

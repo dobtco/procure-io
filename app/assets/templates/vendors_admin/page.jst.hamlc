@@ -1,0 +1,17 @@
+#loading-indicator
+  %i.icon-refresh.icon-spin
+  = I18n.js('loading')
+
+#sort-wrapper.pull-left
+
+#pagination-wrapper.pull-right
+
+.clearfix &nbsp;
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Email
+  %tbody#vendors-admin-tbody
+
