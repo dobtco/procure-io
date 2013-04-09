@@ -5,34 +5,8 @@
     position: relative;
   }
 
-  #loading-indicator {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    width: 100px;
-    text-align: center;
-    margin-left: -50px;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    padding: 2px 0;
-    z-index: 2;
-  }
-
   .pagination {
     margin: 0;
-  }
-
-  &.loading {
-    #projects-wrapper,
-    #pagination-wrapper,
-    #sort-wrapper {
-      @include opacity(75);
-    }
-
-    #loading-indicator {
-      display: block;
-    }
   }
 
   .project {

@@ -19,14 +19,12 @@
     #project-rss-links
 
   .span9.right-side-span
-    #loading-indicator
-      %i.icon-refresh.icon-spin
-      = I18n.js('loading')
+    != JST['shared/loading_indicator']()
 
-    #sort-wrapper.pull-left
+    #sort-wrapper.pull-left.faded-while-loading
 
-    #pagination-wrapper.pull-right
+    #pagination-wrapper.pull-right.faded-while-loading
 
     .clearfix &nbsp;
 
-    #projects-wrapper
+    #projects-wrapper.faded-while-loading

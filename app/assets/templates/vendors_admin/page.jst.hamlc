@@ -1,17 +1,14 @@
-#loading-indicator
-  %i.icon-refresh.icon-spin
-  = I18n.js('loading')
+!= JST['shared/loading_indicator']()
 
 #sort-wrapper.pull-left
 
-#pagination-wrapper.pull-right
+#pagination-wrapper.pull-right.faded-while-loading
 
 .clearfix &nbsp;
 
-%table.table
+%table.table.faded-while-loading
   %thead
     %tr
       %th Name
       %th Email
   %tbody#vendors-admin-tbody
-

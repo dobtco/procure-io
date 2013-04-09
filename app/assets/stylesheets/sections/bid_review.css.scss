@@ -28,20 +28,6 @@
     position: relative;
   }
 
-  #loading-indicator {
-    display: none;
-    position: absolute;
-    top: 70px;
-    left: 50%;
-    width: 100px;
-    text-align: center;
-    margin-left: -50px;
-    background-color: #eee;
-    border: 1px solid #ddd;
-    padding: 2px 0;
-    z-index: 2;
-  }
-
   .query-wrapper {
     position: absolute;
     top: 0;
@@ -52,18 +38,6 @@
     text-align: right;
     clear: both;
     margin: 10px 0;
-  }
-
-  &.loading {
-    #actions-wrapper,
-    #pagination-wrapper,
-    #bids-table {
-      @include opacity(75);
-    }
-
-    #loading-indicator {
-      display: block;
-    }
   }
 
   .sidebar-wrapper {

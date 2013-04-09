@@ -9,19 +9,17 @@
   .span9.right-side-span
     / %p No active filters.
 
-    #loading-indicator
-      %i.icon-refresh.icon-spin
-      = I18n.js('loading')
+    != JST['shared/loading_indicator']()
 
     #top-filter-wrapper
 
-    #actions-wrapper
+    #actions-wrapper.faded-while-loading
 
-    #pagination-wrapper.pull-right
+    #pagination-wrapper.pull-right.faded-while-loading
 
     #sorters-wrapper
 
-    %table.table#bids-table
+    %table.table#bids-table.faded-while-loading
       %thead
         %tr
           %th{"style" => "width: 50px;"} &nbsp;
