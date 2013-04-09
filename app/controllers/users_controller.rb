@@ -87,7 +87,7 @@ class UsersController < ApplicationController
     save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
     if @vendor_profile.responsable_valid?
-      flash[:success] = @project.form_options["form_confirmation_message"] if @project.form_options["form_confirmation_message"]
+      flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] if GlobalConfig.instance.form_options["form_confirmation_message"]
     end
 
     redirect_to vendor_profile_path
