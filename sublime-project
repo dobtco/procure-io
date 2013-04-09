@@ -4,7 +4,7 @@
     {
       "path": ".",
       "folder_exclude_patterns": ["coverage", "log", "tmp"],
-      "file_exclude_patterns": ["*.sublime-workspace"]
+      "file_exclude_patterns": ["*.sublime-workspace", "*.sql"]
     }
   ],
 
