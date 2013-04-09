@@ -1,9 +1,10 @@
 # == Schema Information
 #
-# Table name: bid_responses
+# Table name: responses
 #
 #  id                :integer          not null, primary key
-#  bid_id            :integer
+#  responsable_id    :integer
+#  responsable_type  :string(255)
 #  response_field_id :integer
 #  value             :text
 #  created_at        :datetime         not null
@@ -14,13 +15,15 @@
 
 one:
   id: 1
-  bid_id: 1
+  responsable_id: 1
+  responsable_type: Bid
   response_field_id: 2
   value: Bananas!
 
 two:
   id: 2
-  bid_id: 1
+  responsable_id: 1
+  responsable_type: Bid
   response_field_id: 1
   value: Melons!
 

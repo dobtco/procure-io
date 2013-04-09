@@ -16,8 +16,8 @@
           %span
             %span.visible-desktop= t('.bids.long')
             %span.hidden-desktop= t('.bids.short')
-          - if @project.bids.submitted.open.count > 0
-            %span.badge.badge-info= @project.bids.submitted.open.count
+          - if @project.bids.submitted.where_open.count > 0
+            %span.badge.badge-info= @project.bids.submitted.where_open.count
 
     - if GlobalConfig.instance[:questions_enabled]
       %li{"class" => active?("questions#index")}
@@ -34,8 +34,8 @@
           %span.visible-desktop= t('.description.long')
           %span.hidden-desktop= t('.description.short')
 
-    %li{"class" => active?("response_fields")}
-      =link_to t('.response_fields'), project_response_fields_path(@project)
+    %li{"class" => active?("projects#response_fields")}
+      =link_to t('.response_fields'), response_fields_project_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled]
       %li{"class" => active?("projects#comments")}

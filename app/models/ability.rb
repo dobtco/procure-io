@@ -20,15 +20,15 @@ class Ability
   end
 
   def officer_user(user)
-    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.id).first end
+    can [:collaborate_on, :watch, :edit_response_fields], Project do |project| project.collaborators.where(officer_id: user.id).first end
     can :destroy, Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
     can :watch, Bid do |bid| can :collaborate_on, bid.project end
   end
 
   def officer_admin(user)
-    can [:collaborate_on, :watch, :destroy], Project
+    can [:collaborate_on, :watch, :destroy, :edit_response_fields], Project
     can [:watch, :destroy], Bid
-    can :manage, GlobalConfig
+    can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer
     can :update, Officer do |officer|
       officer.role != Officer.roles[:god]

@@ -11,7 +11,7 @@ describe "ResponseField" do
     end
 
     describe "index", js: true do
-      before { visit project_response_fields_path(projects(:one)) }
+      before { visit response_fields_project_path(projects(:one)) }
 
       it "should render properly" do
         page.should have_selector(".response-field-wrapper:eq(1)", text: response_fields(:one).label)
@@ -24,7 +24,7 @@ describe "ResponseField" do
         page.should have_selector("label", text: response_fields(:one).label)
         find(".response-field-wrapper:eq(1) .remove-field-button").click
         page.should_not have_selector("label", text: response_fields(:one).label)
-        visit project_response_fields_path(projects(:one))
+        visit response_fields_project_path(projects(:one))
         page.should_not have_selector("label", text: response_fields(:one).label)
       end
 
@@ -33,7 +33,7 @@ describe "ResponseField" do
           page.should have_selector(".response-field-wrapper input[type=text]", count: 1)
           find("[data-backbone-add-field=text]").click
           page.should have_selector(".response-field-wrapper input[type=text]", count: 2)
-          visit project_response_fields_path(projects(:one))
+          visit response_fields_project_path(projects(:one))
           page.should have_selector(".response-field-wrapper input[type=text]", count: 2)
         end
 
@@ -41,7 +41,7 @@ describe "ResponseField" do
           page.should have_selector(".response-field-wrapper textarea", count: 1)
           find("[data-backbone-add-field=paragraph]").click
           page.should have_selector(".response-field-wrapper textarea", count: 2)
-          visit project_response_fields_path(projects(:one))
+          visit response_fields_project_path(projects(:one))
           page.should have_selector(".response-field-wrapper textarea", count: 2)
         end
       end
@@ -82,7 +82,7 @@ describe "ResponseField" do
             expect(page).to have_selector("[data-backbone-save-form]:not(.disabled)")
             click_button "Save Form"
             expect(page).to have_selector(".disabled[data-backbone-save-form]")
-            visit project_response_fields_path(projects(:one))
+            visit response_fields_project_path(projects(:one))
             page.should have_selector(".response-field-wrapper:eq(1)", text: "NewLabel2")
             page.should have_selector(".response-field-wrapper:eq(1)", text: "TheDescription")
             page.should_not have_selector(".response-field-wrapper:eq(1) .required-asterisk")

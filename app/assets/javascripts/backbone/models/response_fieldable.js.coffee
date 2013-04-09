@@ -1,0 +1,1 @@
+ProcureIo.Backbone.ResponseFieldable = Backbone.Model.extend()

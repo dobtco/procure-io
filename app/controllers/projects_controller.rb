@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   before_filter :project_exists?, except: [:index, :mine, :new, :create]
   before_filter :authenticate_officer!, except: [:index, :show]
   before_filter :authorize_officer!, except: [:index, :show, :mine, :new, :create]
-  before_filter :project_is_posted_if_current_vendor, only: [:show]
+  before_filter :project_is_posted_unless_can_collaborate_on, only: [:show]
   before_filter only: [:comments] { |c| c.check_enabled!('comments') }
 
   protect_from_forgery except: :post_wufoo
@@ -120,10 +120,10 @@ class ProjectsController < ApplicationController
 
       @bids.each do |bid|
         bid_row = [bid.vendor.name, bid.vendor.email]
-        bid_responses = bid.bid_responses
+        responses = bid.responses
 
         @project.response_fields.each do |response_field|
-          response = bid_responses.select { |br| br.response_field_id == response_field.id }[0]
+          response = responses.select { |br| br.response_field_id == response_field.id }[0]
           bid_row.push(response ? response.value : '')
         end
 
@@ -172,6 +172,29 @@ class ProjectsController < ApplicationController
     render json: { status: "success" }
   end
 
+  def response_fields
+  end
+
+  def use_response_field_template
+    @form_templates = FormTemplate.paginate(page: params[:page])
+    @template = FormTemplate.find(params[:template_id]) if params[:template_id]
+  end
+
+  def post_use_response_field_template
+    @project.response_fields.destroy_all
+    @template = FormTemplate.find(params[:template_id])
+
+    @project.form_options = @template.form_options
+    @project.save
+
+    @template.response_fields.each do |response_field|
+      @project.response_fields << ResponseField.new(response_field)
+    end
+
+    redirect_to project_response_fields_path(@project)
+  end
+
+
   private
   def project_exists?
     @project = Project.find(params[:id])
@@ -192,7 +215,7 @@ class ProjectsController < ApplicationController
     filtered_params
   end
 
-  def project_is_posted_if_current_vendor
-    return not_found if current_vendor && !@project.posted?
+  def project_is_posted_unless_can_collaborate_on
+    return not_found if !(can? :collaborate_on, @project) && !@project.posted?
   end
 end

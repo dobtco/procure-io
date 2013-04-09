@@ -19,13 +19,13 @@
 class Bid < ActiveRecord::Base
   include WatchableByUser
   include PgSearch
+  include IsResponsable
 
   belongs_to :project
   belongs_to :vendor
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
-  has_many :bid_responses, dependent: :destroy
   has_many :bid_reviews, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
 
@@ -36,10 +36,9 @@ class Bid < ActiveRecord::Base
   scope :submitted, where("submitted_at IS NOT NULL")
   scope :dismissed, where("dismissed_at IS NOT NULL")
   scope :awarded, where("awarded_at IS NOT NULL")
-  # @todo :open name clash
-  scope :open, where("dismissed_at IS NULL AND awarded_at IS NULL")
+  scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
 
-  pg_search_scope :full_search, associated_against: { bid_responses: [:value],
+  pg_search_scope :full_search, associated_against: { responses: [:value],
                                                       vendor: [:name, :email],
                                                       comments: [:body],
                                                       labels: [:name] },
@@ -73,10 +72,11 @@ class Bid < ActiveRecord::Base
 
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(["price", "number", "date"])
-      query = query.joins(sanitize_sql_array(["LEFT JOIN bid_responses ON bid_responses.bid_id = bids.id
-                                               AND bid_responses.response_field_id = ?", params[:sort]]))
-                   .order("CASE WHEN bid_responses.response_field_id IS NULL then 1 else 0 end,
-                           bid_responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
+                                               AND responses.responable_type = 'Bid'
+                                               AND responses.response_field_id = ?", params[:sort]]))
+                   .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
+                           responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "stars"
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "created_at" || !params[:sort]
@@ -230,15 +230,6 @@ class Bid < ActiveRecord::Base
     self.save
   end
 
-  def valid_bid?
-    bid_errors.empty? ? true : false
-  end
-
-  def bid_errors
-    @bid_validator ||= BidValidator.new(self)
-    @bid_validator.errors
-  end
-
   def text_status
     if dismissed_at
       "Dismissed"
@@ -247,6 +238,10 @@ class Bid < ActiveRecord::Base
     else
       "Open"
     end
+  end
+
+  def responsable_validator
+    @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
 
   private

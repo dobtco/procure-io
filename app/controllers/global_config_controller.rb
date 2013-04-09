@@ -21,6 +21,9 @@ class GlobalConfigController < ApplicationController
     redirect_to global_config_path
   end
 
+  def get_vendor_registration_form
+  end
+
   def twitter_oauth
     client = ProcureIoTwitterOAuth.client
 

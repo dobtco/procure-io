@@ -35,6 +35,8 @@ class Vendor < ActiveRecord::Base
 
   has_many :watches, as: :user
 
+  has_one :vendor_profile, dependent: :destroy
+
   serialize :notification_preferences
   before_create :set_default_notification_preferences
 

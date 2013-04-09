@@ -1,5 +1,5 @@
 <label>#{I18n.js('response_field.form_description')}</label>
-<textarea data-rv-value="project.form_description"></textarea>
+<textarea data-rv-value="formOptions.form_description"></textarea>
 <label>#{I18n.js('response_field.form_confirmation_message')}</label>
-<textarea data-rv-value="project.form_confirmation_message"></textarea>
+<textarea data-rv-value="formOptions.form_confirmation_message"></textarea>
 <span class="help-block">#{I18n.js('response_field.no_confirmation_message')}</span>

@@ -2,19 +2,18 @@
 #
 # Table name: projects
 #
-#  id                        :integer          not null, primary key
-#  title                     :string(255)
-#  body                      :text
-#  bids_due_at               :datetime
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  posted_at                 :datetime
-#  posted_by_officer_id      :integer
-#  total_comments            :integer          default(0), not null
-#  form_description          :text
-#  form_confirmation_message :text
-#  abstract                  :string(255)
-#  featured                  :boolean
+#  id                   :integer          not null, primary key
+#  title                :string(255)
+#  body                 :text
+#  bids_due_at          :datetime
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  posted_at            :datetime
+#  posted_by_officer_id :integer
+#  total_comments       :integer          default(0), not null
+#  form_options         :text
+#  abstract             :string(255)
+#  featured             :boolean
 #
 
 class Project < ActiveRecord::Base
@@ -32,7 +31,7 @@ class Project < ActiveRecord::Base
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions, dependent: :destroy
-  has_many :response_fields, dependent: :destroy
+  has_many :response_fields, as: :response_fieldable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
@@ -44,6 +43,8 @@ class Project < ActiveRecord::Base
   after_update :generate_project_revisions_if_body_changed!
 
   has_and_belongs_to_many :tags
+
+  serialize :form_options, Hash
 
   scope :featured, where(featured: true)
   scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
@@ -132,7 +133,7 @@ class Project < ActiveRecord::Base
 
     self.response_fields.each do |response_field|
       if (val = params[response_field.label.downcase])
-        bid.bid_responses.create(response_field_id: response_field.id, value: val)
+        bid.responses.create(response_field_id: response_field.id, value: val)
       end
     end
 

@@ -7,12 +7,17 @@ ProcureIo::Application.routes.draw do
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
 
+  get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
+  post 'vendor_profile' => 'users#post_vendor_profile'
+
   get 'global_config' => 'global_config#get', as: :global_config
   put 'global_config' => 'global_config#put'
 
   get 'global_config/twitter_oauth' => 'global_config#twitter_oauth', as: :global_config_twitter_oauth
   get 'global_config/twitter_oauth/callback' => 'global_config#twitter_oauth_callback', as: :global_config_twitter_oauth_callback
   delete 'global_config/twitter_oauth' => 'global_config#twitter_oauth_destroy'
+
+  get 'vendor_registration_form' => 'global_config#get_vendor_registration_form', as: :vendor_registration_form
 
   resources :notifications, only: [:index, :update]
 
@@ -50,7 +55,7 @@ ProcureIo::Application.routes.draw do
       put 'batch', on: :collection
       get 'reviews', on: :member
       post 'read_notifications', on: :member
-      resources :bid_responses, only: :destroy
+      resources :responses, only: :destroy
     end
 
     resources :project_revisions, only: [:show] do
@@ -61,11 +66,14 @@ ProcureIo::Application.routes.draw do
     resources :labels, only: [:create, :destroy, :update]
     resources :questions
     resources :collaborators
-    resources :response_fields do
-      get 'use_template' => 'response_fields#use_template', on: :collection
-      post 'use_template' => 'response_fields#post_use_template', on: :collection
-      put 'batch', on: :collection
-    end
+
+    get 'response_fields' => 'projects#response_fields', on: :member
+    get 'use_response_field_template' => 'projects#use_response_field_template', on: :member
+    post 'use_response_field_template' => 'projects#post_use_response_field_template', on: :member
+  end
+
+  resources :response_fields do
+    put 'batch', on: :collection
   end
 
   resources :form_templates, only: [:create]

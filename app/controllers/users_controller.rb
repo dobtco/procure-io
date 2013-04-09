@@ -1,9 +1,15 @@
 class UsersController < ApplicationController
+  include SaveResponsesHelper
+
   before_filter :authenticate_user!, except: [:signin, :post_signin, :forgot_password, :post_forgot_password]
   before_filter :only_unauthenticated_user, only: [:signin, :post_signin, :forgot_password, :post_forgot_password]
+  before_filter :authenticate_vendor!, only: :vendor_profile
+  before_filter :get_vendor_profile, only: [:vendor_profile, :post_vendor_profile]
 
   def signin
-    session[:signin_redirect] = path if (path = URI(request.referer).path) != users_signin_path
+    if (path = URI(request.referer).path) != users_signin_path
+      session[:signin_redirect] = path
+    end
   end
 
   def post_signin
@@ -69,6 +75,25 @@ class UsersController < ApplicationController
     flash[:success] = "Settings successfully updated."
   end
 
+  def vendor_profile
+    @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
+      response_field[:field_options]["vendor_edit"]
+    end
+  end
+
+  def post_vendor_profile
+    @vendor_profile.save unless @vendor_profile.id
+
+    save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
+
+    if @vendor_profile.responsable_valid?
+      flash[:success] = @project.form_options["form_confirmation_message"] if @project.form_options["form_confirmation_message"]
+    end
+
+    redirect_to vendor_profile_path
+  end
+
+
   private
   def officer_params
     params.require(:officer).permit(:name, :title)
@@ -95,5 +120,9 @@ class UsersController < ApplicationController
     path = get_path_from_referer_or_session
     path = mine_projects_path if officer_signed_in? and path == root_path
     path
+  end
+
+  def get_vendor_profile
+    @vendor_profile = current_vendor.vendor_profile || current_vendor.build_vendor_profile
   end
 end

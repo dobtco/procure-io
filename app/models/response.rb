@@ -1,9 +1,10 @@
 # == Schema Information
 #
-# Table name: bid_responses
+# Table name: responses
 #
 #  id                :integer          not null, primary key
-#  bid_id            :integer
+#  responsable_id    :integer
+#  responsable_type  :string(255)
 #  response_field_id :integer
 #  value             :text
 #  created_at        :datetime         not null
@@ -12,17 +13,17 @@
 #  upload            :string(255)
 #
 
-class BidResponse < ActiveRecord::Base
+class Response < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
 
   default_scope({include: :response_field, joins: :response_field, order: "response_fields.sort_order"})
 
-  belongs_to :bid
+  belongs_to :responsable, polymorphic: true
   belongs_to :response_field
 
   before_save :calculate_sortable_value
 
-  mount_uploader :upload, BidResponseUploader
+  mount_uploader :upload, ResponseUploader
 
   def value
     if response_field.field_type.in?(ResponseField::SERIALIZED_FIELDS)

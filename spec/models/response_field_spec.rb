@@ -2,15 +2,16 @@
 #
 # Table name: response_fields
 #
-#  id            :integer          not null, primary key
-#  project_id    :integer
-#  label         :string(255)
-#  field_type    :string(255)
-#  field_options :text
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  sort_order    :integer          not null
-#  key_field     :boolean
+#  id                      :integer          not null, primary key
+#  response_fieldable_id   :integer
+#  response_fieldable_type :string(255)
+#  label                   :string(255)
+#  field_type              :string(255)
+#  field_options           :text
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  sort_order              :integer          not null
+#  key_field               :boolean
 #
 
 require 'spec_helper'
@@ -25,8 +26,8 @@ describe ResponseField do
   it { should respond_to(:sort_order) }
   it { should respond_to(:key_field) }
 
-  it { should respond_to(:project) }
-  it { should respond_to(:bid_responses) }
+  it { should respond_to(:response_fieldable) }
+  it { should respond_to(:responses) }
 
   describe "default scope" do
     it "should sort correctly" do

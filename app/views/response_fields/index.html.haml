@@ -1,5 +1,0 @@
-= render "projects/officer_nav"
-
-#admin-response-field-page
-  :javascript
-    new ProcureIo.Backbone.AdminResponseFieldPage({bootstrapData: #{@project.response_fields.to_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
