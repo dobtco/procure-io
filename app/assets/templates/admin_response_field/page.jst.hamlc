@@ -51,6 +51,4 @@
     #no-response-fields= I18n.js('response_field.none')
     #response-fields
 
-    #loading-indicator
-      %i.icon-refresh.icon-spin
-      = I18n.js('loading')
+    != JST['shared/loading_indicator']()

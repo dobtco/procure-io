@@ -110,7 +110,7 @@ describe "Bid" do
 
         it "should paginate properly" do
           find(".pagination a:contains(2)").click
-          expect(page).to have_selector('#loading-indicator', visible: true)
+          expect(page).to have_selector('.loading-indicator', visible: true)
           page.should have_selector('li a', '1')
           page.should have_selector('li.active a', '2')
           page.should_not have_selector('[href="'+project_bid_path(projects(:one), projects(:one).bids.last)+'"]')
@@ -150,7 +150,7 @@ describe "Bid" do
           it "should correctly mark multiple bids as dismissed" do
             all("#bids-tbody input[type=checkbox]").each { |e| e.set(true) }
             click_button "Dismiss"
-            page.should have_selector('#loading-indicator', visible: true)
+            page.should have_selector('.loading-indicator', visible: true)
             page.should have_selector('#bid-review-page:not(.loading)')
             page.should have_selector('.pagination ul li', count: 3)
           end
