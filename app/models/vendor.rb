@@ -51,10 +51,19 @@ class Vendor < ActiveRecord::Base
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
-    query = Vendor
+    # query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendor.id")
+    query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
-    if params[:sort] == "stars"
-      query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    if params[:sort].to_i > 0
+      cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
+      query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = vendor_profiles.id
+                                               AND responses.responsable_type = 'VendorProfile'
+                                               AND responses.response_field_id = ?", params[:sort]]))
+                   .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
+                           responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+
+    elsif params[:sort] == "email"
+      query = query.order("email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "name" || !params[:sort]
       query = query.order("name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
