@@ -2,4 +2,4 @@
 
 != page_header "#{@vendor.display_name}"
 
-= render "shared/form", form_action: vendor_path(@vendor.id), responsable: @vendor_profile, response_fieldable: GlobalConfig.instance, save_draft_button: false, method: :put
+= render "shared/form", form_action: vendor_path(@vendor.id), responsable: @vendor_profile, response_fieldable: GlobalConfig.instance, save_draft_button: false, form_method: :put

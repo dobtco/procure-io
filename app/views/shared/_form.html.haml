@@ -1,7 +1,7 @@
 - if response_fieldable.form_options["form_description"]
   %span.help-block= response_fieldable.form_options["form_description"]
 
-= form_tag form_action, method: defined?(method) ? method : :post, id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
+= form_tag form_action, method: (defined?(form_method) ? form_method : :post), id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
   %input{"type" => "hidden", "name" => "draft_only"}
 
   / We need to display server-side validations for users without js.
