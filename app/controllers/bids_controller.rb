@@ -159,7 +159,11 @@ class BidsController < ApplicationController
   end
 
   def emails
-    search_results = Bid.search_by_project_and_params(@project, params, false, true).joins(:vendor).pluck("vendors.email")
+    search_results = Bid.search_by_project_and_params(@project, params, false, true)
+                        .reorder("bids.id DESC")
+                        .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
+                        .pluck("vendors.email")
+
     render json: search_results.to_json
   end
 

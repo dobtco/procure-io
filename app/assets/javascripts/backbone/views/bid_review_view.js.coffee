@@ -9,7 +9,7 @@ ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
 
     @$el.find(".js-view-filtered-emails").on "click", (e) ->
       $modal = $("""
-        <div class="modal">
+        <div class="modal" tabindex="-1">
           <div class="modal-body">
             <pre class="js-email-target">Loading...</pre>
           </div>
