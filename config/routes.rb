@@ -54,6 +54,7 @@ ProcureIo::Application.routes.draw do
     end
 
     resources :bids do
+      get 'emails', on: :collection
       put 'batch', on: :collection
       get 'reviews', on: :member
       post 'read_notifications', on: :member

@@ -46,7 +46,7 @@ class Bid < ActiveRecord::Base
                                   tsearch: {prefix: true}
                                 }
 
-  def self.search_by_project_and_params(project, params, count_only = false)
+  def self.search_by_project_and_params(project, params, count_only = false, chainable = false)
     return_object = { meta: {} }
     return_object[:meta][:page] = [params[:page].to_i, 1].max
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
@@ -87,6 +87,7 @@ class Bid < ActiveRecord::Base
       query = query.full_search(params[:q])
     end
 
+    return query if chainable
     return query.count if count_only
 
     return_object[:meta][:total] = query.count

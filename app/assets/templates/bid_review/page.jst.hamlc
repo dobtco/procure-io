@@ -29,3 +29,5 @@
           %th= I18n.js('status')
 
       %tbody#bids-tbody
+
+    #bids-footer-wrapper

@@ -1,5 +1,25 @@
 # @todo clear backbone views when navigating with turbolinks?
 
+ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
+  el: "#bids-footer-wrapper"
+
+  render: ->
+    @$el.html JST['bid_review/footer']
+      emailsUrl: "#{ProcureIo.Backbone.Bids.baseUrl}/emails?#{$.param(ProcureIo.Backbone.router.filterOptions.toJSON())}"
+
+    @$el.find(".js-view-filtered-emails").on "click", (e) ->
+      $modal = $("""
+        <div class="modal">
+          <div class="modal-body">
+            <pre class="js-email-target">Loading...</pre>
+          </div>
+        </div>
+      """).appendTo("body").modal('show')
+
+      $.getJSON $(@).data('href'), (data) ->
+        $modal.find(".js-email-target").text(data)
+
+
 ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
   el: "#actions-wrapper"
 
@@ -430,6 +450,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
+    (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
 
   renderExistingSubviews: ->
     for subview in @subviews

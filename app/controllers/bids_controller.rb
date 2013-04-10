@@ -4,8 +4,8 @@ class BidsController < ApplicationController
   before_filter :project_exists?
   before_filter :bid_exists?, only: [:show, :update, :reviews, :destroy, :read_notifications]
   before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
-  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy]
-  before_filter only: [:index, :show, :batch, :reviews, :read_notifications] { |c| c.check_enabled!('bid_review') }
+  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy, :emails]
+  before_filter only: [:index, :show, :batch, :reviews, :read_notifications, :emails] { |c| c.check_enabled!('bid_review') }
   before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
 
   def index
@@ -156,6 +156,11 @@ class BidsController < ApplicationController
     respond_to do |format|
       format.json { render json: @reviews }
     end
+  end
+
+  def emails
+    search_results = Bid.search_by_project_and_params(@project, params, false, true).joins(:vendor).pluck("vendors.email")
+    render json: search_results.to_json
   end
 
   def destroy

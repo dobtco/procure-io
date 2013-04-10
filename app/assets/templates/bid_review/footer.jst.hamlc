@@ -1,0 +1,2 @@
+%small
+  %a.js-view-filtered-emails{"data-href" => @emailsUrl} Get emails for filtered vendors
