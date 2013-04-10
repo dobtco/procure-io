@@ -62,5 +62,9 @@
       %dt= I18n.js('email_address')
       %dd= @vendor.email
 
+      - for response in (@vendor.vendor_profile?.responses || [])
+        %dt= response.response_field.label
+        %dd= response.display_value
+
   .span9
     != JST['shared/_bid'](@)
