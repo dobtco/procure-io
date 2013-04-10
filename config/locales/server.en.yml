@@ -56,7 +56,7 @@ en:
 
   layouts:
     application:
-      footer: Procure.io!
+      footer_html: Powered by <a href="http://www.procure.io" target="_blank">Procure.io</a>.
 
     navbar:
       my_projects: My Projects
