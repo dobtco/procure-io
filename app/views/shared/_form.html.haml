@@ -1,7 +1,7 @@
 - if response_fieldable.form_options["form_description"]
   %span.help-block= response_fieldable.form_options["form_description"]
 
-= form_tag form_action, method: :post, id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
+= form_tag form_action, method: defined?(method) ? method : :post, id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
   %input{"type" => "hidden", "name" => "draft_only"}
 
   / We need to display server-side validations for users without js.
@@ -19,7 +19,7 @@
         value: (r = responsable.responses.where(response_field_id: response_field.id).first) ? r.value : ''
 
   .form-actions
-    %button.btn.btn-inverse= t('.submit_bid')
+    %button.btn.btn-inverse= defined?(button_text) ? button_text : t('.submit')
     - if !defined?(save_draft_button) || save_draft_button
       %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"}= t('.save_draft')
 

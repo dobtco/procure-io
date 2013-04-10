@@ -7,4 +7,4 @@
 
   .span5
     %h4= t('.new_bid')
-    = render "shared/form", form_action: project_bids_path, responsable: @bid, response_fieldable: @project
+    = render "shared/form", form_action: project_bids_path, responsable: @bid, response_fieldable: @project, button_text: t('.submit_bid')

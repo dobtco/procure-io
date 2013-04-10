@@ -1,0 +1,5 @@
+= link_to t('.back_to_list_html'), vendors_path
+
+!= page_header "#{@vendor.display_name}"
+
+= render "shared/form", form_action: vendor_path(@vendor.id), responsable: @vendor_profile, response_fieldable: GlobalConfig.instance, save_draft_button: false, method: :put

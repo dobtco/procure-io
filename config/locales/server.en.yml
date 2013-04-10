@@ -85,7 +85,7 @@ en:
     project_description: Project Description
 
     form:
-      submit_bid: Submit Bid
+      submit: Submit
       save_draft: Save Draft
 
     new:
@@ -303,6 +303,12 @@ en:
     last_updated: "last updated %{date}"
     vendor_projects:
       header: Watched Projects
+
+  vendors:
+    index:
+      header: "Vendors"
+    edit:
+      back_to_list_html: "&larr; Back to list of vendors"
 
   mailers:
     notification:
