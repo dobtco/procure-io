@@ -2,7 +2,7 @@ class CreateVendors < ActiveRecord::Migration
   def change
     create_table :vendors do |t|
       t.boolean :account_disabled
-      t.string :company_name
+      t.string :name
 
       t.timestamps
     end

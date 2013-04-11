@@ -37,7 +37,7 @@ class Comment < ActiveRecord::Base
     return unless commentable && commentable.class.name == "Bid"
 
     if !commentable.ever_watched_by?(officer)
-      officer.watch!("Bid", commentable.id)
+      officer.user.watch!("Bid", commentable.id)
     end
   end
 
@@ -48,8 +48,8 @@ class Comment < ActiveRecord::Base
       event = commentable.events.create(event_type: Event.event_types[:project_comment],
                                         data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
-        EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
+      commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+        EventFeed.create(event_id: event.id, user_id: watch.user_id)
       end
 
     elsif self.commentable.class.name == "Bid"
@@ -57,8 +57,8 @@ class Comment < ActiveRecord::Base
       event = commentable.events.create(event_type: Event.event_types[:bid_comment],
                                         data: CommentSerializer.new(self, root: false).to_json)
 
-      commentable.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
-        EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
+      commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+        EventFeed.create(event_id: event.id, user_id: watch.user_id)
       end
     end
   end

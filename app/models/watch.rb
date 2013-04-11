@@ -16,4 +16,6 @@ class Watch < ActiveRecord::Base
   belongs_to :user
 
   scope :not_disabled, where(disabled: false)
+  scope :where_user_is_officer, joins: :user, conditions: { users: { owner_type: "Officer" } }
+  scope :where_user_is_vendor, joins: :user, conditions: { users: { owner_type: "Vendor" } }
 end

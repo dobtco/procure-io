@@ -87,4 +87,12 @@ module ApplicationHelper
   def signed_in?
     current_user ? true : false
   end
+
+  def vendor_signed_in?
+    current_vendor ? true : false
+  end
+
+  def officer_signed_in?
+    current_officer ? true : false
+  end
 end

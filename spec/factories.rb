@@ -49,9 +49,24 @@ FactoryGirl.define do
   factory :officer do
     name { Faker::Name.name }
     title { Faker::Company.position }
-    sequence(:email) { |n| "officer#{n}@example.gov" }
-    password 'password'
     role { Role.where(name: "God").first }
+
+    after(:create) do |o|
+      o.user = FactoryGirl.create(:user_officer, owner: o)
+      o.save
+    end
+  end
+
+  factory :user do
+    password 'password'
+
+    factory :user_officer do
+      sequence(:email) { |n| "officer#{n}@example.gov" }
+    end
+
+    factory :user_vendor do
+      sequence(:email) { |n| "vendor#{n}@example.com" }
+    end
   end
 
   factory :project do |project|
@@ -84,11 +99,11 @@ FactoryGirl.define do
       p.tags << Tag.all(order: "RANDOM()").first
 
       Officer.all.each do |officer|
-        officer.watch!("Project", p.id)
+        officer.user.watch!("Project", p.id)
       end
 
       Vendor.all.each do |vendor|
-        vendor.watch!("Project", p.id) if rand(1..2) == 2
+        vendor.user.watch!("Project", p.id) if rand(1..2) == 2
       end
 
       FactoryGirl.create(:comment, commentable: p)
@@ -100,8 +115,11 @@ FactoryGirl.define do
 
   factory :vendor do
     sequence(:name) { |n| ProcureFaker::Vendor.name(n) }
-    sequence(:email) { |n| "vendor#{n}@example.com" }
-    password 'password'
+
+    after(:create) do |v|
+      v.user = FactoryGirl.create(:user_vendor, owner: v)
+      v.save
+    end
   end
 
   factory :question do

@@ -15,13 +15,18 @@
 #
 
 class User < ActiveRecord::Base
-  acts_as_authentic
+  acts_as_authentic do |c|
+    c.require_password_confirmation = false
+  end
 
   belongs_to :owner, polymorphic: true
 
   has_many :event_feeds
   has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
   has_many :watches
+
+  serialize :notification_preferences
+  before_create :set_default_notification_preferences
 
   def gravatar_url
     "//gravatar.com/avatar/#{Digest::MD5::hexdigest(email.downcase)}?size=45&d=identicon"
@@ -56,5 +61,13 @@ class User < ActiveRecord::Base
 
   def send_email_notifications_for?(event_type_value)
     self.notification_preferences && self.notification_preferences.include?(event_type_value)
+  end
+
+  def set_default_notification_preferences
+    self.notification_preferences = owner.class.event_types.values
+  end
+
+  def display_name
+    owner.display_name
   end
 end

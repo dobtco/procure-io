@@ -11,12 +11,7 @@
 #
 
 class Officer < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable
+  include SharedUserMethods
 
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true
@@ -24,10 +19,6 @@ class Officer < ActiveRecord::Base
   has_many :bid_reviews, dependent: :destroy
 
   belongs_to :role
-
-  serialize :notification_preferences
-  before_create :set_default_notification_preferences
-  before_create :reset_authentication_token
 
   def self.event_types
     types = [:collaborator_added, :you_were_added]
@@ -38,16 +29,16 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def signed_up?
-    self.encrypted_password != "" ? true : false
-  end
-
   def permission_level
     if role
       Role.permission_levels[role.permission_level]
     else
       :user
     end
+  end
+
+  def display_name
+    !name.blank? ? name : user.email
   end
 
   private

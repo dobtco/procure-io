@@ -4,20 +4,14 @@
 #
 #  id               :integer          not null, primary key
 #  account_disabled :boolean
-#  company_name     :string(255)
+#  name             :string(255)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  name             :string(255)
 #
 
 class Vendor < ActiveRecord::Base
+  include SharedUserMethods
   include PgSearch
-
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :bids, dependent: :destroy
   has_many :questions
@@ -27,9 +21,6 @@ class Vendor < ActiveRecord::Base
 
   has_one :vendor_profile, dependent: :destroy
   has_many :responses, through: :vendor_profile
-
-  serialize :notification_preferences
-  before_create :set_default_notification_preferences
 
   pg_search_scope :full_search, against: [:email, :name],
                                 associated_against: { responses: [:value] },
@@ -81,6 +72,10 @@ class Vendor < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
+  def display_name
+    !name.blank? ? name : user.email
+  end
+
   def bid_for_project(project)
     bids.where(project_id: project.id).first
   end
@@ -91,10 +86,5 @@ class Vendor < ActiveRecord::Base
 
   def active_for_authentication?
     super && !self.account_disabled?
-  end
-
-  private
-  def set_default_notification_preferences
-    self.notification_preferences = Vendor.event_types.values
   end
 end

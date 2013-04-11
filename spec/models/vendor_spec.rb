@@ -4,10 +4,9 @@
 #
 #  id               :integer          not null, primary key
 #  account_disabled :boolean
-#  company_name     :string(255)
+#  name             :string(255)
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  name             :string(255)
 #
 
 require 'spec_helper'

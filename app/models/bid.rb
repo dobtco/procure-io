@@ -249,33 +249,33 @@ class Bid < ActiveRecord::Base
   def create_bid_awarded_events!(officer)
     event = events.create(event_type: Event.event_types[:bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
 
-    project.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
+    project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
 
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id, user_type: "Vendor")
+    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
   end
 
   def create_bid_unawarded_events!(officer)
     event = events.create(event_type: Event.event_types[:bid_unawarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
 
-    project.watches.not_disabled.where(user_type: "Officer").where("user_id != ?", officer.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
+    project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
 
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_unawarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id, user_type: "Vendor")
+    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
 
   end
 
   def create_bid_dismissed_events!(officer)
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_dismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id, user_type: "Vendor")
+    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
   end
 
   def create_bid_undismissed_events!(officer)
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_undismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id, user_type: "Vendor")
+    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
   end
 end
