@@ -26,6 +26,7 @@
 #  notification_preferences :text
 #  authentication_token     :string(255)
 #  role                     :integer          default(1)
+#  role_id                  :integer
 #
 
 adam:
