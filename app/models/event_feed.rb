@@ -11,7 +11,7 @@
 #
 
 class EventFeed < ActiveRecord::Base
-  belongs_to :user, polymorphic: true
+  belongs_to :user
   belongs_to :event
 
   scope :unread, where(read: false)

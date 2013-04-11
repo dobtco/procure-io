@@ -11,7 +11,6 @@
 #
 
 class Vendor < ActiveRecord::Base
-  include SharedUserMethods
   include PgSearch
 
   # Include default devise modules. Others available are:
