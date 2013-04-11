@@ -19,7 +19,7 @@
           - if @project.bids.submitted.where_open.count > 0
             %span.badge.badge-info= @project.bids.submitted.where_open.count
 
-    - if GlobalConfig.instance[:questions_enabled]
+    - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
       %li{"class" => active?("questions#index")}
         %a{"href" => project_questions_path(@project)}
           %span
@@ -28,25 +28,28 @@
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
-    %li{"class" => active?("projects#edit") || active?("amendments") || active?("project_revisions")}
-      %a{"href" => edit_project_path(@project)}
-        %span
-          %span.visible-desktop= t('.description.long')
-          %span.hidden-desktop= t('.description.short')
+    - if can? :edit_description, @project
+      %li{"class" => active?("projects#edit") || active?("amendments") || active?("project_revisions")}
+        %a{"href" => edit_project_path(@project)}
+          %span
+            %span.visible-desktop= t('.description.long')
+            %span.hidden-desktop= t('.description.short')
 
-    %li{"class" => active?("projects#response_fields")}
-      =link_to t('.response_fields'), response_fields_project_path(@project)
+    - if can? :edit_response_fields, @project
+      %li{"class" => active?("projects#response_fields")}
+        =link_to t('.response_fields'), response_fields_project_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled]
       %li{"class" => active?("projects#comments")}
         =link_to t('.comments'), comments_project_path(@project)
 
-    - if @project.posted?
+    - if @project.posted? && (can? :access_reports, @project)
       %li{"class" => active?("reports")}
         =link_to t('.reports'), bids_over_time_project_reports_path(@project)
 
-    %li{"class" => active?("collaborators") || active?("projects#import_csv") || active?("projects#export_csv") || active?("projects#wufoo")}
-      =link_to t('.admin'), project_collaborators_path(@project)
+    - if can? :admin, @project
+      %li{"class" => active?("collaborators") || active?("projects#import_csv") || active?("projects#export_csv") || active?("projects#wufoo")}
+        =link_to t('.admin'), project_collaborators_path(@project)
 
     %li.pull-right
       %a{"href" => project_path(@project)}

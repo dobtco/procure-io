@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
   before_filter :authenticate_officer!
   before_filter :project_exists?
+  before_filter :authorize_officer!
 
   def bids_over_time
     dates = @project.posted_at.to_date..(@project.bids_due_at ? [Time.now, @project.bids_due_at].min : Time.now).to_date
@@ -58,5 +59,9 @@ class ReportsController < ApplicationController
   def project_exists?
     @project = Project.find(params[:project_id])
     authorize! :collaborate_on, @project
+  end
+
+  def authorize_officer!
+    authorize! :access_reports, @project
   end
 end

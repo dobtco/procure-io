@@ -50,6 +50,6 @@ class QuestionsController < ApplicationController
 
   def authenticate_and_authorize_officer!
     authenticate_officer!
-    authorize! :collaborate_on, @project
+    authorize! :answer_questions, @project
   end
 end

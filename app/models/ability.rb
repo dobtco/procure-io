@@ -19,14 +19,19 @@ class Ability
     can :watch, Project, posted: true
   end
 
+  def officer_review_only(user)
+    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.id).first end
+    can :watch, Bid do |bid| can :collaborate_on, bid.project end
+  end
+
   def officer_user(user)
-    can [:collaborate_on, :watch, :edit_response_fields], Project do |project| project.collaborators.where(officer_id: user.id).first end
-    can :destroy, Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
+    can [:collaborate_on, :watch, :edit_response_fields, :answer_questions, :edit_description, :access_reports], Project do |project| project.collaborators.where(officer_id: user.id).first end
+    can [:destroy, :admin], Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
     can :watch, Bid do |bid| can :collaborate_on, bid.project end
   end
 
   def officer_admin(user)
-    can [:collaborate_on, :watch, :destroy, :edit_response_fields], Project
+    can :manage, Project
     can [:watch, :destroy], Bid
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer

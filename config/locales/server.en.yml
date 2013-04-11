@@ -265,10 +265,11 @@ en:
       no_data: "Sorry, no data to display."
 
   roles:
-    name:
+    permission_levels:
       user: User
       admin: Admin
       god: God
+      review_only: Review Only
 
     index:
       header: Roles

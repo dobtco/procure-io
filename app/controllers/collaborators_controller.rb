@@ -1,6 +1,7 @@
 class CollaboratorsController < ApplicationController
   before_filter :project_exists?
   before_filter :authenticate_officer!
+  before_filter :authorize_officer!
 
   def index
     current_officer.read_notifications(@project, :collaborator_added, :you_were_added)
@@ -35,5 +36,9 @@ class CollaboratorsController < ApplicationController
   def project_exists?
     @project = Project.find(params[:project_id])
     authorize! :collaborate_on, @project
+  end
+
+  def authorize_officer!
+    authorize! :admin, @project
   end
 end

@@ -41,6 +41,8 @@
                     %li= link_to t('.officers_admin'), officers_path
                   - if can? :view, Vendor
                     %li= link_to t('.vendors_admin'), vendors_path
+                  - if can? :manage, Role
+                    %li= link_to t('.roles_admin'), roles_path
 
             %li
               %a{"href" => notifications_path}

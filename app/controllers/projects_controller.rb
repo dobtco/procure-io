@@ -56,10 +56,15 @@ class ProjectsController < ApplicationController
   end
 
   def edit
+    return redirect_to project_bids_path(@project) if current_officer.permission_level == :review_only
+
+    authorize! :edit_description, @project
     current_officer.read_notifications(@project, :you_were_added)
   end
 
   def update
+    authorize! :edit_description, @project
+
     @project.updating_officer_id = current_officer.id
     @project.assign_attributes(project_params)
 
@@ -82,9 +87,11 @@ class ProjectsController < ApplicationController
   end
 
   def import_csv
+    authorize! :admin, @project
   end
 
   def post_import_csv
+    authorize! :admin, @project
     require 'csv'
 
     count = 0
@@ -106,9 +113,11 @@ class ProjectsController < ApplicationController
   end
 
   def export_csv
+    authorize! :admin, @project
   end
 
   def post_export_csv
+    authorize! :admin, @project
     require 'csv'
     @bids = @project.bids.submitted
 
@@ -136,9 +145,12 @@ class ProjectsController < ApplicationController
   end
 
   def wufoo
+    authorize! :admin, @project
   end
 
   def post_wufoo
+    authorize! :admin, @project
+
     data = {}
 
     params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
