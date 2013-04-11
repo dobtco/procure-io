@@ -27,3 +27,8 @@ $(document).on "ajax:beforeSend", "form#new_collaborator", ->
 
 $(document).on "click", ".js-remove-collaborator-btn", ->
   $(@).closest('tr').remove()
+
+$(document).on "click", ".js-toggle-single-bulk", ->
+  $(".email-inputs").toggleClass('using-bulk')
+  $(".email-inputs :input:visible").attr('disabled', false)
+  $(".email-inputs :input:not(:visible)").attr('disabled', true)

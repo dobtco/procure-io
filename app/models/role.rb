@@ -25,6 +25,14 @@ class Role < ActiveRecord::Base
     )
   end
 
+  def assignable_by_officer?(officer)
+    permission_level <= (officer.role ? officer.role.permission_level : Role.permission_levels[:user])
+  end
+
+  scope :assignable_by_officer, lambda { |officer| where("permission_level <= ?", (officer.role ? officer.role.permission_level : Role.permission_levels[:user])) }
+
+  scope :not_god, where("permission_level != ?", Role.permission_levels[:god])
+
   def permission_level_name
     Role.permission_level_name(Role.permission_levels[permission_level])
   end

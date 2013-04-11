@@ -9,11 +9,13 @@ class CollaboratorsController < ApplicationController
   end
 
   def create
-    emails = params[:collaborator][:officer][:email].split(',').map{ |e| e.strip }
+    emails = create_collaborator_params[:email].split(',').map{ |e| e.strip }
 
     emails.each do |email|
-      officer = Officer.where(email: email).first || Officer.invite!(email: email)
-      officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id)
+      officer = Officer.where(email: email).first
+      officer = Officer.invite!(email: email, role_id: create_collaborator_params[:role_id]) if !officer
+
+      officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id) if officer.valid?
     end
 
     @collaborators = @project.collaborators
@@ -40,5 +42,14 @@ class CollaboratorsController < ApplicationController
 
   def authorize_officer!
     authorize! :admin, @project
+  end
+
+  def create_collaborator_params
+    filtered_params = pick(params, :email, :role_id)
+
+    role = Role.find(filtered_params[:role_id])
+    filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+
+    filtered_params
   end
 end
