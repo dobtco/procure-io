@@ -25,7 +25,7 @@
 #  invited_by_type          :string(255)
 #  notification_preferences :text
 #  authentication_token     :string(255)
-#  role                     :integer          default(1)
+#  role_id                  :integer
 #
 
 require 'spec_helper'

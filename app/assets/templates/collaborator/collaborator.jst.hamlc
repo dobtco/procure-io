@@ -1,9 +1,0 @@
-%td
-  = @officer.email
-  - if @owner
-    %i.icon-star
-  - if !@officer.signed_up
-    %i.icon-envelope
-%td
-  - if @isOwner && !@owner
-    %button.btn.btn-danger{"data-backbone-clear" => "true"}= I18n.js('remove')

@@ -14,7 +14,7 @@
   = f.text_field :email
 
   = f.label :role
-  = f.select :role, options_for_select((@officer.role == Officer.roles[:god] ? Officer.roles : Officer.roles.except(:god)), @officer.role)
+  = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true
 
   .form-actions
     = f.submit t('actions.officer.update'), class: "btn btn-inverse"

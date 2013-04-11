@@ -25,10 +25,8 @@
 #  invited_by_type          :string(255)
 #  notification_preferences :text
 #  authentication_token     :string(255)
-#  role                     :integer          default(1)
+#  role_id                  :integer
 #
-
-require_dependency 'enum'
 
 class Officer < ActiveRecord::Base
   include SharedUserMethods
@@ -45,6 +43,8 @@ class Officer < ActiveRecord::Base
   has_many :questions
   has_many :bid_reviews, dependent: :destroy
 
+  belongs_to :role
+
   serialize :notification_preferences
   before_create :set_default_notification_preferences
   before_create :reset_authentication_token
@@ -58,14 +58,16 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def self.roles
-    @roles ||= Enum.new(
-      :user, :admin, :god
-    )
-  end
-
   def signed_up?
     self.encrypted_password != "" ? true : false
+  end
+
+  def permission_level
+    if role
+      Role.permission_levels[role.permission_level]
+    else
+      :user
+    end
   end
 
   private

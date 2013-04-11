@@ -24,6 +24,9 @@ en:
     amendment:
       delete: "Are you sure you want to delete this amendment?"
 
+    role:
+      delete: "Are you sure you want to delete this role?"
+
   actions:
     bid:
       delete: "Delete Bid"
@@ -261,6 +264,16 @@ en:
     common:
       no_data: "Sorry, no data to display."
 
+  roles:
+    permission_levels:
+      user: User
+      admin: Admin
+      god: God
+      review_only: Review Only
+
+    index:
+      header: Roles
+
   saved_searches:
     current_results: Current Results
     index:
@@ -271,10 +284,6 @@ en:
   users:
     notification_settings:
       header: "Email Notifications"
-
-    forgot_password:
-      header: "Forgot password"
-      send_instructions: "Send reset password instructions"
 
     officer_settings:
       header: "Settings"
@@ -296,6 +305,8 @@ en:
       link: sign up
 
     forgot_password:
+      header: "Forgot password"
+      send_instructions: "Send reset password instructions"
       line_html: Did you %{link}?
       link: forget your password
 

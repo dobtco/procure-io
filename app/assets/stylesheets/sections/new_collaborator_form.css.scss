@@ -1,0 +1,10 @@
+form#new_collaborator {
+  .email-inputs {
+    .bulk-email { display: none; }
+
+    &.using-bulk {
+      .bulk-email { display: block; }
+      .single-email { display: none; }
+    }
+  }
+}
