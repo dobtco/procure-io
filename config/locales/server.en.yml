@@ -285,10 +285,6 @@ en:
     notification_settings:
       header: "Email Notifications"
 
-    forgot_password:
-      header: "Forgot password"
-      send_instructions: "Send reset password instructions"
-
     officer_settings:
       header: "Settings"
       profile: "Profile"
@@ -309,6 +305,8 @@ en:
       link: sign up
 
     forgot_password:
+      header: "Forgot password"
+      send_instructions: "Send reset password instructions"
       line_html: Did you %{link}?
       link: forget your password
 

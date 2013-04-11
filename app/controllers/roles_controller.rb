@@ -1,7 +1,7 @@
 class RolesController < ApplicationController
   before_filter :authorize!
   before_filter :build_permission_level_options, only: [:new, :edit]
-  before_filter :role_exists?, only: [:edit, :update]
+  before_filter :role_exists?, only: [:edit, :update, :destroy]
 
   def index
     @roles = Role.order("name").paginate(page: params[:page])
@@ -21,6 +21,11 @@ class RolesController < ApplicationController
 
   def update
     @role.update_attributes(role_params)
+    redirect_to roles_path
+  end
+
+  def destroy
+    @role.destroy unless @role.undeletable?
     redirect_to roles_path
   end
 

@@ -14,7 +14,7 @@
   = f.text_field :email
 
   = f.label :role
-  = f.collection_select :role_id, (current_officer.permission_level == :god ? Role.all : Role.where("permission_level != ?", Role.permission_levels[:god])), :id, :name
+  = f.collection_select :role_id, (current_officer.permission_level == :god ? Role.all : Role.where("permission_level != ?", Role.permission_levels[:god])), :id, :name, include_blank: true
 
   .form-actions
     = f.submit t('actions.officer.update'), class: "btn btn-inverse"

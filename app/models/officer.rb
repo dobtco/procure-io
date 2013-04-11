@@ -63,7 +63,11 @@ class Officer < ActiveRecord::Base
   end
 
   def permission_level
-    Role.permission_levels[role.permission_level]
+    if role
+      Role.permission_levels[role.permission_level]
+    else
+      :user
+    end
   end
 
   private
