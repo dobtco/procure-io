@@ -5,7 +5,7 @@ class Ability
     if user.class.name == "Vendor"
       return vendor(user)
     elsif user.class.name == "Officer"
-      send(:"officer_#{Officer.roles[user.role].to_s}", user)
+      send(:"officer_#{user.permission_level.to_s}", user)
     end
   end
 
@@ -31,7 +31,7 @@ class Ability
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer
     can :update, Officer do |officer|
-      officer.role != Officer.roles[:god]
+      officer.permission_level != :god
     end
     can :manage, Vendor
   end

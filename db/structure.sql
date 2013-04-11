@@ -499,7 +499,6 @@ CREATE TABLE officers (
     invited_by_type character varying(255),
     notification_preferences text,
     authentication_token character varying(255),
-    role integer DEFAULT 1,
     role_id integer
 );
 
@@ -1732,3 +1731,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130408231054');
 INSERT INTO schema_migrations (version) VALUES ('20130411002227');
 
 INSERT INTO schema_migrations (version) VALUES ('20130411002249');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411003046');

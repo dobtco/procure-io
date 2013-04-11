@@ -28,9 +28,12 @@ class OfficersController < ApplicationController
   end
 
   def officer_params
-    filtered_params = params.require(:officer).permit(:name, :title, :email, :role)
-    filtered_params.delete(:role) unless filtered_params[:role].to_i.in?(Officer.roles.except(:god).values)
-    logger.info filtered_params
+    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id)
+
+    if current_officer.permission_level != :god
+      filtered_params.delete(:role_id) if filtered_params[:role_id] == Role.permission_levels[:god]
+    end
+
     filtered_params
   end
 end

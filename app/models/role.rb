@@ -9,6 +9,14 @@
 #  updated_at       :datetime         not null
 #
 
+require_dependency 'enum'
+
 class Role < ActiveRecord::Base
-  attr_accessible :name, :permission_level
+  has_many :officers, dependent: :nullify
+
+  def self.permission_levels
+    @permission_levels ||= Enum.new(
+      :user, :admin, :god
+    )
+  end
 end

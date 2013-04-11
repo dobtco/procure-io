@@ -9,6 +9,10 @@
 Delayed::Worker.delay_jobs = false
 ActionMailer::Base.perform_deliveries = false
 
+Role.create(name: "User", permission_level: Role.permission_levels[:user])
+Role.create(name: "Admin", permission_level: Role.permission_levels[:admin])
+Role.create(name: "God", permission_level: Role.permission_levels[:god])
+
 3.times { FactoryGirl.create(:officer) }
 10.times { FactoryGirl.create(:vendor) }
 10.times { FactoryGirl.create(:tag) }
