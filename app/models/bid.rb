@@ -254,7 +254,7 @@ class Bid < ActiveRecord::Base
     end
 
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
+    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
   end
 
   def create_bid_unawarded_events!(officer)
@@ -265,17 +265,17 @@ class Bid < ActiveRecord::Base
     end
 
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_unawarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
+    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
 
   end
 
   def create_bid_dismissed_events!(officer)
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_dismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
+    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
   end
 
   def create_bid_undismissed_events!(officer)
     vendor_event = events.create(event_type: Event.event_types[:vendor_bid_undismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: self.vendor.id)
+    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
   end
 end
