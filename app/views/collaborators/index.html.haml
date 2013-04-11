@@ -1,18 +1,10 @@
 = render "projects/officer_nav"
 
 = render layout: "projects/admin_sidebar" do
-  %table.table.table-nonfluid
-    %thead
-      %tr
-        %th= t('.name')
-        %th= t('globals.actions')
-
-    %tbody#collaborators-tbody
-      :javascript
-        new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@collaborators_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
+  = render "collaborators/table", collaborators: @collaborators
 
   %h5 Add Collaborator
-  = form_for [@project, @project.collaborators.build] do |f|
+  = form_for [@project, @project.collaborators.build], remote: true do |f|
     = f.fields_for :officer do |f|
       = f.text_field :email, autocomplete: "off", placeholder: t('globals.email_address')
     %br

@@ -1,0 +1,11 @@
+%table.table.table-nonfluid#collaborators-table
+  %thead
+    %tr
+      %th= t('.name')
+      %th= t('.email')
+      %th= t('.owner')
+      %th= t('globals.actions')
+
+  %tbody#collaborators-tbody
+    - collaborators.each do |collaborator|
+      = render "collaborator", collaborator: collaborator

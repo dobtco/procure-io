@@ -5,21 +5,21 @@ class CollaboratorsController < ApplicationController
 
   def index
     current_officer.read_notifications(@project, :collaborator_added, :you_were_added)
-    @collaborators_json = ActiveModel::ArraySerializer.new(@project.collaborators).to_json
+    @collaborators = @project.collaborators
   end
 
   def create
-    @officer = Officer.where(email: params[:officer][:email]).first || Officer.invite!(email: params[:officer][:email])
+    emails = params[:collaborator][:officer][:email].split(',').map{ |e| e.strip }
 
-    if @officer.projects.where(id: @project.id).first
-      respond_to do |format|
-        format.json { render json: {error: "Already a collaborator."}, status: 422 }
-      end
-    else
-      @collaborator = @officer.collaborators.create(project_id: @project.id, added_by_officer_id: current_officer.id)
-      respond_to do |format|
-        format.json { render json: @collaborator, root: false }
-      end
+    emails.each do |email|
+      officer = Officer.where(email: email).first || Officer.invite!(email: email)
+      officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id)
+    end
+
+    @collaborators = @project.collaborators
+
+    respond_to do |format|
+      format.js
     end
   end
 

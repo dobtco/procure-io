@@ -28,6 +28,9 @@ class Ability
     can [:collaborate_on, :watch, :edit_response_fields, :answer_questions, :edit_description, :access_reports], Project do |project| project.collaborators.where(officer_id: user.id).first end
     can [:destroy, :admin], Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
     can :watch, Bid do |bid| can :collaborate_on, bid.project end
+    can :destroy, Collaborator do |collaborator|
+      !collaborator.owner && (collaborator.project.owner_id == user.id)
+    end
   end
 
   def officer_admin(user)
@@ -41,6 +44,9 @@ class Ability
     can :manage, Vendor
     can :manage, Role do |role|
       role.permission_level != Role.permission_levels[:god]
+    end
+    can :destroy, Collaborator do |collaborator|
+      !collaborator.owner
     end
   end
 
