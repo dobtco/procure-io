@@ -2,9 +2,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.owner.class.name == "Vendor"
+    if user && user.owner.class.name == "Vendor"
       return vendor(user)
-    elsif user.owner.class.name == "Officer"
+    elsif user && user.owner.class.name == "Officer"
       send(:"officer_#{user.owner.permission_level.to_s}", user)
     end
   end

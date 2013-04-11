@@ -47,7 +47,7 @@
         - else
           =link_to t('.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
       - elsif !officer_signed_in?
-        = t('.sign_in_to_bid.line_html', link: link_to(t('.sign_in_to_bid.link'), users_signin_path))
+        = t('.sign_in_to_bid.line_html', link: link_to(t('.sign_in_to_bid.link'), sign_in_path))
 
 
     - if GlobalConfig.instance[:questions_enabled]
@@ -63,7 +63,7 @@
         .alert.alert-success
           = t('.click_here_to_answer_questions.line_html', link: link_to(t('.click_here_to_answer_questions.link'), project_questions_path(@project)))
       - elsif !officer_signed_in?
-        = t('.sign_in_to_ask_question.line_html', link: link_to(t('.sign_in_to_ask_question.link'), users_signin_path))
+        = t('.sign_in_to_ask_question.line_html', link: link_to(t('.sign_in_to_ask_question.link'), sign_in_path))
 
       #questions-list
         :javascript
