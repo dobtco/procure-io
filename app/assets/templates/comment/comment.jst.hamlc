@@ -1,5 +1,5 @@
 .author
-  %img.gravatar{"src" => @officer.gravatar_url}
+  %img.gravatar{"src" => @officer.user.gravatar_url}
   %span.author-name #{@officer.name}
   %span.posted-at #{moment(@created_at).fromNow()}
 

@@ -1,5 +1,5 @@
 class OfficerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :created_at, :title, :updated_at, :me?
+  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?
 
   has_one :user
 

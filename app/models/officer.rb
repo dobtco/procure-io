@@ -41,6 +41,12 @@ class Officer < ActiveRecord::Base
     !name.blank? ? name : user.email
   end
 
+  def self.invite!(email, role_id)
+    officer = Officer.create(role_id: role_id)
+    user = User.create(email: email, password: 'password', owner: officer)
+    return officer
+  end
+
   private
   def set_default_notification_preferences
     self.notification_preferences = Officer.event_types.except(:collaborator_added).values

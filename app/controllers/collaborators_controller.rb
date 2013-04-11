@@ -4,7 +4,7 @@ class CollaboratorsController < ApplicationController
   before_filter :authorize_officer!
 
   def index
-    current_officer.read_notifications(@project, :collaborator_added, :you_were_added)
+    current_user.read_notifications(@project, :collaborator_added, :you_were_added)
     @collaborators = @project.collaborators
   end
 
@@ -12,8 +12,8 @@ class CollaboratorsController < ApplicationController
     emails = create_collaborator_params[:email].split(',').map{ |e| e.strip }
 
     emails.each do |email|
-      officer = Officer.where(email: email).first
-      officer = Officer.invite!(email: email, role_id: create_collaborator_params[:role_id]) if !officer
+      officer = Officer.joins(:user).where(users: { email: email }).first
+      officer = Officer.invite!(email, create_collaborator_params[:role_id]) if !officer
 
       officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id) if officer.valid?
     end

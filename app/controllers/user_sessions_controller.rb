@@ -12,10 +12,10 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(user_session_params)
 
     if @user_session.save
-      flash[:success] = t('devise.sessions.signed_in')
+      flash[:success] = "You're now signed in."
       redirect_to successful_signin_redirect_path
     else
-      flash[:error] = t('devise.failure.invalid')
+      flash[:error] = "Sorry, wrong email/password combo."
       redirect_to sign_in_path
     end
   end

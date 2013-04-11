@@ -28,6 +28,10 @@ class User < ActiveRecord::Base
   serialize :notification_preferences
   before_create :set_default_notification_preferences
 
+  def signed_up?
+    crypted_password ? true : false
+  end
+
   def gravatar_url
     "//gravatar.com/avatar/#{Digest::MD5::hexdigest(email.downcase)}?size=45&d=identicon"
   end

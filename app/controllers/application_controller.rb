@@ -42,4 +42,18 @@ class ApplicationController < ActionController::Base
       redirect_to :root
     end
   end
+
+  def authenticate_vendor!
+    if !vendor_signed_in?
+      flash[:error] = "Sorry, that page is for logged-in vendors only."
+      redirect_to :root
+    end
+  end
+
+  def authenticate_officer!
+    if !officer_signed_in?
+      flash[:error] = "Sorry, that page is for logged-in officers only."
+      redirect_to :root
+    end
+  end
 end

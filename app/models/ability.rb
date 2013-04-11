@@ -2,10 +2,10 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.class.name == "Vendor"
+    if user.owner.class.name == "Vendor"
       return vendor(user)
-    elsif user.class.name == "Officer"
-      send(:"officer_#{user.permission_level.to_s}", user)
+    elsif user.owner.class.name == "Officer"
+      send(:"officer_#{user.owner.permission_level.to_s}", user)
     end
   end
 
@@ -13,23 +13,35 @@ class Ability
 
   def vendor(user)
     can :create, Bid do |bid|
-      (!bid.project.bids_due_at || (bid.project.bids_due_at > Time.now)) && !user.submitted_bid_for_project(bid.project)
+      (!bid.project.bids_due_at || (bid.project.bids_due_at > Time.now)) && !user.owner.submitted_bid_for_project(bid.project)
     end
 
     can :watch, Project, posted: true
   end
 
   def officer_review_only(user)
-    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.id).first end
-    can :watch, Bid do |bid| can :collaborate_on, bid.project end
+    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
+    can :watch, Bid do |bid|
+      can :collaborate_on, bid.project
+    end
   end
 
   def officer_user(user)
-    can [:collaborate_on, :watch, :edit_response_fields, :answer_questions, :edit_description, :access_reports], Project do |project| project.collaborators.where(officer_id: user.id).first end
-    can [:destroy, :admin], Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
-    can :watch, Bid do |bid| can :collaborate_on, bid.project end
+    can [:collaborate_on, :watch, :edit_response_fields, :answer_questions,
+         :edit_description, :access_reports], Project do |project|
+      project.collaborators.where(officer_id: user.owner.id).first
+    end
+
+    can [:destroy, :admin], Project do |project|
+      project.collaborators.where(officer_id: user.owner.id, owner: true).first
+    end
+
+    can :watch, Bid do |bid|
+      can :collaborate_on, bid.project
+    end
+
     can :destroy, Collaborator do |collaborator|
-      !collaborator.owner && (collaborator.project.owner_id == user.id)
+      !collaborator.owner && (collaborator.project.owner_id == user.owner.id)
     end
   end
 

@@ -19,7 +19,7 @@ class OfficersController < ApplicationController
   end
 
   def typeahead
-    render json: Officer.where("email LIKE :query", query: "%#{params[:query]}%").order("email").pluck("email").to_json
+    render json: User.where("email LIKE ?", "%#{params[:query]}%").where(owner_type: "Officer").order("email").pluck("email").to_json
   end
 
   private

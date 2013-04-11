@@ -3,6 +3,7 @@ class BidsController < ApplicationController
 
   before_filter :project_exists?
   before_filter :bid_exists?, only: [:show, :update, :reviews, :destroy, :read_notifications]
+  before_filter :authenticate_user!, only: [:read_notifications]
   before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
   before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy, :emails]
   before_filter only: [:index, :show, :batch, :reviews, :read_notifications, :emails] { |c| c.check_enabled!('bid_review') }
@@ -118,11 +119,7 @@ class BidsController < ApplicationController
   end
 
   def read_notifications
-    if current_vendor && @bid.vendor == current_vendor
-      current_vendor.read_notifications(@bid)
-    elsif current_officer && (can? :collaborate_on, @project)
-      current_officer.read_notifications(@bid)
-    end
+    current_user.read_notifications(@bid)
 
     respond_to do |format|
       format.json { render json: {} }
@@ -130,13 +127,13 @@ class BidsController < ApplicationController
   end
 
   def show
+    current_user.read_notifications(@bid)
+
     if current_vendor && @bid.vendor == current_vendor
-      current_vendor.read_notifications(@bid)
       render "bids/show_vendor"
+
     elsif current_officer && (can? :collaborate_on, @project)
       return not_found if !@bid.submitted_at
-
-      current_officer.read_notifications(@bid)
 
       if !(review = @bid.bid_review_for_officer(current_officer)).read
         review.update_attributes read: true
