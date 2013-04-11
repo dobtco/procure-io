@@ -721,7 +721,8 @@ CREATE TABLE roles (
     name character varying(255),
     permission_level integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    undeletable boolean
 );
 
 
@@ -1733,3 +1734,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130411002227');
 INSERT INTO schema_migrations (version) VALUES ('20130411002249');
 
 INSERT INTO schema_migrations (version) VALUES ('20130411003046');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411010006');

@@ -7,6 +7,7 @@
 #  permission_level :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  undeletable      :boolean
 #
 
 require 'spec_helper'

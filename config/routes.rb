@@ -19,6 +19,8 @@ ProcureIo::Application.routes.draw do
 
   get 'vendor_registration_form' => 'global_config#get_vendor_registration_form', as: :vendor_registration_form
 
+  resources :roles
+
   resources :notifications, only: [:index, :update]
 
   resources :saved_searches, only: [:index, :create, :destroy]
