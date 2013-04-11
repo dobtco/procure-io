@@ -1,8 +1,8 @@
 .dropdown-menu
-  = form_tag users_signin_path, method: :post, class: "dropdown-login-form" do
+  = form_tag sign_in_path, method: :post, class: "dropdown-login-form" do
     %h4= t('.sign_in', site_name: t('globals.site_name'))
-    = text_field_tag :email, nil, placeholder: t('globals.email_address')
-    = password_field_tag :password, nil, placeholder: t('globals.password')
+    %input{"type" => "text", "name" => "user_session[email]", "placeholder" => t('globals.email_address')}
+    %input{"type" => "password", "name" => "user_session[password]", "placeholder" => t('globals.password')}
     .login-button-wrapper
       %button.btn.btn-primary= t('globals.sign_in')
       = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), "#"))

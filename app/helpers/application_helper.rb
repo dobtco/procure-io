@@ -77,11 +77,11 @@ module ApplicationHelper
   end
 
   def current_officer
-    current_user && current_user.owner.class.name = "Officer" && current_user.owner
+    current_user && (current_user.owner.class.name == "Officer") && current_user.owner
   end
 
   def current_vendor
-    current_user && current_user.owner.class.name = "Vendor" && current_user.owner
+    current_user && (current_user.owner.class.name == "Vendor") && current_user.owner
   end
 
   def signed_in?
