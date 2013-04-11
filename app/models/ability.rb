@@ -5,7 +5,7 @@ class Ability
     if user.class.name == "Vendor"
       return vendor(user)
     elsif user.class.name == "Officer"
-      send(:"officer_#{Officer.roles[user.role].to_s}", user)
+      send(:"officer_#{user.permission_level.to_s}", user)
     end
   end
 
@@ -19,21 +19,35 @@ class Ability
     can :watch, Project, posted: true
   end
 
-  def officer_user(user)
-    can [:collaborate_on, :watch, :edit_response_fields], Project do |project| project.collaborators.where(officer_id: user.id).first end
-    can :destroy, Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
+  def officer_review_only(user)
+    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.id).first end
     can :watch, Bid do |bid| can :collaborate_on, bid.project end
   end
 
+  def officer_user(user)
+    can [:collaborate_on, :watch, :edit_response_fields, :answer_questions, :edit_description, :access_reports], Project do |project| project.collaborators.where(officer_id: user.id).first end
+    can [:destroy, :admin], Project do |project| project.collaborators.where(officer_id: user.id, owner: true).first end
+    can :watch, Bid do |bid| can :collaborate_on, bid.project end
+    can :destroy, Collaborator do |collaborator|
+      !collaborator.owner && (collaborator.project.owner_id == user.id)
+    end
+  end
+
   def officer_admin(user)
-    can [:collaborate_on, :watch, :destroy, :edit_response_fields], Project
+    can :manage, Project
     can [:watch, :destroy], Bid
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer
     can :update, Officer do |officer|
-      officer.role != Officer.roles[:god]
+      officer.permission_level != :god
     end
     can :manage, Vendor
+    can :manage, Role do |role|
+      role.permission_level != Role.permission_levels[:god]
+    end
+    can :destroy, Collaborator do |collaborator|
+      !collaborator.owner
+    end
   end
 
   def officer_god(user)

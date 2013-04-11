@@ -1,7 +1,21 @@
 != page_header t('.header')
 
-%ul
-  - @officers.each do |officer|
-    %li= link_to officer.display_name, edit_officer_path(officer)
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Role
+      %th Actions
+
+  %tbody
+    - @officers.each do |officer|
+      %tr
+        %td= officer.name
+        %td= officer.email
+        %td= officer.role.name if officer.role
+        %td
+          - if can? :update, officer
+            = link_to t('.edit_officer'), edit_officer_path(officer)
 
 = will_paginate @officers, class: "pagination pagination-centered"

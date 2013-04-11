@@ -15,6 +15,9 @@ $(document).on "click", "[data-toggle-text]", ->
 $(document).on "click", '[data-toggle=showhide]', ->
   $($(@).data('target')).toggleClass 'hide'
 
+$(document).on "click", "[data-toggle-class]", ->
+  $($(@).data('target')).toggleClass($(@).data('toggle-class'))
+
 $(document).on "click", ".show-tour-link", (e) ->
   if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
     $.intro(steps)

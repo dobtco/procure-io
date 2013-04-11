@@ -4,7 +4,7 @@ class OfficersController < ApplicationController
 
   def index
     authorize! :read, Officer
-    @officers = Officer.paginate(page: params[:page])
+    @officers = Officer.order("id").paginate(page: params[:page])
   end
 
   def edit
@@ -15,7 +15,7 @@ class OfficersController < ApplicationController
     authorize! :update, @officer
     @officer.update_attributes(officer_params)
     flash[:success] = "Officer successfully updated."
-    redirect_to edit_officer_path(@officer)
+    redirect_to officers_path
   end
 
   def typeahead
@@ -28,9 +28,11 @@ class OfficersController < ApplicationController
   end
 
   def officer_params
-    filtered_params = params.require(:officer).permit(:name, :title, :email, :role)
-    filtered_params.delete(:role) unless filtered_params[:role].to_i.in?(Officer.roles.except(:god).values)
-    logger.info filtered_params
+    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id)
+
+    role = Role.find(filtered_params[:role_id])
+    filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+
     filtered_params
   end
 end

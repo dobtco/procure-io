@@ -499,7 +499,7 @@ CREATE TABLE officers (
     invited_by_type character varying(255),
     notification_preferences text,
     authentication_token character varying(255),
-    role integer DEFAULT 1
+    role_id integer
 );
 
 
@@ -710,6 +710,39 @@ CREATE SEQUENCE responses_id_seq
 --
 
 ALTER SEQUENCE responses_id_seq OWNED BY responses.id;
+
+
+--
+-- Name: roles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE roles (
+    id integer NOT NULL,
+    name character varying(255),
+    permission_level integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    undeletable boolean
+);
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE roles_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: roles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
 
 --
@@ -1025,6 +1058,13 @@ ALTER TABLE ONLY responses ALTER COLUMN id SET DEFAULT nextval('responses_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY roles ALTER COLUMN id SET DEFAULT nextval('roles_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY saved_searches ALTER COLUMN id SET DEFAULT nextval('saved_searches_id_seq'::regclass);
 
 
@@ -1198,6 +1238,14 @@ ALTER TABLE ONLY response_fields
 
 ALTER TABLE ONLY responses
     ADD CONSTRAINT responses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
 
 
 --
@@ -1472,6 +1520,14 @@ ALTER TABLE ONLY labels
 
 
 --
+-- Name: officers_role_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY officers
+    ADD CONSTRAINT officers_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id);
+
+
+--
 -- Name: project_revisions_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1672,3 +1728,11 @@ INSERT INTO schema_migrations (version) VALUES ('20130406004710');
 INSERT INTO schema_migrations (version) VALUES ('20130408212810');
 
 INSERT INTO schema_migrations (version) VALUES ('20130408231054');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411002227');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411002249');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411003046');
+
+INSERT INTO schema_migrations (version) VALUES ('20130411010006');

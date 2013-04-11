@@ -1,19 +1,23 @@
 = render "projects/officer_nav"
 
 = render layout: "projects/admin_sidebar" do
-  %table.table.table-nonfluid
-    %thead
-      %tr
-        %th= t('.name')
-        %th= t('globals.actions')
-
-    %tbody#collaborators-tbody
-      :javascript
-        new ProcureIo.Backbone.CollaboratorPage({bootstrapData: #{@collaborators_json}, projectId: #{@project.id}, ownerId: #{@project.owner_id}});
+  = render "collaborators/table", collaborators: @collaborators
 
   %h5 Add Collaborator
-  = form_for [@project, @project.collaborators.build] do |f|
-    = f.fields_for :officer do |f|
-      = f.text_field :email, autocomplete: "off", placeholder: t('globals.email_address')
-    %br
-    = f.submit t('actions.collaborator.create'), class: "btn btn-inverse", "data-loading-text" => t('actions.collaborator.create_loading')
+  = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
+
+    .email-inputs
+      %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => t('globals.email_address')}
+      %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
+
+    %div
+      If they're not already registered, we'll invite them and assign them the site-wide role of
+      %select{"name" => "role_id"}
+        - Role.assignable_by_officer(current_officer).each do |role|
+          %option{"value" => role.id}= role.name
+
+    %small
+      %a.js-toggle-single-bulk{"data-toggle-text" => "Add one collaborator"} Add multiple collaborators
+
+    .form-actions
+      %button.btn.btn-inverse{"data-loading-text" => t('actions.collaborator.create_loading')}= t('actions.collaborator.create')
