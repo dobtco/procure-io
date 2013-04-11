@@ -5,9 +5,9 @@
     = password_field_tag :password, nil, placeholder: t('globals.password')
     .login-button-wrapper
       %button.btn.btn-primary= t('globals.sign_in')
-      = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), new_vendor_registration_path))
+      = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), "#"))
 
 
 
     .forgot-password-wrapper
-      = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), users_forgot_password_path))
+      = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), "#"))
