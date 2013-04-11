@@ -34,6 +34,9 @@ class Ability
       officer.permission_level != :god
     end
     can :manage, Vendor
+    can :manage, Role do |role|
+      role.permission_level != Role.permission_levels[:god]
+    end
   end
 
   def officer_god(user)

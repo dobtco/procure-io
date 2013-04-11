@@ -1,0 +1,25 @@
+!= page_header t('.header')
+
+= link_to "New Role", new_role_path, class: "btn"
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Permission Level
+      %th Actions
+
+  %tbody
+    - @roles.each do |role|
+      %tr
+        %td= role.name
+        %td= role.permission_level_name
+        %td
+          - if can? :manage, role
+            = link_to "Edit", edit_role_path(role)
+            - unless role.undeletable?
+              = link_to "Destroy", role_path(role), method: :delete, confirm: t('confirmations.role.delete')
+          - else
+            Sorry, you can't edit this role.
+
+= will_paginate @roles, class: "pagination pagination-centered"

@@ -24,6 +24,9 @@ en:
     amendment:
       delete: "Are you sure you want to delete this amendment?"
 
+    role:
+      delete: "Are you sure you want to delete this role?"
+
   actions:
     bid:
       delete: "Delete Bid"
@@ -260,6 +263,15 @@ en:
 
     common:
       no_data: "Sorry, no data to display."
+
+  roles:
+    name:
+      user: User
+      admin: Admin
+      god: God
+
+    index:
+      header: Roles
 
   saved_searches:
     current_results: Current Results

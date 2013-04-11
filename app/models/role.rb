@@ -15,9 +15,17 @@ require_dependency 'enum'
 class Role < ActiveRecord::Base
   has_many :officers, dependent: :nullify
 
+  def self.permission_level_name(permission_level)
+    I18n.t("roles.name.#{permission_level}")
+  end
+
   def self.permission_levels
     @permission_levels ||= Enum.new(
       :user, :admin, :god
     )
+  end
+
+  def permission_level_name
+    Role.permission_level_name(Role.permission_levels[permission_level])
   end
 end

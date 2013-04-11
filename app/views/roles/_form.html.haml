@@ -1,0 +1,9 @@
+= form_for @role do |f|
+  = f.label :name
+  = f.text_field :name
+
+  = f.label :permission_level
+  = f.select :permission_level, options_for_select(@permission_level_options, @role.permission_level)
+
+  .form-actions
+    = f.submit class: "btn btn-primary"
