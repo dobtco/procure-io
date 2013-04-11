@@ -1,6 +1,6 @@
 %tr{"data-email" => collaborator.officer.email}
   %td
-    = collaborator.officer.display_name
+    = collaborator.officer.name
     - if !collaborator.officer.signed_up?
       %i.icon-envelope
   %td= collaborator.officer.email
