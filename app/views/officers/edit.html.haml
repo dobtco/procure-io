@@ -10,8 +10,9 @@
   = f.label :title
   = f.text_field :title
 
-  = f.label :email
-  = f.text_field :email
+  = f.fields_for :user do |f|
+    = f.label :email
+    = f.text_field :email
 
   = f.label :role
   = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true

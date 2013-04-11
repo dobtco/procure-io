@@ -22,8 +22,8 @@ class Vendor < ActiveRecord::Base
   has_one :vendor_profile, dependent: :destroy
   has_many :responses, through: :vendor_profile
 
-  pg_search_scope :full_search, against: [:email, :name],
-                                associated_against: { responses: [:value] },
+  pg_search_scope :full_search, against: [:name],
+                                associated_against: { responses: [:value], user: [:email] },
                                 using: { tsearch: { prefix: true } }
 
   def self.search_by_params(params, count_only = false)
@@ -32,7 +32,7 @@ class Vendor < ActiveRecord::Base
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
     # query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendor.id")
-    query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
+    query = Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
@@ -43,7 +43,7 @@ class Vendor < ActiveRecord::Base
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
 
     elsif params[:sort] == "email"
-      query = query.order("email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("users.email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "name" || !params[:sort]
       query = query.order("name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end

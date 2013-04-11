@@ -28,7 +28,7 @@ class OfficersController < ApplicationController
   end
 
   def officer_params
-    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id)
+    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id, user_attributes: [:id, :email])
 
     role = Role.find(filtered_params[:role_id])
     filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
