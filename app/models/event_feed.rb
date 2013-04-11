@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  event_id   :integer
-#  user_type  :string(255)
 #  user_id    :integer
 #  read       :boolean          default(FALSE)
 #  created_at :datetime         not null

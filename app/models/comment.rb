@@ -6,7 +6,6 @@
 #  commentable_type :string(255)
 #  commentable_id   :integer
 #  officer_id       :integer
-#  vendor_id        :integer
 #  comment_type     :string(255)
 #  body             :text
 #  data             :text
@@ -17,7 +16,6 @@
 class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
   belongs_to :officer
-  belongs_to :vendor
 
   has_many :events, as: :targetable
 

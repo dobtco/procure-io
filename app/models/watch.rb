@@ -3,7 +3,6 @@
 # Table name: watches
 #
 #  id             :integer          not null, primary key
-#  user_type      :string(255)
 #  user_id        :integer
 #  watchable_id   :integer
 #  watchable_type :string(255)
