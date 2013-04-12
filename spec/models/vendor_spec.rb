@@ -15,15 +15,11 @@ describe Vendor do
 
   subject { vendors(:one) }
 
-  it { should respond_to(:email) }
   it { should respond_to(:name) }
 
   it { should respond_to(:bids) }
   it { should respond_to(:questions) }
   it { should respond_to(:saved_searches) }
-
-  it { should respond_to(:event_feeds) }
-  it { should respond_to(:events) }
 
   it { should be_valid }
 

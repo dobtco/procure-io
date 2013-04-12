@@ -25,7 +25,6 @@ describe Comment do
 
   it { should respond_to(:commentable) }
   it { should respond_to(:officer) }
-  it { should respond_to(:vendor) }
 
   describe "calculate total comments" do
     it "should call its commentables total comments method when saving" do
