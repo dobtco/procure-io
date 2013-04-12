@@ -213,10 +213,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_unawarded_events!(officer)
   end
 
-  def unaward_by_officer!(officer)
-    self.unaward_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :unaward_by_officer
 
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
@@ -230,28 +227,19 @@ class Bid < ActiveRecord::Base
     self.total_stars = bid_reviews.where(starred: true).count
   end
 
-  def calculate_total_stars!
-    calculate_total_stars
-    self.save
-  end
+  dangerous_alias :calculate_total_stars
 
   def calculate_total_comments
     self.total_comments = comments.count
   end
 
-  def calculate_total_comments!
-    calculate_total_comments
-    self.save
-  end
+  dangerous_alias :calculate_total_comments
 
   def calculate_average_rating
     self.average_rating = bid_reviews.that_have_ratings.average(:rating)
   end
 
-  def calculate_average_rating!
-    calculate_average_rating
-    self.save
-  end
+  dangerous_alias :calculate_average_rating
 
   def text_status
     if dismissed_at
