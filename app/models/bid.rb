@@ -77,7 +77,7 @@ class Bid < ActiveRecord::Base
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
       query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
-                                               AND responses.responable_type = 'Bid'
+                                               AND responses.responsable_type = 'Bid'
                                                AND responses.response_field_id = ?", params[:sort]]))
                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
