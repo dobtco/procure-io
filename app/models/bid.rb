@@ -83,7 +83,7 @@ class Bid < ActiveRecord::Base
     elsif params[:sort] == "stars"
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "average_rating"
-      query = query.order("average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "created_at" || !params[:sort]
       query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
