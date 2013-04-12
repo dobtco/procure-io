@@ -37,7 +37,7 @@ describe Officer do
 
     describe "when not signed up" do
       it "should return false" do
-        @not_signed_up_officer = Officer.invite!("boo@hoo.com", roles(:review_only).id)
+        @not_signed_up_officer = Officer.invite!("boo@hoo.com", projects(:one), roles(:review_only).id)
         @not_signed_up_officer.user.should_not be_signed_up
       end
     end
