@@ -8,7 +8,7 @@ namespace :send_saved_search_emails do
     end
 
     Vendor.all.each do |vendor|
-      SavedSearchMailer.search_email(vendor).deliver
+      Mailer.search_email(vendor).deliver
     end
   end
 end

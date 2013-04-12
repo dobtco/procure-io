@@ -353,6 +353,21 @@ en:
 
         -- %{site_name}
 
+    password_reset:
+      subject: "Your password reset request for %{site_name}"
+      text: |
+        Hey %{name},
+
+        You requested to reset your password for your account on %{site_name}.
+
+        Visit this link to reset it: %{reset_password_url}
+
+        If someone other than you requested this password change, please contact us immediately.
+
+        -- %{site_name}
+
+
+
     saved_searches:
       pluralized_count:
         one: 1 new result

@@ -1,12 +1,6 @@
 ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
-  # get 'settings' => 'users#settings', as: :settings
-  # put 'settings' => 'users#post_settings'
-
-  # get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
-  # post 'vendor_profile' => 'users#post_vendor_profile'
-
   get 'global_config/advanced' => 'global_config#advanced', as: :global_config_advanced
   get 'global_config/vendor_registration' => 'global_config#vendor_registration', as: :global_config_vendor_registration
   get 'global_config/event_hooks' => 'global_config#event_hooks', as: :global_config_event_hooks
@@ -20,8 +14,11 @@ ProcureIo::Application.routes.draw do
   post 'sign_in' => 'user_sessions#create'
   delete 'sign_out' => 'user_sessions#destroy'
 
-  # get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
-  # post 'users/forgot_password' => 'users#post_forgot_password'
+  get 'forgot_password' => 'users#forgot_password', as: :users_forgot_password
+  post 'forgot_password' => 'users#post_forgot_password'
+
+  get 'reset_password/:token' => 'users#reset_password', as: :users_reset_password
+  post 'reset_password/:token' => 'users#post_reset_password'
 
   get 'settings/profile' => 'settings#profile', as: :settings_profile
   post 'settings/profile' => 'settings#post_profile'

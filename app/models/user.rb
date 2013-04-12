@@ -81,4 +81,8 @@ class User < ActiveRecord::Base
   def display_name
     owner.display_name
   end
+
+  def send_reset_password_instructions!
+    Mailer.password_reset_email(self).deliver
+  end
 end

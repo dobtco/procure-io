@@ -50,7 +50,7 @@ class Officer < ActiveRecord::Base
   end
 
   def send_invitation_email!(project)
-    InviteMailer.invite_email(self, project).deliver
+    Mailer.invite_email(self, project).deliver
   end
 
   handle_asynchronously :send_invitation_email!

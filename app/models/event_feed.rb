@@ -31,7 +31,7 @@ class EventFeed < ActiveRecord::Base
     return if !user.signed_up? # don't send an email to a user if they're not signed up
 
     if user.send_email_notifications_for?(event.event_type)
-      NotificationMailer.notification_email(user, event).deliver
+      Mailer.notification_email(user, event).deliver
     end
   end
 end
