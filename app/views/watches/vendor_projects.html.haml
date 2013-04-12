@@ -1,7 +1,13 @@
 !=page_header t('.header')
 
-%ul
-  - @projects.each do |project|
-    %li
-      = link_to project.title, project_path(project)
-      %small= t('watches.last_updated', date: project.updated_at.to_formatted_s(:readable))
+%table.table
+  %thead
+    %tr
+      %th Project Title
+      %th Last Updated
+
+  %tbody
+    - @projects.each do |project|
+      %tr
+        %td= link_to project.title, project_path(project)
+        %td= project.updated_at.to_formatted_s(:readable)

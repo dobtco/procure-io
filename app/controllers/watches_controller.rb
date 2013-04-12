@@ -14,6 +14,7 @@ class WatchesController < ApplicationController
   def vendor_projects
     @projects = Project.includes(:watches)
                        .where("watches.user_id = ?", current_vendor.id)
+                       .order("projects.updated_at DESC")
                        .paginate(page: params[:page])
   end
 
