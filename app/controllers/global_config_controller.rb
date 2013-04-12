@@ -74,6 +74,6 @@ class GlobalConfigController < ApplicationController
   def global_config_params
     params.require(:global_config)
           .permit(:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled, :amendments_enabled,
-                  :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled)
+                  :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled, :passwordless_invites_enabled)
   end
 end

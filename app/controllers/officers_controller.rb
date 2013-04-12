@@ -10,10 +10,18 @@ class OfficersController < ApplicationController
   end
 
   def invite
+    if GlobalConfig.instance[:passwordless_invites_enabled]
+      flash[:success] = "Heya! We logged you in without a password, but you can always create one if you want. " +
+                        "If you don't create one, you can just use the same invite link to login in the future."
+
+      UserSession.create(@user)
+      redirect_to mine_projects_path
+    end
   end
 
   def post_invite
     @user.update_attributes(password: params[:user][:password])
+    @user.reset_perishable_token!
     UserSession.create(@user)
     redirect_to mine_projects_path
   end
