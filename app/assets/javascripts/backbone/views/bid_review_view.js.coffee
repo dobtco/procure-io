@@ -242,7 +242,10 @@ ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
   el: "#sorters-wrapper"
 
   initialize: ->
-    @sortOptions = [{key: "average_rating", label: "Average Rating"}, {key: "created_at", label: "Created at"}, {key: "stars", label: "Stars"}]
+    @sortOptions = [{key: "created_at", label: "Created at"}]
+
+    @sortOptions.push({key: "stars", label: "Stars"}) if @options.project.review_mode == "starring"
+    @sortOptions.push({key: "average_rating", label: "Average Rating"}) if @options.project.review_mode == "rating"
 
     _.each @options.project.key_fields, (kf) =>
       @sortOptions.push {key: ""+kf.id, label: kf.label}
