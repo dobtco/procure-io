@@ -74,7 +74,8 @@ CREATE TABLE bid_reviews (
     officer_id integer,
     bid_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    rating integer
 );
 
 
@@ -1681,3 +1682,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130412015423');
 INSERT INTO schema_migrations (version) VALUES ('20130412033936');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412041345');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412172129');

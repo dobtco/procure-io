@@ -9,6 +9,7 @@
 #  bid_id     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  rating     :integer
 #
 
 class BidReview < ActiveRecord::Base
@@ -16,6 +17,8 @@ class BidReview < ActiveRecord::Base
   belongs_to :officer
 
   after_save :calculate_bid_total_stars!
+
+  scope :that_have_ratings, where("rating IS NOT NULL")
 
   private
   def calculate_bid_total_stars!

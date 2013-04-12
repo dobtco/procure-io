@@ -317,6 +317,9 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
     @$el.find(".total-stars").on "mouseover", loadStarrers
 
+    @$el.find(".rating-select").on "change", =>
+      @save()
+
     return @
 
   clear: ->
@@ -362,10 +365,13 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   toggleStarred: ->
     @model.set 'my_bid_review.starred', (if @model.get('my_bid_review.starred') then false else true)
-    @model.save()
+    @save()
 
   toggleRead: ->
     @model.set 'my_bid_review.read', (if @model.get('my_bid_review.read') then false else true)
+    @save()
+
+  save: ->
     @model.save()
 
 

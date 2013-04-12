@@ -247,6 +247,13 @@ class Bid < ActiveRecord::Base
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
 
+  def average_rating
+    average = bid_reviews.that_have_ratings.average(:rating)
+
+    # round to 2 decimal places
+    sprintf('%.2f', average) if average
+  end
+
   private
   def create_bid_awarded_events!(officer)
     event = events.create(event_type: Event.event_types[:bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)

@@ -23,6 +23,7 @@
       %thead
         %tr
           %th{"style" => "width: 50px;"} &nbsp;
+          %th= I18n.js('avg_rating')
           %th= I18n.js('vendor_name')
           - for index, keyField of @keyFields
             %th= keyField.label
