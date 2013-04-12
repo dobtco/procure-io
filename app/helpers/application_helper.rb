@@ -13,12 +13,15 @@ module ApplicationHelper
     end
   end
 
-  def full_title(page_title)
-    base_title = "Procure.io"
+  def full_title(page_title, page_action)
+    base_title = I18n.t('globals.site_name')
+
     if page_title.empty?
       base_title
+    elsif page_action.empty?
+      "#{h(page_title)} &middot; #{base_title}"
     else
-      "#{page_title} | #{base_title}"
+      "#{h(page_action)} &middot; #{h(page_title)} &middot; #{base_title}"
     end
   end
 

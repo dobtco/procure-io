@@ -12,6 +12,7 @@ class ReportsController < ApplicationController
       @data.push [ d.to_time.to_formatted_s(:readable_dateonly), bids.select { |b| b.submitted_at.to_date == d }.length ]
     end
 
+    @report_title = "Bids over time"
     render "reports/common"
   end
 
@@ -23,6 +24,7 @@ class ReportsController < ApplicationController
       @data.push [date, count, uniques[date]]
     end
 
+    @report_title = "Impressions"
     render "reports/common"
   end
 
@@ -52,6 +54,7 @@ class ReportsController < ApplicationController
       end
     end
 
+    @report_title = @response_field.label
     render "reports/common"
   end
 

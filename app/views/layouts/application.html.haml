@@ -1,7 +1,7 @@
 !!! 5
 
 %head
-  %title= full_title(yield(:title))
+  %title!= full_title(yield(:page_title), yield(:page_action))
   = stylesheet_link_tag "application", media: "all"
   = javascript_include_tag "application"
   :javascript

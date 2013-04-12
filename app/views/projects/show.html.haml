@@ -1,3 +1,5 @@
+- provide :page_title, @project.title
+
 - if can? :collaborate_on, @project
   .alert.alert-success= t('.you_are_collaborator.line_html', link: link_to(t('.you_are_collaborator.link'), edit_project_path(@project)))
 

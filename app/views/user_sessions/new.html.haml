@@ -1,3 +1,5 @@
+- provide :page_title, t('globals.sign_in')
+
 !=page_header t('globals.sign_in')
 
 = form_tag sign_in_path, method: :post do
@@ -10,7 +12,7 @@
 
   .form-actions
     %button.btn.btn-primary= t('globals.sign_in')
-    = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), "#"))
+    = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), new_vendor_path))
 
   .forgot-password-wrapper
-    = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), "#"))
+    = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), users_forgot_password_path))
