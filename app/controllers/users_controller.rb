@@ -40,6 +40,7 @@ class UsersController < ApplicationController
     redirect_to settings_path
   end
 
+  # @todo broken
   def post_officer_settings
     current_officer.update_attributes(officer_params.merge(
       notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []

@@ -33,7 +33,7 @@ ProcureIo::Application.routes.draw do
     get 'typeahead', on: :collection
   end
 
-  resources :vendors, only: [:index, :edit, :update]
+  resources :vendors, only: [:index, :edit, :update, :new, :create]
 
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches

@@ -1,0 +1,32 @@
+%h3 Sign up
+
+= form_for Vendor.new, url: vendors_path, method: :post do |f|
+
+  .row-fluid
+    .span4
+      .control-group
+        = f.label :name
+        = f.text_field :name
+
+      = f.fields_for User.new do |f|
+        .control-group
+          = f.label :email
+          = f.text_field :email
+
+        .control-group
+          = f.label :password
+          = f.password_field :password
+
+      .control-group
+        %label Phone
+        %input{"type" => "text", "placeholder" => "XXX-XXX-XXXX"}
+
+      .control-group
+        %label Address
+        %textarea
+
+    .span8
+      != Faker::Lorem.paragraphs(3).join("<br /><br />")
+
+  .form-actions
+    = f.submit "Sign up", class: "btn btn-primary"
