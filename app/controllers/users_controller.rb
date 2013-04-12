@@ -36,25 +36,18 @@ class UsersController < ApplicationController
   end
 
   def post_settings
+    current_user.update_attributes(notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : [])
     officer_signed_in? ? post_officer_settings : post_vendor_settings
+    flash[:success] = "Settings successfully updated."
     redirect_to settings_path
   end
 
-  # @todo broken
   def post_officer_settings
-    current_officer.update_attributes(officer_params.merge(
-      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    ))
-
-    flash[:success] = "Settings successfully updated."
+    current_officer.update_attributes(officer_params)
   end
 
   def post_vendor_settings
-    current_vendor.update_attributes(vendor_params.merge(
-      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    ))
-
-    flash[:success] = "Settings successfully updated."
+    current_vendor.update_attributes(vendor_params)
   end
 
   def vendor_profile
