@@ -9,7 +9,7 @@ class Mailer < ActionMailer::Base
                 'invite',
                 project_title: project.title,
                 name: officer.display_name,
-                invite_url: invite_officers_url(token: officer.user.perishable_token)
+                invite_url: users_accept_invite_url(token: officer.user.perishable_token)
   end
 
   def notification_email(user, event)

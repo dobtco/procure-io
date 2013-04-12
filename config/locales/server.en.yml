@@ -130,10 +130,6 @@ en:
     index:
       header: "Officers"
 
-    invite:
-      header: "Create a Password"
-      save: Let's go!
-
   project_revisions:
     show:
       alert_html: >
@@ -317,6 +313,11 @@ en:
       send_instructions: "Send reset password instructions"
       line_html: Did you %{link}?
       link: forget your password
+
+    password:
+      header: "Create a Password"
+      save: Let's go!
+
 
   watches:
     last_updated: "last updated %{date}"

@@ -17,8 +17,10 @@ ProcureIo::Application.routes.draw do
   get 'forgot_password' => 'users#forgot_password', as: :users_forgot_password
   post 'forgot_password' => 'users#post_forgot_password'
 
-  get 'reset_password/:token' => 'users#reset_password', as: :users_reset_password
-  post 'reset_password/:token' => 'users#post_reset_password'
+  get 'reset_password/:token' => 'users#password', as: :users_reset_password
+  post 'reset_password/:token' => 'users#post_password'
+  get 'accept_invite/:token' => 'users#password', as: :users_accept_invite
+  post 'accept_invite/:token' => 'users#post_password'
 
   get 'settings/profile' => 'settings#profile', as: :settings_profile
   post 'settings/profile' => 'settings#post_profile'
@@ -35,8 +37,6 @@ ProcureIo::Application.routes.draw do
 
   resources :officers, only: [:index, :edit, :update] do
     get 'typeahead', on: :collection
-    get 'invite/:token' => 'officers#invite', on: :collection, as: :invite
-    post 'invite/:token' => 'officers#post_invite', on: :collection
   end
 
   resources :vendors, only: [:index, :edit, :update, :new, :create]

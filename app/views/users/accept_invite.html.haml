@@ -3,9 +3,9 @@
 .alert.alert-info
   Hey <strong>#{@user.email}</strong>! To finish creating your account on #{t('globals.site_name')}, simply create a password below.
 
-= form_for @user, url: invite_officers_path, method: :post do |f|
+= form_for @user, url: users_accept_invite_path, method: :post do |f|
   = f.label :password
   = f.password_field :password, autofocus: true
 
   .form-actions
-    = f.submit t('.save'), class: "btn btn-inverse"
+    = f.submit 'Save', class: "btn btn-inverse"
