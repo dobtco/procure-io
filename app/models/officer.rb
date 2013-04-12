@@ -12,6 +12,7 @@
 
 class Officer < ActiveRecord::Base
   include SharedUserMethods
+  include EmailBuilder
 
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true
@@ -41,11 +42,18 @@ class Officer < ActiveRecord::Base
     !name.blank? ? name : user.email
   end
 
-  def self.invite!(email, role_id)
+  def self.invite!(email, project, role_id)
     officer = Officer.create(role_id: role_id)
     user = User.create(email: email, owner: officer).reset_perishable_token!
+    officer.send_invitation_email!(project)
     return officer
   end
+
+  def send_invitation_email!(project)
+    InviteMailer.invite_email(self, project).deliver
+  end
+
+  handle_asynchronously :send_invitation_email!
 
   private
   def set_default_notification_preferences

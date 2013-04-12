@@ -31,6 +31,8 @@ ProcureIo::Application.routes.draw do
 
   resources :officers, only: [:index, :edit, :update] do
     get 'typeahead', on: :collection
+    get 'invite/:token' => 'officers#invite', on: :collection, as: :invite
+    post 'invite/:token' => 'officers#post_invite', on: :collection
   end
 
   resources :vendors, only: [:index, :edit, :update, :new, :create]

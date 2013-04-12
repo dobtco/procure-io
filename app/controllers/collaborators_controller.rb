@@ -13,7 +13,7 @@ class CollaboratorsController < ApplicationController
 
     emails.each do |email|
       officer = Officer.joins(:user).where(users: { email: email }).first
-      officer = Officer.invite!(email, create_collaborator_params[:role_id]) if !officer
+      officer = Officer.invite!(email, @project, create_collaborator_params[:role_id]) if !officer
 
       officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id) if officer.valid?
     end
