@@ -13,6 +13,10 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  perishable_token         :string(255)      default(""), not null
+#  last_login_at            :datetime
+#  current_login_at         :datetime
+#  last_login_ip            :string(255)
+#  current_login_ip         :string(255)
 #
 
 adam_user:

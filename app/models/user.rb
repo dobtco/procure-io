@@ -13,6 +13,10 @@
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
 #  perishable_token         :string(255)      default(""), not null
+#  last_login_at            :datetime
+#  current_login_at         :datetime
+#  last_login_ip            :string(255)
+#  current_login_ip         :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -32,7 +36,7 @@ class User < ActiveRecord::Base
   before_create :set_default_notification_preferences
 
   def signed_up?
-    crypted_password ? true : false
+    (crypted_password || current_login_at || last_login_at) ? true : false
   end
 
   def gravatar_url

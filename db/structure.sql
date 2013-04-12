@@ -815,7 +815,11 @@ CREATE TABLE users (
     owner_type character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    perishable_token character varying(255) DEFAULT ''::character varying NOT NULL
+    perishable_token character varying(255) DEFAULT ''::character varying NOT NULL,
+    last_login_at timestamp without time zone,
+    current_login_at timestamp without time zone,
+    last_login_ip character varying(255),
+    current_login_ip character varying(255)
 );
 
 
@@ -1675,3 +1679,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130411010006');
 INSERT INTO schema_migrations (version) VALUES ('20130412015423');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412033936');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412041345');
