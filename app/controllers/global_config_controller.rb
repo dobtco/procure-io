@@ -2,11 +2,19 @@ class GlobalConfigController < ApplicationController
   before_filter except: [:twiter_oauth] { @global_config = GlobalConfig.instance }
   before_filter :authorize!
 
-  def get
+  def event_hooks
+  end
+
+  def advanced
+  end
+
+  def vendor_registration
   end
 
   def put
-    @global_config.assign_attributes(global_config_params)
+    if params[:global_config]
+      @global_config.assign_attributes(global_config_params)
+    end
 
     event_hooks = {}
 
@@ -18,10 +26,7 @@ class GlobalConfigController < ApplicationController
     @global_config.save
 
     flash[:success] = "Successfully updated site configuration."
-    redirect_to global_config_path
-  end
-
-  def get_vendor_registration_form
+    redirect_to :back
   end
 
   def twitter_oauth
@@ -54,7 +59,7 @@ class GlobalConfigController < ApplicationController
     @global_config.update_attributes(event_hooks: event_hooks)
 
     flash[:success] = "Successfully connected Twitter account."
-    redirect_to global_config_path
+    redirect_to global_config_event_hooks_path
   end
 
   def twitter_oauth_destroy
@@ -63,7 +68,7 @@ class GlobalConfigController < ApplicationController
     @global_config.update_attributes(event_hooks: event_hooks)
 
     flash[:success] = "Successfully removed Twitter account."
-    redirect_to global_config_path
+    redirect_to global_config_event_hooks_path
   end
 
   private
@@ -72,8 +77,8 @@ class GlobalConfigController < ApplicationController
   end
 
   def global_config_params
-    params.require(:global_config)
-          .permit(:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled, :amendments_enabled,
-                  :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled, :passwordless_invites_enabled)
+    params.require(:global_config).permit(:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled,
+                                   :amendments_enabled, :watch_projects_enabled, :save_searches_enabled,
+                                   :search_projects_enabled, :passwordless_invites_enabled)
   end
 end

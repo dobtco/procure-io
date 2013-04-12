@@ -32,17 +32,8 @@
                   =link_to "Settings", settings_profile_path
 
                 - if (can? :manage, GlobalConfig) || (can? :update, Officer)
-                  %li.divider
-                  - if can? :manage, GlobalConfig
-                    %li
-                      =link_to t('.global_config'), global_config_path
-
-                  - if can? :update, Officer
-                    %li= link_to t('.officers_admin'), officers_path
-                  - if can? :view, Vendor
-                    %li= link_to t('.vendors_admin'), vendors_path
-                  - if can? :manage, Role
-                    %li= link_to t('.roles_admin'), roles_path
+                  %li
+                    = link_to raw("<strong>Admin</strong>"), officers_path
 
             %li
               %a{"href" => notifications_path}

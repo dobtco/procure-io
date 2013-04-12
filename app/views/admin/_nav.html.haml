@@ -1,0 +1,22 @@
+!= page_header "Admin"
+
+%ul.nav.nav-tabs
+  - if can? :update, Officer
+    %li{"class" => active_page?("officers")}
+      = link_to t('.officers'), officers_path
+  - if can? :view, Vendor
+    %li{"class" => active_page?("vendors")}
+      = link_to t('.vendors'), vendors_path
+  - if can? :manage, Role
+    %li{"class" => active_page?("roles")}
+      = link_to t('.roles'), roles_path
+
+  - if can? :manage, GlobalConfig
+    %li{"class" => active_page?("global_config#vendor_registration")}
+      =link_to t('.vendor_registration'), global_config_vendor_registration_path
+
+    %li{"class" => active_page?("global_config#event_hooks")}
+      =link_to t('.event_hooks'), global_config_event_hooks_path
+
+    %li{"class" => active_page?("global_config#advanced")}
+      =link_to t('.advanced'), global_config_advanced_path

@@ -7,14 +7,14 @@ ProcureIo::Application.routes.draw do
   # get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
   # post 'vendor_profile' => 'users#post_vendor_profile'
 
-  get 'global_config' => 'global_config#get', as: :global_config
+  get 'global_config/advanced' => 'global_config#advanced', as: :global_config_advanced
+  get 'global_config/vendor_registration' => 'global_config#vendor_registration', as: :global_config_vendor_registration
+  get 'global_config/event_hooks' => 'global_config#event_hooks', as: :global_config_event_hooks
   put 'global_config' => 'global_config#put'
 
   get 'global_config/twitter_oauth' => 'global_config#twitter_oauth', as: :global_config_twitter_oauth
   get 'global_config/twitter_oauth/callback' => 'global_config#twitter_oauth_callback', as: :global_config_twitter_oauth_callback
   delete 'global_config/twitter_oauth' => 'global_config#twitter_oauth_destroy'
-
-  get 'vendor_registration_form' => 'global_config#get_vendor_registration_form', as: :vendor_registration_form
 
   get 'sign_in' => 'user_sessions#new'
   post 'sign_in' => 'user_sessions#create'
