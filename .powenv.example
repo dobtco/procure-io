@@ -1,3 +1,4 @@
+export SECRET_TOKEN=""
 export AWS_KEY=""
 export AWS_SECRET=""
 export FOG_DIRECTORY=""
