@@ -153,12 +153,7 @@ class Bid < ActiveRecord::Base
                     comment_type: "BidDismissed")
   end
 
-  def dismiss_by_officer!(officer)
-    self.dismiss_by_officer(officer)
-    self.save
-
-    self.delay.create_bid_dismissed_events!(officer)
-  end
+  dangerous_alias :dismiss_by_officer
 
   def award_by_officer(officer)
     return false if self.awarded_at
@@ -175,10 +170,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_awarded_events!(officer)
   end
 
-  def award_by_officer!(officer)
-    self.award_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :award_by_officer
 
   def undismiss_by_officer(officer)
     return false if !self.dismissed_at
@@ -192,10 +184,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_undismissed_events!(officer)
   end
 
-  def undismiss_by_officer!(officer)
-    self.undismiss_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :undismiss_by_officer
 
   def unaward_by_officer(officer)
     return false if !self.awarded_at

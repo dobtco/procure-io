@@ -2,7 +2,7 @@ module DangerousAlias
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def destructive_alias(method)
+    def dangerous_alias(method)
       class_eval """
         def #{method.to_s}!(*args)
           #{method.to_s}(*args)
