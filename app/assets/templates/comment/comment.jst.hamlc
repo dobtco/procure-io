@@ -1,6 +1,6 @@
 .author
   %img.gravatar{"src" => @officer.user.gravatar_url}
-  %span.author-name #{@officer.name}
+  %span.author-name #{@officer.display_name}
   %span.posted-at #{moment(@created_at).fromNow()}
 
 - if @currentOfficerId == @officer.id
