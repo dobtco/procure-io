@@ -1,12 +1,29 @@
 class SettingsController < ApplicationController
+  include SaveResponsesHelper
+
   before_filter :authenticate_user!
 
   def profile
+    if vendor_signed_in?
+      @vendor_profile = current_vendor.vendor_profile || current_vendor.build_vendor_profile
+      @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
+        response_field[:field_options]["vendor_edit"]
+      end
+    end
+
     render vendor_signed_in? ? "settings/profile_vendor" : "settings/profile_officer"
   end
 
   def post_profile
     if vendor_signed_in?
+      @vendor_profile = current_vendor.vendor_profile || current_vendor.build_vendor_profile
+      @vendor_profile.save unless @vendor_profile.id
+      save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
+
+      # if @vendor_profile.responsable_valid?
+      #   flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] if GlobalConfig.instance.form_options["form_confirmation_message"]
+      # end
+
       current_vendor.update_attributes(vendor_params)
     else
       current_officer.update_attributes(officer_params)

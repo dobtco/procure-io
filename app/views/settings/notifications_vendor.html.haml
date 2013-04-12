@@ -1,0 +1,10 @@
+= render "settings/header"
+
+= render layout: "settings/sidebar" do
+
+  = form_for current_vendor, url: settings_notifications_path, method: :post do |f|
+
+    = render 'settings/notifications', event_types: Vendor.event_types
+
+    .form-actions
+      = f.submit class: "btn btn-inverse"
