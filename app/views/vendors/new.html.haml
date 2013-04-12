@@ -1,6 +1,6 @@
 %h3 Sign up
 
-= form_for Vendor.new, url: vendors_path, method: :post do |f|
+= form_for @vendor, url: vendors_path, method: :post, html: { multipart: true, "data-validate" => "parsley" } do |f|
 
   .row-fluid
     .span4
@@ -17,16 +17,11 @@
           = f.label :password
           = f.password_field :password
 
-      .control-group
-        %label Phone
-        %input{"type" => "text", "placeholder" => "XXX-XXX-XXXX"}
 
-      .control-group
-        %label Address
-        %textarea
+      = render "shared/form_fields", response_fields: @response_fields, responsable: @vendor_profile
 
     .span8
-      != Faker::Lorem.paragraphs(3).join("<br /><br />")
+      != # Faker::Lorem.paragraphs(3).join("<br /><br />")
 
   .form-actions
     = f.submit "Sign up", class: "btn btn-primary"

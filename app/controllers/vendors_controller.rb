@@ -21,13 +21,27 @@ class VendorsController < ApplicationController
   end
 
   def new
+    @vendor = Vendor.new
+    @vendor_profile = @vendor.build_vendor_profile
+    @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
+      response_field[:field_options]["vendor_edit"]
+    end
   end
 
   def create
-    @vendor = Vendor.create pick(vendor_params, :name)
-    @vendor.create_user(vendor_params[:user])
-    UserSession.create(@vendor.user)
-    redirect_to root_path
+    vendor = Vendor.new pick(vendor_params, :name)
+    user = vendor.build_user(vendor_params[:user])
+
+    if vendor.valid? && user.valid?
+      vendor.save
+      user.save
+      profile = vendor.create_vendor_profile
+      save_responses(profile, GlobalConfig.instance.response_fields)
+      UserSession.create(user)
+      redirect_to root_path
+    else
+      redirect_to new_vendor_path
+    end
   end
 
   def edit

@@ -15,10 +15,7 @@
 
   = yield
 
-  - (defined?(response_fields) ? response_fields : response_fieldable.response_fields).each do |response_field|
-    .response-field-wrapper.control-group
-      = render "shared/fields/#{response_field.field_type.downcase}", response_field: response_field, |
-        value: (r = responsable.responses.where(response_field_id: response_field.id).first) ? r.value : ''
+  = render "shared/form_fields", response_fields: (defined?(response_fields) ? response_fields : response_fieldable.response_fields), responsable: responsable
 
   .form-actions
     %button.btn.btn-inverse= defined?(button_text) ? button_text : t('.submit')
