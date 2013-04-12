@@ -61,6 +61,7 @@ describe "Collaborator" do
         page.should have_selector('#collaborators-tbody tr', count: 1)
         fill_in "email", with: "porkchop1@sandwich.es,porkchop2@sandwich.es"
         click_button "Add Collaborator"
+        expect(page).to have_selector("#new_collaborator .btn:not(.disabled)")
         page.should have_selector('#collaborators-tbody tr', count: 3)
         visit project_collaborators_path(projects(:one))
         page.should have_selector('#collaborators-tbody tr', count: 3)
@@ -70,6 +71,7 @@ describe "Collaborator" do
         page.should have_selector('#collaborators-tbody tr', count: 1)
         fill_in "email", with: "porkchop3@sandwich.es"
         click_button "Add Collaborator"
+        expect(page).to have_selector("#new_collaborator .btn:not(.disabled)")
         page.should have_selector('#collaborators-tbody tr', count: 2)
         visit project_collaborators_path(projects(:one))
         page.should have_selector('tr[data-email="porkchop3@sandwich.es"] i.icon-envelope')

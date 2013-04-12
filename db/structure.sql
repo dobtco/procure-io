@@ -74,7 +74,8 @@ CREATE TABLE bid_reviews (
     officer_id integer,
     bid_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    rating integer
 );
 
 
@@ -113,7 +114,9 @@ CREATE TABLE bids (
     total_stars integer DEFAULT 0 NOT NULL,
     total_comments integer DEFAULT 0 NOT NULL,
     awarded_at timestamp without time zone,
-    awarded_by_officer_id integer
+    awarded_by_officer_id integer,
+    average_rating numeric(3,2),
+    total_ratings integer
 );
 
 
@@ -552,7 +555,8 @@ CREATE TABLE projects (
     total_comments integer DEFAULT 0 NOT NULL,
     form_options text,
     abstract character varying(255),
-    featured boolean
+    featured boolean,
+    review_mode integer DEFAULT 1
 );
 
 
@@ -1681,3 +1685,11 @@ INSERT INTO schema_migrations (version) VALUES ('20130412015423');
 INSERT INTO schema_migrations (version) VALUES ('20130412033936');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412041345');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412172129');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412181224');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412185237');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412193007');

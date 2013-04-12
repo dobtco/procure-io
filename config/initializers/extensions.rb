@@ -1,0 +1,1 @@
+require "dangerous_alias"
