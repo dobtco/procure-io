@@ -76,7 +76,7 @@ class BidsController < ApplicationController
       @bid.reload # get updated total_stars
 
       respond_to do |format|
-        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false }
+        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false, scope: current_officer }
       end
     else
       render status: 404
