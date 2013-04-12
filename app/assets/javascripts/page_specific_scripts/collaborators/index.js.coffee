@@ -22,6 +22,7 @@ ProcureIo.PageSpecificScripts["collaborators#index"] = ->
     minLength: 3
 
 $(document).on "ajax:beforeSend", "form#new_collaborator", ->
+  $(@).find("input[type=text]").blur()
   $(@).find('.btn').button 'loading'
   $(@).resetForm()
 
