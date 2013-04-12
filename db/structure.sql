@@ -114,7 +114,8 @@ CREATE TABLE bids (
     total_stars integer DEFAULT 0 NOT NULL,
     total_comments integer DEFAULT 0 NOT NULL,
     awarded_at timestamp without time zone,
-    awarded_by_officer_id integer
+    awarded_by_officer_id integer,
+    average_rating numeric(3,2)
 );
 
 
@@ -1684,3 +1685,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130412033936');
 INSERT INTO schema_migrations (version) VALUES ('20130412041345');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412172129');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412181224');

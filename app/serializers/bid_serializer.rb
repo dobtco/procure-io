@@ -12,4 +12,9 @@ class BidSerializer < ActiveModel::Serializer
   def submitted_at_readable
     object.submitted_at.to_formatted_s(:readable) if object.submitted_at
   end
+
+  def average_rating
+    # round to 2 decimal places
+    sprintf('%.2f', object.average_rating) if object.average_rating
+  end
 end

@@ -14,6 +14,7 @@
 #  total_comments          :integer          default(0), not null
 #  awarded_at              :datetime
 #  awarded_by_officer_id   :integer
+#  average_rating          :decimal(3, 2)
 #
 
 class Bid < ActiveRecord::Base
@@ -81,6 +82,8 @@ class Bid < ActiveRecord::Base
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "stars"
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "average_rating"
+      query = query.order("average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "created_at" || !params[:sort]
       query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
@@ -223,13 +226,30 @@ class Bid < ActiveRecord::Base
     bid_reviews.build(officer_id: officer.id)
   end
 
-  def calculate_total_stars!
+  def calculate_total_stars
     self.total_stars = bid_reviews.where(starred: true).count
+  end
+
+  def calculate_total_stars!
+    calculate_total_stars
     self.save
   end
 
-  def calculate_total_comments!
+  def calculate_total_comments
     self.total_comments = comments.count
+  end
+
+  def calculate_total_comments!
+    calculate_total_comments
+    self.save
+  end
+
+  def calculate_average_rating
+    self.average_rating = bid_reviews.that_have_ratings.average(:rating)
+  end
+
+  def calculate_average_rating!
+    calculate_average_rating
     self.save
   end
 
@@ -245,13 +265,6 @@ class Bid < ActiveRecord::Base
 
   def responsable_validator
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
-  end
-
-  def average_rating
-    average = bid_reviews.that_have_ratings.average(:rating)
-
-    # round to 2 decimal places
-    sprintf('%.2f', average) if average
   end
 
   private

@@ -14,6 +14,7 @@
 #  total_comments          :integer          default(0), not null
 #  awarded_at              :datetime
 #  awarded_by_officer_id   :integer
+#  average_rating          :decimal(3, 2)
 #
 
 require 'spec_helper'
