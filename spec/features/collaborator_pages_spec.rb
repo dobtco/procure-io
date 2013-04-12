@@ -49,6 +49,7 @@ describe "Collaborator" do
         page.should_not have_selector('td:contains("'+officers(:clay).user.email+'")')
         fill_in "email", with: officers(:clay).user.email
         click_button "Add Collaborator"
+        expect(page).to have_selector("#new_collaborator .btn:not(.disabled)")
         page.should have_selector('#collaborators-tbody tr', count: 2)
         visit project_collaborators_path(projects(:one))
         page.should have_selector('td', text: officers(:adam).user.email)
