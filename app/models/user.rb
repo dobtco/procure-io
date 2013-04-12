@@ -12,11 +12,13 @@
 #  owner_type               :string(255)
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  perishable_token         :string(255)      default(""), not null
 #
 
 class User < ActiveRecord::Base
   acts_as_authentic do |c|
     c.require_password_confirmation = false
+    c.validate_password_field = false
   end
 
   belongs_to :owner, polymorphic: true

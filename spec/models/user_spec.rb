@@ -12,6 +12,7 @@
 #  owner_type               :string(255)
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
+#  perishable_token         :string(255)      default(""), not null
 #
 
 require 'spec_helper'

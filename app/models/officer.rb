@@ -43,7 +43,7 @@ class Officer < ActiveRecord::Base
 
   def self.invite!(email, role_id)
     officer = Officer.create(role_id: role_id)
-    user = User.create(email: email, password: 'password', owner: officer)
+    user = User.create(email: email, owner: officer).reset_perishable_token!
     return officer
   end
 

@@ -11,7 +11,7 @@
 
   %ul.nav.nav-tabs
     - if GlobalConfig.instance[:bid_review_enabled]
-      %li{"class" => active?("bids")}
+      %li{"class" => active_page?("bids")}
         %a{"href" => project_bids_path(@project)}
           %span
             %span.visible-desktop= t('.bids.long')
@@ -20,7 +20,7 @@
             %span.badge.badge-info= @project.bids.submitted.where_open.count
 
     - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
-      %li{"class" => active?("questions#index")}
+      %li{"class" => active_page?("questions#index")}
         %a{"href" => project_questions_path(@project)}
           %span
             %span.visible-desktop= t('.questions.long')
@@ -29,26 +29,26 @@
             %span.badge.badge-info= @project.questions.unanswered.count
 
     - if can? :edit_description, @project
-      %li{"class" => active?("projects#edit") || active?("amendments") || active?("project_revisions")}
+      %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
         %a{"href" => edit_project_path(@project)}
           %span
             %span.visible-desktop= t('.description.long')
             %span.hidden-desktop= t('.description.short')
 
     - if can? :edit_response_fields, @project
-      %li{"class" => active?("projects#response_fields")}
+      %li{"class" => active_page?("projects#response_fields")}
         =link_to t('.response_fields'), response_fields_project_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled]
-      %li{"class" => active?("projects#comments")}
+      %li{"class" => active_page?("projects#comments")}
         =link_to t('.comments'), comments_project_path(@project)
 
     - if @project.posted? && (can? :access_reports, @project)
-      %li{"class" => active?("reports")}
+      %li{"class" => active_page?("reports")}
         =link_to t('.reports'), bids_over_time_project_reports_path(@project)
 
     - if can? :admin, @project
-      %li{"class" => active?("collaborators") || active?("projects#import_csv") || active?("projects#export_csv") || active?("projects#wufoo")}
+      %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
         =link_to t('.admin'), project_collaborators_path(@project)
 
     %li.pull-right

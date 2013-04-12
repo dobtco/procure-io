@@ -3,7 +3,7 @@ class UserSessionsController < ApplicationController
 
   def new
     @user_session = UserSession.new
-    if (path = URI(request.referer).path) != sign_in_path
+    if (path = URI(request.referer).path rescue nil) != sign_in_path
       session[:signin_redirect] = path
     end
   end

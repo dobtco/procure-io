@@ -813,7 +813,8 @@ CREATE TABLE users (
     owner_id integer,
     owner_type character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    perishable_token character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -1669,3 +1670,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130408231054');
 INSERT INTO schema_migrations (version) VALUES ('20130411002227');
 
 INSERT INTO schema_migrations (version) VALUES ('20130411010006');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412015423');

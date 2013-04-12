@@ -127,6 +127,8 @@ class BidsController < ApplicationController
   end
 
   def show
+    return not_found unless current_user
+
     current_user.read_notifications(@bid)
 
     if current_vendor && @bid.vendor == current_vendor

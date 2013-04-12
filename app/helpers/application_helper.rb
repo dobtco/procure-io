@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def active?(action, class_to_add = "active")
+  def active_page?(action, class_to_add = "active")
     pieces = action.split(/\#|\?/)
 
     if pieces.length == 3
@@ -73,7 +73,7 @@ module ApplicationHelper
 
   def current_user
     return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
+    @current_user = current_user_session && current_user_session.record
   end
 
   def current_officer
