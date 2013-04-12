@@ -6,7 +6,7 @@ describe "Bid" do
 
   describe "as vendor" do
 
-    before { login_as(vendors(:one), scope: :vendor) }
+    before { sign_in(vendors(:one).user) }
 
     describe "new bid page" do
       before do
@@ -72,7 +72,7 @@ describe "Bid" do
   end
 
   describe "as officer", js: true do
-    before { login_as(officers(:adam), scope: :officer) }
+    before { sign_in(officers(:adam).user) }
 
     describe "index page" do
       before do
@@ -265,8 +265,8 @@ describe "Bid" do
           end
 
           it "should not let you delete other officers' comments" do
-            logout(:officer)
-            login_as(officers(:clay), scope: :officer)
+            sign_out
+            sign_in(officers(:clay).user)
             visit project_bid_path(projects(:one), bids(:one))
             page.should have_selector('.comment', text: comments(:one).body)
             page.should_not have_selector('.comment a.delete')

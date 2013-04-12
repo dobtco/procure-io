@@ -1,5 +1,5 @@
 %td
   %a{"href" => "/vendors/#{@vendor.id}/edit"}= @vendor.name
-%td= @vendor.email
+%td= @vendor.user.email
 - for index, keyField of @keyFields
   %td!= @getValue(keyField.id)

@@ -6,7 +6,6 @@
 #  commentable_type :string(255)
 #  commentable_id   :integer
 #  officer_id       :integer
-#  vendor_id        :integer
 #  comment_type     :string(255)
 #  body             :text
 #  data             :text
@@ -26,7 +25,6 @@ describe Comment do
 
   it { should respond_to(:commentable) }
   it { should respond_to(:officer) }
-  it { should respond_to(:vendor) }
 
   describe "calculate total comments" do
     it "should call its commentables total comments method when saving" do

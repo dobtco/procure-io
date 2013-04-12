@@ -31,7 +31,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
-    current_officer.read_notifications(@project, :project_comment)
+    current_user.read_notifications(@project, :project_comment)
     @comments_json = ActiveModel::ArraySerializer.new(@project.comments, each_serializer: CommentSerializer, root: false).to_json
   end
 
@@ -59,7 +59,7 @@ class ProjectsController < ApplicationController
     return redirect_to project_bids_path(@project) if current_officer.permission_level == :review_only
 
     authorize! :edit_description, @project
-    current_officer.read_notifications(@project, :you_were_added)
+    current_user.read_notifications(@project, :you_were_added)
   end
 
   def update

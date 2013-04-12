@@ -6,7 +6,6 @@
 #  commentable_type :string(255)
 #  commentable_id   :integer
 #  officer_id       :integer
-#  vendor_id        :integer
 #  comment_type     :string(255)
 #  body             :text
 #  data             :text

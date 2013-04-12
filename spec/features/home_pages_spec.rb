@@ -12,7 +12,7 @@ describe "Home" do
 
   describe "root logged in" do
     before do
-      login_as(officers(:adam), scope: :officer)
+      sign_in(users(:adam_user))
       visit root_path
     end
 
@@ -23,7 +23,7 @@ describe "Home" do
         officers(:adam).update_attributes(name: nil)
         visit root_path
       end
-      it { should have_selector("ul.nav.pull-right", text: officers(:adam).email) }
+      it { should have_selector("ul.nav.pull-right", text: officers(:adam).user.email) }
     end
   end
 

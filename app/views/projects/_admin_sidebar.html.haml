@@ -1,16 +1,16 @@
 .row-fluid
   .span3
     %ul.nav.nav-pills.nav-stacked
-      %li{"class" => active?("collaborators#index")}
+      %li{"class" => active_page?("collaborators#index")}
         =link_to t('.collaborators'), project_collaborators_path(@project)
 
-      %li{"class" => active?("projects#import_csv")}
+      %li{"class" => active_page?("projects#import_csv")}
         =link_to t('.import_bids'), import_csv_project_path(@project)
 
-      %li{"class" => active?("projects#export_csv")}
+      %li{"class" => active_page?("projects#export_csv")}
         =link_to t('.export_bids'), export_csv_project_path(@project)
 
-      %li{"class" => active?("projects#wufoo")}
+      %li{"class" => active_page?("projects#wufoo")}
         =link_to t('.wufoo_integration'), wufoo_project_path(@project)
 
   .span9

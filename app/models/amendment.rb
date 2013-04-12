@@ -19,14 +19,16 @@ class Amendment < ActiveRecord::Base
 
   private
   def after_post_by_officer(officer)
-    self.delay.create_vendor_notifications!
+    create_vendor_notifications!
   end
 
   def create_vendor_notifications!
     event = project.events.create(event_type: Event.event_types[:project_amended], data: ProjectSerializer.new(project, root: false).to_json)
 
-    project.watches.not_disabled.where(user_type: "Vendor").each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Vendor")
+    project.watches.not_disabled.where_user_is_vendor.each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
   end
+
+  handle_asynchronously :create_vendor_notifications!
 end

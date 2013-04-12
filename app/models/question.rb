@@ -23,10 +23,9 @@ class Question < ActiveRecord::Base
 
   after_create :generate_question_asked_events!
 
+  # @todo vendor will see multiple events if the officer progressively saves their answer
   after_update do
-    # @todo vendor will see multiple events if the officer progressively saves their answer
-    return unless answer_body_changed? && answer_body && !answer_body.blank?
-    self.delay.generate_question_answered_events!
+    generate_question_answered_events! if answer_body_changed? && answer_body && !answer_body.blank?
   end
 
   private
@@ -35,8 +34,8 @@ class Question < ActiveRecord::Base
                                   data: { vendor: VendorSerializer.new(vendor, root: false),
                                           project: ProjectSerializer.new(project, root: false) }.to_json )
 
-    project.watches.not_disabled.where(user_type: "Officer").each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id, user_type: "Officer")
+    project.watches.not_disabled.where_user_is_officer.each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
   end
 
@@ -47,8 +46,8 @@ class Question < ActiveRecord::Base
                                   data: { officer: OfficerSerializer.new(officer, root: false),
                                           project: ProjectSerializer.new(project, root: false) }.to_json )
 
-    vendor.event_feeds.create(event_id: event.id)
+    vendor.user.event_feeds.create(event_id: event.id)
   end
 
-  # handle_asynchronously :generate_question_answered_events_if_answered!
+  handle_asynchronously :generate_question_answered_events!
 end

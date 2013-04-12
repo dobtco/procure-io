@@ -8,10 +8,10 @@ module WatchableByUser
   end
 
   def watched_by?(user)
-    watches.where(user_id: user.id, user_type: user.class.name, disabled: false).first ? true : false
+    watches.where(user_id: user.id, disabled: false).first ? true : false
   end
 
   def ever_watched_by?(user)
-    watches.where(user_id: user.id, user_type: user.class.name).first ? true : false
+    watches.where(user_id: user.id).first ? true : false
   end
 end

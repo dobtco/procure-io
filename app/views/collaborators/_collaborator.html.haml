@@ -1,12 +1,12 @@
-%tr{"data-email" => collaborator.officer.email}
+%tr{"data-email" => collaborator.officer.user.email}
   %td
     = collaborator.officer.name
-    - if !collaborator.officer.signed_up?
-      %i.icon-envelope
-  %td= collaborator.officer.email
+  %td= collaborator.officer.user.email
   %td
     - if collaborator.owner
       %i.icon-star
+    - if !collaborator.officer.user.signed_up?
+      %i.icon-envelope
   %td
     - if can? :destroy, collaborator
       = link_to t('.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn"

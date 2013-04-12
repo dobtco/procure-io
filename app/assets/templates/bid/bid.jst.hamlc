@@ -60,7 +60,7 @@
       %dt= I18n.js('contact_name')
       %dd= @vendor.display_name
       %dt= I18n.js('email_address')
-      %dd= @vendor.email
+      %dd= @vendor.user.email
 
       - for response in (@vendor.vendor_profile?.responses || [])
         %dt= response.response_field.label

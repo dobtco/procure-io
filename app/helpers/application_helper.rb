@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def active?(action, class_to_add = "active")
+  def active_page?(action, class_to_add = "active")
     pieces = action.split(/\#|\?/)
 
     if pieces.length == 3
@@ -24,18 +24,6 @@ module ApplicationHelper
 
   def page_header(text, &block)
     "<h3>#{text}#{" " + capture(&block) if block_given?}</h3>"
-  end
-
-  def signout_path
-    if vendor_signed_in?
-      destroy_vendor_session_path
-    elsif officer_signed_in?
-      destroy_officer_session_path
-    end
-  end
-
-  def current_user
-    current_officer || current_vendor
   end
 
   def pick(hash, *keys)
@@ -78,7 +66,33 @@ module ApplicationHelper
     flash_messages.join("\n").html_safe
   end
 
-  def remove_small_words(string)
-    string
+  def current_user_session
+    return @current_user_session if defined?(@current_user_session)
+    @current_user_session = UserSession.find
+  end
+
+  def current_user
+    return @current_user if defined?(@current_user)
+    @current_user = current_user_session && current_user_session.record
+  end
+
+  def current_officer
+    current_user && (current_user.owner.class.name == "Officer") && current_user.owner
+  end
+
+  def current_vendor
+    current_user && (current_user.owner.class.name == "Vendor") && current_user.owner
+  end
+
+  def signed_in?
+    current_user ? true : false
+  end
+
+  def vendor_signed_in?
+    current_vendor ? true : false
+  end
+
+  def officer_signed_in?
+    current_officer ? true : false
   end
 end

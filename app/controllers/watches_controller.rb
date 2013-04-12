@@ -13,7 +13,6 @@ class WatchesController < ApplicationController
 
   def vendor_projects
     @projects = Project.includes(:watches)
-                       .where("watches.user_type = 'Vendor'")
                        .where("watches.user_id = ?", current_vendor.id)
                        .paginate(page: params[:page])
   end

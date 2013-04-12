@@ -1,9 +1,6 @@
 ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
-  devise_for :officers, controllers: { registrations: 'officers/registrations', invitations: 'officers/invitations', sessions: 'users/sessions' }
-  devise_for :vendors, controllers: { registrations: 'vendors/registrations', sessions: 'users/sessions' }
-
   get 'settings' => 'users#settings', as: :settings
   put 'settings' => 'users#post_settings'
 
@@ -19,6 +16,13 @@ ProcureIo::Application.routes.draw do
 
   get 'vendor_registration_form' => 'global_config#get_vendor_registration_form', as: :vendor_registration_form
 
+  get 'sign_in' => 'user_sessions#new'
+  post 'sign_in' => 'user_sessions#create'
+  delete 'sign_out' => 'user_sessions#destroy'
+
+  # get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
+  # post 'users/forgot_password' => 'users#post_forgot_password'
+
   resources :roles
 
   resources :notifications, only: [:index, :update]
@@ -27,14 +31,11 @@ ProcureIo::Application.routes.draw do
 
   resources :officers, only: [:index, :edit, :update] do
     get 'typeahead', on: :collection
+    get 'invite/:token' => 'officers#invite', on: :collection, as: :invite
+    post 'invite/:token' => 'officers#post_invite', on: :collection
   end
 
-  resources :vendors, only: [:index, :edit, :update]
-
-  get 'users/sign_in' => 'users#signin', as: :users_signin
-  post 'users/sign_in' => 'users#post_signin'
-  get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
-  post 'users/forgot_password' => 'users#post_forgot_password'
+  resources :vendors, only: [:index, :edit, :update, :new, :create]
 
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches

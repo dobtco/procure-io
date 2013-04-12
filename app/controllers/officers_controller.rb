@@ -1,10 +1,21 @@
 class OfficersController < ApplicationController
-  before_filter :authenticate_officer!
+  before_filter :only_unauthenticated_user, only: [:invite, :post_invite]
+  before_filter :invite_exists?, only: [:invite, :post_invite]
+  before_filter :authenticate_officer!, except: [:invite, :post_invite]
   before_filter :officer_exists?, only: [:edit, :update]
 
   def index
     authorize! :read, Officer
     @officers = Officer.order("id").paginate(page: params[:page])
+  end
+
+  def invite
+  end
+
+  def post_invite
+    @user.update_attributes(password: params[:user][:password])
+    UserSession.create(@user)
+    redirect_to mine_projects_path
   end
 
   def edit
@@ -19,7 +30,7 @@ class OfficersController < ApplicationController
   end
 
   def typeahead
-    render json: Officer.where("email LIKE :query", query: "%#{params[:query]}%").order("email").pluck("email").to_json
+    render json: User.where("email LIKE ?", "%#{params[:query]}%").where(owner_type: "Officer").order("email").pluck("email").to_json
   end
 
   private
@@ -28,11 +39,16 @@ class OfficersController < ApplicationController
   end
 
   def officer_params
-    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id)
+    filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id, user_attributes: [:id, :email])
 
     role = Role.find(filtered_params[:role_id])
     filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
 
     filtered_params
+  end
+
+  def invite_exists?
+    @user = User.where("crypted_password IS NULL").where(perishable_token: params[:token]).first
+    redirect_to(root_path) unless @user
   end
 end
