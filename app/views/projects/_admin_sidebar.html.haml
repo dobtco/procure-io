@@ -4,6 +4,9 @@
       %li{"class" => active_page?("collaborators#index")}
         =link_to t('.collaborators'), project_collaborators_path(@project)
 
+      %li{"class" => active_page?("projects#review_mode")}
+        =link_to t('.review_mode'), review_mode_project_path(@project)
+
       %li{"class" => active_page?("projects#import_csv")}
         =link_to t('.import_bids'), import_csv_project_path(@project)
 

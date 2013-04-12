@@ -24,6 +24,7 @@ class BidReview < ActiveRecord::Base
   def calculate_bid_total_stars_and_average_rating!
     bid.calculate_total_stars
     bid.calculate_average_rating
+    bid.calculate_total_ratings
     bid.save
   end
 end

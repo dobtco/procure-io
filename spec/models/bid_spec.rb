@@ -15,6 +15,7 @@
 #  awarded_at              :datetime
 #  awarded_by_officer_id   :integer
 #  average_rating          :decimal(3, 2)
+#  total_ratings           :integer
 #
 
 require 'spec_helper'

@@ -1,12 +1,16 @@
 class ProjectSerializer < ActiveModel::Serializer
   attributes :id, :title, :abstract, :body, :bids_due_at, :posted_at, :key_fields, :bids_due_at_readable, :posted_at_readable,
-             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly, :form_options
+             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly, :form_options, :review_mode
 
   has_many :tags
   has_many :labels
 
   def abstract
     object.abstract_or_truncated_body
+  end
+
+  def review_mode
+    Project.review_modes[object.review_mode]
   end
 
   def bids_due_at_readable

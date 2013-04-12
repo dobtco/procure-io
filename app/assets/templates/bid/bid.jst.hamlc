@@ -29,17 +29,24 @@
 
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
-    %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
-    %span.total-stars= @total_stars
-    %select.rating-select{"data-rv-value" => "bid.my_bid_review.rating"}
-      %option{"value" => ""}
-      %option{"value" => 1} 1
-      %option{"value" => 2} 2
-      %option{"value" => 3} 3
-      %option{"value" => 4} 4
-      %option{"value" => 5} 5
 
-    %span= @average_rating
+    - if @project.review_mode == "starring"
+      %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
+      %span.total-stars= @total_stars
+
+    - if @project.review_mode == "rating"
+      %select.rating-select{"data-rv-value" => "bid.my_bid_review.rating"}
+        %option{"value" => ""}
+        %option{"value" => 1} 1
+        %option{"value" => 2} 2
+        %option{"value" => 3} 3
+        %option{"value" => 4} 4
+        %option{"value" => 5} 5
+
+      %span= @average_rating
+      - if @total_ratings
+        %span.total_ratings= @total_ratings
+
 
 
   %hr

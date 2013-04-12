@@ -22,10 +22,11 @@
     %table.table#bids-table.faded-while-loading
       %thead
         %tr
-          %th{"style" => "width: 50px;"} &nbsp;
-          %th= I18n.js('avg_rating')
+          %th &nbsp;
+          - if @project.review_mode == "rating"
+            %th= I18n.js('avg_rating')
           %th= I18n.js('vendor_name')
-          - for index, keyField of @keyFields
+          - for index, keyField of @pageOptions.keyFields
             %th= keyField.label
           %th= I18n.js('status')
 

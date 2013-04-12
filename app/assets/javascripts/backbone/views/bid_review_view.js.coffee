@@ -444,7 +444,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['bid_review/page'](@pageOptions.toJSON())
+    @$el.html JST['bid_review/page']
+      pageOptions: @pageOptions.toJSON()
+      project: @project
     rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 

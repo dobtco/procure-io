@@ -175,6 +175,10 @@ en:
       admin: Admin
       view: View
 
+    review_mode:
+      header: Review Mode
+      save: Update Review Mode
+
     edit:
       revision_link_text: >
         %{date} by %{officer}

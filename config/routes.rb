@@ -41,6 +41,8 @@ ProcureIo::Application.routes.draw do
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches
 
   resources :projects do
+    get 'review_mode' => 'projects#review_mode', on: :member
+    post 'review_mode' => 'projects#post_review_mode', on: :member
     get 'mine', on: :collection
     get 'comments', on: :member
     get 'import_csv' => 'projects#import_csv', on: :member

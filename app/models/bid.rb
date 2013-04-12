@@ -15,6 +15,7 @@
 #  awarded_at              :datetime
 #  awarded_by_officer_id   :integer
 #  average_rating          :decimal(3, 2)
+#  total_ratings           :integer
 #
 
 class Bid < ActiveRecord::Base
@@ -217,6 +218,12 @@ class Bid < ActiveRecord::Base
   end
 
   dangerous_alias :calculate_total_stars
+
+  def calculate_total_ratings
+    self.total_ratings = bid_reviews.that_have_ratings.count
+  end
+
+  dangerous_alias :calculate_total_ratings
 
   def calculate_total_comments
     self.total_comments = comments.count
