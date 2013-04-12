@@ -128,7 +128,7 @@ class ProjectsController < ApplicationController
       csv << headers
 
       @bids.each do |bid|
-        bid_row = [bid.vendor.name, bid.vendor.email]
+        bid_row = [bid.vendor.name, bid.vendor.user.email]
         responses = bid.responses
 
         @project.response_fields.each do |response_field|
