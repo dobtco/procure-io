@@ -161,7 +161,8 @@ class BidsController < ApplicationController
     search_results = Bid.search_by_project_and_params(@project, params, false, true)
                         .reorder("bids.id DESC")
                         .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
-                        .pluck("vendors.email")
+                        .joins("LEFT JOIN users ON vendors.id = users.owner_id AND users.owner_type = 'Vendor'")
+                        .pluck("users.email")
 
     render json: search_results.to_json
   end

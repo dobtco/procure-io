@@ -23,6 +23,7 @@ class Bid < ActiveRecord::Base
 
   belongs_to :project
   belongs_to :vendor
+  has_one :user, through: :vendor
   belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
@@ -39,7 +40,8 @@ class Bid < ActiveRecord::Base
   scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
 
   pg_search_scope :full_search, associated_against: { responses: [:value],
-                                                      vendor: [:name, :email],
+                                                      vendor: [:name],
+                                                      user: [:email],
                                                       comments: [:body],
                                                       labels: [:name] },
                                 using: {
