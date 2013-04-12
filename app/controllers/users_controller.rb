@@ -23,50 +23,50 @@ class UsersController < ApplicationController
     end
   end
 
-  def settings
-    officer_signed_in? ? officer_settings : vendor_settings
-  end
+  # def settings
+  #   officer_signed_in? ? officer_settings : vendor_settings
+  # end
 
-  def officer_settings
-    render "users/officer_settings"
-  end
+  # def officer_settings
+  #   render "users/officer_settings"
+  # end
 
-  def vendor_settings
-    render "users/vendor_settings"
-  end
+  # def vendor_settings
+  #   render "users/vendor_settings"
+  # end
 
-  def post_settings
-    current_user.update_attributes(notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : [])
-    officer_signed_in? ? post_officer_settings : post_vendor_settings
-    flash[:success] = "Settings successfully updated."
-    redirect_to settings_path
-  end
+  # def post_settings
+  #   current_user.update_attributes(notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : [])
+  #   officer_signed_in? ? post_officer_settings : post_vendor_settings
+  #   flash[:success] = "Settings successfully updated."
+  #   redirect_to settings_path
+  # end
 
-  def post_officer_settings
-    current_officer.update_attributes(officer_params)
-  end
+  # def post_officer_settings
+  #   current_officer.update_attributes(officer_params)
+  # end
 
-  def post_vendor_settings
-    current_vendor.update_attributes(vendor_params)
-  end
+  # def post_vendor_settings
+  #   current_vendor.update_attributes(vendor_params)
+  # end
 
-  def vendor_profile
-    @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
-      response_field[:field_options]["vendor_edit"]
-    end
-  end
+  # def vendor_profile
+  #   @response_fields = GlobalConfig.instance.response_fields.select do |response_field|
+  #     response_field[:field_options]["vendor_edit"]
+  #   end
+  # end
 
-  def post_vendor_profile
-    @vendor_profile.save unless @vendor_profile.id
+  # def post_vendor_profile
+  #   @vendor_profile.save unless @vendor_profile.id
 
-    save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
+  #   save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
-    if @vendor_profile.responsable_valid?
-      flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] if GlobalConfig.instance.form_options["form_confirmation_message"]
-    end
+  #   if @vendor_profile.responsable_valid?
+  #     flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] if GlobalConfig.instance.form_options["form_confirmation_message"]
+  #   end
 
-    redirect_to vendor_profile_path
-  end
+  #   redirect_to vendor_profile_path
+  # end
 
 
   private

@@ -1,0 +1,18 @@
+= render "settings/header"
+
+= render layout: "settings/sidebar" do
+
+  = form_for current_user, url: settings_account_path, method: :post do |f|
+
+    = f.label :email
+    = f.text_field :email
+
+    = f.label :new_password
+    = f.password_field :new_password
+
+    .form-actions
+      .control-group
+        = f.label :current_password, "Enter your current password to confirm these changes."
+        = f.password_field :current_password
+
+      = f.submit class: "btn btn-inverse"

@@ -1,11 +1,11 @@
 ProcureIo::Application.routes.draw do
   root to: 'home#index'
 
-  get 'settings' => 'users#settings', as: :settings
-  put 'settings' => 'users#post_settings'
+  # get 'settings' => 'users#settings', as: :settings
+  # put 'settings' => 'users#post_settings'
 
-  get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
-  post 'vendor_profile' => 'users#post_vendor_profile'
+  # get 'vendor_profile' => 'users#vendor_profile', as: :vendor_profile
+  # post 'vendor_profile' => 'users#post_vendor_profile'
 
   get 'global_config' => 'global_config#get', as: :global_config
   put 'global_config' => 'global_config#put'
@@ -22,6 +22,13 @@ ProcureIo::Application.routes.draw do
 
   # get 'users/forgot_password' => 'users#forgot_password', as: :users_forgot_password
   # post 'users/forgot_password' => 'users#post_forgot_password'
+
+  get 'settings/profile' => 'settings#profile', as: :settings_profile
+  post 'settings/profile' => 'settings#post_profile'
+  get 'settings/notifications' => 'settings#notifications', as: :settings_notifications
+  post 'settings/notifications' => 'settings#post_notifications'
+  get 'settings/account' => 'settings#account', as: :settings_account
+  post 'settings/account' => 'settings#post_account'
 
   resources :roles
 

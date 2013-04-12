@@ -29,7 +29,7 @@
                     %li
                       =link_to t('.saved_searches'), saved_searches_path
                 %li
-                  =link_to "Settings", settings_path
+                  =link_to "Settings", settings_profile_path
 
                 - if (can? :manage, GlobalConfig) || (can? :update, Officer)
                   %li.divider

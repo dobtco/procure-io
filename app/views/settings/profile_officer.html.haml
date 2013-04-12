@@ -1,0 +1,17 @@
+= render "settings/header"
+
+= render layout: "settings/sidebar" do
+
+  = form_for current_officer, url: settings_profile_path, method: :post do |f|
+
+    = f.label :name
+    = f.text_field :name
+
+    = f.label :title
+    = f.text_field :title
+
+    = f.label :role
+    %input{"type" => "text", "disabled" => true, "value" => current_officer.role.name}
+
+    .form-actions
+      = f.submit class: "btn btn-inverse"
