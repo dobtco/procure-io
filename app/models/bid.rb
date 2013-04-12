@@ -14,6 +14,8 @@
 #  total_comments          :integer          default(0), not null
 #  awarded_at              :datetime
 #  awarded_by_officer_id   :integer
+#  average_rating          :decimal(3, 2)
+#  total_ratings           :integer
 #
 
 class Bid < ActiveRecord::Base
@@ -75,12 +77,14 @@ class Bid < ActiveRecord::Base
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
       query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
-                                               AND responses.responable_type = 'Bid'
+                                               AND responses.responsable_type = 'Bid'
                                                AND responses.response_field_id = ?", params[:sort]]))
                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "stars"
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "average_rating"
+      query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "created_at" || !params[:sort]
       query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
@@ -150,12 +154,7 @@ class Bid < ActiveRecord::Base
                     comment_type: "BidDismissed")
   end
 
-  def dismiss_by_officer!(officer)
-    self.dismiss_by_officer(officer)
-    self.save
-
-    self.delay.create_bid_dismissed_events!(officer)
-  end
+  dangerous_alias :dismiss_by_officer
 
   def award_by_officer(officer)
     return false if self.awarded_at
@@ -172,10 +171,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_awarded_events!(officer)
   end
 
-  def award_by_officer!(officer)
-    self.award_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :award_by_officer
 
   def undismiss_by_officer(officer)
     return false if !self.dismissed_at
@@ -189,10 +185,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_undismissed_events!(officer)
   end
 
-  def undismiss_by_officer!(officer)
-    self.undismiss_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :undismiss_by_officer
 
   def unaward_by_officer(officer)
     return false if !self.awarded_at
@@ -210,10 +203,7 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_unawarded_events!(officer)
   end
 
-  def unaward_by_officer!(officer)
-    self.unaward_by_officer(officer)
-    self.save
-  end
+  dangerous_alias :unaward_by_officer
 
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
@@ -223,15 +213,29 @@ class Bid < ActiveRecord::Base
     bid_reviews.build(officer_id: officer.id)
   end
 
-  def calculate_total_stars!
+  def calculate_total_stars
     self.total_stars = bid_reviews.where(starred: true).count
-    self.save
   end
 
-  def calculate_total_comments!
-    self.total_comments = comments.count
-    self.save
+  dangerous_alias :calculate_total_stars
+
+  def calculate_total_ratings
+    self.total_ratings = bid_reviews.that_have_ratings.count
   end
+
+  dangerous_alias :calculate_total_ratings
+
+  def calculate_total_comments
+    self.total_comments = comments.count
+  end
+
+  dangerous_alias :calculate_total_comments
+
+  def calculate_average_rating
+    self.average_rating = bid_reviews.that_have_ratings.average(:rating)
+  end
+
+  dangerous_alias :calculate_average_rating
 
   def text_status
     if dismissed_at

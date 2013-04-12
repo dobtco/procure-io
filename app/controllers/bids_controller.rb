@@ -187,7 +187,7 @@ class BidsController < ApplicationController
   end
 
   def my_bid_review_params
-    params.require(:my_bid_review).permit(:starred, :read)
+    params.require(:my_bid_review).permit(:starred, :read, :rating)
   end
 
   def authenticate_and_authorize_officer!

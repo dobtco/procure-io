@@ -68,6 +68,7 @@ en:
     hide_answer: Hide Answer
     no_answer: Not yet answered
     answered_by: Answered by
+    avg_rating: Avg Rating
 
     response_field:
       description: description

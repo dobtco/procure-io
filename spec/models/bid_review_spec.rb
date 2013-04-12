@@ -9,6 +9,7 @@
 #  bid_id     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  rating     :integer
 #
 
 require 'spec_helper'
@@ -22,11 +23,4 @@ describe BidReview do
 
   it { should respond_to(:bid) }
   it { should respond_to(:officer) }
-
-  describe "calculate total stars" do
-    it "should call its bids total stars method when saving" do
-      bid_reviews(:one).bid.should_receive(:calculate_total_stars!)
-      bid_reviews(:one).save
-    end
-  end
 end

@@ -14,7 +14,10 @@
 #  form_options         :text
 #  abstract             :string(255)
 #  featured             :boolean
+#  review_mode          :integer          default(1)
 #
+
+require_dependency 'enum'
 
 class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
@@ -56,6 +59,10 @@ class Project < ActiveRecord::Base
                                 using: {
                                   tsearch: {prefix: true}
                                 }
+
+  def self.review_modes
+    @review_modes ||= Enum.new(:starring, :rating)
+  end
 
   def self.search_by_params(params)
     return_object = { meta: {} }

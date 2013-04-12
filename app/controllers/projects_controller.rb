@@ -144,6 +144,17 @@ class ProjectsController < ApplicationController
     send_data(bids_csv, type: 'test/csv', filename: "#{@project.title.parameterize.underscore}_bids_export_#{Time.now.strftime("%m_%d_%y")}.csv")
   end
 
+  def review_mode
+    authorize! :admin, @project
+  end
+
+  def post_review_mode
+    authorize! :admin, @project
+    @project.update_attributes(project_review_mode_params)
+    flash[:success] = "Successfully updated project review mode."
+    redirect_to review_mode_project_path(@project)
+  end
+
   def wufoo
     authorize! :admin, @project
   end
@@ -225,6 +236,10 @@ class ProjectsController < ApplicationController
     end
 
     filtered_params
+  end
+
+  def project_review_mode_params
+    params.require(:project).permit(:review_mode)
   end
 
   def project_is_posted_unless_can_collaborate_on

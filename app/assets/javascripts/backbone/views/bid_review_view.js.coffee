@@ -242,7 +242,10 @@ ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
   el: "#sorters-wrapper"
 
   initialize: ->
-    @sortOptions = [{key: "created_at", label: "Created at"}, {key: "stars", label: "Stars"}]
+    @sortOptions = [{key: "created_at", label: "Created at"}]
+
+    @sortOptions.push({key: "stars", label: "Stars"}) if @options.project.review_mode == "starring"
+    @sortOptions.push({key: "average_rating", label: "Average Rating"}) if @options.project.review_mode == "rating"
 
     _.each @options.project.key_fields, (kf) =>
       @sortOptions.push {key: ""+kf.id, label: kf.label}
@@ -317,6 +320,9 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
     @$el.find(".total-stars").on "mouseover", loadStarrers
 
+    @$el.find(".rating-select").on "change", =>
+      @save()
+
     return @
 
   clear: ->
@@ -362,10 +368,13 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   toggleStarred: ->
     @model.set 'my_bid_review.starred', (if @model.get('my_bid_review.starred') then false else true)
-    @model.save()
+    @save()
 
   toggleRead: ->
     @model.set 'my_bid_review.read', (if @model.get('my_bid_review.read') then false else true)
+    @save()
+
+  save: ->
     @model.save()
 
 
@@ -438,7 +447,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @addAll()
 
   render: ->
-    @$el.html JST['bid_review/page'](@pageOptions.toJSON())
+    @$el.html JST['bid_review/page']
+      pageOptions: @pageOptions.toJSON()
+      project: @project
     rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
     return @
 

@@ -14,6 +14,7 @@
 #  form_options         :text
 #  abstract             :string(255)
 #  featured             :boolean
+#  review_mode          :integer          default(1)
 #
 
 require 'spec_helper'
