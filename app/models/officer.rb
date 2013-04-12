@@ -2,41 +2,17 @@
 #
 # Table name: officers
 #
-#  id                       :integer          not null, primary key
-#  email                    :string(255)      default(""), not null
-#  encrypted_password       :string(255)      default("")
-#  reset_password_token     :string(255)
-#  reset_password_sent_at   :datetime
-#  remember_created_at      :datetime
-#  sign_in_count            :integer          default(0)
-#  current_sign_in_at       :datetime
-#  last_sign_in_at          :datetime
-#  current_sign_in_ip       :string(255)
-#  last_sign_in_ip          :string(255)
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
-#  name                     :string(255)
-#  title                    :string(255)
-#  invitation_token         :string(60)
-#  invitation_sent_at       :datetime
-#  invitation_accepted_at   :datetime
-#  invitation_limit         :integer
-#  invited_by_id            :integer
-#  invited_by_type          :string(255)
-#  notification_preferences :text
-#  authentication_token     :string(255)
-#  role_id                  :integer
+#  id         :integer          not null, primary key
+#  role_id    :integer
+#  title      :string(255)
+#  name       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Officer < ActiveRecord::Base
   include SharedUserMethods
-
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :invitable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :token_authenticatable
+  include EmailBuilder
 
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true
@@ -44,10 +20,6 @@ class Officer < ActiveRecord::Base
   has_many :bid_reviews, dependent: :destroy
 
   belongs_to :role
-
-  serialize :notification_preferences
-  before_create :set_default_notification_preferences
-  before_create :reset_authentication_token
 
   def self.event_types
     types = [:collaborator_added, :you_were_added]
@@ -58,10 +30,6 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def signed_up?
-    self.encrypted_password != "" ? true : false
-  end
-
   def permission_level
     if role
       Role.permission_levels[role.permission_level]
@@ -69,6 +37,23 @@ class Officer < ActiveRecord::Base
       :user
     end
   end
+
+  def display_name
+    !name.blank? ? name : user.email
+  end
+
+  def self.invite!(email, project, role_id)
+    officer = Officer.create(role_id: role_id)
+    user = User.create(email: email, owner: officer).reset_perishable_token!
+    officer.send_invitation_email!(project)
+    return officer
+  end
+
+  def send_invitation_email!(project)
+    InviteMailer.invite_email(self, project).deliver
+  end
+
+  handle_asynchronously :send_invitation_email!
 
   private
   def set_default_notification_preferences

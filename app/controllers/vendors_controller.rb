@@ -1,8 +1,9 @@
 class VendorsController < ApplicationController
   include SaveResponsesHelper
 
-  before_filter :authenticate_officer!
-  before_filter :authorize_officer!
+  before_filter :only_unauthenticated_user, only: [:new, :create]
+  before_filter :authenticate_officer!, except: [:new, :create]
+  before_filter :authorize_officer!, except: [:new, :create]
   before_filter :vendor_exists?, only: [:edit, :update]
   before_filter :get_vendor_profile, only: [:edit, :update]
 
@@ -17,6 +18,16 @@ class VendorsController < ApplicationController
                scope: current_officer, meta: search_results[:meta]
       end
     end
+  end
+
+  def new
+  end
+
+  def create
+    @vendor = Vendor.create pick(vendor_params, :name)
+    @vendor.create_user(vendor_params[:user])
+    UserSession.create(@vendor.user)
+    redirect_to root_path
   end
 
   def edit
@@ -45,5 +56,9 @@ class VendorsController < ApplicationController
 
   def get_vendor_profile
     @vendor_profile = @vendor.vendor_profile || @vendor.build_vendor_profile
+  end
+
+  def vendor_params
+    params.require(:vendor).permit(:name, user: [:email, :password])
   end
 end

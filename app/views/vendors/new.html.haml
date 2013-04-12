@@ -1,21 +1,21 @@
 %h3 Sign up
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
-  = devise_error_messages!
+= form_for Vendor.new, url: vendors_path, method: :post do |f|
 
   .row-fluid
     .span4
       .control-group
-        = f.label :email
-        = f.text_field :email, :autofocus => true
-
-      .control-group
         = f.label :name
         = f.text_field :name
 
-      .control-group
-        = f.label :password
-        = f.password_field :password
+      = f.fields_for User.new do |f|
+        .control-group
+          = f.label :email
+          = f.text_field :email
+
+        .control-group
+          = f.label :password
+          = f.password_field :password
 
       .control-group
         %label Phone

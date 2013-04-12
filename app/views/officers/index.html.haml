@@ -12,7 +12,7 @@
     - @officers.each do |officer|
       %tr
         %td= officer.name
-        %td= officer.email
+        %td= officer.user.email
         %td= officer.role.name if officer.role
         %td
           - if can? :update, officer

@@ -12,7 +12,6 @@
 
   %h4= t('.dev_header')
   %label= t('.api_key')
-  %code.js-api-key-hide.hide= current_officer.authentication_token
   %a.js-api-key-hide{"data-toggle" => "showhide", "data-target" => ".js-api-key-hide", "data-toggle-text" => t('globals.hide_paren')}= t('globals.show_paren')
 
   = render 'users/notification_settings', event_types: Officer.event_types

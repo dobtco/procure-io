@@ -2,33 +2,16 @@
 #
 # Table name: vendors
 #
-#  id                       :integer          not null, primary key
-#  email                    :string(255)      default(""), not null
-#  encrypted_password       :string(255)      default(""), not null
-#  reset_password_token     :string(255)
-#  reset_password_sent_at   :datetime
-#  remember_created_at      :datetime
-#  sign_in_count            :integer          default(0)
-#  current_sign_in_at       :datetime
-#  last_sign_in_at          :datetime
-#  current_sign_in_ip       :string(255)
-#  last_sign_in_ip          :string(255)
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
-#  name                     :string(255)
-#  notification_preferences :text
-#  account_disabled         :boolean          default(FALSE)
+#  id               :integer          not null, primary key
+#  account_disabled :boolean
+#  name             :string(255)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 
 class Vendor < ActiveRecord::Base
   include SharedUserMethods
   include PgSearch
-
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :bids, dependent: :destroy
   has_many :questions
@@ -39,11 +22,8 @@ class Vendor < ActiveRecord::Base
   has_one :vendor_profile, dependent: :destroy
   has_many :responses, through: :vendor_profile
 
-  serialize :notification_preferences
-  before_create :set_default_notification_preferences
-
-  pg_search_scope :full_search, against: [:email, :name],
-                                associated_against: { responses: [:value] },
+  pg_search_scope :full_search, against: [:name],
+                                associated_against: { responses: [:value], user: [:email] },
                                 using: { tsearch: { prefix: true } }
 
   def self.search_by_params(params, count_only = false)
@@ -52,7 +32,7 @@ class Vendor < ActiveRecord::Base
     return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
 
     # query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendor.id")
-    query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
+    query = Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
@@ -63,7 +43,7 @@ class Vendor < ActiveRecord::Base
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
 
     elsif params[:sort] == "email"
-      query = query.order("email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("users.email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "name" || !params[:sort]
       query = query.order("name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
@@ -92,6 +72,10 @@ class Vendor < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
+  def display_name
+    !name.blank? ? name : user.email
+  end
+
   def bid_for_project(project)
     bids.where(project_id: project.id).first
   end
@@ -102,10 +86,5 @@ class Vendor < ActiveRecord::Base
 
   def active_for_authentication?
     super && !self.account_disabled?
-  end
-
-  private
-  def set_default_notification_preferences
-    self.notification_preferences = Vendor.event_types.values
   end
 end

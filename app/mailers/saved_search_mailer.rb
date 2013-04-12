@@ -13,7 +13,7 @@ class SavedSearchMailer < ActionMailer::Base
     end
 
     if count > 0
-      message = build_email vendor.email,
+      message = build_email vendor.user.email,
                             'saved_searches',
                             pluralized_count: t('mailers.saved_searches.pluralized_count', count: count),
                             name: vendor.display_name,

@@ -63,7 +63,9 @@ class Event < ActiveRecord::Base
   end
 
   def additional_text
-    I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
+    if event_type.in? Event.event_types.only(:you_were_added).values
+      I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
+    end
   end
 
   def i18n_interpolation_data

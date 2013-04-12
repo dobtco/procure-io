@@ -13,7 +13,7 @@ describe "Project" do
 
   describe "logged in as vendor" do
     before do
-      login_as(vendors(:one), scope: :vendor)
+      sign_in(vendors(:one).user)
     end
 
     describe "show", js: true do
@@ -45,7 +45,7 @@ describe "Project" do
 
   describe "logged in as officer" do
     before do
-      login_as(officers(:adam), scope: :officer)
+      sign_in(officers(:adam).user)
     end
 
     describe "index", js: true do

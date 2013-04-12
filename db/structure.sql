@@ -189,7 +189,6 @@ CREATE TABLE comments (
     commentable_type character varying(255),
     commentable_id integer,
     officer_id integer,
-    vendor_id integer,
     comment_type character varying(255),
     body text,
     data text,
@@ -263,7 +262,6 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 CREATE TABLE event_feeds (
     id integer NOT NULL,
     event_id integer,
-    user_type character varying(255),
     user_id integer,
     read boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
@@ -477,29 +475,11 @@ ALTER SEQUENCE labels_id_seq OWNED BY labels.id;
 
 CREATE TABLE officers (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying,
-    reset_password_token character varying(255),
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    name character varying(255),
+    role_id integer,
     title character varying(255),
-    invitation_token character varying(60),
-    invitation_sent_at timestamp without time zone,
-    invitation_accepted_at timestamp without time zone,
-    invitation_limit integer,
-    invited_by_id integer,
-    invited_by_type character varying(255),
-    notification_preferences text,
-    authentication_token character varying(255),
-    role_id integer
+    name character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -820,6 +800,44 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    email character varying(255),
+    crypted_password character varying(255),
+    password_salt character varying(255),
+    persistence_token character varying(255),
+    notification_preferences text,
+    owner_id integer,
+    owner_type character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    perishable_token character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+--
 -- Name: vendor_profiles; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -856,21 +874,10 @@ ALTER SEQUENCE vendor_profiles_id_seq OWNED BY vendor_profiles.id;
 
 CREATE TABLE vendors (
     id integer NOT NULL,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    account_disabled boolean,
     name character varying(255),
-    notification_preferences text,
-    account_disabled boolean DEFAULT false
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -899,7 +906,6 @@ ALTER SEQUENCE vendors_id_seq OWNED BY vendors.id;
 
 CREATE TABLE watches (
     id integer NOT NULL,
-    user_type character varying(255),
     user_id integer,
     watchable_id integer,
     watchable_type character varying(255),
@@ -1073,6 +1079,13 @@ ALTER TABLE ONLY saved_searches ALTER COLUMN id SET DEFAULT nextval('saved_searc
 --
 
 ALTER TABLE ONLY tags ALTER COLUMN id SET DEFAULT nextval('tags_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
@@ -1265,6 +1278,14 @@ ALTER TABLE ONLY tags
 
 
 --
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: vendor_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1328,55 +1349,6 @@ CREATE INDEX impressionable_type_message_index ON impressions USING btree (impre
 --
 
 CREATE INDEX index_impressions_on_user_id ON impressions USING btree (user_id);
-
-
---
--- Name: index_officers_on_authentication_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_officers_on_authentication_token ON officers USING btree (authentication_token);
-
-
---
--- Name: index_officers_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_officers_on_email ON officers USING btree (email);
-
-
---
--- Name: index_officers_on_invitation_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_officers_on_invitation_token ON officers USING btree (invitation_token);
-
-
---
--- Name: index_officers_on_invited_by_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_officers_on_invited_by_id ON officers USING btree (invited_by_id);
-
-
---
--- Name: index_officers_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_officers_on_reset_password_token ON officers USING btree (reset_password_token);
-
-
---
--- Name: index_vendors_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_vendors_on_email ON vendors USING btree (email);
-
-
---
--- Name: index_vendors_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE UNIQUE INDEX index_vendors_on_reset_password_token ON vendors USING btree (reset_password_token);
 
 
 --
@@ -1496,14 +1468,6 @@ ALTER TABLE ONLY comments
 
 
 --
--- Name: comments_vendor_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY comments
-    ADD CONSTRAINT comments_vendor_id_fk FOREIGN KEY (vendor_id) REFERENCES vendors(id);
-
-
---
 -- Name: event_feeds_event_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1517,14 +1481,6 @@ ALTER TABLE ONLY event_feeds
 
 ALTER TABLE ONLY labels
     ADD CONSTRAINT labels_project_id_fk FOREIGN KEY (project_id) REFERENCES projects(id);
-
-
---
--- Name: officers_role_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY officers
-    ADD CONSTRAINT officers_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id);
 
 
 --
@@ -1611,9 +1567,11 @@ ALTER TABLE ONLY vendor_profiles
 -- PostgreSQL database dump complete
 --
 
-INSERT INTO schema_migrations (version) VALUES ('20130204161348');
+INSERT INTO schema_migrations (version) VALUES ('20130204183601');
 
-INSERT INTO schema_migrations (version) VALUES ('20130204161354');
+INSERT INTO schema_migrations (version) VALUES ('20130204183602');
+
+INSERT INTO schema_migrations (version) VALUES ('20130204183603');
 
 INSERT INTO schema_migrations (version) VALUES ('20130204183606');
 
@@ -1621,13 +1579,9 @@ INSERT INTO schema_migrations (version) VALUES ('20130204183734');
 
 INSERT INTO schema_migrations (version) VALUES ('20130204184303');
 
-INSERT INTO schema_migrations (version) VALUES ('20130204205125');
-
 INSERT INTO schema_migrations (version) VALUES ('20130205004911');
 
 INSERT INTO schema_migrations (version) VALUES ('20130206001307');
-
-INSERT INTO schema_migrations (version) VALUES ('20130206001853');
 
 INSERT INTO schema_migrations (version) VALUES ('20130206222933');
 
@@ -1649,8 +1603,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130212001903');
 
 INSERT INTO schema_migrations (version) VALUES ('20130212002405');
 
-INSERT INTO schema_migrations (version) VALUES ('20130214230919');
-
 INSERT INTO schema_migrations (version) VALUES ('20130215002715');
 
 INSERT INTO schema_migrations (version) VALUES ('20130215014119');
@@ -1664,8 +1616,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130216030446');
 INSERT INTO schema_migrations (version) VALUES ('20130220234741');
 
 INSERT INTO schema_migrations (version) VALUES ('20130220234812');
-
-INSERT INTO schema_migrations (version) VALUES ('20130225163952');
 
 INSERT INTO schema_migrations (version) VALUES ('20130225231711');
 
@@ -1685,11 +1635,7 @@ INSERT INTO schema_migrations (version) VALUES ('20130302015127');
 
 INSERT INTO schema_migrations (version) VALUES ('20130304010821');
 
-INSERT INTO schema_migrations (version) VALUES ('20130304221145');
-
 INSERT INTO schema_migrations (version) VALUES ('20130305201039');
-
-INSERT INTO schema_migrations (version) VALUES ('20130306155412');
 
 INSERT INTO schema_migrations (version) VALUES ('20130308053849');
 
@@ -1699,21 +1645,13 @@ INSERT INTO schema_migrations (version) VALUES ('20130309000625');
 
 INSERT INTO schema_migrations (version) VALUES ('20130313003836');
 
-INSERT INTO schema_migrations (version) VALUES ('20130315183238');
-
 INSERT INTO schema_migrations (version) VALUES ('20130319012017');
 
 INSERT INTO schema_migrations (version) VALUES ('20130319015840');
 
-INSERT INTO schema_migrations (version) VALUES ('20130320150251');
-
 INSERT INTO schema_migrations (version) VALUES ('20130320181304');
 
 INSERT INTO schema_migrations (version) VALUES ('20130321201112');
-
-INSERT INTO schema_migrations (version) VALUES ('20130321203809');
-
-INSERT INTO schema_migrations (version) VALUES ('20130323014935');
 
 INSERT INTO schema_migrations (version) VALUES ('20130323045855');
 
@@ -1731,8 +1669,6 @@ INSERT INTO schema_migrations (version) VALUES ('20130408231054');
 
 INSERT INTO schema_migrations (version) VALUES ('20130411002227');
 
-INSERT INTO schema_migrations (version) VALUES ('20130411002249');
-
-INSERT INTO schema_migrations (version) VALUES ('20130411003046');
-
 INSERT INTO schema_migrations (version) VALUES ('20130411010006');
+
+INSERT INTO schema_migrations (version) VALUES ('20130412015423');

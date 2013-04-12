@@ -6,14 +6,14 @@ describe "Collaborator" do
 
   describe "index", js: true do
     before do
-      login_as(officers(:adam), scope: :officer)
+      sign_in(officers(:adam).user)
       visit project_collaborators_path(projects(:one))
     end
 
     describe "basic rendering" do
       # @todo something about owner
-      it { should have_selector('td', officers(:adam).email) }
-      it { should have_selector('td', officers(:clay).email) }
+      it { should have_selector('td', officers(:adam).user.email) }
+      it { should have_selector('td', officers(:clay).user.email) }
     end
 
     describe "removing collaborator" do
@@ -29,7 +29,7 @@ describe "Collaborator" do
     describe "adding duplicate collaborators" do
       it "should not allow duplicates" do
         page.should have_selector('#collaborators-tbody tr', count: 2)
-        fill_in "email", with: officers(:adam).email
+        fill_in "email", with: officers(:adam).user.email
         click_button "Add Collaborator"
         expect(page).to have_selector("#new_collaborator .btn:not(.disabled)")
         page.should have_selector('#collaborators-tbody tr', count: 2)
@@ -45,15 +45,16 @@ describe "Collaborator" do
       end
 
       it "should allow you to add a new collaborator" do
-        page.should have_selector('td', officers(:adam).email)
-        page.should_not have_selector('td:contains("'+officers(:clay).email+'")')
-        fill_in "email", with: officers(:clay).email
+        page.should have_selector('td', officers(:adam).user.email)
+        page.should_not have_selector('td:contains("'+officers(:clay).user.email+'")')
+        fill_in "email", with: officers(:clay).user.email
         click_button "Add Collaborator"
+        expect(page).to have_selector("#new_collaborator .btn:not(.disabled)")
         page.should have_selector('#collaborators-tbody tr', count: 2)
         visit project_collaborators_path(projects(:one))
-        page.should have_selector('td', text: officers(:adam).email)
-        page.should have_selector('td', text: officers(:clay).email)
-        page.should_not have_selector('td:contains("'+officers(:clay).email+'") i.icon-envelope') # not an invited user
+        page.should have_selector('td', text: officers(:adam).user.email)
+        page.should have_selector('td', text: officers(:clay).user.email)
+        page.should_not have_selector('tr[data-email="'+officers(:clay).user.email+'"] i.icon-envelope') # not an invited user
       end
 
       it "should allow you to add multiple collaborators at once" do

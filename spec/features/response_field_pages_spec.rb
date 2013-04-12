@@ -7,7 +7,7 @@ describe "ResponseField" do
 
   describe "logged in as officer" do
     before do
-      login_as(officers(:adam), scope: :officer)
+      sign_in(officers(:adam).user)
     end
 
     describe "index", js: true do

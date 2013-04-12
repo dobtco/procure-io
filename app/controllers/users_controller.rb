@@ -1,29 +1,10 @@
 class UsersController < ApplicationController
   include SaveResponsesHelper
 
-  before_filter :authenticate_user!, except: [:signin, :post_signin, :forgot_password, :post_forgot_password]
-  before_filter :only_unauthenticated_user, only: [:signin, :post_signin, :forgot_password, :post_forgot_password]
+  before_filter :authenticate_user!, except: [:forgot_password, :post_forgot_password]
+  before_filter :only_unauthenticated_user, only: [:forgot_password, :post_forgot_password]
   before_filter :authenticate_vendor!, only: [:vendor_profile, :post_vendor_profile]
   before_filter :get_vendor_profile, only: [:vendor_profile, :post_vendor_profile]
-
-  def signin
-    if (path = URI(request.referer).path) != users_signin_path
-      session[:signin_redirect] = path
-    end
-  end
-
-  def post_signin
-    @user = Vendor.find_for_authentication(email: params[:email]) || Officer.find_for_authentication(email: params[:email])
-
-    if @user && @user.valid_password?(params[:password])
-      warden.set_user @user, scope: @user.class.name.downcase.to_sym
-      flash[:success] = t('devise.sessions.signed_in')
-      redirect_to successful_signin_redirect_path
-    else
-      flash[:error] = t('devise.failure.invalid')
-      redirect_to users_signin_path
-    end
-  end
 
   def forgot_password
   end
@@ -55,24 +36,18 @@ class UsersController < ApplicationController
   end
 
   def post_settings
+    current_user.update_attributes(notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : [])
     officer_signed_in? ? post_officer_settings : post_vendor_settings
+    flash[:success] = "Settings successfully updated."
     redirect_to settings_path
   end
 
   def post_officer_settings
-    current_officer.update_attributes(officer_params.merge(
-      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    ))
-
-    flash[:success] = "Settings successfully updated."
+    current_officer.update_attributes(officer_params)
   end
 
   def post_vendor_settings
-    current_vendor.update_attributes(vendor_params.merge(
-      notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : []
-    ))
-
-    flash[:success] = "Settings successfully updated."
+    current_vendor.update_attributes(vendor_params)
   end
 
   def vendor_profile
@@ -101,25 +76,6 @@ class UsersController < ApplicationController
 
   def vendor_params
     params.require(:vendor).permit(:name)
-  end
-
-  def get_path_from_referer_or_session
-    if URI(request.referer).path != users_signin_path
-      path = URI(request.referer).path
-    elsif session[:signin_redirect]
-      path = session[:signin_redirect]
-      session.delete(:signin_redirect)
-    else
-      path = root_path
-    end
-
-    path
-  end
-
-  def successful_signin_redirect_path
-    path = get_path_from_referer_or_session
-    path = mine_projects_path if officer_signed_in? and path == root_path
-    path
   end
 
   def get_vendor_profile

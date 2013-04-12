@@ -130,6 +130,10 @@ en:
     index:
       header: "Officers"
 
+    invite:
+      header: "Create a Password"
+      save: Let's go!
+
   project_revisions:
     show:
       alert_html: >
@@ -331,6 +335,17 @@ en:
         %{event_additional_text}
 
         %{event_url}
+
+        -- %{site_name}
+
+    invite:
+      subject: "You've been invited to %{site_name}!"
+      text: |
+        Hey %{name},
+
+        You've been invited to collaborate on the project "%{project_title}".
+
+        Visit this link to accept the invite: %{invite_url}
 
         -- %{site_name}
 

@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  event_id   :integer
-#  user_type  :string(255)
 #  user_id    :integer
 #  read       :boolean          default(FALSE)
 #  created_at :datetime         not null
@@ -12,7 +11,7 @@
 #
 
 class EventFeed < ActiveRecord::Base
-  belongs_to :user, polymorphic: true
+  belongs_to :user
   belongs_to :event
 
   scope :unread, where(read: false)
@@ -29,7 +28,7 @@ class EventFeed < ActiveRecord::Base
 
   private
   def send_email
-    return if user.class.name == "Officer" && !user.signed_up? # don't send an email to an officer if they're not signed up
+    return if !user.signed_up? # don't send an email to a user if they're not signed up
 
     if user.send_email_notifications_for?(event.event_type)
       NotificationMailer.notification_email(user, event).deliver
