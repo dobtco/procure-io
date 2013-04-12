@@ -1,5 +1,4 @@
 class SavedSearchMailer < ActionMailer::Base
-  include EmailBuilder
   include ActionView::Helpers::TextHelper
 
   # @todo send more than 10 results

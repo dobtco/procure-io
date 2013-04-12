@@ -1,8 +1,4 @@
-class InviteMailer < ActionMailer::Base
-  include EmailBuilder
-
-  default from: "from@example.com"
-
+class InviteMailer < BaseMailer
   def invite_email(officer, project)
     build_email officer.user.email,
                 'invite',

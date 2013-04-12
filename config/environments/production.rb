@@ -54,6 +54,8 @@ ProcureIo::Application.configure do
   # TEMPORARILY DISABLE ACTIONMAILER
   config.action_mailer.perform_deliveries = false
 
+  # config.action_mailer.default_url_options = { host: "procure-io.dev" }
+
   # Enable threaded mode
   # config.threadsafe!
 

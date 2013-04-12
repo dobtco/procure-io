@@ -1,8 +1,4 @@
-class NotificationMailer < ActionMailer::Base
-  include EmailBuilder
-
-  default from: "from@example.com"
-
+class NotificationMailer < BaseMailer
   def notification_email(user, event)
     build_email user.email,
                 'notification',
