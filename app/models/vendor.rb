@@ -45,7 +45,7 @@ class Vendor < ActiveRecord::Base
     elsif params[:sort] == "email"
       query = query.order("users.email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "name" || !params[:sort]
-      query = query.order("name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("NULLIF(name, '') #{params[:direction] == 'asc' ? 'asc' : 'desc' } NULLS LAST")
     end
 
     if params[:q] && !params[:q].blank?

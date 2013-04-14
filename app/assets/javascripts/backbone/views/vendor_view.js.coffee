@@ -123,7 +123,6 @@ ProcureIo.Backbone.VendorsAdminPage = Backbone.View.extend
     @tableHeadView.render()
 
   addOne: (vendor) ->
-    console.log @keyFields
     view = new ProcureIo.Backbone.VendorView({model: vendor, parentView: @})
     $("#vendors-admin-tbody").append(view.render().el)
 
