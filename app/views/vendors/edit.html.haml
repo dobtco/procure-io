@@ -4,4 +4,17 @@
 
 = link_to t('.back_to_list_html'), vendors_path
 
-= render "shared/form", form_action: vendor_path(@vendor.id), responsable: @vendor_profile, response_fieldable: GlobalConfig.instance, save_draft_button: false, form_method: :put
+= form_for @vendor, html: { multipart: true, "data-validate" => "parsley" }  do |f|
+
+  = f.label :name
+  = f.text_field :name
+
+  = f.fields_for :user do |f|
+    .control-group
+      = f.label :email
+      = f.text_field :email
+
+  = render "shared/form_fields", response_fields: GlobalConfig.instance.response_fields, responsable: @vendor_profile
+
+  .form-actions
+    = f.submit "Save Vendor", class: "btn btn-primary"

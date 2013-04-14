@@ -54,6 +54,7 @@ class VendorsController < ApplicationController
   def update
     @vendor_profile.save unless @vendor_profile.id
 
+    @vendor.update_attributes(vendor_params_from_officer)
     save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
     if @vendor_profile.responsable_valid?
@@ -78,5 +79,9 @@ class VendorsController < ApplicationController
 
   def vendor_params
     params.require(:vendor).permit(:name, user: [:email, :password])
+  end
+
+  def vendor_params_from_officer
+    params.require(:vendor).permit(:name, user_attributes: [:id, :email])
   end
 end
