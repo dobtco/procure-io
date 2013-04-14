@@ -43,9 +43,9 @@ class Vendor < ActiveRecord::Base
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
 
     elsif params[:sort] == "email"
-      query = query.order("users.email #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("lower(users.email) #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "name" || !params[:sort]
-      query = query.order("NULLIF(name, '') #{params[:direction] == 'asc' ? 'asc' : 'desc' } NULLS LAST")
+      query = query.order("NULLIF(lower(name), '') #{params[:direction] == 'asc' ? 'asc NULLS LAST' : 'desc' }")
     end
 
     if params[:q] && !params[:q].blank?
