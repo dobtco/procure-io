@@ -41,6 +41,8 @@ class Bid < ActiveRecord::Base
   scope :awarded, where("awarded_at IS NOT NULL")
   scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
 
+  after_update :create_bid_submitted_events_if_submitted!
+
   pg_search_scope :full_search, associated_against: { responses: [:value],
                                                       vendor: [:name],
                                                       user: [:email],
@@ -252,6 +254,18 @@ class Bid < ActiveRecord::Base
   end
 
   private
+  def create_bid_submitted_events_if_submitted!
+    self.delay.create_bid_submitted_events! if submitted_at_changed? && submitted_at
+  end
+
+  def create_bid_submitted_events!
+    event = events.create(event_type: Event.event_types[:bid_submitted], data: {bid: BidSerializer.new(self, root: false)}.to_json)
+
+    project.watches.not_disabled.where_user_is_officer.each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
+    end
+  end
+
   def create_bid_awarded_events!(officer)
     event = events.create(event_type: Event.event_types[:bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
 

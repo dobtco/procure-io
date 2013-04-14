@@ -27,6 +27,7 @@ class Officer < ActiveRecord::Base
     types.push(:project_comment) if GlobalConfig.instance[:comments_enabled]
     types.push(:bid_comment) if GlobalConfig.instance[:bid_review_enabled] && GlobalConfig.instance[:comments_enabled]
     types.push(:bid_awarded, :bid_unawarded) if GlobalConfig.instance[:bid_review_enabled]
+    types.push(:bid_submitted) if GlobalConfig.instance[:bid_submission_enabled]
     Event.event_types.only(*types)
   end
 

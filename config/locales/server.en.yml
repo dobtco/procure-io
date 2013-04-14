@@ -398,6 +398,7 @@ en:
       you_were_added: "You are added"
       question_asked: "Question asked"
       question_answered: "Question answered"
+      bid_submitted: Bid Submitted
 
     text:
       project_comment: "%{officer_display_name} commented on %{commentable_title}."
@@ -413,6 +414,7 @@ en:
       you_were_added: "%{officer_display_name} added you as a collaborator on %{project_title}."
       question_asked: "%{vendor_display_name} asked a question about %{project_title}."
       question_answered: "%{officer_display_name} answered your question about %{project_title}."
+      bid_submitted: "%{bid_vendor_display_name} submitted a bid for %{bid_project_title}."
 
     additional_text:
       you_were_added: "You have automatically been subscribed to all updates on this project."

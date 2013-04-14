@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
       :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended, :collaborator_added, :you_were_added,
-      :question_asked, :question_answered
+      :question_asked, :question_answered, :bid_submitted
     )
   end
 
@@ -45,7 +45,7 @@ class Event < ActiveRecord::Base
     when :bid_comment
       project_bid_path(data['commentable']['project']['id'], targetable_id) + "#comment-page"
     when :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed,
-         :vendor_bid_undismissed
+         :vendor_bid_undismissed, :bid_submitted
       project_bid_path(data['bid']['project']['id'], data['bid']['id'])
     when :question_asked
       project_questions_path(targetable_id)
