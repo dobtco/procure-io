@@ -243,7 +243,6 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
         attrs.field_options.size = "small"
 
     $(".bid-form-span").addClass 'loading'
-
     ProcureIo.Backbone.ResponseFields.create attrs,
       wait: true
       success: (rf) =>

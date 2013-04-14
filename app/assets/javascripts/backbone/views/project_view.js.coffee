@@ -19,7 +19,7 @@ ProcureIo.Backbone.ProjectSortView = Backbone.View.extend
     ProcureIo.Backbone.router.filterOptions.bind "change", @render, @
 
   render: ->
-    @$el.html JST['shared/sorters']({sortOptions: @sortOptions, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
+    @$el.html JST['shared/list_sorters']({sortOptions: @sortOptions, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @filteredHref})
 
 ProcureIo.Backbone.ProjectView = Backbone.View.extend
   # events:

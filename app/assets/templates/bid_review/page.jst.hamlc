@@ -20,15 +20,7 @@
     #sorters-wrapper
 
     %table.table#bids-table.faded-while-loading
-      %thead
-        %tr
-          %th &nbsp;
-          - if @project.review_mode == "rating"
-            %th= I18n.js('avg_rating')
-          %th= I18n.js('vendor_name')
-          - for index, keyField of @pageOptions.keyFields
-            %th= keyField.label
-          %th= I18n.js('status')
+      %thead#bids-thead
 
       %tbody#bids-tbody
 

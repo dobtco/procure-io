@@ -1,5 +1,13 @@
 # @todo clear backbone views when navigating with turbolinks?
 
+ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
+  el: "#bids-thead"
+
+  render: ->
+    @$el.html JST['bid_review/thead']
+      project: @options.project
+      pageOptions: @options.pageOptions.toJSON()
+
 ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
   el: "#bids-footer-wrapper"
 
@@ -241,17 +249,35 @@ ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
 ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
   el: "#sorters-wrapper"
 
+  events:
+    "change .js-sort-select": "updateSort"
+    "click .js-direction-select": "changeSortDirection"
+
   initialize: ->
     @sortOptions = [{key: "created_at", label: "Created at"}]
 
     @sortOptions.push({key: "stars", label: "Stars"}) if @options.project.review_mode == "starring"
     @sortOptions.push({key: "average_rating", label: "Average Rating"}) if @options.project.review_mode == "rating"
 
-    _.each @options.project.key_fields, (kf) =>
-      @sortOptions.push {key: ""+kf.id, label: kf.label}
+    _.each @options.project.response_fields, (rf) =>
+      @sortOptions.push {key: ""+rf.id, label: rf.label}
 
   render: ->
-    @$el.html JST['bid_review/sorters']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref, sortOptions: @sortOptions})
+    @$el.html JST['shared/select_sorters']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref, sortOptions: @sortOptions})
+
+  changeSortDirection: (e) ->
+    $(e.target).closest(".js-direction-select").toggleClass('sort-asc')
+
+    href = @options.filteredHref
+      direction: if ProcureIo.Backbone.router.filterOptions.get('direction') != "asc" then "asc" else "desc"
+
+    ProcureIo.Backbone.router.navigate href, {trigger: true}
+
+  updateSort: (e) ->
+    href = @options.filteredHref
+      sort: $(e.target).val()
+
+    ProcureIo.Backbone.router.navigate href, {trigger: true}
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
@@ -433,6 +459,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
 
     ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
+    ProcureIo.Backbone.router.filterOptions.bind "change", @setKeyFields, @
     ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
 
     @subviews = {}
@@ -456,12 +483,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
     (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
-    (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref})).render()
+    (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
+    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({project: @options.project, pageOptions: @pageOptions})).render()
 
   renderExistingSubviews: ->
     for subview in @subviews
@@ -521,6 +549,15 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   removeLoadingSpinner: ->
     $("#bid-review-page").removeClass 'loading'
+
+  setKeyFields: ->
+    keyFields = @options.project.key_fields.slice(0)
+
+    if (responseFieldId = parseInt(ProcureIo.Backbone.router.filterOptions.get('sort'), 10)) > 0
+      responseField = _.find @options.project.response_fields, ( (rf) -> rf.id == responseFieldId )
+      keyFields.push(responseField) if responseField && !(_.find keyFields, ( (kf) -> kf.id == responseField.id ))
+
+    @pageOptions.set 'keyFields', keyFields
 
   refetch: ->
     $("#bid-review-page").addClass 'loading'

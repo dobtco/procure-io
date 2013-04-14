@@ -5,14 +5,14 @@ class ResponseFieldsController < ApplicationController
   def create
     @response_field = @response_fieldable.response_fields.create pick(params, *allowed_params)
     respond_to do |format|
-      format.json { render json: @response_field }
+      format.json { render json: @response_field, root: false }
     end
   end
 
   def update
     @response_field.update_attributes pick(params, *allowed_params)
     respond_to do |format|
-      format.json { render json: @response_field }
+      format.json { render json: @response_field, root: false }
     end
   end
 
@@ -29,7 +29,7 @@ class ResponseFieldsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @response_fieldable.response_fields }
+      format.json { render json: @response_fieldable.response_fields, root: false }
     end
   end
 

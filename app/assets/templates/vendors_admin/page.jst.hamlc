@@ -10,10 +10,5 @@
 .clearfix &nbsp;
 
 %table.table.faded-while-loading
-  %thead
-    %tr
-      %th Name
-      %th Email
-      - for index, keyField of @keyFields
-        %th= keyField.label
+  %thead#vendors-thead
   %tbody#vendors-admin-tbody

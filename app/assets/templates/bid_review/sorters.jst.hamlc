@@ -1,1 +1,0 @@
-!= JST['shared/sorters']({sortOptions: @sortOptions, filteredHref: @filteredHref, filterOptions: @filterOptions})

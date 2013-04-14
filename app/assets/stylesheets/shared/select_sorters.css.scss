@@ -1,0 +1,17 @@
+.sort-select-wrapper {
+  select {
+    margin: 0;
+  }
+
+  .icon-chevron-up { display: none; }
+
+  .sort-asc {
+    .icon-chevron-down { display: none; }
+    .icon-chevron-up { display: inline; }
+  }
+
+  a {
+    text-decoration: none;
+    margin-left: 5px;
+  }
+}

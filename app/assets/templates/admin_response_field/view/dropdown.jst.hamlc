@@ -5,7 +5,8 @@
 %select
   - if @field_options.include_blank_option
     %option{"value" => ""}
-  - for option in @field_options.options
-    %option{"selected" => option.checked}= option.label
+  - if @field_options.options
+    - for option in @field_options.options
+      %option{"selected" => option.checked}= option.label
 
 != JST['admin_response_field/view/pieces/description'](@)

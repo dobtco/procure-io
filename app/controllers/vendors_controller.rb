@@ -9,7 +9,11 @@ class VendorsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html {}
+      format.html do
+        @response_fields_json = ActiveModel::ArraySerializer.new(GlobalConfig.instance.response_fields,
+                                                                 each_serializer: ResponseFieldSerializer,
+                                                                 root: false).to_json
+      end
 
       format.json do
         search_results = Vendor.search_by_params(params)

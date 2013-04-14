@@ -1,0 +1,8 @@
+.sort-select-wrapper
+  %select.js-sort-select
+    - for sortOption in @sortOptions
+      %option{"value" => sortOption.key, "selected" => sortOption.key == @filterOptions.sort}= sortOption.label
+
+  %a.js-direction-select{"class" => if @filterOptions.direction is "asc" then "sort-asc"}
+    %i.icon-chevron-up
+    %i.icon-chevron-down
