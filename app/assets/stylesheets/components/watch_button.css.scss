@@ -1,0 +1,8 @@
+.watch-button-wrapper {
+  .watching-button-text { display: none; }
+
+  &.watching {
+    .watching-button-text { display: inherit; }
+    .watch-button-text { display: none; }
+  }
+}

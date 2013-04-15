@@ -146,8 +146,6 @@ en:
     description: "Project Description"
     bids_due_on: "Bids due on %{date}"
     bids_were_due_on: "Bids were due on %{date}"
-    watching_project_html: "Watching Project <i class='icon-star'></i>"
-    watch_project_html: "Watch Project <i class='icon-star-empty'></i>"
 
     admin_sidebar:
       collaborators: "Collaborators"

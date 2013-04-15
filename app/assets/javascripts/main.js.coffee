@@ -76,3 +76,6 @@ toggleHotkeyModal = ->
 
 $(document).on "click", "#hotkeys-indicator", toggleHotkeyModal
 
+$(document).on "ajax:beforeSend", ".js-toggle-watch", (e) ->
+  $(e.target).toggleClass('btn-inverse')
+  $(e.target).closest(".watch-button-wrapper").toggleClass('watching')

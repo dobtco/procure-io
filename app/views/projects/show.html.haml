@@ -36,8 +36,7 @@
 
   .span5
     - if vendor_signed_in?
-      = link_to @project.watched_by?(current_user) ? t('projects.watching_project_html') : t('projects.watch_project_html'), watches_path("Project", @project), |
-                method: :post, class: "btn #{@project.watched_by?(current_user) ? 'btn-inverse' : ''}"
+      != watch_button(@project, "Watching this project will subscribe you to alerts about amendments.")
 
     - if GlobalConfig.instance[:bid_submission_enabled] && @project.open_for_bids?
       - if vendor_signed_in?

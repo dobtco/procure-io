@@ -5,6 +5,8 @@
 - if can? :destroy, @bid
   = link_to t('actions.bid.delete'), project_bid_path(@project, @bid), method: :delete, confirm: t('confirmations.bid.delete')
 
+!= watch_button(@bid, "Watching this bid will subscribe you to alerts about comments.")
+
 #bid-page
   :javascript
     new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
@@ -13,5 +15,3 @@
   #comment-page
     :javascript
       new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});
-
-= link_to @bid.watched_by?(current_user) ? t('.watching_bid') : t('.watch_bid'), watches_path("Bid", @bid), method: :post, class: "btn #{@bid.watched_by?(current_user) ? 'btn-inverse' : ''}"
