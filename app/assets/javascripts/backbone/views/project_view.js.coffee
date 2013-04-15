@@ -118,7 +118,6 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     $("#project-page").removeClass 'loading'
 
   saveSearch: (e) ->
-    console.log _.pick(ProcureIo.Backbone.router.filterOptions.attributes, 'category', 'q')
     $(e.target).button 'loading'
 
     $.ajax

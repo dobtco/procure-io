@@ -52,7 +52,6 @@ $(document).on "click", ".js-dropdown-login-toggle", (e) ->
       $(".dropdown.open").removeClass('open')
 
 $(document).on "mouseenter", ".js-notification-dropdown-toggle", ->
-  console.log 'l'
   $(@).tooltip('show') unless $(@).parent().hasClass('open')
 
 $(document).on "mouseleave", ".js-notification-dropdown-toggle", ->

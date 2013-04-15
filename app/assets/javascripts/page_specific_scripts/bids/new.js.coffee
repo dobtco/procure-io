@@ -9,7 +9,6 @@ ProcureIo.PageSpecificScripts["bids#new"] = ->
     save_draft_button.button('reset')
 
   saveBidDraft = ->
-    console.log save_draft_button
     return if draft_saved is true
     form = $("#responsable-form")
     form.find("input[name=draft_only]").val('true')
