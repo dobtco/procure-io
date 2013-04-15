@@ -32,5 +32,5 @@ Procure.io is very early-stage alpha software, but if you're interested in getti
 3. Write some tests (unit & acceptance, currently) that cover the functionality you added
 4. Create a pull request
 
-#### License
-Procure.io is released under the [MIT License](http://opensource.org/licenses/MIT).
+#### Copyright
+Copyright (c) 2013 Department of Better Technology. See [LICENSE](https://www.github.com/dobtco/procure-io/blob/master/LICENSE.md) for details.
