@@ -35,15 +35,19 @@
                   %li
                     = link_to raw("<strong>Admin</strong>"), officers_path
 
+            - if officer_signed_in?
+              %li
+                %a{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "New Project"}
+                  %i.icon-pencil
+
             %li
-              %a{"href" => notifications_path}
-                %i.icon-envelope
+              %a{"href" => notifications_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Notifications"}
+                %i.icon-bullhorn
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
             %li
-              %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow"}
+              %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => "Sign out", "data-placement" => "bottom"}
                 %i.icon-signout
-
 
           - else
             %li.dropdown
