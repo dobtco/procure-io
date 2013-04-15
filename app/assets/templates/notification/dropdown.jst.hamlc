@@ -1,0 +1,12 @@
+- if @notifications.length == 0
+  %li.none No notifications to display.
+
+- else
+  - for notification in @notifications
+    %li{"class" => if notification.read then "notification-read" else "notification-unread"}
+      %a{"href" => notification.path}
+        %span.notification-text= notification.text
+        %span.timestamp= moment(notification.created_at).fromNow()
+
+  %li.view-all
+    %a{"href" => "/notifications"} View all #{@count} notifications

@@ -2,9 +2,18 @@ class NotificationsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @notifications = current_user.events.paginate(page: params[:page])
-    @notifications_json = ActiveModel::ArraySerializer.new(@notifications,
-                                                           each_serializer: EventSerializer).to_json
+    respond_to do |format|
+      format.html do
+        @notifications = current_user.events.order('created_at DESC').paginate(page: params[:page])
+        @notifications_json = ActiveModel::ArraySerializer.new(@notifications,
+                                                               each_serializer: EventSerializer).to_json
+
+      end
+
+      format.json do
+        render json: current_user.events.order("read, created_at DESC").limit(5), meta: { count: current_user.events.count }
+      end
+    end
   end
 
   def update

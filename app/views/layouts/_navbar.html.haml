@@ -40,11 +40,16 @@
                 %a{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "New Project"}
                   %i.icon-pencil
 
-            %li
-              %a{"href" => notifications_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Notifications"}
+            %li.dropdown
+              %a.js-notification-dropdown-toggle.dropdown-toggle{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => "Notifications"}
                 %i.icon-bullhorn
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
+
+              %ul#notifications-dropdown.dropdown-menu
+                %li.loading
+                  %i.icon-refresh.icon-spin
+
             %li
               %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => "Sign out", "data-placement" => "bottom"}
                 %i.icon-signout

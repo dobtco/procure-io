@@ -19,8 +19,6 @@ class Event < ActiveRecord::Base
   has_many :event_feeds, dependent: :destroy
   belongs_to :targetable, polymorphic: :true
 
-  default_scope order("created_at DESC")
-
   def self.event_types
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,

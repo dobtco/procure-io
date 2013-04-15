@@ -42,3 +42,13 @@ $(document).on "click", ".js-dropdown-login-toggle", (e) ->
     if e.keyCode is 27
       $(document).off ".closeloginmodal"
       $(".dropdown.open").removeClass('open')
+
+$(document).on "click", ".js-notification-dropdown-toggle", (e) ->
+  return if $(@).data('notifications-loaded')
+  $(@).data 'notifications-loaded', true
+
+  $.getJSON $(@).attr('href'), (data) ->
+    $("#notifications-dropdown").html JST['notification/dropdown']
+      notifications: data.notifications
+      count: data.meta.count
+
