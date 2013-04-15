@@ -1,4 +1,4 @@
-%dl
+%dl.bid-content-dl
   - for response in @responses
     %dt= response.response_field.label
     %dd!= response.display_value
