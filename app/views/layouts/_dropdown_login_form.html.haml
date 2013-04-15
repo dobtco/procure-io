@@ -1,13 +1,13 @@
 .dropdown-menu
   = form_tag sign_in_path, method: :post, class: "dropdown-login-form" do
     %h4= t('.sign_in', site_name: t('globals.site_name'))
-    %input{"type" => "text", "name" => "user_session[email]", "placeholder" => t('globals.email_address')}
-    %input{"type" => "password", "name" => "user_session[password]", "placeholder" => t('globals.password')}
+    %input{"type" => "text", "name" => "user_session[email]", "placeholder" => User.human_attribute_name(:email)}
+    %input{"type" => "password", "name" => "user_session[password]", "placeholder" => User.human_attribute_name(:password)}
     .login-button-wrapper
       %button.btn.btn-primary= t('globals.sign_in')
-      = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), new_vendor_path))
+      = t('globals.or_sign_up.line_html', link: link_to(t('globals.or_sign_up.link'), new_vendor_path))
 
 
 
     .forgot-password-wrapper
-      = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), users_forgot_password_path))
+      = t('globals.forgot_password.line_html', link: link_to(t('globals.forgot_password.link'), users_forgot_password_path))

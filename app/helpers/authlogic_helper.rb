@@ -1,5 +1,4 @@
 module AuthlogicHelper
-  private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -37,15 +36,24 @@ module AuthlogicHelper
   def authenticate_user!
     if !current_vendor && !current_officer
       flash[:error] = "Sorry, you must be logged in to access that page."
-      redirect_to :root
+      redirect_to sign_in_path
     end
   end
 
   def authenticate_vendor!
-    not_found if !vendor_signed_in?
+    return if vendor_signed_in?
+
+    if officer_signed_in?
+      flash[:error] = "That page is for vendors only."
+      redirect_to :root
+    else
+      flash[:error] = "Sorry, you must be logged in to access that page."
+      redirect_to sign_in_path
+    end
   end
 
   def authenticate_officer!
+    # could redirect to sign_in_path, but respond with 404 for better security.
     not_found if !officer_signed_in?
   end
 end

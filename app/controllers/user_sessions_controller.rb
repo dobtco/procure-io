@@ -1,5 +1,6 @@
 class UserSessionsController < ApplicationController
   before_filter :only_unauthenticated_user, only: [:new, :create]
+  before_filter :authenticate_user!, only: [:destroy]
 
   def new
     @user_session = UserSession.new
@@ -12,18 +13,17 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(user_session_params)
 
     if @user_session.save
-      flash[:success] = "You're now signed in."
+      flash[:success] = t('flashes.valid_login')
       redirect_to successful_signin_redirect_path
     else
-      flash[:error] = "Sorry, wrong email/password combo."
-      redirect_to sign_in_path
+      flash[:error] = t('flashes.invalid_login')
+      render action: :new
     end
   end
 
   def destroy
-    if (@user_session = UserSession.find)
-      @user_session.destroy
-    end
+    @user_session = UserSession.find
+    @user_session.destroy
 
     redirect_to root_path
   end

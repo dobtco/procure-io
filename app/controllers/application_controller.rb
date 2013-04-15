@@ -9,8 +9,8 @@ class ApplicationController < ActionController::Base
 
   def check_enabled!(feature)
     if !GlobalConfig.instance[:"#{feature}_enabled"]
-      flash[:error] = "Sorry, that feature is not enabled."
-      redirect_to :root
+      Rails.logger.warn "feature_not_enabled"
+      not_found
     end
   end
 

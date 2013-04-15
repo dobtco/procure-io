@@ -1,13 +1,8 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
   globals:
     site_name: Procure.io
     sign_in: Sign in
     sign_up: Sign up
-    email_address: Email Address
-    password: Password
     actions: Actions
     unknown_officer: Unknown
     experimental_follow_steps_html: >
@@ -16,6 +11,30 @@ en:
     hide: "hide"
     show_paren: "(show)"
     hide_paren: "(hide)"
+    submit: Submit
+
+    forgot_password:
+      line_html: Did you %{link}?
+      link: forget your password
+
+    or_sign_up:
+      line_html: or %{link}
+      link: sign up
+
+
+  errors:
+    email_taken: "That email address is already taken."
+
+  flashes:
+    valid_login: "You are now signed in."
+    invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
+    no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
+    sent_reset_password_instructions: "Check your email for instructions on how to reset your password."
+    logged_in_without_password:
+      line_html: >
+        Heya! We logged you in without a password, but you can always %{link} if you want. If you don't,
+        you can just use that same link to login in the future.
+      link: create one
 
   confirmations:
     bid:
@@ -284,38 +303,18 @@ en:
       view_results: View Results
 
   users:
-    notification_settings:
-      header: "Email Notifications"
-
-    officer_settings:
-      header: "Settings"
-      profile: "Profile"
-      dev_header: "Developer"
-      api_key: API Key
-
-    vendor_settings:
-      header: "Settings"
-      profile: Profile
-      vendor_profile: Vendor Profile
-      edit: Edit Profile
-
-    vendor_profile:
-      header: Vendor Profile
-
-    or_sign_up:
-      line_html: or %{link}
-      link: sign up
-
     forgot_password:
-      header: "Forgot password"
-      send_instructions: "Send reset password instructions"
-      line_html: Did you %{link}?
-      link: forget your password
+      header: "Forgot Password"
+      send_instructions: "Send Reset Password Instructions"
 
-    password:
-      header: "Create a Password"
-      save: Let's go!
+    accept_invite:
+      header: Accept Invite
+      create_password_instructions_html: >
+        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name}, simply create a password below.
 
+    reset_password:
+      header: Reset Password
+      sorry_you_forgot_it_html: "Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below."
 
   watches:
     last_updated: "last updated %{date}"

@@ -5,6 +5,6 @@
     %ul
       - if v.is_a?(Array)
         - v.each do |m|
-          %li= m
+          %li!= m
       - else
-        %li= v
+        %li!= v

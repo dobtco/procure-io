@@ -17,6 +17,6 @@
         = link_to t('.read_more'), project
       .bids-due
         - if project.bids_due_at
-          Bids due on #{project.bids_due_at.to_formatted_s(:readable_dateonly)}
+          = t('projects.bids_due_on', date: project.bids_due_at.to_formatted_s(:readable_dateonly))
         - else
           = t('projects.open_for_bids')

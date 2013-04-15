@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def validate_email
     q = User.where(email: params[:q])
     q = q.where("email != ?", params[:existing]) if params[:existing]
-    render json: q.first ? { error: "That email address is already taken." } : { success: '' }
+    render json: q.first ? { error: t('errors.email_taken') } : { success: '' }
   end
 
   def forgot_password
@@ -15,28 +15,23 @@ class UsersController < ApplicationController
     @user = User.where(email: params[:email]).first
 
     if @user
-      # @user.class.send_reset_password_instructions pick(params, :email)
       @user.reset_perishable_token!
       @user.send_reset_password_instructions!
-      flash[:success] = t('sent_reset_password_instructions')
+      flash[:success] = t('flashes.sent_reset_password_instructions')
       redirect_to root_path
     else
-      flash[:error] = "Couldn't find a user with that email address."
+      flash[:error] = t('flashes.no_user_found_by_email')
       redirect_to users_forgot_password_path
     end
   end
 
-  # used for resetting passwords and for officers who have just been invited
+  # used for both resetting passwords AND for officers who have just been invited
   def password
     if @user.owner.class.name == "Officer" && GlobalConfig.instance[:passwordless_invites_enabled]
-      flash[:success] = "Heya! We logged you in without a password, but you can always create one if you want. " +
-                        "If you don't create one, you can just use the same invite link to login in the future."
-
+      flash[:success] = t('flashes.logged_in_without_password.line_html', link: view_context.link_to(t('flashes.logged_in_without_password.link'), settings_account_path))
       UserSession.create(@user)
       redirect_to mine_projects_path
-    end
-
-    if @user.signed_up?
+    elsif @user.signed_up?
       render "users/reset_password"
     else
       render "users/accept_invite"
@@ -47,17 +42,13 @@ class UsersController < ApplicationController
     @user.update_attributes(password: params[:user][:password])
     @user.reset_perishable_token!
     UserSession.create(@user)
-
-    if @user.owner.class.name == "Officer"
-      redirect_to mine_projects_path
-    else
-      redirect_to root_path
-    end
+    redirect_to @user.owner.class.name == "Officer" ? mine_projects_path : root_path
   end
 
   private
   def invite_exists?
-    @user = User.find_using_perishable_token(params[:token], 30.days)
+    # @todo expire password reset links but not invite links
+    @user = User.find_using_perishable_token(params[:token])
     redirect_to(root_path) unless @user
   end
 end

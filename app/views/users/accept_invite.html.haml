@@ -1,13 +1,11 @@
-- provide :page_title, "Accept Invite"
-
+- provide :page_title, t('.header')
 != page_header t('.header')
 
-.alert.alert-info
-  Hey <strong>#{@user.email}</strong>! To finish creating your account on #{t('globals.site_name')}, simply create a password below.
+.alert.alert-info= t('.create_password_instructions_html', name: @user.display_name, site_name: t('globals.site_name'))
 
 = form_for @user, url: users_accept_invite_path, method: :post do |f|
   = f.label :password
   = f.password_field :password, autofocus: true
 
   .form-actions
-    = f.submit 'Save', class: "btn btn-inverse"
+    = f.submit t('globals.submit'), class: "btn btn-inverse"

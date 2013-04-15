@@ -4,15 +4,15 @@
 
 = form_tag sign_in_path, method: :post do
 
-  %label= t('globals.email_address')
-  %input{"type" => "text", "name" => "user_session[email]", "placeholder" => t('globals.email_address')}
+  %label=  User.human_attribute_name(:email)
+  %input{"type" => "text", "name" => "user_session[email]", "value" => @user_session.email, "autofocus" => true}
 
-  %label= t('globals.password')
-  %input{"type" => "password", "name" => "user_session[password]", "placeholder" => t('globals.password')}
+  %label=  User.human_attribute_name(:password)
+  %input{"type" => "password", "name" => "user_session[password]"}
 
   .form-actions
     %button.btn.btn-primary= t('globals.sign_in')
-    = t('users.or_sign_up.line_html', link: link_to(t('users.or_sign_up.link'), new_vendor_path))
+    = t('globals.or_sign_up.line_html', link: link_to(t('globals.or_sign_up.link'), new_vendor_path))
 
   .forgot-password-wrapper
-    = t('users.forgot_password.line_html', link: link_to(t('users.forgot_password.link'), users_forgot_password_path))
+    = t('globals.forgot_password.line_html', link: link_to(t('globals.forgot_password.link'), users_forgot_password_path))
