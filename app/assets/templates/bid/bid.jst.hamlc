@@ -1,5 +1,5 @@
 .action-header
-  %h4.pull-left #{I18n.js('bid_from')} #{@vendor.display_name}
+  %h4.pull-left #{I18n.js('bid_from')} #{@bid.vendor.display_name}
 
   .pull-right
 
@@ -16,23 +16,23 @@
 
 
     %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
-      - if @dismissed_at
+      - if @bid.dismissed_at
         = I18n.js('undismiss')
       - else
         = I18n.js('dismiss')
 
     %button.btn.btn-success{"data-backbone-award" => "true"}
-      - if @awarded_at
+      - if @bid.awarded_at
         = I18n.js('unaward')
       - else
         = I18n.js('award')
 
     &nbsp;
-    %i{"data-backbone-read" => "true", "class" => (if @my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-read" => "true", "class" => (if @bid.my_bid_review.read then "icon-circle-blank" else "icon-circle")}
 
     - if @project.review_mode == "starring"
-      %i{"data-backbone-star" => "true", "class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
-      %span.total-stars= @total_stars
+      %i{"data-backbone-star" => "true", "class" => (if @bid.my_bid_review.starred then "icon-star" else "icon-star-empty")}
+      %span.total-stars= @bid.total_stars
 
     - if @project.review_mode == "rating"
       %select.rating-select{"data-rv-value" => "bid.my_bid_review.rating"}
@@ -43,9 +43,9 @@
         %option{"value" => 4} 4
         %option{"value" => 5} 5
 
-      %span= @average_rating
-      - if @total_ratings
-        %span.total_ratings= @total_ratings
+      %span= @bid.average_rating
+      - if @bid.total_ratings
+        %span.total_ratings= @bid.total_ratings
 
 
 
@@ -54,33 +54,33 @@
 .row-fluid
   .span3.well
     %p
-      - for label in @labels
+      - for label in @bid.labels
         %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
-      - if @dismissed_at
+      - if @bid.dismissed_at
         %span.badge.badge-important= I18n.js('dismissed')
-      - else if @awarded_at
+      - else if @bid.awarded_at
         %span.badge.badge-success= I18n.js('awarded')
       - else
         %span.badge.badge-info= I18n.js('open')
 
     %p
-      %span #{I18n.js('submitted_on')} #{@submitted_at_readable}
+      %span #{I18n.js('submitted_on')} #{@bid.submitted_at_readable}
 
     %p
       %a{"href" => "#comment-page"}
-        = @total_comments
-        = if @total_comments is 1 then "comment" else "comments"
+        = @bid.total_comments
+        = if @bid.total_comments is 1 then "comment" else "comments"
 
     %dl
       %dt= I18n.js('contact_name')
-      %dd= @vendor.display_name
+      %dd= @bid.vendor.display_name
       %dt= I18n.js('email_address')
-      %dd= @vendor.user.email
+      %dd= @bid.vendor.user.email
 
-      - for response in (@vendor.vendor_profile?.responses || [])
+      - for response in (@bid.vendor.vendor_profile?.responses || [])
         %dt= response.response_field.label
         %dd= response.display_value
 
   .span9
-    != JST['shared/_bid'](@)
+    != JST['shared/_bid'](@bid)

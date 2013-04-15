@@ -14,7 +14,7 @@
 #
 
 class Comment < ActiveRecord::Base
-  belongs_to :commentable, polymorphic: true
+  belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :officer
 
   has_many :events, as: :targetable

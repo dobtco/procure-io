@@ -34,7 +34,7 @@ class Bid < ActiveRecord::Base
 
   has_many :events, as: :targetable
 
-  has_and_belongs_to_many :labels
+  has_and_belongs_to_many :labels, after_add: :update_timestamp, after_remove: :update_timestamp
 
   scope :submitted, where("submitted_at IS NOT NULL")
   scope :dismissed, where("dismissed_at IS NOT NULL")
@@ -254,6 +254,10 @@ class Bid < ActiveRecord::Base
   end
 
   private
+  def update_timestamp(*args)
+    self.touch
+  end
+
   def create_bid_submitted_events_if_submitted!
     self.delay.create_bid_submitted_events! if submitted_at_changed? && submitted_at
   end

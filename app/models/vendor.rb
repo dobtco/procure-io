@@ -26,6 +26,8 @@ class Vendor < ActiveRecord::Base
                                 associated_against: { responses: [:value], user: [:email] },
                                 using: { tsearch: { prefix: true } }
 
+  after_update :touch_all_bids!
+
   def self.search_by_params(params, count_only = false)
     return_object = { meta: {} }
     return_object[:meta][:page] = [params[:page].to_i, 1].max
@@ -86,5 +88,10 @@ class Vendor < ActiveRecord::Base
 
   def active_for_authentication?
     super && !self.account_disabled?
+  end
+
+  private
+  def touch_all_bids!
+    bids.update_all(updated_at: Time.now)
   end
 end

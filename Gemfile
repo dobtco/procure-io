@@ -59,8 +59,6 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'haml_coffee_assets'
   gem 'execjs'
-  gem 'bootstrap-sass'
-  gem 'bootswatch-rails'
   gem 'font-awesome-sass-rails'
   gem 'rails-backbone', git: 'git://github.com/codebrew/backbone-rails.git'
   gem 'select2-rails'

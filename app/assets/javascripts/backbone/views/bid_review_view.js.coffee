@@ -311,7 +311,12 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
       if response then response.display_value else ""
 
-    @$el.html JST['bid_review/bid'](_.extend(@model.toJSON(), {pageOptions: @parentView.pageOptions, getValue: getValue}))
+    @$el.html JST['bid_review/bid']
+      bid: @model.toJSON()
+      pageOptions: @parentView.pageOptions
+      getValue: getValue
+      project: @parentView.project
+
     rivets.bind(@$el, {bid: @model})
 
     @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')

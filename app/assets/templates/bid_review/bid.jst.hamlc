@@ -3,8 +3,8 @@
 
   - if @project.review_mode == "starring"
     %span.total-stars{"data-backbone-star" => "true"}
-      %i{"class" => (if @my_bid_review.starred then "icon-star" else "icon-star-empty")}
-      %span= @total_stars
+      %i{"class" => (if @bid.my_bid_review.starred then "icon-star" else "icon-star-empty")}
+      %span= @bid.total_stars
 
   - if @project.review_mode == "rating"
     %select.rating-select{"data-rv-value" => "bid.my_bid_review.rating"}
@@ -17,22 +17,22 @@
 
 - if @project.review_mode == "rating"
   %td
-    %span= @average_rating
-    - if @total_ratings
-      %span.total_ratings= @total_ratings
+    %span= @bid.average_rating
+    - if @bid.total_ratings
+      %span.total_ratings= @bid.total_ratings
 
 %td
-  %a.vendor-name{href: "/projects/#{@project_id}/bids/#{@id}"}= @vendor.display_name
+  %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.vendor.display_name
 
-  - for label in @labels
+  - for label in @bid.labels
     %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
 - for index, keyField of @pageOptions.attributes.keyFields
   %td!= @getValue(keyField.id)
 
 %td
-  - if @dismissed_at
+  - if @bid.dismissed_at
     %span.badge.badge-important= I18n.js('dismissed')
-  - else if @awarded_at
+  - else if @bid.awarded_at
     %span.badge.badge-success= I18n.js('awarded')
   - else
     %span.badge= I18n.js('open')

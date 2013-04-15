@@ -17,7 +17,12 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     @render()
 
   render: ->
-    @$el.html JST['bid/bid'](_.extend(@bid.toJSON(), {projectLabels: @options.project.labels, existingLabels: _.map(@bid.get('labels'), (l) -> l.name)}))
+    @$el.html JST['bid/bid']
+      project: @options.project
+      bid: @bid.toJSON()
+      projectLabels: @options.project.labels
+      existingLabels: _.map(@bid.get('labels'), (l) -> l.name)
+
     rivets.bind(@$el, {bid: @bid})
 
     @$el.find(".rating-select").on "change", =>

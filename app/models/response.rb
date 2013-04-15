@@ -18,7 +18,7 @@ class Response < ActiveRecord::Base
 
   default_scope({include: :response_field, joins: :response_field, order: "response_fields.sort_order"})
 
-  belongs_to :responsable, polymorphic: true
+  belongs_to :responsable, polymorphic: true, touch: true
   belongs_to :response_field
 
   before_save :calculate_sortable_value
