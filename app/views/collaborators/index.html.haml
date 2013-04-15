@@ -10,7 +10,7 @@
 
     .email-inputs
       .control-group
-        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => t('globals.email_address')}
+        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => User.human_attribute_name(:email)}
         %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
 
     - if can? :update, Officer
