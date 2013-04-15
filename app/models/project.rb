@@ -133,8 +133,9 @@ class Project < ActiveRecord::Base
   def create_bid_from_hash!(params, label_to_apply = nil)
     raise "Required parameters not included." if !params["email"] || params["email"].blank?
 
-    vendor = Vendor.where(email: params["email"])
-                   .first_or_create(password: SecureRandom.urlsafe_base64, name: params["name"], account_disabled: true)
+    vendor = Vendor.joins(:user)
+                   .where(users: { email: params["email"] })
+                   .first_or_create(name: params["name"], account_disabled: true)
 
     bid = vendor.bids.create(project_id: self.id)
 
