@@ -1,0 +1,10 @@
+- flash.each do |k, v|
+  - next unless v
+  .flash-message{"class" => "alert alert-#{k}"}
+    %button.close{"data-dismiss" => "alert"} &times;
+    %ul
+      - if v.is_a?(Array)
+        - v.each do |m|
+          %li= m
+      - else
+        %li= v

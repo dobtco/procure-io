@@ -44,6 +44,7 @@ class VendorsController < ApplicationController
       UserSession.create(user)
       redirect_to root_path
     else
+      flash[:error] = vendor.errors.full_messages + user.errors.full_messages
       redirect_to new_vendor_path
     end
   end

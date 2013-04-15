@@ -2,7 +2,7 @@ $.fn.parsley.defaults.errors.classHandler = $.fn.parsley.defaults.errors.contain
   el.closest(".control-group")
 
 $.fn.parsley.defaults.errors.errorsWrapper = '<div class="help-block"></div>'
-$.fn.parsley.defaults.errors.errorElem = '<span></span>'
+$.fn.parsley.defaults.errors.errorElem = '<div></div>'
 $.fn.parsley.defaults.errorClass = 'error'
 
 window.ParsleyConfig ||= {}
