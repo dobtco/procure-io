@@ -3,6 +3,7 @@ en:
     site_name: Procure.io
     sign_in: Sign in
     sign_up: Sign up
+    sign_out: Sign out
     actions: Actions
     unknown_officer: Unknown
     experimental_follow_steps_html: >
@@ -12,6 +13,10 @@ en:
     show_paren: "(show)"
     hide_paren: "(hide)"
     submit: Submit
+    admin: Admin
+    settings: Settings
+    new_project: New Project
+    notifications: Notifications
 
     forgot_password:
       line_html: Did you %{link}?
@@ -21,6 +26,7 @@ en:
       line_html: or %{link}
       link: sign up
 
+    hotkeys_available: Hotkeys Available
 
   errors:
     email_taken: "That email address is already taken."

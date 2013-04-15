@@ -45,8 +45,6 @@
 //= require bootstrap-wysihtml5
 //= require_tree .
 
-var ProcureIo = {
-  PageSpecificScripts: {},
-  Tours: {},
-  Hotkeys: {}
-}
+ProcureIo.PageSpecificScripts = {};
+ProcureIo.Tours = {};
+ProcureIo.Hotkeys = {};

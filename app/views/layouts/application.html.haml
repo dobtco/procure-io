@@ -3,13 +3,8 @@
 %head
   %title!= full_title(yield(:page_title), yield(:page_action))
   = stylesheet_link_tag "application", media: "all"
+  %script!= render "layouts/javascript_environment.js.erb"
   = javascript_include_tag "application"
-  :javascript
-    ProcureIo.env = '#{Rails.env}';
-    ProcureIo.GlobalConfig = #{GlobalConfigSerializer.new(GlobalConfig.instance, root: false).to_json};
-    ProcureIo.CurrentOfficerId = #{current_officer ? current_officer.id : 'undefined'};
-    ProcureIo.CurrentOfficer = #{current_officer ? OfficerSerializer.new(current_officer, root: false).to_json : 'undefined'};
-    ProcureIo.CurrentVendorId = #{current_vendor ? current_vendor.id : 'undefined'};
   = csrf_meta_tags
   = render 'layouts/shim'
 
@@ -26,4 +21,4 @@
       .pull-left= t('.footer_html')
       .pull-right
         %a#hotkeys-indicator
-          %span.label Hotkeys Available
+          %span.label= t('globals.hotkeys_available')

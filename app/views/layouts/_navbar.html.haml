@@ -29,19 +29,19 @@
                     %li
                       =link_to t('.saved_searches'), saved_searches_path
                 %li
-                  =link_to "Settings", settings_profile_path
+                  =link_to t('globals.settings'), settings_profile_path
 
                 - if (can? :manage, GlobalConfig) || (can? :update, Officer)
                   %li
-                    = link_to raw("<strong>Admin</strong>"), officers_path
+                    = link_to raw("<strong>#{t('globals.admin')}</strong>"), officers_path
 
             - if officer_signed_in?
               %li
-                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "New Project"}
+                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('globals.new_project')}
                   %i.icon-pencil
 
             %li.dropdown
-              %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => "Notifications", "data-trigger" => "manual"}
+              %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('globals.notifications'), "data-trigger" => "manual"}
                 %i.icon-bullhorn
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
@@ -51,7 +51,7 @@
                   %i.icon-refresh.icon-spin
 
             %li
-              %a.link-icon{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => "Sign out", "data-placement" => "bottom"}
+              %a.link-icon{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => t('globals.sign_out'), "data-placement" => "bottom"}
                 %i.icon-signout
 
           - else
