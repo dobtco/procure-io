@@ -47,5 +47,6 @@
 
 var ProcureIo = {
   PageSpecificScripts: {},
-  Tours: {}
+  Tours: {},
+  Hotkeys: {}
 }

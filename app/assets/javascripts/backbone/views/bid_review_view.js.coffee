@@ -287,6 +287,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     "click .vendor-name": "openBid"
     "click [data-backbone-star]": "toggleStarred"
     "click [data-backbone-read]": "toggleRead"
+    "mouseenter": "selectBid"
 
   initialize: ->
     @parentView = @options.parentView
@@ -314,6 +315,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     rivets.bind(@$el, {bid: @model})
 
     @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')
+    @$el[if @model.get("checked") then "addClass" else "removeClass"]('bid-tr-checked')
 
     @$el.find(".total-stars").tooltip
       title: "Loading..."
@@ -403,6 +405,11 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   save: ->
     @model.save()
 
+  selectBid: ->
+    if ProcureIo.BidsOnMouseoverSelect
+      $(".bid-tr-selected").removeClass("bid-tr-selected")
+      @$el.addClass 'bid-tr-selected'
+
 
 ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
@@ -418,6 +425,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "submit .bid-search-form": "submitBidSearchForm"
 
   initialize: ->
+    ProcureIo.BidsOnMouseoverSelect = true
+
     @project = @options.project
     @options.projectId = @options.project.id
 

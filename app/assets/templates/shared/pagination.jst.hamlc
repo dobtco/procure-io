@@ -4,7 +4,7 @@
       - if @meta.page is 1
         %span &laquo;
       - else
-        %a{"href" => @filteredHref({page: @meta.page - 1}), "data-backbone-updatefilter" => "true"} &laquo;
+        %a.pagination-previous{"href" => @filteredHref({page: @meta.page - 1}), "data-backbone-updatefilter" => "true"} &laquo;
 
     - for p in @pages
       - if p is "break"
@@ -18,4 +18,4 @@
       - if @meta.page is @meta.last_page
         %span &raquo;
       - else
-        %a{"href" => @filteredHref({page: @meta.page + 1}), "data-backbone-updatefilter" => "true"} &raquo;
+        %a.pagination-next{"href" => @filteredHref({page: @meta.page + 1}), "data-backbone-updatefilter" => "true"} &raquo;
