@@ -47,8 +47,10 @@ class CollaboratorsController < ApplicationController
   def create_collaborator_params
     filtered_params = pick(params, :email, :role_id)
 
-    role = Role.find(filtered_params[:role_id])
-    filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+    if filtered_params[:role_id]
+      role = Role.find(filtered_params[:role_id])
+      filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+    end
 
     filtered_params
   end

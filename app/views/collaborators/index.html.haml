@@ -13,11 +13,12 @@
         %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => t('globals.email_address')}
         %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
 
-    %div
-      If they're not already registered, we'll invite them and assign them the site-wide role of
-      %select{"name" => "role_id"}
-        - Role.assignable_by_officer(current_officer).each do |role|
-          %option{"value" => role.id}= role.name
+    - if can? :update, Officer
+      %div
+        If they're not already registered, we'll invite them and assign them the site-wide role of
+        %select{"name" => "role_id"}
+          - Role.assignable_by_officer(current_officer).each do |role|
+            %option{"value" => role.id}= role.name
 
     %small
       %a.js-toggle-single-bulk{"data-toggle-text" => "Add one collaborator"} Add multiple collaborators

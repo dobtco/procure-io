@@ -43,7 +43,8 @@ class Officer < ActiveRecord::Base
     !name.blank? ? name : user.email
   end
 
-  def self.invite!(email, project, role_id)
+  def self.invite!(email, project, role_id = nil)
+    role_id ||= Role.where(permission_level: Role.permission_levels[:user], undeletable: true).first.id
     officer = Officer.create(role_id: role_id)
     user = User.create(email: email, owner: officer).reset_perishable_token!
     officer.send_invitation_email!(project)
