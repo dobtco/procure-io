@@ -21,8 +21,10 @@ class UserSessionsController < ApplicationController
   end
 
   def destroy
-    @user_session = UserSession.find
-    @user_session.destroy
+    if (@user_session = UserSession.find)
+      @user_session.destroy
+    end
+
     redirect_to root_path
   end
 
