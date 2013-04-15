@@ -4,9 +4,10 @@
 
 %p= t('.instructions')
 
-= form_for @project do |f|
-  = f.label :title
-  = f.text_field :title
+= form_for @project, html: {"data-validate" => "parsley"} do |f|
+  .control-group
+    = f.required_label :title
+    = f.text_field :title, "data-required" => true
 
   .form-actions
     = f.submit t('.next_html'), class: "btn btn-inverse"

@@ -3,11 +3,12 @@
 
 = render "projects/officer_nav"
 
-= form_for @project do |f|
+= form_for @project, html: { "data-validate" => "parsley" } do |f|
   .row-fluid
     .span6
-      = f.label :body
-      = f.text_area :body
+      .control-group
+        = f.label :body
+        = f.text_area :body
 
       %h5= t('projects.revisions')
       %ul
@@ -18,19 +19,23 @@
 
 
     .span6
-      = f.label :posted_at, t('postable_by_officer.live')
-      .switch
-        = f.check_box :posted_at
+      .control-group
+        = f.label :posted_at, t('postable_by_officer.live')
+        .switch
+          = f.check_box :posted_at
 
-      = f.label :featured
-      .switch
-        = f.check_box :featured
+      .control-group
+        = f.label :featured
+        .switch
+          = f.check_box :featured
 
-      = f.label :title
-      = f.text_field :title, class: "span10"
+      .control-group
+        = f.required_label :title
+        = f.text_field :title, class: "span10", "data-required" => true
 
-      = f.label :tags
-      = f.text_field :tags, value: @project.tags.map(&:name).join(",")
+      .control-group
+        = f.optional_label :tags
+        = f.text_field :tags, value: @project.tags.map(&:name).join(",")
 
       :javascript
         $("#project_tags").select2({
@@ -40,8 +45,9 @@
           containerCssClass: 'span10'
         });
 
-      = f.label :bids_due_at
-      = f.datetime_select :bids_due_at, {include_blank: true}, style: "width: 100px;"
+      .control-group
+        = f.optional_label :bids_due_at
+        = f.datetime_select :bids_due_at, {include_blank: true}, style: "width: 100px;"
 
       - if GlobalConfig.instance[:amendments_enabled]
         %div
@@ -57,9 +63,9 @@
           - else
             %div= t('.no_amendments')
 
-
-      = f.label :abstract
-      = f.text_area :abstract, class: "span10"
+      .control-group
+        = f.optional_label :abstract
+        = f.text_area :abstract, class: "span10"
 
 
   .form-actions

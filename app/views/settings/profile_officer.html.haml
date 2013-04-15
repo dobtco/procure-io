@@ -6,14 +6,17 @@
 
   = form_for current_officer, url: settings_profile_path, method: :post do |f|
 
-    = f.label :name
-    = f.text_field :name
+    .control-group
+      = f.optional_label :name
+      = f.text_field :name
 
-    = f.label :title
-    = f.text_field :title
+    .control-group
+      = f.optional_label :title
+      = f.text_field :title
 
-    = f.label :role
-    %input{"type" => "text", "disabled" => true, "value" => current_officer.role.name}
+    .control-group
+      = f.label :role
+      %input{"type" => "text", "disabled" => true, "value" => current_officer.role.name}
 
     .form-actions
       = f.submit class: "btn btn-inverse"

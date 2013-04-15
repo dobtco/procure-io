@@ -4,20 +4,24 @@
 
 = link_to t('.back_to_list_html'), officers_path
 
-= form_for @officer do |f|
+= form_for @officer, html: {"data-validate" => "parsley"} do |f|
 
-  = f.label :name
-  = f.text_field :name
+  .control-group
+    = f.optional_label :name
+    = f.text_field :name
 
-  = f.label :title
-  = f.text_field :title
+  .control-group
+    = f.optional_label :title
+    = f.text_field :title
 
   = f.fields_for :user do |f|
-    = f.label :email
-    = f.text_field :email
+    .control-group
+      = f.required_label :email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path, "data-existing" => @officer.user.email
 
-  = f.label :role
-  = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true
+  .control-group
+    = f.label :role, class: "label-optional"
+    = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true
 
   .form-actions
     = f.submit t('actions.officer.update'), class: "btn btn-inverse"

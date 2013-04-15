@@ -1,9 +1,6 @@
 - response = @bid && @bid.responses.where(response_field_id: response_field[:id]).first
 
-%label
-  =response_field[:label]
-  - if response_field[:field_options]["required"]
-    %span.required-asterisk *
+= render "shared/pieces/label", response_field: response_field
 
 %input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-value" => (response && response.upload?) ? 'exists' : false}
 
@@ -13,5 +10,4 @@
     %a{"href" => response.upload.url}= response.upload.file.filename.gsub(/\?.*$/, '')
     = link_to "(X)", project_response_path(@project, @bid, response), method: :delete, remote: true, class: "js-remove-bid-response-upload"
 
-%span.help-block= response_field[:field_options]["description"]
-
+= render "shared/pieces/description", response_field: response_field

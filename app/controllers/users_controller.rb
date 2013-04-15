@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
-  before_filter :only_unauthenticated_user
+  before_filter :only_unauthenticated_user, except: [:validate_email]
   before_filter :invite_exists?, only: [:password, :post_password]
+
+  def validate_email
+    q = User.where(email: params[:q])
+    q = q.where("email != ?", params[:existing]) if params[:existing]
+    render json: q.first ? { error: "That email address is already taken." } : { success: '' }
+  end
 
   def forgot_password
   end

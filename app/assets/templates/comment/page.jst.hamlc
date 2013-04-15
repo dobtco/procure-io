@@ -7,6 +7,7 @@
   #comments-wrapper
 
   %h5= I18n.js('new_comment')
-  %form#new-comment-form
-    %textarea
-    %button.btn.btn-inverse.pull-right{"data-loading-text" => I18n.js('posting')}= I18n.js('post_comment')
+  %form#new-comment-form{"data-validate" => "parsley"}
+    .control-group
+      %textarea{"data-required" => true}
+    %button.btn.btn-inverse.pull-right= I18n.js('post_comment')

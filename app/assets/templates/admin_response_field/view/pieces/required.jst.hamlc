@@ -1,2 +1,0 @@
-- if @field_options.required
-  %span.required-asterisk *

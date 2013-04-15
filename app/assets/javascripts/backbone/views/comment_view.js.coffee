@@ -14,7 +14,8 @@ ProcureIo.Backbone.CommentView = Backbone.View.extend
     @
 
   clear: ->
-    @model.destroy()
+    @$el.fadeOut 300, =>
+      @model.destroy()
 
 ProcureIo.Backbone.CommentBidDismissedView = ProcureIo.Backbone.CommentView.extend
   className: "comment comment-bid-dismissed"
@@ -94,6 +95,7 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
 
   render: ->
     @$el.html JST['comment/page']()
+    @$el.find("form").parsley()
     @
 
   addOne: (comment) ->
@@ -110,18 +112,9 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
 $(document).on "submit", "form#new-comment-form", (e) ->
   e.preventDefault()
 
-  $(@).find("button").button 'loading'
-
   ProcureIo.Backbone.Comments.create
     body: $(@).find("textarea").val()
-  ,
-    wait: true
-
-    error: (obj, err) ->
-      obj.destroy()
-
-    complete: =>
-      $(@).find("button").button 'reset'
+    officer: ProcureIo.CurrentOfficer
 
   $(@).resetForm()
 

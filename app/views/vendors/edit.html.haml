@@ -6,13 +6,14 @@
 
 = form_for @vendor, html: { multipart: true, "data-validate" => "parsley" }  do |f|
 
-  = f.label :name
-  = f.text_field :name
+  .control-group
+    = f.required_label :name
+    = f.text_field :name, "data-required" => true
 
   = f.fields_for :user do |f|
     .control-group
-      = f.label :email
-      = f.text_field :email
+      = f.required_label :email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path, "data-existing" => @vendor.user.email
 
   = render "shared/form_fields", response_fields: GlobalConfig.instance.response_fields, responsable: @vendor_profile
 

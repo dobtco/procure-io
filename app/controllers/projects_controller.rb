@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    @project = current_officer.projects.create(project_params.merge({bids_due_at: Time.now + 3.months}))
+    @project = current_officer.projects.create(project_params)
     @project.collaborators.where(officer_id: current_officer.id).first.update_attributes owner: true
     redirect_to edit_project_path(@project)
   end

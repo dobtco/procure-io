@@ -7,17 +7,17 @@
   .row-fluid
     .span4
       .control-group
-        = f.label :name
-        = f.text_field :name
+        = f.required_label :name
+        = f.text_field :name, "data-required" => true
 
       = f.fields_for User.new do |f|
         .control-group
-          = f.label :email
-          = f.text_field :email
+          = f.required_label :email
+          = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path
 
         .control-group
-          = f.label :password
-          = f.password_field :password
+          = f.required_label :password
+          = f.password_field :password, "data-required" => true
 
 
       = render "shared/form_fields", response_fields: @response_fields, responsable: @vendor_profile

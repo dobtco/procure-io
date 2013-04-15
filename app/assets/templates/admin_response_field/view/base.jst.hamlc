@@ -1,3 +1,3 @@
-.subtemplate-wrapper.well{"data-backbone-cid" => @cid}
+.subtemplate-wrapper{"data-backbone-cid" => @cid}
 .actions-wrapper
   %button.btn.btn-mini.remove-field-button= I18n.js('response_field.remove_field')

@@ -1,6 +1,4 @@
-%label
-  != JST['admin_response_field/view/pieces/label'](@)
-  != JST['admin_response_field/view/pieces/required'](@)
+!= JST['admin_response_field/view/pieces/label'](@)
 
 %div{"class" => if @field_options.units then 'input-append'}
   %input.span3{"type" => "text"}

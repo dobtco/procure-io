@@ -29,6 +29,8 @@ ProcureIo::Application.routes.draw do
   get 'settings/account' => 'settings#account', as: :settings_account
   post 'settings/account' => 'settings#post_account'
 
+  get 'users/validate_email' => 'users#validate_email', as: :users_validate_email
+
   resources :roles
 
   resources :notifications, only: [:index, :update]

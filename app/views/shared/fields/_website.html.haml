@@ -1,7 +1,4 @@
-%label
-  =response_field[:label]
-  - if response_field[:field_options]["required"]
-    %span.required-asterisk *
+= render "shared/pieces/label", response_field: response_field
 
 %input{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
        "data-required" => response_field[:field_options]["required"] ? true : false, |
@@ -9,5 +6,4 @@
        "data-type" => "urlstrict", |
        "placeholder" => "http://" }
 
-%span.help-block= response_field[:field_options]["description"]
-
+= render "shared/pieces/description", response_field: response_field

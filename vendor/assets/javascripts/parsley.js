@@ -164,7 +164,8 @@
           , data = {}
           , dataType = {};
 
-        data[ self.$element.attr( 'name' ) ] = val;
+        data['q'] = val;
+        data['existing'] = self.$element.data('existing');
 
         if ( 'undefined' !== typeof self.options.remoteDatatype ) {
           dataType = { dataType: self.options.remoteDatatype };
@@ -205,10 +206,6 @@
             response = handleResponse( response );
             manage( 1 === response || true === response || ( 'object' === typeof response && null !== response && 'undefined' !== typeof response.success ), manageErrorMessage( response )
             );
-          }
-          , error: function ( response ) {
-            response = handleResponse( response );
-            manage( false, manageErrorMessage( response ) );
           }
         }, dataType ) );
 

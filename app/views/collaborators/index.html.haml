@@ -9,8 +9,9 @@
   = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 
     .email-inputs
-      %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => t('globals.email_address')}
-      %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
+      .control-group
+        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => t('globals.email_address')}
+        %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
 
     %div
       If they're not already registered, we'll invite them and assign them the site-wide role of

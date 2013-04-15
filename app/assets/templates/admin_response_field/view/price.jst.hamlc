@@ -1,6 +1,4 @@
-%label
-  != JST['admin_response_field/view/pieces/label'](@)
-  != JST['admin_response_field/view/pieces/required'](@)
+!= JST['admin_response_field/view/pieces/label'](@)
 
 .input-prepend
   %span.add-on $

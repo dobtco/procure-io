@@ -8,6 +8,7 @@
     ProcureIo.env = '#{Rails.env}';
     ProcureIo.GlobalConfig = #{GlobalConfigSerializer.new(GlobalConfig.instance, root: false).to_json};
     ProcureIo.CurrentOfficerId = #{current_officer ? current_officer.id : 'undefined'};
+    ProcureIo.CurrentOfficer = #{current_officer ? OfficerSerializer.new(current_officer, root: false).to_json : 'undefined'};
     ProcureIo.CurrentVendorId = #{current_vendor ? current_vendor.id : 'undefined'};
   = csrf_meta_tags
   = render 'layouts/shim'

@@ -1,7 +1,4 @@
-%label
-  =response_field[:label]
-  - if response_field[:field_options]["required"]
-    %span.required-asterisk *
+= render "shared/pieces/label", response_field: response_field
 
 %div{"class" => if response_field[:field_options]["units"] then 'input-append' end}
   %input.span3{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
@@ -12,5 +9,4 @@
   - if response_field[:field_options]["units"]
     %span.add-on= response_field[:field_options]["units"]
 
-%span.help-block= response_field[:field_options]["description"]
-
+= render "shared/pieces/description", response_field: response_field
