@@ -8,7 +8,10 @@ class WatchesController < ApplicationController
     current_user.send(current_user.watches?(params[:watchable_type], params[:watchable_id]) ? :unwatch! : :watch!,
                       params[:watchable_type], params[:watchable_id])
 
-    redirect_to :back
+    respond_to do |format|
+      format.html { redirect_to :back }
+      format.json {}
+    end
   end
 
   def vendor_projects
