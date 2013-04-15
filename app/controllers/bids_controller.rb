@@ -16,7 +16,7 @@ class BidsController < ApplicationController
       format.json do
         search_results = Bid.search_by_project_and_params(@project, params)
         render json: search_results[:results], each_serializer: BidWithReviewSerializer,
-               scope: current_officer, meta: search_results[:meta]
+               meta: search_results[:meta], scope: current_user
       end
     end
   end
@@ -63,6 +63,14 @@ class BidsController < ApplicationController
         @bid.award_by_officer!(current_officer)
       end
 
+      if can? :watch, @bid
+        if current_user.watches?("Bid", @bid) && !params[:watching]
+          current_user.unwatch!("Bid", @bid)
+        elsif !current_user.watches?("Bid", @bid) && params[:watching]
+          current_user.watch!("Bid", @bid)
+        end
+      end
+
       @bid.labels = []
 
       (params[:labels] || []).each do |label|
@@ -76,7 +84,7 @@ class BidsController < ApplicationController
       @bid.reload # get updated total_stars
 
       respond_to do |format|
-        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false, scope: current_officer }
+        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false, scope: current_user }
       end
     else
       render status: 404
@@ -141,7 +149,7 @@ class BidsController < ApplicationController
         review.update_attributes read: true
       end
 
-      @bid_json = BidWithReviewSerializer.new(@bid, scope: current_officer, root: false).to_json
+      @bid_json = BidWithReviewSerializer.new(@bid, root: false, scope: current_user).to_json
       @comments_json = ActiveModel::ArraySerializer.new(@bid.comments, each_serializer: CommentSerializer, root: false).to_json
       render "bids/show_officer"
     else
@@ -153,7 +161,7 @@ class BidsController < ApplicationController
     @reviews = @bid.bid_reviews.where(starred: true)
 
     respond_to do |format|
-      format.json { render json: @reviews, scope: current_officer }
+      format.json { render json: @reviews }
     end
   end
 

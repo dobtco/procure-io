@@ -3,7 +3,7 @@ class BidSerializer < ActiveModel::Serializer
 
   attributes :id, :created_at, :updated_at, :submitted_at, :dismissed_at, :dismissed_by_officer_id,
              :project_id, :total_comments, :total_stars, :awarded_at, :awarded_by_officer_id,
-             :submitted_at_readable, :average_rating, :total_ratings
+             :submitted_at_readable, :average_rating, :total_ratings, :watching?
 
   has_one :vendor
 
@@ -20,6 +20,10 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    object.cache_key
+    [object.cache_key, scope.id, 'v2']
+  end
+
+  def watching?
+    scope && scope.watches?("Bid", object.id)
   end
 end

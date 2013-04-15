@@ -8,6 +8,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     "click [data-backbone-dismiss]": "toggleDismissed"
     "click [data-backbone-award]": "toggleAwarded"
     "click [data-backbone-label]": "toggleLabeled"
+    "click [data-backbone-watch]": "toggleWatching"
 
   initialize: ->
     @$el = @options.el if @options.el?
@@ -24,6 +25,8 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
       existingLabels: _.map(@bid.get('labels'), (l) -> l.name)
 
     rivets.bind(@$el, {bid: @bid})
+
+    @$el.find("[data-toggle=tooltip]").tooltip()
 
     @$el.find(".rating-select").on "change", =>
       @bid.save()
@@ -46,6 +49,10 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
   toggleAwarded: ->
     if @bid.get('dismissed_at') && !@bid.get('awarded_at') then @bid.set('dismissed_at', false)
     @bid.set 'awarded_at', (if @bid.get('awarded_at') then false else true)
+    @bid.save()
+
+  toggleWatching: ->
+    @bid.set 'watching', (if @bid.get('watching') then false else true)
     @bid.save()
 
   toggleLabeled: (e) ->

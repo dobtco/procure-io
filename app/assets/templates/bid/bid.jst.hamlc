@@ -3,6 +3,8 @@
 
   .pull-right
 
+    != JST['shared/_watch']({watchable: @bid, model_name: "Bid"})
+
     .btn-group
       %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
         = I18n.js('label')
