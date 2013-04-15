@@ -1,5 +1,5 @@
 $ ->
-  $("[data-toggle=tooltip]").tooltip()
+  $("[data-toggle=tooltip], .js-notification-dropdown-toggle").tooltip()
 
   ProcureIo.PageSpecificScripts[$('body').data('controller')]?()
   ProcureIo.PageSpecificScripts["#{$('body').data('controller')}##{$('body').data('action')}"]?()
@@ -43,7 +43,15 @@ $(document).on "click", ".js-dropdown-login-toggle", (e) ->
       $(document).off ".closeloginmodal"
       $(".dropdown.open").removeClass('open')
 
+$(document).on "mouseenter", ".js-notification-dropdown-toggle", ->
+  console.log 'l'
+  $(@).tooltip('show') unless $(@).parent().hasClass('open')
+
+$(document).on "mouseleave", ".js-notification-dropdown-toggle", ->
+  $(@).tooltip('hide')
+
 $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
+  $(@).tooltip('hide')
   return if $(@).data('notifications-loaded')
   $(@).data 'notifications-loaded', true
 

@@ -41,7 +41,7 @@
                   %i.icon-pencil
 
             %li.dropdown
-              %a.js-notification-dropdown-toggle.dropdown-toggle{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => "Notifications"}
+              %a.js-notification-dropdown-toggle.dropdown-toggle{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => "Notifications", "data-trigger" => "manual"}
                 %i.icon-bullhorn
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
