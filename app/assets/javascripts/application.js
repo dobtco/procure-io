@@ -23,6 +23,7 @@
 //= require jquery.sortable
 //= require jquery.intro
 //= require jquery.scrollto
+//= require jquery.raty
 //= require procureio.chart
 //= require bootstrap
 //= require bootstrap.flash_button

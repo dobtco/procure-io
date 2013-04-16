@@ -149,10 +149,17 @@
 }
 
 .rating-select {
-  width: 50px;
+  display: inline-block;
+  width: 100px;
 }
 
 .total_ratings {
   color: #999;
   font-size: 12px;
+}
+
+.bid-content-dl {
+  dd {
+    margin-bottom: 10px;
+  }
 }

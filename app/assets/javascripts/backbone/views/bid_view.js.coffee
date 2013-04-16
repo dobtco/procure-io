@@ -26,6 +26,13 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
 
     rivets.bind(@$el, {bid: @bid})
 
+    @$el.find(".rating-select").raty
+      score: ->
+        $(@).attr('data-score')
+      click: (score) =>
+        @bid.set('my_bid_review.rating', score)
+        @bid.save()
+
     @$el.find("[data-toggle=tooltip]").tooltip()
 
     @$el.find(".rating-select").on "change", =>

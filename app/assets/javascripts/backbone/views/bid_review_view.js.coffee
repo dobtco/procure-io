@@ -322,6 +322,13 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')
     @$el[if @model.get("checked") then "addClass" else "removeClass"]('bid-tr-checked')
 
+    @$el.find(".rating-select").raty
+      score: ->
+        $(@).attr('data-score')
+      click: (score) =>
+        @model.set('my_bid_review.rating', score)
+        @model.save()
+
     @$el.find(".total-stars").tooltip
       title: "Loading..."
       animation: false
