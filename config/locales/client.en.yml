@@ -71,6 +71,7 @@ en:
     avg_rating: Avg Rating
 
     response_field:
+      only_visible_to_admin: Only visible to admins
       description: description
       integer_only: integer only
       key_field: key field

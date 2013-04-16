@@ -11,6 +11,16 @@ class BidSerializer < ActiveModel::Serializer
   has_many :responses
   has_many :labels
 
+  def responses
+    q = object.responses.joins(:response_field)
+
+    if !scope || !Ability.new(scope).can?(:view_only_visible_to_admin_fields, ResponseField)
+      q = q.without_only_visible_to_admin_fields
+    end
+
+    q
+  end
+
   def submitted_at_readable
     object.submitted_at.to_formatted_s(:readable) if object.submitted_at
   end
@@ -21,7 +31,9 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, (scope ? scope.id : 0), 'v2']
+    keys = [object.cache_key, 'v3']
+    keys.push(scope.cache_key, scope.owner.cache_key) if scope
+    keys
   end
 
   def watching?

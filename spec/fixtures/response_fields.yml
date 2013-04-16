@@ -12,6 +12,7 @@
 #  updated_at              :datetime         not null
 #  sort_order              :integer          not null
 #  key_field               :boolean
+#  only_visible_to_admin   :boolean
 #
 
 one:

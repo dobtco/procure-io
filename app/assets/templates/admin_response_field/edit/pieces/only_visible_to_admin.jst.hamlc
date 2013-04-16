@@ -1,0 +1,3 @@
+%label.checkbox
+  = I18n.js('response_field.only_visible_to_admin')
+  %input{"type" => "checkbox", "data-rv-checked" => "model.only_visible_to_admin"}

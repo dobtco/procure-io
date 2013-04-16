@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
     if response_fields.where(key_field: true).any?
       response_fields.where(key_field: true)
     else
-      response_fields.limit(2)
+      []
     end
   end
 

@@ -60,6 +60,7 @@ class Ability
     can :destroy, Collaborator do |collaborator|
       !collaborator.owner
     end
+    can :view_only_visible_to_admin_fields, ResponseField
   end
 
   def officer_god(user)

@@ -638,7 +638,8 @@ CREATE TABLE response_fields (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     sort_order integer NOT NULL,
-    key_field boolean
+    key_field boolean,
+    only_visible_to_admin boolean
 );
 
 
@@ -1693,3 +1694,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130412181224');
 INSERT INTO schema_migrations (version) VALUES ('20130412185237');
 
 INSERT INTO schema_migrations (version) VALUES ('20130412193007');
+
+INSERT INTO schema_migrations (version) VALUES ('20130416213202');

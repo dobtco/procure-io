@@ -12,10 +12,13 @@
 #  updated_at              :datetime         not null
 #  sort_order              :integer          not null
 #  key_field               :boolean
+#  only_visible_to_admin   :boolean
 #
 
 class ResponseField < ActiveRecord::Base
   default_scope order('sort_order')
+
+  scope :without_only_visible_to_admin_fields, where("only_visible_to_admin IS NULL OR only_visible_to_admin = ?", false)
 
   belongs_to :response_fieldable, polymorphic: true
   has_many :responses, dependent: :destroy

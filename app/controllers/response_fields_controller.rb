@@ -56,6 +56,6 @@ class ResponseFieldsController < ApplicationController
   end
 
   def allowed_params
-    [:field_type, :label, :field_options, :sort_order, :key_field]
+    [:field_type, :label, :field_options, :sort_order, :key_field, :only_visible_to_admin]
   end
 end
