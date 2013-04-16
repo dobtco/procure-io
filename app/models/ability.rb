@@ -32,11 +32,11 @@ class Ability
       project.collaborators.where(officer_id: user.owner.id).first
     end
 
-    can [:destroy, :admin], Project do |project|
+    can [:destroy, :admin, :comment_on], Project do |project|
       project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
-    can :watch, Bid do |bid|
+    can [:watch, :award_dismiss, :label], Bid do |bid|
       can :collaborate_on, bid.project
     end
 
@@ -47,7 +47,7 @@ class Ability
 
   def officer_admin(user)
     can :manage, Project
-    can [:watch, :destroy], Bid
+    can :manage, Bid
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer
     can :update, Officer do |officer|

@@ -31,6 +31,7 @@ class CommentsController < ApplicationController
   private
   def commentable_exists?
     @commentable = params[:commentable_type].capitalize.constantize.find(params[:commentable_id])
+    authorize!(:comment_on, @commentable) if @commentable.class.name == "Project"
   end
 
   def comment_exists?

@@ -31,6 +31,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
+    authorize! :comment_on, @project
     current_user.read_notifications(@project, :project_comment)
     @comments_json = ActiveModel::ArraySerializer.new(@project.comments, each_serializer: CommentSerializer, root: false).to_json
   end

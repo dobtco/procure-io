@@ -39,7 +39,7 @@
       %li{"class" => active_page?("projects#response_fields")}
         =link_to t('.response_fields'), response_fields_project_path(@project)
 
-    - if GlobalConfig.instance[:comments_enabled]
+    - if GlobalConfig.instance[:comments_enabled] && (can? :comment_on, @project)
       %li{"class" => active_page?("projects#comments")}
         =link_to t('.comments'), comments_project_path(@project)
 
