@@ -90,6 +90,10 @@ class Vendor < ActiveRecord::Base
     super && !self.account_disabled?
   end
 
+  def default_notification_preferences
+    Vendor.event_types.values
+  end
+
   private
   def touch_all_bids!
     bids.update_all(updated_at: Time.now)

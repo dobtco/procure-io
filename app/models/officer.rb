@@ -57,8 +57,7 @@ class Officer < ActiveRecord::Base
 
   handle_asynchronously :send_invitation_email!
 
-  private
-  def set_default_notification_preferences
-    self.notification_preferences = Officer.event_types.except(:collaborator_added, :bid_submitted).values
+  def default_notification_preferences
+    Officer.event_types.except(:collaborator_added, :bid_submitted).values
   end
 end

@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_notification_preferences
-    self.notification_preferences = owner.class.event_types.values
+    self.notification_preferences = owner.default_notification_preferences
   end
 
   def display_name
