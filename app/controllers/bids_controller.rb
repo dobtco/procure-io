@@ -49,18 +49,20 @@ class BidsController < ApplicationController
       review.assign_attributes my_bid_review_params
       review.save
 
-      if @bid.dismissed? && params[:dismissed_at] == false
-        @bid.undismiss_by_officer!(current_officer)
-      elsif !@bid.dismissed? && params[:dismissed_at] == true
-        @bid.unaward_by_officer(current_officer)
-        @bid.dismiss_by_officer!(current_officer)
-      end
+      if can? :award_dismiss, @bid
+        if @bid.dismissed? && params[:dismissed_at] == false
+          @bid.undismiss_by_officer!(current_officer)
+        elsif !@bid.dismissed? && params[:dismissed_at] == true
+          @bid.unaward_by_officer(current_officer)
+          @bid.dismiss_by_officer!(current_officer)
+        end
 
-      if @bid.awarded? && params[:awarded_at] == false
-        @bid.unaward_by_officer!(current_officer)
-      elsif !@bid.awarded? && params[:awarded_at] == true
-        @bid.undismiss_by_officer(current_officer)
-        @bid.award_by_officer!(current_officer)
+        if @bid.awarded? && params[:awarded_at] == false
+          @bid.unaward_by_officer!(current_officer)
+        elsif !@bid.awarded? && params[:awarded_at] == true
+          @bid.undismiss_by_officer(current_officer)
+          @bid.award_by_officer!(current_officer)
+        end
       end
 
       if can? :watch, @bid
@@ -71,13 +73,15 @@ class BidsController < ApplicationController
         end
       end
 
-      @bid.labels = []
+      if can? :label, @bid
+        @bid.labels = []
 
-      (params[:labels] || []).each do |label|
-        if label["id"]
-          @bid.labels << @project.labels.find(label["id"])
-        else
-          @bid.labels << @project.labels.where(name: label["name"]).first
+        (params[:labels] || []).each do |label|
+          if label["id"]
+            @bid.labels << @project.labels.find(label["id"])
+          else
+            @bid.labels << @project.labels.where(name: label["name"]).first
+          end
         end
       end
 
@@ -97,6 +101,7 @@ class BidsController < ApplicationController
     case params[:bid_action]
     when "dismiss"
       @bids.each do |bid|
+        next if !(can? :award_dismiss, bid)
         if bid.dismissed?
           bid.undismiss_by_officer!(current_officer)
         else
@@ -105,6 +110,7 @@ class BidsController < ApplicationController
       end
     when "award"
       @bids.each do |bid|
+        next if !(can? :award_dismiss, bid)
         if bid.awarded?
           bid.unaward_by_officer!(current_officer)
         else
@@ -115,6 +121,7 @@ class BidsController < ApplicationController
       @label = @project.labels.where(name: params[:options][:label_name]).first
 
       @bids.each do |bid|
+        next if !(can? :label, bid)
         if bid.labels.where(name: params[:options][:label_name]).first
           bid.labels.destroy(@label)
         else

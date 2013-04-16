@@ -5,29 +5,30 @@
 
     != JST['shared/_watch']({watchable: @bid, model_name: "Bid"})
 
-    .btn-group
-      %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
-        = I18n.js('label')
-        %b.caret
-      %ul.dropdown-menu
-        - for label in @projectLabels
-          %li{"class" => if @existingLabels.indexOf(label.name) != -1 then "active"}
-            %a{"data-backbone-label" => label.name, "data-backbone-label-color" => label.color}
-              %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
-              #{label.name}
+    - if ProcureIo.CurrentOfficer.permission_level != "review_only"
+      .btn-group
+        %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
+          = I18n.js('label')
+          %b.caret
+        %ul.dropdown-menu
+          - for label in @projectLabels
+            %li{"class" => if @existingLabels.indexOf(label.name) != -1 then "active"}
+              %a{"data-backbone-label" => label.name, "data-backbone-label-color" => label.color}
+                %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+                #{label.name}
 
 
-    %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
-      - if @bid.dismissed_at
-        = I18n.js('undismiss')
-      - else
-        = I18n.js('dismiss')
+      %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
+        - if @bid.dismissed_at
+          = I18n.js('undismiss')
+        - else
+          = I18n.js('dismiss')
 
-    %button.btn.btn-success{"data-backbone-award" => "true"}
-      - if @bid.awarded_at
-        = I18n.js('unaward')
-      - else
-        = I18n.js('award')
+      %button.btn.btn-success{"data-backbone-award" => "true"}
+        - if @bid.awarded_at
+          = I18n.js('unaward')
+        - else
+          = I18n.js('award')
 
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @bid.my_bid_review.read then "icon-circle-blank" else "icon-circle")}
@@ -56,8 +57,9 @@
 .row-fluid
   .span3.well
     %p
-      - for label in @bid.labels
-        %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
+      - if ProcureIo.CurrentOfficer.permission_level != "review_only"
+        - for label in @bid.labels
+          %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @bid.dismissed_at
         %span.badge.badge-important= I18n.js('dismissed')

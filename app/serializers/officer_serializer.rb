@@ -1,7 +1,7 @@
 class OfficerSerializer < ActiveModel::Serializer
   cached true
 
-  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?
+  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?, :permission_level
 
   has_one :user
 
@@ -10,6 +10,6 @@ class OfficerSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, (scope ? scope.id : 0), 'v1']
+    [object.cache_key, (scope ? scope.id : 0), 'v2']
   end
 end
