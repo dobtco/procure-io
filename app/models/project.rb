@@ -137,7 +137,7 @@ class Project < ActiveRecord::Base
       vendor = user.owner
     else
       vendor = Vendor.create(name: params["name"], account_disabled: true)
-      user = vendor.create_user(email: params["email"])
+      user = User.where(email: params["email"]).first || vendor.create_user(email: params["email"])
     end
 
     bid = vendor.bids.create(project_id: self.id)
