@@ -436,7 +436,7 @@
   };
 
   $.fn.raty.defaults = {
-    cancel        : false,
+    cancel        : true,
     cancelHint    : 'Cancel this rating!',
     cancelOff     : '/assets/cancel-off.png',
     cancelOn      : '/assets/cancel-on.png',
