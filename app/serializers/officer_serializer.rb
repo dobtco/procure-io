@@ -6,7 +6,7 @@ class OfficerSerializer < ActiveModel::Serializer
   has_one :user
 
   def me?
-    scope && scope == object
+    scope && scope.owner == object
   end
 
   def cache_key

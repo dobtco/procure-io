@@ -161,7 +161,7 @@ class BidsController < ApplicationController
     @reviews = @bid.bid_reviews.where(starred: true)
 
     respond_to do |format|
-      format.json { render json: @reviews }
+      format.json { render json: @reviews, scope: current_user }
     end
   end
 
