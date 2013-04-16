@@ -41,8 +41,6 @@ class Bid < ActiveRecord::Base
   scope :awarded, where("awarded_at IS NOT NULL")
   scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
 
-  after_update :create_bid_submitted_events_if_submitted!
-
   pg_search_scope :full_search, associated_against: { responses: [:value],
                                                       vendor: [:name],
                                                       user: [:email],
@@ -127,6 +125,7 @@ class Bid < ActiveRecord::Base
 
   def submit
     self.submitted_at = Time.now
+    self.delay.create_bid_submitted_events!
   end
 
   def submitted?
@@ -256,10 +255,6 @@ class Bid < ActiveRecord::Base
   private
   def update_timestamp(*args)
     self.touch
-  end
-
-  def create_bid_submitted_events_if_submitted!
-    self.delay.create_bid_submitted_events! if submitted_at_changed? && submitted_at
   end
 
   def create_bid_submitted_events!

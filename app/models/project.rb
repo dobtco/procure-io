@@ -148,7 +148,7 @@ class Project < ActiveRecord::Base
       end
     end
 
-    bid.submit
+    bid.submitted_at = Time.now
     bid.save
     bid.labels << label_to_apply if label_to_apply
   end
