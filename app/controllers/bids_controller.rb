@@ -10,6 +10,8 @@ class BidsController < ApplicationController
   before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
 
   def index
+    current_user.read_notifications(@project, :you_were_added) if current_user
+
     respond_to do |format|
       format.html {}
 
