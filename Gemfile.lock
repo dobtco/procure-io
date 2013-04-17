@@ -257,6 +257,9 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
+    turbo-sprockets-rails3 (0.3.6)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.0.0)
     twitter_oauth (0.4.4)
       json (>= 1.1.9)
       mime-types (>= 1.16)
@@ -319,6 +322,7 @@ DEPENDENCIES
   simplecov
   strong_parameters
   thin
+  turbo-sprockets-rails3
   twitter_oauth
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0)
