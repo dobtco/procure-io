@@ -12,7 +12,6 @@
 
 class Officer < ActiveRecord::Base
   include SharedUserMethods
-  include EmailBuilder
 
   has_many :collaborators
   has_many :projects, through: :collaborators, uniq: true

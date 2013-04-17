@@ -1,5 +1,4 @@
 class Mailer < ActionMailer::Base
-  include EmailBuilder
   include ActionView::Helpers::TextHelper
 
   default from: "from@example.com"
@@ -18,7 +17,8 @@ class Mailer < ActionMailer::Base
                 event_text: event.text,
                 event_additional_text: event.additional_text,
                 name: user.display_name,
-                event_url: URI.join(root_url, event.path)
+                event_url: URI.join(root_url, event.path),
+                add_unsubscribe_link: true
   end
 
   def password_reset_email(user)
@@ -51,5 +51,27 @@ class Mailer < ActionMailer::Base
     end
 
     return message || false
+  end
+
+  private
+  def build_email(to, email_key, params={})
+    params[:site_name] = I18n.t('globals.site_name')
+    params[:settings_notifications_url] = settings_notifications_url
+
+    body = I18n.t("mailers.#{email_key}.text", params)
+
+    # Are we appending an unsubscribe link?
+    if params[:add_unsubscribe_link]
+      body << "\n"
+      body << I18n.t("mailers.unsubscribe_link", params)
+    end
+
+    mail_args = {
+      to: to,
+      subject: I18n.t("mailers.#{email_key}.subject", params),
+      body: body
+    }
+
+    mail(mail_args)
   end
 end

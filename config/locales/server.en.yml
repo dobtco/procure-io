@@ -334,6 +334,9 @@ en:
       back_to_list_html: "&larr; Back to list of vendors"
 
   mailers:
+    unsubscribe_link: |
+      Prefer not to receive these notifications via email? Change your preferences here: %{settings_notifications_url}
+
     notification:
       subject: "%{event_text}"
       text: |
@@ -369,8 +372,6 @@ en:
         If someone other than you requested this password change, please contact us immediately.
 
         -- %{site_name}
-
-
 
     saved_searches:
       pluralized_count:
