@@ -43,6 +43,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'heroku_san'
+  gem 'debugger', require: 'debugger'
 end
 
 group :test, :development do
