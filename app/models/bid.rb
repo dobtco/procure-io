@@ -22,6 +22,7 @@ class Bid < ActiveRecord::Base
   include WatchableByUser
   include PgSearch
   include IsResponsable
+  include Searcher
 
   belongs_to :project
   belongs_to :vendor
@@ -40,23 +41,23 @@ class Bid < ActiveRecord::Base
   scope :dismissed, where("dismissed_at IS NOT NULL")
   scope :awarded, where("awarded_at IS NOT NULL")
   scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
+  scope :starred, where("total_stars > 0")
+  scope :join_labels, joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
+  scope :join_responses_for_response_field_id, lambda { |response_field_id|
+    joins sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
+                                                   AND responses.responsable_type = 'Bid'
+                                                   AND responses.response_field_id = ?", response_field_id])
+  }
 
   pg_search_scope :full_search, associated_against: { responses: [:value],
                                                       vendor: [:name],
                                                       user: [:email],
                                                       comments: [:body],
                                                       labels: [:name] },
-                                using: {
-                                  tsearch: {prefix: true}
-                                }
+                                using: { tsearch: { prefix: true } }
 
-  def self.search_by_project_and_params(project, params, count_only = false, chainable = false)
-    return_object = { meta: {} }
-    return_object[:meta][:page] = [params[:page].to_i, 1].max
-    return_object[:meta][:per_page] = 10
 
-    query = project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted
-
+  def self.add_params_to_query(query, params)
     if params[:f2] == "dismissed"
       query = query.dismissed
     elsif params[:f2] == "awarded"
@@ -66,63 +67,53 @@ class Bid < ActiveRecord::Base
     end
 
     if params[:f1] == "starred"
-      query = query.where("total_stars > 0")
+      query = query.starred
     end
 
-    if params[:label] && !params[:label].blank?
-      query = query.joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
-                   .where("labels.name = ?", params[:label])
+    if !params[:label].blank?
+      query = query.join_labels.where("labels.name = ?", params[:label])
     end
+
+    direction = params[:direction] == 'asc' ? 'asc' : 'desc'
 
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
-      query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
-                                               AND responses.responsable_type = 'Bid'
-                                               AND responses.response_field_id = ?", params[:sort]]))
+      query = query.join_responses_for_response_field_id(params[:sort])
                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
-                           responses.sortable_value#{cast_int ? '::numeric' : ''} #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+                           responses.sortable_value#{cast_int ? '::numeric' : ''} #{direction}")
     elsif params[:sort] == "stars"
-      query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("total_stars #{direction}")
     elsif params[:sort] == "average_rating"
-      query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{direction}")
     elsif params[:sort] == "created_at"
-      query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-    elsif params[:sort] == "name" || params[:sort].blank? || !params[:sort]
-      query = query.order("vendors.name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+      query = query.order("bids.created_at #{direction}")
+    elsif params[:sort] == "name" || params[:sort].blank?
+      query = query.order("vendors.name #{direction}")
     end
 
-    if params[:q] && !params[:q].blank?
+    if !params[:q].blank?
       query = query.full_search(params[:q])
     end
 
-    return query if chainable
-    return query.count if count_only
-
-    return_object[:meta][:total] = query.count
-    return_object[:meta][:counts] = self.build_counts_for_project_and_params(project, params)
-    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
-    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
-
-    return_object[:results] = query.limit(return_object[:meta][:per_page])
-                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
-
-    return_object
+    query
   end
 
-  def self.build_counts_for_project_and_params(project, params)
-    return_hash = {
-      all: self.search_by_project_and_params(project, params.merge(f1: "open"), true),
-      starred: self.search_by_project_and_params(project, params.merge({f1: "starred"}), true),
-      open: self.search_by_project_and_params(project, params.merge({f2: "open"}), true),
-      dismissed: self.search_by_project_and_params(project, params.merge({f2: "dismissed"}), true),
-      awarded: self.search_by_project_and_params(project, params.merge({f2: "awarded"}), true),
+  def self.add_search_meta_to_return_object(return_object, params, args = {})
+    counts = {
+      all: self.searcher(params.merge(f1: "open"), args.merge(count_only: true)),
+      starred: self.searcher(params.merge({f1: "starred"}), args.merge(count_only: true)),
+      open: self.searcher(params.merge({f2: "open"}), args.merge(count_only: true)),
+      dismissed: self.searcher(params.merge({f2: "dismissed"}), args.merge(count_only: true)),
+      awarded: self.searcher(params.merge({f2: "awarded"}), args.merge(count_only: true))
     }
 
-    project.labels.each do |label|
-      return_hash[label.id] = self.search_by_project_and_params(project, params.merge({label: label.name}), true)
+    args[:project].labels.each do |label|
+      counts[label.id] = self.searcher(params.merge({label: label.name}), args.merge(count_only: true))
     end
 
-    return_hash
+    return_object[:meta][:counts] = counts
+
+    return_object
   end
 
   def submit
