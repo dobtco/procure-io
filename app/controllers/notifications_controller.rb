@@ -5,13 +5,11 @@ class NotificationsController < ApplicationController
     respond_to do |format|
       format.html do
         @notifications = current_user.events.order('created_at DESC').paginate(page: params[:page])
-        @notifications_json = ActiveModel::ArraySerializer.new(@notifications,
-                                                               each_serializer: EventSerializer).to_json
-
+        @notifications_json = serialized(@notifications).to_json
       end
 
       format.json do
-        render json: current_user.events.order("read, created_at DESC").limit(5), meta: { count: current_user.events.count }
+        render_serialized(current_user.events.order("read, created_at DESC").limit(5), meta: { count: current_user.events.count })
       end
     end
   end
@@ -27,7 +25,7 @@ class NotificationsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: EventSerializer.new(current_user.events.find(params[:id])) }
+      format.json { render_serialized(current_user.events.find(params[:id])) }
     end
   end
 end

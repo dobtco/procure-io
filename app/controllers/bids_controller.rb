@@ -17,8 +17,7 @@ class BidsController < ApplicationController
 
       format.json do
         search_results = Bid.search_by_project_and_params(@project, params)
-        render json: search_results[:results], each_serializer: BidWithReviewSerializer,
-               meta: search_results[:meta], scope: current_user
+        render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
       end
     end
   end
@@ -90,7 +89,7 @@ class BidsController < ApplicationController
       @bid.reload # get updated total_stars
 
       respond_to do |format|
-        format.json { render json: @bid, serializer: BidWithReviewSerializer, root: false, scope: current_user }
+        format.json { render_serialized(@bid, BidWithReviewSerializer) }
       end
     else
       render status: 404
@@ -158,8 +157,8 @@ class BidsController < ApplicationController
         review.update_attributes read: true
       end
 
-      @bid_json = BidWithReviewSerializer.new(@bid, root: false, scope: current_user).to_json
-      @comments_json = ActiveModel::ArraySerializer.new(@bid.comments, each_serializer: CommentSerializer, root: false).to_json
+      @bid_json = serialized(@bid, BidWithReviewSerializer).to_json
+      @comments_json = serialized(@bid.comments).to_json
       render "bids/show_officer"
     else
       redirect_to project_path(@project)
@@ -170,7 +169,7 @@ class BidsController < ApplicationController
     @reviews = @bid.bid_reviews.where(starred: true)
 
     respond_to do |format|
-      format.json { render json: @reviews, scope: current_user }
+      format.json { render_serialized(@reviews) }
     end
   end
 

@@ -10,16 +10,12 @@ class VendorsController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        @response_fields_json = ActiveModel::ArraySerializer.new(GlobalConfig.instance.response_fields,
-                                                                 each_serializer: ResponseFieldSerializer,
-                                                                 root: false).to_json
+        @response_fields_json = serialized(GlobalConfig.instance.response_fields, ResponseFieldSerializer).to_json
       end
 
       format.json do
         search_results = Vendor.search_by_params(params)
-
-        render json: search_results[:results], each_serializer: VendorSerializer,
-               scope: current_officer, meta: search_results[:meta]
+        render_serialized search_results[:results], VendorSerializer, meta: search_results[:meta]
       end
     end
   end

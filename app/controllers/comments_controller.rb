@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
     @comments = @commentable.comments
 
     respond_to do |format|
-      format.json { render json: @comments, root: false }
+      format.json { render_serialized(@comments) }
     end
   end
 
@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     @comment = @commentable.comments.create(officer_id: current_officer.id, body: params[:body])
 
     respond_to do |format|
-      format.json { render json: @comment, root: false }
+      format.json { render_serialized(@comment) }
     end
   end
 

@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       format.html { render "projects/index_advanced" }
-      format.json { render json: @projects, meta: search_results[:meta] }
+      format.json { render_serialized(@projects, meta: search_results[:meta]) }
       format.rss { render layout: false } # @todo fix me?
     end
   end
@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   def comments
     authorize! :comment_on, @project
     current_user.read_notifications(@project, :project_comment)
-    @comments_json = ActiveModel::ArraySerializer.new(@project.comments, each_serializer: CommentSerializer, root: false).to_json
+    @comments_json = serialized(@project.comments).to_json
   end
 
   def mine
@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
 
   def show
     current_user.read_notifications(@project, :project_amended, :you_were_added, :question_answered) if current_user
-    @questions_json = ActiveModel::ArraySerializer.new(@project.questions.all, each_serializer: VendorQuestionSerializer).to_json
+    @questions_json = serialized(@project.questions.all, VendorQuestionSerializer).to_json
     impressionist(@project)
   end
 

@@ -348,7 +348,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       self.starrersLoaded = true
 
       $.getJSON "#{ProcureIo.Backbone.Bids.baseUrl}/#{self.model.get('id')}/reviews.json", (data) =>
-        starrers = _.map data.bids, (bid) ->
+        starrers = _.map data, (bid) ->
           if bid.officer.me then "You" else bid.officer.display_name
 
         newTitle = if starrers.length > 0 then starrers.join(", ") else "No stars yet."

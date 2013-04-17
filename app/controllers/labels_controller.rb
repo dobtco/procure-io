@@ -7,7 +7,7 @@ class LabelsController < ApplicationController
     @label = @project.labels.where("lower(name) = ?", params[:name]).first || @project.labels.create(name: params[:name].strip, color: params[:color])
 
     respond_to do |format|
-      format.json { render json: @label, root: false }
+      format.json { render_serialized(@label) }
     end
   end
 
@@ -15,7 +15,7 @@ class LabelsController < ApplicationController
     @label.update_attributes(label_params)
 
     respond_to do |format|
-      format.json { render json: @label, root: false }
+      format.json { render_serialized(@label) }
     end
   end
 

@@ -10,15 +10,14 @@ class QuestionsController < ApplicationController
     question.vendor_id = current_vendor.id
     question.save
     respond_to do |format|
-      format.json { render json: question, serializer: VendorQuestionSerializer }
+      format.json { render_serialized(question, VendorQuestionSerializer) }
     end
   end
 
   def index
     current_user.read_notifications(@project, :question_asked)
     @questions = @project.questions.paginate(page: params[:page])
-    @questions_json = ActiveModel::ArraySerializer.new(@questions,
-                                                       each_serializer: OfficerQuestionSerializer).to_json
+    @questions_json = serialized(@questions, OfficerQuestionSerializer).to_json
   end
 
   def update
@@ -33,7 +32,7 @@ class QuestionsController < ApplicationController
     @question.save
 
     respond_to do |format|
-      format.json { render json: @question.to_json }
+      format.json { render_serialized(@question) }
     end
   end
 

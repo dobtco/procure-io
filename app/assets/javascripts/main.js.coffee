@@ -64,7 +64,7 @@ $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
 
   $.getJSON $(@).attr('href'), (data) ->
     $("#notifications-dropdown").html JST['notification/dropdown']
-      notifications: data.notifications
+      notifications: data.results
       count: data.meta.count
 
 toggleHotkeyModal = ->
