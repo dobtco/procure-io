@@ -53,16 +53,16 @@ class Bid < ActiveRecord::Base
   def self.search_by_project_and_params(project, params, count_only = false, chainable = false)
     return_object = { meta: {} }
     return_object[:meta][:page] = [params[:page].to_i, 1].max
-    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
+    return_object[:meta][:per_page] = 10
 
-    query = project.bids.submitted
+    query = project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted
 
     if params[:f2] == "dismissed"
-      query = query.where("dismissed_at IS NOT NULL AND awarded_at IS NULL")
+      query = query.dismissed
     elsif params[:f2] == "awarded"
-      query = query.where("dismissed_at IS NULL AND awarded_at IS NOT NULL")
+      query = query.awarded
     else
-      query = query.where("dismissed_at IS NULL AND awarded_at IS NULL")
+      query = query.where_open
     end
 
     if params[:f1] == "starred"
@@ -85,8 +85,10 @@ class Bid < ActiveRecord::Base
       query = query.order("total_stars #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     elsif params[:sort] == "average_rating"
       query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-    elsif params[:sort] == "created_at" || !params[:sort]
+    elsif params[:sort] == "created_at"
       query = query.order("bids.created_at #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "name" || params[:sort].blank? || !params[:sort]
+      query = query.order("vendors.name #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
     end
 
     if params[:q] && !params[:q].blank?

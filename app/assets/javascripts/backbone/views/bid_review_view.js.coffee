@@ -254,7 +254,7 @@ ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
     "click .js-direction-select": "changeSortDirection"
 
   initialize: ->
-    @sortOptions = [{key: "created_at", label: "Created at"}]
+    @sortOptions = [{key: "name", label: "Vendor Name"}, {key: "created_at", label: "Created at"}]
 
     @sortOptions.push({key: "stars", label: "Stars"}) if @options.project.review_mode == "starring"
     @sortOptions.push({key: "average_rating", label: "Average Rating"}) if @options.project.review_mode == "rating"
