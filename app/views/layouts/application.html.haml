@@ -3,7 +3,7 @@
 %head
   %title!= full_title(yield(:page_title), yield(:page_action))
   = stylesheet_link_tag "application", media: "all"
-  %script!= render "layouts/javascript_environment.js.erb"
+  != render 'layouts/javascript_environment'
   = javascript_include_tag "application"
   = csrf_meta_tags
   = render 'layouts/shim'

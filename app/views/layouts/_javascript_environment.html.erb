@@ -1,0 +1,9 @@
+<script>
+  ProcureIo = {
+    env: '<%= Rails.env %>',
+    GlobalConfig: <%= serialized(GlobalConfig.instance).to_json.html_safe %>,
+    CurrentOfficerId: <%= current_officer ? current_officer.id : 'undefined' %>,
+    CurrentOfficer: <%= current_officer ? serialized(current_officer).to_json.html_safe : 'undefined' %>,
+    CurrentVendorId: <%= current_vendor ? current_vendor.id : 'undefined' %>
+  };
+</script>

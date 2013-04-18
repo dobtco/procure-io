@@ -10,10 +10,10 @@ class BidsController < ApplicationController
   before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
 
   def index
-    current_user.read_notifications(@project, :you_were_added) if current_user
-
     respond_to do |format|
-      format.html {}
+      format.html do
+        current_user.read_notifications(@project, :you_were_added) if current_user
+      end
 
       format.json do
         search_results = Bid.searcher(params,
@@ -45,58 +45,49 @@ class BidsController < ApplicationController
   end
 
   def update
-    if current_vendor && @bid.vendor == current_vendor
-      # vendor is updating bid?
-    elsif current_officer && (can? :collaborate_on, @project)
-      # officer is reviewing bid
-      review = @bid.bid_review_for_officer(current_officer)
-      review.assign_attributes my_bid_review_params
-      review.save
+    authorize! :review, @bid
 
-      if can? :award_dismiss, @bid
-        if @bid.dismissed? && params[:dismissed_at] == false
-          @bid.undismiss_by_officer!(current_officer)
-        elsif !@bid.dismissed? && params[:dismissed_at] == true
-          @bid.unaward_by_officer(current_officer)
-          @bid.dismiss_by_officer!(current_officer)
-        end
+    review = @bid.bid_review_for_officer(current_officer)
+    review.update_attributes(my_bid_review_params)
 
-        if @bid.awarded? && params[:awarded_at] == false
-          @bid.unaward_by_officer!(current_officer)
-        elsif !@bid.awarded? && params[:awarded_at] == true
-          @bid.undismiss_by_officer(current_officer)
-          @bid.award_by_officer!(current_officer)
-        end
+    if can? :award_dismiss, @bid
+      if @bid.dismissed? && params[:dismissed_at] == false
+        @bid.undismiss_by_officer!(current_officer)
+      elsif !@bid.dismissed? && params[:dismissed_at] == true
+        @bid.unaward_by_officer(current_officer)
+        @bid.dismiss_by_officer!(current_officer)
       end
 
-      if can? :watch, @bid
-        if current_user.watches?("Bid", @bid) && !params[:watching]
-          current_user.unwatch!("Bid", @bid)
-        elsif !current_user.watches?("Bid", @bid) && params[:watching]
-          current_user.watch!("Bid", @bid)
-        end
+      if @bid.awarded? && params[:awarded_at] == false
+        @bid.unaward_by_officer!(current_officer)
+      elsif !@bid.awarded? && params[:awarded_at] == true
+        @bid.undismiss_by_officer(current_officer)
+        @bid.award_by_officer!(current_officer)
       end
-
-      if can? :label, @bid
-        @bid.labels = []
-
-        (params[:labels] || []).each do |label|
-          if label["id"]
-            @bid.labels << @project.labels.find(label["id"])
-          else
-            @bid.labels << @project.labels.where(name: label["name"]).first
-          end
-        end
-      end
-
-      @bid.reload # get updated total_stars
-
-      respond_to do |format|
-        format.json { render_serialized(@bid, BidWithReviewSerializer) }
-      end
-    else
-      render status: 404
     end
+
+    if can? :watch, @bid
+      if current_user.watches?("Bid", @bid) && !params[:watching]
+        current_user.unwatch!("Bid", @bid)
+      elsif !current_user.watches?("Bid", @bid) && params[:watching]
+        current_user.watch!("Bid", @bid)
+      end
+    end
+
+    if can? :label, @bid && params[:labels]
+      @bid.labels = []
+
+      params[:labels].each do |label|
+        if label["id"]
+          @bid.labels << @project.labels.find(label["id"])
+        else
+          @bid.labels << @project.labels.where(name: label["name"]).first
+        end
+      end
+    end
+
+    @bid.reload # get updated total_stars
+    render_serialized(@bid, BidWithReviewSerializer)
   end
 
   def batch

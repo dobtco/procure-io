@@ -70,7 +70,7 @@ describe "Project" do
 
         describe "editing project" do
           before do
-            fill_in "Title", with: "awesome!"
+            fill_in "project[title]", with: "awesome!"
             click_button "Update Project"
           end
           it { should have_selector('input[value="awesome!"]') }
@@ -84,7 +84,7 @@ describe "Project" do
 
       describe "creating project" do
         before do
-          fill_in "Title", with: "Ze Title"
+          fill_in "project[title]", with: "Ze Title"
           click_button "Next"
         end
         it { should have_selector('h3', 'Ze Title') }

@@ -21,7 +21,7 @@ class Ability
 
   def officer_review_only(user)
     can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
-    can :watch, Bid do |bid|
+    can :watch, :review, Bid do |bid|
       can :collaborate_on, bid.project
     end
   end
@@ -40,7 +40,7 @@ class Ability
       project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
-    can [:watch, :award_dismiss, :label], Bid do |bid|
+    can [:watch, :award_dismiss, :label, :review], Bid do |bid|
       can :collaborate_on, bid.project
     end
 

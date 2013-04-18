@@ -48,7 +48,7 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
-  gem 'capybara'
+  gem 'capybara', '2.0.3'
   gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'simplecov', require: false

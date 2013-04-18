@@ -1,13 +1,19 @@
 include ApplicationHelper
 
+class FakeUserSession
+  def initialize(user_id)
+    class_eval %Q{
+      def record
+        User.find(#{user_id})
+      end
+    }
+  end
+end
+
 def sign_in(user)
-  visit root_path
-  fill_in "user_session[email]", with: user.email
-  fill_in "user_session[password]", with: "password"
-  click_button "Sign in"
+  UserSession.stub!(:find).and_return(FakeUserSession.new(user.id))
 end
 
 def sign_out
-  visit root_path
-  find("[href*=\"/sign_out\"]").click
+  UserSession.stub!(:find).and_return(nil)
 end
