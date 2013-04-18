@@ -1,13 +1,17 @@
 class BidsController < ApplicationController
   include SaveResponsesHelper
 
-  before_filter :project_exists?
-  before_filter :bid_exists?, only: [:show, :update, :reviews, :destroy, :read_notifications]
-  before_filter :authenticate_user!, only: [:read_notifications]
-  before_filter :authenticate_and_authorize_vendor!, only: [:new, :create]
-  before_filter :authenticate_and_authorize_officer!, only: [:index, :reviews, :destroy, :emails]
+  # Check Enabled
   before_filter only: [:index, :show, :batch, :reviews, :read_notifications, :emails] { |c| c.check_enabled!('bid_review') }
   before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
+
+  # Load
+  load_resource :project
+  load_resource :bid
+
+  # Authorize
+  before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy], { authorize! :collaborate_on, @project }
+  before_filter only: [:new, :create], { authorize! :bid_on, @project }
 
   def index
     respond_to do |format|
@@ -37,7 +41,7 @@ class BidsController < ApplicationController
     if params[:draft_only] != 'true' && @bid.responsable_valid?
       @bid.submit
       @bid.save
-      flash[:success] = @project.form_options["form_confirmation_message"] if @project.form_options["form_confirmation_message"]
+      flash[:success] = @project.bid_confirmation_message
       redirect_to project_bid_path(@project, @bid)
     else
       redirect_to new_project_bid_path
@@ -137,34 +141,31 @@ class BidsController < ApplicationController
   end
 
   def show
-    return not_found unless current_user
-
+    authenticate_user!
     current_user.read_notifications(@bid)
+    current_vendor ? show_vendor : show_officer
+  end
 
-    if current_vendor && @bid.vendor == current_vendor
-      render "bids/show_vendor"
+  def show_vendor
+    authorize! :read, @bid
+    render "bids/show_vendor"
+  end
 
-    elsif current_officer && (can? :collaborate_on, @project)
-      return not_found if !@bid.submitted_at
+  def show_officer
+    authorize! :read, @bid
 
-      if !(review = @bid.bid_review_for_officer(current_officer)).read
-        review.update_attributes read: true
-      end
-
-      @bid_json = serialized(@bid, BidWithReviewSerializer).to_json
-      @comments_json = serialized(@bid.comments).to_json
-      render "bids/show_officer"
-    else
-      redirect_to project_path(@project)
+    if !(review = @bid.bid_review_for_officer(current_officer)).read
+      review.update_attributes read: true
     end
+
+    @bid_json = serialized(@bid, BidWithReviewSerializer).to_json
+    @comments_json = serialized(@bid.comments).to_json
+    render "bids/show_officer"
   end
 
   def reviews
     @reviews = @bid.bid_reviews.where(starred: true)
-
-    respond_to do |format|
-      format.json { render_serialized(@reviews) }
-    end
+    render_serialized(@reviews)
   end
 
   def emails
@@ -187,28 +188,7 @@ class BidsController < ApplicationController
   end
 
   private
-  def project_exists?
-    @project = Project.find(params[:project_id])
-  end
-
-  def bid_exists?
-    @bid = @project.bids.find(params[:id])
-  end
-
-  def bid_params
-  end
-
   def my_bid_review_params
     params.require(:my_bid_review).permit(:starred, :read, :rating)
-  end
-
-  def authenticate_and_authorize_officer!
-    authenticate_officer!
-    authorize! :collaborate_on, @project
-  end
-
-  def authenticate_and_authorize_vendor!
-    authenticate_vendor!
-    authorize! :create, @project.bids.build
   end
 end

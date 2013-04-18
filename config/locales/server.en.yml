@@ -17,6 +17,7 @@ en:
     settings: Settings
     new_project: New Project
     notifications: Notifications
+    bid_confirmation_message: "Thanks, your bid has been received!"
 
     forgot_password:
       line_html: Did you %{link}?

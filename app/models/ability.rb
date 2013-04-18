@@ -12,8 +12,14 @@ class Ability
   private
 
   def vendor(user)
-    can :create, Bid do |bid|
-      (!bid.project.bids_due_at || (bid.project.bids_due_at > Time.now)) && !user.owner.submitted_bid_for_project(bid.project)
+    can :bid_on, Project do |project|
+      project.posted_at &&
+      (!project.bids_due_at || (project.bids_due_at > Time.now)) &&
+      !user.owner.submitted_bid_for_project(project)
+    end
+
+    can :read, Bid do |bid|
+      bid.submitted? && bid.vendor.user == user
     end
 
     can :watch, Project, posted: true
@@ -21,8 +27,8 @@ class Ability
 
   def officer_review_only(user)
     can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
-    can :watch, :review, Bid do |bid|
-      can :collaborate_on, bid.project
+    can :read, :watch, :review, Bid do |bid|
+      bid.submitted? && (can :collaborate_on, bid.project)
     end
   end
 
@@ -40,8 +46,8 @@ class Ability
       project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
-    can [:watch, :award_dismiss, :label, :review], Bid do |bid|
-      can :collaborate_on, bid.project
+    can [:read, :watch, :award_dismiss, :label, :review], Bid do |bid|
+      bid.submitted? && (can :collaborate_on, bid.project)
     end
 
     can :destroy, Collaborator do |collaborator|
@@ -52,7 +58,9 @@ class Ability
   def officer_admin(user)
     can :manage, Project
     can :manage, Amendment
-    can :manage, Bid
+    can :manage, Bid do |bid|
+      bid.submitted?
+    end
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer
     can :update, Officer do |officer|
