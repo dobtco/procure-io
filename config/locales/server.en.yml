@@ -42,6 +42,7 @@ en:
         Heya! We logged you in without a password, but you can always %{link} if you want. If you don't,
         you can just use that same link to login in the future.
       link: create one
+    bid_was_destroyed: "Bid was successfully destroyed."
 
   confirmations:
     bid:

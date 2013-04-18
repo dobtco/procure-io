@@ -134,10 +134,7 @@ class BidsController < ApplicationController
 
   def read_notifications
     current_user.read_notifications(@bid)
-
-    respond_to do |format|
-      format.json { render json: {} }
-    end
+    render json: {}
   end
 
   def show
@@ -183,7 +180,7 @@ class BidsController < ApplicationController
   def destroy
     authorize! :destroy, @bid
     @bid.destroy
-    flash[:success] = "Bid was successfully destroyed."
+    flash[:success] = I18n.t('flashes.bid_was_destroyed')
     redirect_to project_bids_path(@project)
   end
 
