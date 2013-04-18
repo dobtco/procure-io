@@ -1,5 +1,4 @@
----
-bundler_args: --without development --path=~/.bundle
+bundler_args: --path=~/.bundle
 language: ruby
 rvm:
 - 1.9.3

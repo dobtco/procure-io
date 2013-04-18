@@ -63,7 +63,7 @@ else
   storage.complete_multipart_upload bucket_name, file_name, upload_id, part_ids
 
   puts "=> Uploading the digest file"
-  bucket = storage.directories.new(key: "travis-cache")
+  bucket = storage.directories.new(key: bucket_name)
   bucket.files.create({
     :body         => bundle_digest,
     :key          => digest_filename,
