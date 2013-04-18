@@ -10,8 +10,8 @@ class BidsController < ApplicationController
   load_resource :bid
 
   # Authorize
-  before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy], { authorize! :collaborate_on, @project }
-  before_filter only: [:new, :create], { authorize! :bid_on, @project }
+  before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy], { |c| c.authorize! :collaborate_on, @project }
+  before_filter only: [:new, :create], { |c| c.authorize! :bid_on, @project }
 
   def index
     respond_to do |format|
