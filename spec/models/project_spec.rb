@@ -115,9 +115,8 @@ describe Project do
 
     describe "no key fields" do
       before { response_fields(:one).update_attributes(key_field: false) }
-      it "if there are no key fields, it should return all fields" do
-        projects(:one).key_fields.should include(response_fields(:one))
-        projects(:one).key_fields.should include(response_fields(:two))
+      it "if there are no key fields, it should return none" do
+        projects(:one).key_fields.should == []
       end
     end
   end
