@@ -27,9 +27,13 @@ class Ability
   end
 
   def officer_user(user)
-    can [:collaborate_on, :watch, :edit_response_fields, :answer_questions,
+    can [:read, :collaborate_on, :watch, :edit_response_fields, :answer_questions,
          :edit_description, :access_reports], Project do |project|
       project.collaborators.where(officer_id: user.owner.id).first
+    end
+
+    can :manage, Amendment do |amendment|
+      can :collaborate_on, amendment.project
     end
 
     can [:destroy, :admin, :comment_on], Project do |project|
@@ -47,6 +51,7 @@ class Ability
 
   def officer_admin(user)
     can :manage, Project
+    can :manage, Amendment
     can :manage, Bid
     can [:manage, :edit_response_fields], GlobalConfig
     can :read, Officer

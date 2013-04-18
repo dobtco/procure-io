@@ -1,7 +1,6 @@
 class AmendmentsController < ApplicationController
-  before_filter :project_exists?
-  before_filter :amendment_exists?, only: [:edit, :update, :destroy]
-  before_filter :authenticate_and_authorize_officer!, only: [:index]
+  load_and_authorize_resource :project
+  load_and_authorize_resource :amendment, through: :project
   before_filter { |c| c.check_enabled!('amendments') }
 
   def create
@@ -34,19 +33,6 @@ class AmendmentsController < ApplicationController
   end
 
   private
-  def project_exists?
-    @project = Project.find(params[:project_id])
-  end
-
-  def amendment_exists?
-    @amendment = @project.amendments.find(params[:id])
-  end
-
-  def authenticate_and_authorize_officer!
-    authenticate_officer!
-    authorize! :collaborate_on, @project
-  end
-
   def amendment_params
     params.require(:amendment).permit(:title, :body)
   end
