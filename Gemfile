@@ -46,7 +46,7 @@ group :development do
   gem 'debugger', require: 'debugger'
 end
 
-group :test do
+group :development, :test do
   gem 'rspec-rails'
   gem 'capybara', '2.0.3'
   gem 'poltergeist'

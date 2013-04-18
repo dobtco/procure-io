@@ -10,7 +10,7 @@ GIT
 
 GIT
   remote: git://github.com/rails-api/active_model_serializers.git
-  revision: ab5d40f38b2b7c8c9155292938f21f3af0fa8027
+  revision: 9eb2e281c655d65b1c3e94b2a49c5bb4f158f2a4
   specs:
     active_model_serializers (0.7.0)
       activemodel (>= 3.0)
@@ -47,7 +47,7 @@ GEM
       multi_json (~> 1.0)
     acts_as_singleton (0.0.8)
       activerecord (>= 3.1.0)
-    addressable (2.3.3)
+    addressable (2.3.4)
     annotate (2.5.0)
       rake
     arel (3.0.2)
