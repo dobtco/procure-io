@@ -32,10 +32,10 @@ $(document).on "click", ".show-tour-link", (e) ->
   if (steps = ProcureIo.Tours["#{$('body').data('controller')}##{$('body').data('action')}"])?
     $.intro(steps)
 
-$(document).on "ajax:complete", ".js-remove-bid-response-upload", (e) ->
+$(document).on "ajax:beforeSend", ".js-remove-bid-response-upload", (e) ->
   $fileInput = $(@).closest('.control-group').find('input[type=file]')
-  $(@).closest(".current-upload").remove()
   $fileInput.data('value', false).trigger('change')
+  $fileInput.closest('.fileupload').fileupload('clear')
 
 $(document).on "input", "[data-max-chars]", ->
   value = $(@).val()

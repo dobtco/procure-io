@@ -29,6 +29,7 @@
 //= require bootstrap.flash_button
 //= require bootstrap-modal
 //= require bootstrap-modalmanager
+//= require bootstrap.fileupload
 //= require parsley
 //= require parsley.overrides
 //= require jquery.hotkeys

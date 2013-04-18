@@ -2,12 +2,18 @@
 
 = render "shared/pieces/label", response_field: response_field
 
-%input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-value" => (response && response.upload?) ? 'exists' : false}
+.fileupload{"class" => (response && response.upload?) ? "fileupload-exists" : "fileupload-new", "data-provides" => "fileupload"}
+  .input-append
+    .uneditable-input.span3
+      %i.icon-file.fileupload-exists
+      %span.fileupload-preview= (response && response.upload && response.upload.file) ? response.upload.file.filename.gsub(/\?.*$/, '') : ''
 
-- if response && response.upload?
-  %div.current-upload
-    %strong Current Upload:
-    %a{"href" => response.upload.url}= response.upload.file.filename.gsub(/\?.*$/, '')
-    = link_to "(X)", project_response_path(@project, @bid, response), method: :delete, remote: true, class: "js-remove-bid-response-upload"
+    %span.btn.btn-file
+      %span.fileupload-new Select file
+      %span.fileupload-exists Change
+      %input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-value" => (response && response.upload?) ? 'exists' : false}
+
+    - # @todo make this dependent on response_field_id, not response_id.
+    %a{"href" => "#", "class" => "btn fileupload-exists js-remove-bid-response-upload", "data-method" => "delete", "data-remote" => true} Remove
 
 = render "shared/pieces/description", response_field: response_field

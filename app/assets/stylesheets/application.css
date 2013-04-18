@@ -11,6 +11,7 @@
  *= require_self
  *= require bootstrap
  *= require bootstrap.responsive
+ *= require bootstrap.fileupload
  *= require bootstrap-modal
  *= require _font-awesome
  *= require plugins/bootstrap-switch
