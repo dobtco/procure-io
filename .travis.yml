@@ -1,40 +1,33 @@
+---
 bundler_args: --without development --path=~/.bundle
-
 language: ruby
-
 rvm:
-  - 1.9.3
-
+- 1.9.3
 before_install:
-  - wget -P /tmp http://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
-  - tar -xf /tmp/phantomjs-1.9.0-linux-x86_64.tar.bz2 -C /tmp/
-  - sudo rm -rf /usr/local/phantomjs
-  - sudo mv /tmp/phantomjs-1.9.0-linux-x86_64 /usr/local/phantomjs
-  - "echo 'gem: --no-ri --no-rdoc' > ~/.gemrc"
-  - gem install bundler fog
-  - "./script/travis/bundle_install.sh"
-
+- wget -P /tmp http://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
+- tar -xf /tmp/phantomjs-1.9.0-linux-x86_64.tar.bz2 -C /tmp/
+- sudo rm -rf /usr/local/phantomjs
+- sudo mv /tmp/phantomjs-1.9.0-linux-x86_64 /usr/local/phantomjs
+- ! 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
+- gem install bundler fog
+- ./script/travis/bundle_install.sh
 before_script:
-  - psql -c 'create database procureio_travis;' -U postgres
-  - cp config/database.travis.yml config/database.yml
-  - RAILS_ENV=test bundle exec rake db:migrate
-  - bundle exec rake db:test:prepare
-
+- psql -c 'create database procureio_travis;' -U postgres
+- cp config/database.travis.yml config/database.yml
+- RAILS_ENV=test bundle exec rake db:migrate
+- bundle exec rake db:test:prepare
 after_script:
-  - "ruby script/travis/bundle_cache.rb"
-
+- ruby script/travis/bundle_cache.rb
 script: rspec
-
 notifications:
   email: false
-
 env:
   global:
-    - BUNDLE_ARCHIVE="procure-io-travisbundle"
-    - AWS_S3_BUCKET="travisbundlercache"
-    - RAILS_ENV=test
-    - secure: ! 'LYJzE1mkwt5hvb4nRnZN8n6Bp/olG+60Ud2vvFWAXo2VLIiMPGHvaoqL7b9P
+  - BUNDLE_ARCHIVE="procure-io-travisbundle"
+  - AWS_S3_BUCKET="travisbundlercache"
+  - RAILS_ENV=test
+  - secure: ! 'fNwCcNewOzck8tHDF8SXjkOhxNP3K9r5OU1ePzxR0012oJvIpNoGvQTfMT1x
 
-        b2pZxfnYIQP6mas7DtlSvzHqyaIPOPYHa5VKk+3PmVUi5xuk6MXLdhUYO98m
+      YNEbeV/5qziXLXEA+S+qM+njWouH3Mqwfhaj6y0KJxx4yld+tDz4cJQdnRnu
 
-        uVpewekaBABpboL5GGIP747psu5hGCMkQKhwqToA9vEt0jCf/p8='
+      MRirO9QJNz5+71XWnuCTkAV+iEB9vqpTlTy7CDtvlN3Q7mz1WpI='
