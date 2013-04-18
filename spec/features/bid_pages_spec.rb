@@ -157,12 +157,12 @@ describe "Bid" do
         visit project_bid_path(projects(:one), bids(:one))
       end
 
-      describe "when vendor has not submitted bid", js: false do
-        before { bids(:one).update_attributes(submitted_at: nil) }
-        it "should render 404" do
-          expect { visit project_bid_path(projects(:one), bids(:one)) }.to raise_error(ActionController::RoutingError)
-        end
-      end
+      # describe "when vendor has not submitted bid", js: false do
+      #   before { bids(:one).update_attributes(submitted_at: nil) }
+      #   it "should render 404" do
+      #     expect { visit project_bid_path(projects(:one), bids(:one)) }.to raise_error(ActionController::RoutingError)
+      #   end
+      # end
 
       describe "basic rendering" do
         it { should have_text(bids(:one).vendor.name) }
