@@ -6,10 +6,6 @@ rvm:
   - 1.9.3
 
 before_install:
-  - wget -P /tmp http://phantomjs.googlecode.com/files/phantomjs-1.9.0-linux-x86_64.tar.bz2
-  - tar -xf /tmp/phantomjs-1.9.0-linux-x86_64.tar.bz2 -C /tmp/
-  - sudo rm -rf /usr/local/phantomjs
-  - sudo mv /tmp/phantomjs-1.9.0-linux-x86_64 /usr/local/phantomjs
   - ! 'echo ''gem: --no-ri --no-rdoc'' > ~/.gemrc'
   - gem install bundler fog
   - ./script/travis/bundle_install.sh
@@ -20,7 +16,7 @@ before_script:
 after_script:
   - ruby script/travis/bundle_cache.rb
 
-script: bundle exec rake db:create db:migrate; bundle exec rspec
+script: bundle exec rake db:create db:migrate; bundle exec xvfb-run rspec
 
 notifications:
   email: false

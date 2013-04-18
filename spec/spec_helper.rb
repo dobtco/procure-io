@@ -7,7 +7,6 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -60,10 +59,7 @@ RSpec.configure do |config|
   config.global_fixtures = :all
 end
 
-Capybara.register_driver :poltergeist do |app|
-  Capybara::Poltergeist::Driver.new(app, timeout: 10, js_errors: false)
-end
-
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :webkit
+Capybara.default_wait_time = 10
 
 Delayed::Worker.delay_jobs = false

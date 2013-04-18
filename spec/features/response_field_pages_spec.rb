@@ -22,9 +22,7 @@ describe "ResponseField" do
 
       it "should be able to remove fields" do
         page.should have_selector("label", text: response_fields(:one).label)
-        el = page.find(".response-field-wrapper:eq(1)")
-        el.click
-        el.click_button I18n.t('js.response_field.remove_field')
+        find(".response-field-wrapper:eq(1) .remove-field-button").click
         page.should_not have_selector("label", text: response_fields(:one).label)
         visit response_fields_project_path(projects(:one))
         page.should_not have_selector("label", text: response_fields(:one).label)
