@@ -35,7 +35,7 @@ class Collaborator < ActiveRecord::Base
     not_ids = [officer.user.id]
     not_ids.push(Officer.find(added_by_officer_id).user.id) if added_by_officer_id
 
-    project.watches.not_disabled.where("user_id NOT IN (?)", not_ids).each do |watch|
+    project.watches.where_user_is_officer.not_disabled.where("user_id NOT IN (?)", not_ids).each do |watch|
       EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
   end
