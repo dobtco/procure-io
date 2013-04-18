@@ -33,6 +33,7 @@ describe "Project" do
 
       it "should not let vendors submit blank questions" do
         count = all("#questions-list .question").length
+        find("#ask-question-toggle").click
         find("#question_body").set("")
         click_button "Submit Question"
         page.should have_selector("#questions-list .question", count: count)

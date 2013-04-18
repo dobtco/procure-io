@@ -49,7 +49,7 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara', '2.0.3'
-  gem 'capybara-webkit'
+  gem 'poltergeist'
   gem 'database_cleaner'
   gem 'simplecov', require: false
 end
