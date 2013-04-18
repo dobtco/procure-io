@@ -1,4 +1,4 @@
 %label{"class" => if @field_options.required then "label-required" else "label-optional"}
   %span= @label
   - if !@field_options.required
-    (optional)
+    %span.is-optional (optional)

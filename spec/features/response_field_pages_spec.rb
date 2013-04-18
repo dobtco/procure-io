@@ -70,9 +70,9 @@ describe "ResponseField" do
           end
 
           it "should bind the required field" do
-            page.should have_selector(".response-field-wrapper:eq(1) .required-asterisk")
+            page.should_not have_selector(".response-field-wrapper:eq(1) .is-optional")
             find("[data-rv-checked=\"model.field_options.required\"]").set(false)
-            page.should_not have_selector(".response-field-wrapper:eq(1) .required-asterisk")
+            page.should have_selector(".response-field-wrapper:eq(1) .is-optional")
           end
 
           it "should save properly" do

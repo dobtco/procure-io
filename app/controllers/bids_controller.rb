@@ -74,7 +74,7 @@ class BidsController < ApplicationController
       end
     end
 
-    if can? :label, @bid && params[:labels]
+    if (can? :label, @bid) && params[:labels]
       @bid.labels = []
 
       params[:labels].each do |label|
