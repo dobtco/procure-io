@@ -24,6 +24,7 @@ class Project < ActiveRecord::Base
   include PostableByOfficer
   include WatchableByUser
   include PgSearch
+  include Searcher
 
   attr_accessor :updating_officer_id
 
@@ -60,22 +61,18 @@ class Project < ActiveRecord::Base
                                   tsearch: {prefix: true}
                                 }
 
+  has_searcher starting_query: Project.open_for_bids.posted
+
   def self.review_modes
     @review_modes ||= Enum.new(:starring, :rating)
   end
 
-  def self.search_by_params(params)
-    return_object = { meta: {} }
-    return_object[:meta][:page] = [params[:page].to_i, 1].max
-    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
-
-    query = Project.open_for_bids.posted
-
-    if params[:q] && !params[:q].blank?
+  def self.add_params_to_query(query, params)
+    if !params[:q].blank?
       query = query.full_search(params[:q])
     end
 
-    if params[:category] && !params[:category].blank?
+    if !params[:category].blank?
       query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
                    .where("tags.name = ?", params[:category])
     end
@@ -84,20 +81,13 @@ class Project < ActiveRecord::Base
       query = query.where(posted_at: params[:posted_after]..Time.now)
     end
 
-    return_object[:meta][:total] = query.count
-    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
-    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
-
     if !params[:sort] || !params[:sort].in?(["posted_at", "bids_due_at"])
       params[:sort] = "posted_at"
     end
 
-    query = query.order("#{params[:sort]} #{(params[:direction] && (params[:direction] == 'asc')) ? 'asc' : 'desc'}")
+    query = query.order("#{params[:sort]} #{params[:direction] == 'asc' ? 'asc' : 'desc'}")
 
-    return_object[:results] = query.limit(return_object[:meta][:per_page])
-                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
-
-    return_object
+    query
   end
 
   def abstract_or_truncated_body

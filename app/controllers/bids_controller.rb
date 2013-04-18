@@ -177,7 +177,9 @@ class BidsController < ApplicationController
   end
 
   def emails
-    search_results = Bid.search_by_project_and_params(@project, params, false, true)
+    search_results = Bid.searcher(params, starting_query: @project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted,
+                         project: @project,
+                         chainable: true)
                         .reorder("bids.id DESC")
                         .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
                         .joins("LEFT JOIN users ON vendors.id = users.owner_id AND users.owner_type = 'Vendor'")

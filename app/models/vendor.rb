@@ -12,6 +12,7 @@
 class Vendor < ActiveRecord::Base
   include SharedUserMethods
   include PgSearch
+  include Searcher
 
   has_many :bids, dependent: :destroy
   has_many :questions
@@ -26,16 +27,11 @@ class Vendor < ActiveRecord::Base
                                 associated_against: { responses: [:value], user: [:email] },
                                 using: { tsearch: { prefix: true } }
 
+  has_searcher starting_query: Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
+
   after_update :touch_all_bids!
 
-  def self.search_by_params(params, count_only = false)
-    return_object = { meta: {} }
-    return_object[:meta][:page] = [params[:page].to_i, 1].max
-    return_object[:meta][:per_page] = 10 # [params[:per_page].to_i, 10].max
-
-    # query = Vendor.joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendor.id")
-    query = Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
-
+  def self.add_params_to_query(query, params)
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
       query = query.joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = vendor_profiles.id
@@ -54,18 +50,8 @@ class Vendor < ActiveRecord::Base
       query = query.full_search(params[:q])
     end
 
-    return query.count if count_only
-
-    return_object[:meta][:total] = query.count
-    return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
-    return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
-
-    return_object[:results] = query.limit(return_object[:meta][:per_page])
-                                   .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
-
-    return_object
+    query
   end
-
 
   def self.event_types
     types = [:project_amended]

@@ -14,7 +14,7 @@ class VendorsController < ApplicationController
       end
 
       format.json do
-        search_results = Vendor.search_by_params(params)
+        search_results = Vendor.searcher(params)
         render_serialized search_results[:results], VendorSerializer, meta: search_results[:meta]
       end
     end

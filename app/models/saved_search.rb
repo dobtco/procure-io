@@ -19,7 +19,7 @@ class SavedSearch < ActiveRecord::Base
   before_create { self.last_emailed_at = Time.now }
 
   def execute(new_params = {})
-    Project.search_by_params(search_parameters.merge(new_params))
+    search_results = Project.searcher(search_parameters.merge(new_params))
   end
 
   def execute_since_last_search

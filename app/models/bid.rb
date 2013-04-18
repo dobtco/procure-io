@@ -56,6 +56,7 @@ class Bid < ActiveRecord::Base
                                                       labels: [:name] },
                                 using: { tsearch: { prefix: true } }
 
+  has_searcher
 
   def self.add_params_to_query(query, params)
     if params[:f2] == "dismissed"
@@ -98,7 +99,7 @@ class Bid < ActiveRecord::Base
     query
   end
 
-  def self.add_search_meta_to_return_object(return_object, params, args = {})
+  def self.search_meta_info(params, args = {})
     counts = {
       all: self.searcher(params.merge(f1: "open"), args.merge(count_only: true)),
       starred: self.searcher(params.merge({f1: "starred"}), args.merge(count_only: true)),
@@ -111,9 +112,7 @@ class Bid < ActiveRecord::Base
       counts[label.id] = self.searcher(params.merge({label: label.name}), args.merge(count_only: true))
     end
 
-    return_object[:meta][:counts] = counts
-
-    return_object
+    { counts: counts }
   end
 
   def submit

@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
   end
 
   def index_advanced
-    search_results = Project.search_by_params(params)
+    search_results = Project.searcher(params)
     @projects = search_results[:results]
     @filter_params = { category: params[:category], q: params[:q] }
 
