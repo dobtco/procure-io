@@ -2,6 +2,8 @@
 
 %head
   %title!= full_title(yield(:page_title), yield(:page_action))
+  - unless Rails.env.test?
+    %link{"href" => 'http://fonts.googleapis.com/css?family=Telex', "rel" => 'stylesheet', "type" => 'text/css'}
   = stylesheet_link_tag "application", media: "all"
   != render 'layouts/javascript_environment'
   = javascript_include_tag "application"
