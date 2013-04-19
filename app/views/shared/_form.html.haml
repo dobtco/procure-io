@@ -4,8 +4,8 @@
 = form_tag form_action, method: (defined?(form_method) ? form_method : :post), id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
   %input{"type" => "hidden", "name" => "draft_only"}
 
-  / We need to display server-side validations for users without js.
-  / Besides, we're already writing the server-side validations for security purposes anyway.
+  - # We need to display server-side validations for users without js.
+  - # Besides, we're already writing the server-side validations for security purposes anyway.
   %noscript
     - if responsable.id && responsable.responsable_errors && !responsable.responsable_errors.empty?
       .alert.alert-danger
