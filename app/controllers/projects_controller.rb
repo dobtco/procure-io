@@ -30,7 +30,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html { render "projects/index_advanced" }
       format.json { render_serialized(@projects, meta: search_results[:meta]) }
-      format.rss { render layout: false } # @todo fix me?
+      format.rss { render layout: false }
     end
   end
 

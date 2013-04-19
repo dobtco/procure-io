@@ -23,7 +23,6 @@ class Question < ActiveRecord::Base
 
   after_create :generate_question_asked_events!
 
-  # @todo vendor will see multiple events if the officer progressively saves their answer
   after_update do
     generate_question_answered_events! if answer_body_changed? && answer_body && !answer_body.blank?
   end

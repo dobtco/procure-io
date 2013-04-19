@@ -105,7 +105,6 @@ class Ability
   end
 
   def officer_god(user)
-    # @todo are there unintended consequences of this?
     can :manage, :all
   end
 end

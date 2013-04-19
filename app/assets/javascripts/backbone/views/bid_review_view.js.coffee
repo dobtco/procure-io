@@ -1,5 +1,3 @@
-# @todo clear backbone views when navigating with turbolinks?
-
 ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
   el: "#bids-thead"
 
@@ -296,7 +294,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @listenTo @model, "sync", @checkForRefetch
 
   checkForRefetch: ->
-    # @todo this could cause some terrible recursion
     if (ProcureIo.Backbone.router.filterOptions.get("f1") == "starred" && @model.get("total_stars") < 1) ||
        (ProcureIo.Backbone.router.filterOptions.get("f2") == "open" && (@model.get("dismissed_at") || @model.get("awarded_at"))) ||
        (ProcureIo.Backbone.router.filterOptions.get("f2") == "dismissed" && !@model.get("dismissed_at")) ||

@@ -169,6 +169,7 @@ en:
     revisions: Revisions
     roles: Roles
     save: Save
+    save_draft: Save Draft
     saved_searches: Saved Searches
     see_all: See all
     send_reset_password_instructions: Send Reset Password Instructions

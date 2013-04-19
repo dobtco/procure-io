@@ -2,4 +2,4 @@
   .response-field-wrapper.control-group
     = render "shared/fields/#{response_field.field_type.downcase}", response_field: response_field, |
       value: (r = responsable.responses.where(response_field_id: response_field.id).first) ? r.value : '', |
-      response_fieldable: response_fieldable
+      response_fieldable: response_fieldable, responsable: responsable

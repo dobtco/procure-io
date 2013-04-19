@@ -21,10 +21,9 @@ class QuestionsController < ApplicationController
     @questions_json = serialized(@questions, OfficerQuestionSerializer).to_json
   end
 
-  # @todo should this check for #blank?
   def update
     @question.update_attributes(answer_body: params[:answer_body],
-                                officer: params[:answer_body] ? current_officer : nil)
+                                officer: !params[:answer_body].blank? ? current_officer : nil)
 
     render_serialized(@question)
   end

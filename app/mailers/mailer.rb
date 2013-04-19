@@ -28,7 +28,6 @@ class Mailer < ActionMailer::Base
                 reset_password_url: users_reset_password_url(token: user.perishable_token)
   end
 
-  # @todo send more than 10 results
   def search_email(vendor)
     count = 0
     results_string = ""

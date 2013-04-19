@@ -307,5 +307,3 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
       type: "PUT"
       contentType: "application/json"
       data: JSON.stringify({response_fields: ProcureIo.Backbone.ResponseFields.toJSON(), form_options: ProcureIo.Backbone.CurrentResponseFieldable?.toJSON()})
-      # success: (data) =>
-      # @todo implement error callback

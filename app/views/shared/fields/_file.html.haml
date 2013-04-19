@@ -1,5 +1,4 @@
-- #todo fix this
-- response = @bid && @bid.responses.where(response_field_id: response_field[:id]).first
+- response = responsable && responsable.responses.where(response_field_id: response_field[:id]).first
 
 = render "shared/pieces/label", response_field: response_field
 

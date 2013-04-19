@@ -31,7 +31,6 @@ class Event < ActiveRecord::Base
     I18n.t("events.name.#{event_type}")
   end
 
-  # @todo remember why i did this?
   def data
     ActiveSupport::JSON.decode(read_attribute(:data))
   end
