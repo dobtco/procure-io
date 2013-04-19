@@ -34,24 +34,28 @@ class Ability
 
   def officer_user(user)
     can [:read, :collaborate_on, :watch, :edit_response_fields, :answer_questions,
-         :edit_description, :access_reports], Project do |project|
+         :edit_description, :access_reports, :comment_on, :read_comments_about], Project do |project|
       project.collaborators.where(officer_id: user.owner.id).first
+    end
+
+    can [:destroy, :admin], Project do |project|
+      project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
     can :manage, Amendment do |amendment|
       can :collaborate_on, amendment.project
     end
 
-    can [:destroy, :admin, :comment_on], Project do |project|
-      project.collaborators.where(officer_id: user.owner.id, owner: true).first
-    end
-
-    can [:read, :watch, :award_dismiss, :label, :review], Bid do |bid|
+    can [:read, :watch, :award_dismiss, :label, :review, :read_comments_about], Bid do |bid|
       bid.submitted? && (can :collaborate_on, bid.project)
     end
 
     can :destroy, Collaborator do |collaborator|
       !collaborator.owner && (collaborator.project.owner_id == user.owner.id)
+    end
+
+    can :destroy, Comment do |comment|
+      comment.officer_id == user.owner.id
     end
   end
 
@@ -74,6 +78,7 @@ class Ability
       !collaborator.owner
     end
     can :view_only_visible_to_admin_fields, ResponseField
+    can :manage, Comment
   end
 
   def officer_god(user)

@@ -1,44 +1,31 @@
 class CommentsController < ApplicationController
-  before_filter :commentable_exists?, only: [:index, :create]
-  before_filter :comment_exists?, only: :destroy
-  before_filter :comment_is_mine?, only: :destroy
+  # Check Enabled
   before_filter { |c| c.check_enabled!('comments') }
 
-  def index
-    @comments = @commentable.comments
+  # Load
+  before_filter :commentable_exists?
+  load_resource :comment, through: :commentable, only: :destroy
 
-    respond_to do |format|
-      format.json { render_serialized(@comments) }
-    end
+  def index
+    authorize! :read_comments_about, @commentable
+    @comments = @commentable.comments
+    render_serialized(@comments)
   end
 
   def create
+    authorize! :comment_on, @commentable
     @comment = @commentable.comments.create(officer_id: current_officer.id, body: params[:body])
-
-    respond_to do |format|
-      format.json { render_serialized(@comment) }
-    end
+    render_serialized(@comment)
   end
 
   def destroy
+    authorize! :destroy, @comment
     @comment.destroy
-
-    respond_to do |format|
-      format.json { render json: {} }
-    end
+    render json: {}
   end
 
   private
   def commentable_exists?
-    @commentable = params[:commentable_type].capitalize.constantize.find(params[:commentable_id])
-    authorize!(:comment_on, @commentable) if @commentable.class.name == "Project"
-  end
-
-  def comment_exists?
-    @comment = Comment.find(params[:id])
-  end
-
-  def comment_is_mine?
-    (current_officer && @comment.officer == current_officer) || (current_vendor && @comment.vendor == current_vendor) || not_found
+    @commentable = params[:commentable_type].constantize.find(params[:commentable_id])
   end
 end

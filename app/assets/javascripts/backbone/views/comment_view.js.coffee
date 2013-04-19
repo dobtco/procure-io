@@ -72,7 +72,8 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
     @$el = @options.el if @options.el?
 
     ProcureIo.Backbone.Comments = new ProcureIo.Backbone.CommentList()
-    ProcureIo.Backbone.Comments.url = "/comments?commentable_type=#{@options.commentableType}&commentable_id=#{@options.commentableId}"
+    ProcureIo.Backbone.Comments.urlParams = "commentable_type=#{@options.commentableType}&commentable_id=#{@options.commentableId}"
+    ProcureIo.Backbone.Comments.baseUrl = "/comments?#{ProcureIo.Backbone.Comments.urlParams}"
 
     ProcureIo.Backbone.Comments.bind 'add', @addOne, @
     ProcureIo.Backbone.Comments.bind 'reset', @reset, @
