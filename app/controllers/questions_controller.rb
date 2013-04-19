@@ -1,17 +1,18 @@
 class QuestionsController < ApplicationController
-  before_filter :project_exists?
-  before_filter :question_exists?, only: [:update]
-  before_filter :authenticate_vendor!, only: [:create]
-  before_filter :authenticate_and_authorize_officer!, only: [:index, :update]
+  # Check Enabled
   before_filter { |c| c.check_enabled!('questions') }
 
+  # Load
+  load_resource :project
+  load_resource :question, through: :project, only: [:update]
+
+  # Authorize
+  before_filter :authenticate_vendor!, only: [:create]
+  before_filter only: [:index, :update] { |c| c.authorize! :answer_questions, @project }
+
   def create
-    question = @project.questions.build(body: params[:body])
-    question.vendor_id = current_vendor.id
-    question.save
-    respond_to do |format|
-      format.json { render_serialized(question, VendorQuestionSerializer) }
-    end
+    question = @project.questions.create(body: params[:body], vendor_id: current_vendor.id)
+    render_serialized(question, VendorQuestionSerializer)
   end
 
   def index
@@ -20,35 +21,11 @@ class QuestionsController < ApplicationController
     @questions_json = serialized(@questions, OfficerQuestionSerializer).to_json
   end
 
+  # @todo should this check for #blank?
   def update
-    @question.assign_attributes(answer_body: params[:answer_body])
+    @question.update_attributes(answer_body: params[:answer_body],
+                                officer: params[:answer_body] ? current_officer : nil)
 
-    if params[:answer_body]
-      @question.officer = current_officer
-    else
-      @question_officer = nil
-    end
-
-    @question.save
-
-    respond_to do |format|
-      format.json { render_serialized(@question) }
-    end
-  end
-
-  private
-  def project_exists?
-    @project = Project.find(params[:project_id])
-    # todo can? read project (for when its not yet posted)
-  end
-
-  def question_exists?
-    @question = @project.questions.find(params[:id])
-    # todo can? read project (for when its not yet posted)
-  end
-
-  def authenticate_and_authorize_officer!
-    authenticate_officer!
-    authorize! :answer_questions, @project
+    render_serialized(@question)
   end
 end

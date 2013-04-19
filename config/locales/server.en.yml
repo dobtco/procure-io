@@ -195,6 +195,7 @@ en:
     project_title: Project Title
     number_of_bids: "# of Bids"
     abstract: Abstract
+    response_fields: Response Fields
 
     forgot_password:
       line_html: Did you %{link}?
