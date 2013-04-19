@@ -30,6 +30,10 @@ en:
     index:
       none: "No notifications to display."
 
+  officers:
+    edit:
+      back_to_list_html: "&larr; Back to list of officers"
+
   globals:
     site_name: Procure.io
     featured_projects: Featured Projects
@@ -91,6 +95,8 @@ en:
     watched_projects: Watched Projects
     saved_searches: Saved Searches
     show_tour: Explain this page
+    update_officer: Update Officer
+    edit: Edit
 
     forgot_password:
       line_html: Did you %{link}?
@@ -135,9 +141,6 @@ en:
     amendment:
       new: "New Amendment"
 
-    officer:
-      update: "Update Officer"
-
     project:
       update: "Update Project"
       new: "New Project"
@@ -147,14 +150,6 @@ en:
 
     saved_search:
       delete: "Delete Saved Search"
-
-  officers:
-    edit:
-      header: "Editing officer %{name}"
-      back_to_list_html: "&larr; Back to list of officers"
-
-    index:
-      header: "Officers"
 
   project_revisions:
     show:

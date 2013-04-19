@@ -1,14 +1,14 @@
-- provide :page_action, "Officers"
+- provide :page_action, t('globals.officers')
 
 = render "admin/nav"
 
 %table.table
   %thead
     %tr
-      %th Name
-      %th Email
-      %th Role
-      %th Actions
+      %th= Officer.human_attribute_name(:name)
+      %th= User.human_attribute_name(:email)
+      %th= Officer.human_attribute_name(:role)
+      %th= t('globals.actions')
 
   %tbody
     - @officers.each do |officer|
@@ -18,6 +18,6 @@
         %td= officer.role.name if officer.role
         %td
           - if can? :update, officer
-            = link_to t('.edit_officer'), edit_officer_path(officer)
+            = link_to t('globals.edit'), edit_officer_path(officer)
 
 = will_paginate @officers, class: "pagination pagination-centered"

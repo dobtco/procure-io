@@ -1,6 +1,9 @@
 class OfficersController < ApplicationController
-  before_filter :authenticate_officer!
-  before_filter :officer_exists?, only: [:edit, :update]
+  # Load
+  load_resource
+
+  # Authorize
+  before_filter only: [:edit, :update] { |c| c.authorize! :update, @officer }
 
   def index
     authorize! :read, Officer
@@ -8,25 +11,24 @@ class OfficersController < ApplicationController
   end
 
   def edit
-    authorize! :update, @officer
   end
 
   def update
-    authorize! :update, @officer
     @officer.update_attributes(officer_params)
     flash[:success] = "Officer successfully updated."
     redirect_to officers_path
   end
 
   def typeahead
-    render json: User.where("email LIKE ?", "%#{params[:query]}%").where(owner_type: "Officer").order("email").pluck("email").to_json
+    authenticate_officer!
+    render json: User.where("email LIKE ?", "%#{params[:query]}%")
+                     .where(owner_type: "Officer")
+                     .order("email")
+                     .pluck("email")
+                     .to_json
   end
 
   private
-  def officer_exists?
-    @officer = Officer.find(params[:id])
-  end
-
   def officer_params
     filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id, user_attributes: [:id, :email])
 
