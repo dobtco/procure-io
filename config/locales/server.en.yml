@@ -1,4 +1,8 @@
 en:
+  bids:
+    show_vendor:
+      return_to_project_html: "&larr; Return to Project"
+
   globals:
     site_name: Procure.io
     sign_in: Sign in
@@ -18,6 +22,26 @@ en:
     new_project: New Project
     notifications: Notifications
     bid_confirmation_message: "Thanks, your bid has been received!"
+    dismissed: Dismissed
+    awarded: Accepted
+    open: Open
+    project_description: Project Description
+    my_bid: My Bid
+    new_bid: New Bid
+    submit_bid: Submit Bid
+    review_bids: Review Bids
+    edit_amendment: Edit Amendment
+    posted_on_date: "Posted on %{date}"
+    live: Live
+    update_amendment: "Update Amendment"
+    delete_amendment: "Delete Amendment"
+    confirm_amendment_deletion: "Are you sure you want to delete this amendment?"
+    officers: Officers
+    vendors: Vendors
+    roles: roles
+    vendor_registration: Vendor Registration
+    event_hooks: Event Hooks
+    advanced: Advanced
 
     forgot_password:
       line_html: Did you %{link}?
@@ -48,9 +72,6 @@ en:
     bid:
       delete: "Are you sure you want to delete this bid?"
 
-    amendment:
-      delete: "Are you sure you want to delete this amendment?"
-
     role:
       delete: "Are you sure you want to delete this role?"
 
@@ -60,8 +81,6 @@ en:
       update: "Update Bid"
 
     amendment:
-      delete: "Delete Amendment"
-      update: "Update Amendment"
       new: "New Amendment"
 
     collaborator:
@@ -81,9 +100,6 @@ en:
     saved_search:
       delete: "Delete Saved Search"
 
-  postable_by_officer:
-    live: Live
-
   layouts:
     application:
       footer_html: Powered by <a href="http://www.procure.io" target="_blank">Procure.io</a>.
@@ -101,34 +117,6 @@ en:
     dropdown_login_form:
       sign_in: Sign in to %{site_name}
 
-  amendments:
-    posted_on: "Posted on %{date}"
-    edit:
-      action: Edit Amendment
-      delete_amendment: Delete Amendment
-      update_amendment: Update Amendment
-
-  bids:
-    dismissed: Dismissed
-    awarded: Accepted
-    open: Open
-
-    project_description: Project Description
-
-    form:
-      submit: Submit
-      save_draft: Save Draft
-
-    new:
-      new_bid: New Bid
-
-    show_officer:
-      watching_bid: Watching Bid
-      watch_bid: Watch Bid
-
-    show_vendor:
-      my_bid: My Bid
-      return_to_project_html: "&larr; Return to Project"
 
   collaborators:
     index:
@@ -194,7 +182,6 @@ en:
       response_fields: "Response Fields"
       comments: "Comments"
       reports: Reports
-      admin: Admin
       view: View
 
     review_mode:
