@@ -4,7 +4,7 @@ class UserSessionsController < ApplicationController
 
   def new
     @user_session = UserSession.new
-    if (path = URI(request.referer).path rescue nil) != sign_in_path
+    if request.referer && ((path = URI(request.referer).path) != sign_in_path)
       session[:signin_redirect] = path
     end
   end
@@ -24,7 +24,6 @@ class UserSessionsController < ApplicationController
   def destroy
     @user_session = UserSession.find
     @user_session.destroy
-
     redirect_to root_path
   end
 
@@ -34,21 +33,20 @@ class UserSessionsController < ApplicationController
   end
 
   def get_path_from_referer_or_session
-    if URI(request.referer).path != sign_in_path
-      path = URI(request.referer).path
+    if request.referer && (URI(request.referer).path != sign_in_path)
+      URI(request.referer).path
     elsif session[:signin_redirect]
-      path = session[:signin_redirect]
       session.delete(:signin_redirect)
     else
-      path = root_path
+      root_path
     end
-
-    path
   end
 
   def successful_signin_redirect_path
-    path = get_path_from_referer_or_session
-    path = mine_projects_path if officer_signed_in? and path == root_path
-    path
+    if officer_signed_in? and get_path_from_referer_or_session == root_path
+      mine_projects_path
+    else
+      get_path_from_referer_or_session
+    end
   end
 end
