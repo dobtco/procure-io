@@ -33,11 +33,11 @@
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @bid.my_bid_review.read then "icon-circle-blank" else "icon-circle")}
 
-    - if @project.review_mode == "starring"
+    - if @project.review_mode == "stars"
       %i{"data-backbone-star" => "true", "class" => (if @bid.my_bid_review.starred then "icon-star" else "icon-star-empty")}
       %span.total-stars= @bid.total_stars
 
-    - if @project.review_mode == "rating"
+    - if @project.review_mode == "one_through_five"
       .rating-select{"data-score" => @bid.my_bid_review.rating}
 
       %span= @bid.average_rating

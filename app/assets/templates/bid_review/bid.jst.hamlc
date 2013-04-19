@@ -1,15 +1,15 @@
 %td.controls-td
   %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
 
-  - if @project.review_mode == "starring"
+  - if @project.review_mode == "stars"
     %span.total-stars{"data-backbone-star" => "true"}
       %i{"class" => (if @bid.my_bid_review.starred then "icon-star" else "icon-star-empty")}
       %span= @bid.total_stars
 
-  - if @project.review_mode == "rating"
+  - if @project.review_mode == "one_through_five"
     .rating-select{"data-score" => @bid.my_bid_review.rating}
 
-- if @project.review_mode == "rating"
+- if @project.review_mode == "one_through_five"
   %td
     %span= @bid.average_rating
     - if @bid.total_ratings

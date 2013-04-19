@@ -1,6 +1,6 @@
 %tr
   %th &nbsp;
-  - if @project.review_mode == "rating"
+  - if @project.review_mode == "one_through_five"
     %th= I18n.js('avg_rating')
   %th= I18n.js('vendor_name')
   - for index, keyField of @pageOptions.keyFields
