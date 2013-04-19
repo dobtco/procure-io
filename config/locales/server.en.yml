@@ -40,6 +40,17 @@ en:
         <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
       back_to_current_html: "&larr; Back to current version"
 
+  roles:
+    permission_levels:
+      user: User
+      admin: Admin
+      god: God
+      review_only: Review Only
+
+    index:
+      sorry_cant_edit: "Sorry, you can't edit this role."
+
+
   projects:
     officer_nav:
       reports_available_after_post: Reports will be available after this project goes live.
@@ -124,6 +135,7 @@ en:
     bids_due: Bids due
     project_listings: "Project Listings"
     project_listings_on_site_name: "Project listings on %{site_name}."
+    new_role: New Role
     edit_description: Edit Description
     amendments: Amendments
     site_name: Procure.io
@@ -232,6 +244,7 @@ en:
     price_range: Price Range
     x_to_x: "%{first} to %{last}"
     general_stats: "General Stats"
+    destroy: Destroy
     link: Link
     successfully_updated_account: "You successfully updated your account."
     account_settings: Account Settings
@@ -272,21 +285,7 @@ en:
     watch_project: "Watching this project will subscribe you to alerts about comments, bids, new collaborators, and more."
 
   confirmations:
-    bid:
-      delete: "Are you sure you want to delete this bid?"
-
-    role:
-      delete: "Are you sure you want to delete this role?"
-
-  roles:
-    permission_levels:
-      user: User
-      admin: Admin
-      god: God
-      review_only: Review Only
-
-    index:
-      header: Roles
+    delete_role: "Are you sure you want to delete this role?"
 
   mailers:
     unsubscribe_link: |

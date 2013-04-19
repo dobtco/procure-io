@@ -1,15 +1,15 @@
-- provide :page_action, "Roles"
+- provide :page_action, t('globals.roles')
 
 = render "admin/nav"
 
-= link_to "New Role", new_role_path, class: "btn"
+= link_to t('globals.new_role'), new_role_path, class: "btn"
 
 %table.table
   %thead
     %tr
-      %th Name
-      %th Permission Level
-      %th Actions
+      %th= Role.human_attribute_name(:name)
+      %th= Role.human_attribute_name(:permission_level)
+      %th= t('globals.actions')
 
   %tbody
     - @roles.each do |role|
@@ -18,10 +18,10 @@
         %td= role.permission_level_name
         %td
           - if can? :manage, role
-            = link_to "Edit", edit_role_path(role)
+            = link_to t('globals.edit'), edit_role_path(role)
             - unless role.undeletable?
-              = link_to "Destroy", role_path(role), method: :delete, confirm: t('confirmations.role.delete')
+              = link_to t('globals.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role')
           - else
-            Sorry, you can't edit this role.
+            = t('.sorry_cant_edit')
 
 = will_paginate @roles, class: "pagination pagination-centered"
