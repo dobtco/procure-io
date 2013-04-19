@@ -34,6 +34,14 @@ class GlobalConfig < ActiveRecord::Base
   serialize :event_hooks, Hash
   serialize :form_options, Hash
 
+  def form_confirmation_message
+    if !form_options["form_confirmation_message"].blank?
+      form_options["form_confirmation_message"]
+    else
+      I18n.t('globals.global_config_form_confirmation_message')
+    end
+  end
+
   def key_fields
     if response_fields.where(key_field: true).any?
       response_fields.where(key_field: true)

@@ -15,22 +15,20 @@ class SettingsController < ApplicationController
   end
 
   def post_profile
-    if vendor_signed_in?
-      @vendor_profile = current_vendor.vendor_profile || current_vendor.build_vendor_profile
-      @vendor_profile.save unless @vendor_profile.id
-      save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
-
-      # if @vendor_profile.responsable_valid?
-      #   flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] if GlobalConfig.instance.form_options["form_confirmation_message"]
-      # end
-
-      current_vendor.update_attributes(vendor_params)
-    else
-      current_officer.update_attributes(officer_params)
-    end
-
-    flash[:success] = "Successfully updated your profile."
+    vendor_signed_in? ? post_profile_vendor : post_profile_officer
     redirect_to settings_profile_path
+  end
+
+  def post_profile_vendor
+    @vendor_profile = current_vendor.vendor_profile || current_vendor.create_vendor_profile
+    save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
+    flash[:success] = GlobalConfig.instance.form_confirmation_message if @vendor_profile.responsable_valid?
+    current_vendor.update_attributes(vendor_params)
+  end
+
+  def post_profile_officer
+    current_officer.update_attributes(officer_params)
+    flash[:success] = I18n.t('globals.successfully_updated_profile')
   end
 
   def notifications
@@ -38,8 +36,9 @@ class SettingsController < ApplicationController
   end
 
   def post_notifications
-    current_user.update_attributes(notification_preferences: params[:notifications] ? params[:notifications].keys.map { |k| k.to_i } : [])
-    flash[:success] = "Successfully updated your email notification settings."
+    current_user.update_attributes(notification_preferences: params[:notifications] ?
+                                                              params[:notifications].keys.map { |k| k.to_i } : [])
+    flash[:success] = I18n.t('globals.successfully_updated_notification_settings')
     redirect_to settings_notifications_path
   end
 
@@ -47,8 +46,8 @@ class SettingsController < ApplicationController
   end
 
   def post_account
-    if !current_user.valid_password?(user_params[:current_password])
-      flash[:error] = "Your current password was not correct."
+    if current_user.crypted_password && !current_user.valid_password?(user_params[:current_password])
+      flash[:error] = I18n.t('flashes.wrong_current_password')
       return render action: "account"
     end
 
@@ -56,7 +55,7 @@ class SettingsController < ApplicationController
     current_user.email = user_params[:email] if !user_params[:email].blank?
 
     if current_user.save
-      flash[:success] = "You successfully updated your account."
+      flash[:success] = I18n.t('globals.successfully_updated_account')
       redirect_to settings_account_path
     else
       render action: "account"

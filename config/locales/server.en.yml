@@ -161,6 +161,8 @@ en:
     advanced: Advanced
     remove: Remove
     status: Status
+    successfully_updated_profile: "Successfully updated your profile."
+    successfully_updated_notification_settings: "Successfully updated your email notification settings."
     collaborators: Collaborators
     add_collaborator: "Add Collaborator"
     adding_collaborator: "Adding Collaborator..."
@@ -198,6 +200,7 @@ en:
     date_by_officer: "%{date} by %{officer}"
     file_to_import: "File to import"
     upload: "Upload"
+    global_config_form_confirmation_message: You have successfully updated your vendor profile.
     type: Type
     project_title: Project Title
     number_of_bids: "# of Bids"
@@ -211,6 +214,7 @@ en:
     x_to_x: "%{first} to %{last}"
     general_stats: "General Stats"
     link: Link
+    successfully_updated_account: "You successfully updated your account."
 
     forgot_password:
       line_html: Did you %{link}?
@@ -226,6 +230,7 @@ en:
     email_taken: "That email address is already taken."
 
   flashes:
+    wrong_current_password: "Your current password was not correct."
     valid_login: "You are now signed in."
     invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
     no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
