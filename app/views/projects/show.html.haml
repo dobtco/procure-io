@@ -10,7 +10,7 @@
     - if @project.bids_due_at
       = t("globals.#{@project.open_for_bids? ? 'bids_due_on' : 'bids_were_due_on'}", date: @project.bids_due_at.to_formatted_s(:readable))
     - else
-      = t('globals.open_for_bids')
+      = t('g.open_for_bids')
 
 .row-fluid
   .span7
@@ -19,7 +19,7 @@
       %p= @project.abstract
 
     %h4
-      = t('globals.description')
+      = t('g.description')
       - if @project.amendments.posted.any?
         %small= t('.jump_to_amendments_html', count: @project.amendments.posted.length)
 
@@ -27,11 +27,11 @@
 
     - if @project.amendments.posted.any?
       #amendments
-        %h4= t('globals.amendments')
+        %h4= t('g.amendments')
         - @project.amendments.posted.each do |amendment|
           %h5
             = amendment.title
-            %small= t('globals.posted_on_date', date: amendment.posted_at.to_formatted_s(:readable_dateonly))
+            %small= t('g.posted_on_date', date: amendment.posted_at.to_formatted_s(:readable_dateonly))
           %p= simple_format amendment.body
 
   .span5
@@ -44,21 +44,21 @@
           - if bid.submitted_at
             = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
           - else
-            =link_to t('globals.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
+            =link_to t('g.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
         - else
-          =link_to t('globals.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
+          =link_to t('g.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
       - elsif !officer_signed_in?
         = t('.sign_in_to_bid.line_html', link: link_to(t('.sign_in_to_bid.link'), sign_in_path))
 
 
     - if GlobalConfig.instance[:questions_enabled]
-      %h4= t('globals.questions')
+      %h4= t('g.questions')
       - if vendor_signed_in?
         #ask-question.collapse
           = form_for [@project, Question.new] do |f|
             = f.text_area :body, cols: nil, rows: nil, class: "span8"
             %br
-            = f.submit t('globals.submit'), class: "btn btn-inverse"
+            = f.submit t('g.submit'), class: "btn btn-inverse"
         %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
       - elsif officer_signed_in? && (can? :collaborate_on, @project)
         .alert.alert-success

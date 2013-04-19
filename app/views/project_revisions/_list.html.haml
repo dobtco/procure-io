@@ -1,4 +1,4 @@
-%h5= t('globals.revisions')
+%h5= t('g.revisions')
 
 %ul
   - project.project_revisions.each do |project_revision|
@@ -7,4 +7,4 @@
     - else
       %li
         %a{"href" => project_project_revision_path(project, project_revision)}
-          = t('globals.date_by_officer', date: project_revision.created_at.to_formatted_s(:readable), officer: project_revision.saved_by_officer.display_name)
+          = t('g.date_by_officer', date: project_revision.created_at.to_formatted_s(:readable), officer: project_revision.saved_by_officer.display_name)

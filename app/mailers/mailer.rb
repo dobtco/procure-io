@@ -55,7 +55,7 @@ class Mailer < ActionMailer::Base
 
   private
   def build_email(to, email_key, params={})
-    params[:site_name] = I18n.t('globals.site_name')
+    params[:site_name] = I18n.t('g.site_name')
     params[:settings_notifications_url] = settings_notifications_url
 
     body = I18n.t("mailers.#{email_key}.text", params)

@@ -1,15 +1,15 @@
-- provide :page_action, t('globals.roles')
+- provide :page_action, t('g.roles')
 
 = render "admin/nav"
 
-= link_to t('globals.new_role'), new_role_path, class: "btn"
+= link_to t('g.new_role'), new_role_path, class: "btn"
 
 %table.table
   %thead
     %tr
       %th= Role.human_attribute_name(:name)
       %th= Role.human_attribute_name(:permission_level)
-      %th= t('globals.actions')
+      %th= t('g.actions')
 
   %tbody
     - @roles.each do |role|
@@ -18,9 +18,9 @@
         %td= role.permission_level_name
         %td
           - if can? :manage, role
-            = link_to t('globals.edit'), edit_role_path(role)
+            = link_to t('g.edit'), edit_role_path(role)
             - unless role.undeletable?
-              = link_to t('globals.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role')
+              = link_to t('g.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role')
           - else
             = t('.sorry_cant_edit')
 

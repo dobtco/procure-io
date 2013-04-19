@@ -3,8 +3,8 @@
   %p= t('.hero.content.line_html', link: link_to(t('.hero.content.link'), new_vendor_path))
 
 %h4
-  = t('globals.featured_projects')
-  %small= link_to t('globals.see_all'), projects_path
+  = t('g.featured_projects')
+  %small= link_to t('g.see_all'), projects_path
 
 .row-fluid.featured-projects
   - @featured_projects.each do |project|
@@ -14,9 +14,9 @@
         %i.icon-star
       .abstract
         = project.abstract_or_truncated_body
-        = link_to t('globals.read_more'), project
+        = link_to t('g.read_more'), project
       .bids-due
         - if project.bids_due_at
-          = t('globals.bids_due_on', date: project.bids_due_at.to_formatted_s(:readable_dateonly))
+          = t('g.bids_due_on', date: project.bids_due_at.to_formatted_s(:readable_dateonly))
         - else
-          = t('globals.open_for_bids')
+          = t('g.open_for_bids')

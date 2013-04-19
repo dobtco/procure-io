@@ -38,7 +38,7 @@ class GlobalConfig < ActiveRecord::Base
     if !form_options["form_confirmation_message"].blank?
       form_options["form_confirmation_message"]
     else
-      I18n.t('globals.global_config_form_confirmation_message')
+      I18n.t('g.global_config_form_confirmation_message')
     end
   end
 

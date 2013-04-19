@@ -1,6 +1,6 @@
-- provide :page_title, t('globals.saved_searches')
+- provide :page_title, t('g.saved_searches')
 
-!=page_header t('globals.saved_searches')
+!=page_header t('g.saved_searches')
 
 .alert.alert-info= t('.description')
 
@@ -8,16 +8,16 @@
   %thead
     %tr
       %th= SavedSearch.human_attribute_name(:parameters)
-      %th= t('globals.current_results')
-      %th= t('globals.actions')
+      %th= t('g.current_results')
+      %th= t('g.actions')
   %tbody
     - @saved_searches.each do |saved_search|
       %tr
         %td= saved_search.search_parameters
         %td
           %span.badge= saved_search.execute[:meta][:total]
-          %a{"href" => projects_path(saved_search.search_parameters)}= t('globals.view_results')
+          %a{"href" => projects_path(saved_search.search_parameters)}= t('g.view_results')
         %td
-          =link_to t('globals.remove'), saved_search, class: "btn btn-danger", method: :delete
+          =link_to t('g.remove'), saved_search, class: "btn btn-danger", method: :delete
 
 = will_paginate @saved_searches, class: "pagination pagination-centered"

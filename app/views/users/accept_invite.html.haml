@@ -1,11 +1,11 @@
-- provide :page_title, t('globals.accept_invite')
-!= page_header t('globals.accept_invite')
+- provide :page_title, t('g.accept_invite')
+!= page_header t('g.accept_invite')
 
-.alert.alert-info= t('.create_password_instructions_html', name: @user.display_name, site_name: t('globals.site_name'))
+.alert.alert-info= t('.create_password_instructions_html', name: @user.display_name, site_name: t('g.site_name'))
 
 = form_for @user, url: users_accept_invite_path, method: :post do |f|
   = f.label :password
   = f.password_field :password, autofocus: true
 
   .form-actions
-    = f.submit t('globals.submit'), class: "btn btn-inverse"
+    = f.submit t('g.submit'), class: "btn btn-inverse"

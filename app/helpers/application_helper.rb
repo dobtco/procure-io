@@ -34,7 +34,7 @@ module ApplicationHelper
   end
 
   def full_title(page_title, page_action)
-    base_title = I18n.t('globals.site_name')
+    base_title = I18n.t('g.site_name')
 
     if page_title.empty?
       base_title

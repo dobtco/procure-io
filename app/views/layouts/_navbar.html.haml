@@ -6,12 +6,12 @@
         %i.icon-bar
         %i.icon-bar
 
-      %a.brand{"href" => root_path}= t('globals.site_name')
+      %a.brand{"href" => root_path}= t('g.site_name')
 
       .nav-collapse.collapse
         %ul.nav
           %li
-            %a{"href" => projects_path}= t('globals.browse_projects')
+            %a{"href" => projects_path}= t('g.browse_projects')
 
         %ul.nav.pull-right
           - if signed_in?
@@ -24,31 +24,31 @@
               %ul.dropdown-menu
                 - if officer_signed_in?
                   %li
-                    =link_to t('globals.my_projects'), mine_projects_path
+                    =link_to t('g.my_projects'), mine_projects_path
 
                 - elsif vendor_signed_in?
                   - if GlobalConfig.instance[:watch_projects_enabled]
                     %li
-                      =link_to t('globals.watched_projects'), vendor_projects_watches_path
+                      =link_to t('g.watched_projects'), vendor_projects_watches_path
 
                   - if GlobalConfig.instance[:save_searches_enabled]
                     %li
-                      =link_to t('globals.saved_searches'), saved_searches_path
+                      =link_to t('g.saved_searches'), saved_searches_path
 
                 %li
-                  =link_to t('globals.settings'), settings_profile_path
+                  =link_to t('g.settings'), settings_profile_path
 
                 - if (can? :manage, GlobalConfig) || (can? :update, Officer)
                   %li
-                    = link_to raw("<strong>#{t('globals.admin')}</strong>"), officers_path
+                    = link_to raw("<strong>#{t('g.admin')}</strong>"), officers_path
 
             - if officer_signed_in?
               %li
-                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('globals.new_project')}
+                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('g.new_project')}
                   %i.icon-pencil
 
             %li.dropdown
-              %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('globals.notifications'), "data-trigger" => "manual"}
+              %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('g.notifications'), "data-trigger" => "manual"}
                 %i.icon-bullhorn
                 - if current_user.unread_notification_count > 0
                   %span.badge= current_user.unread_notification_count
@@ -58,13 +58,13 @@
                   %i.icon-refresh.icon-spin
 
             %li
-              %a.link-icon{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => t('globals.sign_out'), "data-placement" => "bottom"}
+              %a.link-icon{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => t('g.sign_out'), "data-placement" => "bottom"}
                 %i.icon-signout
 
           - else
             %li.dropdown
-              %a.dropdown-toggle.js-dropdown-login-toggle{"href" => "#", "data-toggle" => "dropdown"} #{t('globals.sign_in')} <strong class="caret"></strong>
+              %a.dropdown-toggle.js-dropdown-login-toggle{"href" => "#", "data-toggle" => "dropdown"} #{t('g.sign_in')} <strong class="caret"></strong>
               = render "layouts/dropdown_login_form"
 
         %a.show-tour-link.pull-right
-          %span.label.label-success= t('globals.show_tour')
+          %span.label.label-success= t('g.show_tour')

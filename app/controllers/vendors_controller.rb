@@ -56,7 +56,7 @@ class VendorsController < ApplicationController
     save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
     if @vendor_profile.responsable_valid?
-      flash[:success] = t('globals.successfully_updated_vendor_profile')
+      flash[:success] = t('g.successfully_updated_vendor_profile')
     end
 
     redirect_to edit_vendor_path(@vendor)

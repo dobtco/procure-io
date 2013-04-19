@@ -24,4 +24,4 @@
     = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true
 
   .form-actions
-    = f.submit t('globals.update_officer'), class: "btn btn-inverse"
+    = f.submit t('g.update_officer'), class: "btn btn-inverse"

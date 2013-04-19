@@ -50,7 +50,6 @@ en:
     index:
       sorry_cant_edit: "Sorry, you can't edit this role."
 
-
   projects:
     officer_nav:
       reports_available_after_post: Reports will be available after this project goes live.
@@ -126,7 +125,7 @@ en:
     edit:
       back_to_list_html: "&larr; Back to list of vendors"
 
-  globals:
+  g:
     questions: Questions
     continue_writing_bid: "Continue Writing Bid"
     bid_now: Bid Now

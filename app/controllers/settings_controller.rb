@@ -28,7 +28,7 @@ class SettingsController < ApplicationController
 
   def post_profile_officer
     current_officer.update_attributes(officer_params)
-    flash[:success] = I18n.t('globals.successfully_updated_profile')
+    flash[:success] = I18n.t('g.successfully_updated_profile')
   end
 
   def notifications
@@ -38,7 +38,7 @@ class SettingsController < ApplicationController
   def post_notifications
     current_user.update_attributes(notification_preferences: params[:notifications] ?
                                                               params[:notifications].keys.map { |k| k.to_i } : [])
-    flash[:success] = I18n.t('globals.successfully_updated_notification_settings')
+    flash[:success] = I18n.t('g.successfully_updated_notification_settings')
     redirect_to settings_notifications_path
   end
 
@@ -55,7 +55,7 @@ class SettingsController < ApplicationController
     current_user.email = user_params[:email] if !user_params[:email].blank?
 
     if current_user.save
-      flash[:success] = I18n.t('globals.successfully_updated_account')
+      flash[:success] = I18n.t('g.successfully_updated_account')
       redirect_to settings_account_path
     else
       render action: "account"

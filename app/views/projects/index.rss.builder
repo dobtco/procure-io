@@ -1,8 +1,8 @@
 xml.instruct! :xml, version: "1.0"
 xml.rss version: "2.0" do
   xml.channel do
-    xml.title t('globals.project_listings')
-    xml.description t('globals.project_listings_on_site_name', site_name: t('globals.site_name'))
+    xml.title t('g.project_listings')
+    xml.description t('g.project_listings_on_site_name', site_name: t('g.site_name'))
     xml.link projects_url(@filter_params)
 
     for project in @projects

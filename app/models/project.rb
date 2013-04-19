@@ -151,7 +151,7 @@ class Project < ActiveRecord::Base
     if !form_options["form_confirmation_message"].blank?
       form_options["form_confirmation_message"]
     else
-      I18n.t('globals.bid_confirmation_message')
+      I18n.t('g.bid_confirmation_message')
     end
   end
 

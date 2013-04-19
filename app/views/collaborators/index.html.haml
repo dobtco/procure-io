@@ -1,11 +1,11 @@
-- provide :page_action, t('globals.collaborators')
+- provide :page_action, t('g.collaborators')
 
 = render "projects/officer_nav"
 
 = render layout: "projects/admin_sidebar" do
   = render "collaborators/table", collaborators: @collaborators
 
-  %h5= t('globals.add_collaborator')
+  %h5= t('g.add_collaborator')
   = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 
     .email-inputs
@@ -24,9 +24,9 @@
             %option{"value" => role.id}= role.name
 
     %small
-      %a.js-toggle-single-bulk{"data-toggle-text" => t('globals.add_one_collaborator')}
-        = t('globals.add_multiple_collaborators')
+      %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}
+        = t('g.add_multiple_collaborators')
 
     .form-actions
-      %button.btn.btn-inverse{"data-loading-text" => t('globals.adding_collaborator')}
-        = t('globals.add_collaborator')
+      %button.btn.btn-inverse{"data-loading-text" => t('g.adding_collaborator')}
+        = t('g.add_collaborator')

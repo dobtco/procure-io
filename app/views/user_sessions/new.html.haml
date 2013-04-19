@@ -1,6 +1,6 @@
-- provide :page_title, t('globals.sign_in')
+- provide :page_title, t('g.sign_in')
 
-!=page_header t('globals.sign_in')
+!=page_header t('g.sign_in')
 
 = form_tag sign_in_path, method: :post do
 
@@ -11,8 +11,8 @@
   %input{"type" => "password", "name" => "user_session[password]"}
 
   .form-actions
-    %button.btn.btn-primary= t('globals.sign_in')
-    = t('globals.or_sign_up.line_html', link: link_to(t('globals.or_sign_up.link'), new_vendor_path))
+    %button.btn.btn-primary= t('g.sign_in')
+    = t('g.or_sign_up.line_html', link: link_to(t('g.or_sign_up.link'), new_vendor_path))
 
   .forgot-password-wrapper
-    = t('globals.did_you_forget_your_password.line_html', link: link_to(t('globals.did_you_forget_your_password.link'), users_forgot_password_path))
+    = t('g.did_you_forget_your_password.line_html', link: link_to(t('g.did_you_forget_your_password.link'), users_forgot_password_path))

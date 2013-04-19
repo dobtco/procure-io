@@ -2,7 +2,7 @@
 --------------
 <% saved_search.execute_since_last_search[:results].each do |project| %>
 <%= Project.human_attribute_name(:title) %>: <%= project.title %>
-<%= I18n.t('globals.link') %>: <%= project_url(project.id) %>
+<%= I18n.t('g.link') %>: <%= project_url(project.id) %>
 <%= Project.human_attribute_name(:abstract) %>: <%= project.abstract %>
 
 <% end %>

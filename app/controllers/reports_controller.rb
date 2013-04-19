@@ -8,25 +8,25 @@ class ReportsController < ApplicationController
   def bids_over_time
     dates = @project.posted_at.to_date..(@project.bids_due_at ? [Time.now, @project.bids_due_at].min : Time.now).to_date
     bids = @project.bids.submitted
-    @data = [[t('globals.date'), t('globals.number_of_bids')]]
+    @data = [[t('g.date'), t('g.number_of_bids')]]
 
     dates.each do |d|
       @data.push [ d.to_time.to_formatted_s(:readable_dateonly), bids.select { |b| b.submitted_at.to_date == d }.length ]
     end
 
-    @report_title = t('globals.bids_over_time')
+    @report_title = t('g.bids_over_time')
     render "reports/common"
   end
 
   def impressions
-    @data = [[t('globals.date'), t('globals.impressions'), t('globals.unique_impressions')]]
+    @data = [[t('g.date'), t('g.impressions'), t('g.unique_impressions')]]
     uniques = @project.impressions.select("DISTINCT(impressions.ip_address)").group("impressions.created_at::date").count
 
     @project.impressions.group("impressions.created_at::date").order("impressions.created_at::date").count.each do |date, count|
       @data.push [date, count, uniques[date]]
     end
 
-    @report_title = t('globals.impressions')
+    @report_title = t('g.impressions')
     render "reports/common"
   end
 
@@ -34,7 +34,7 @@ class ReportsController < ApplicationController
     @response_field = @project.response_fields.find(params[:response_field_id])
 
     if @response_field.responses.order("sortable_value DESC").first
-      @data = [[t('globals.price_range'), t('globals.number_of_bids')]]
+      @data = [[t('g.price_range'), t('g.number_of_bids')]]
       max = @response_field.responses.order("sortable_value DESC").first.value.to_i.round(-3)
       interval = max / 8
 
@@ -48,7 +48,7 @@ class ReportsController < ApplicationController
 
       ranges.each do |range|
         @data.push [
-          t('globals.x_to_x', first: range.first, last: range.last),
+          t('g.x_to_x', first: range.first, last: range.last),
           @project.bids.submitted.includes(:responses).select { |bid|
             range.cover? bid.responses.where(response_field_id: @response_field.id).first.value.to_f
           }.length

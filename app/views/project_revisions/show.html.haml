@@ -1,4 +1,4 @@
-- provide :page_action, t('globals.revision_from_date', date: @project_revision.created_at)
+- provide :page_action, t('g.revision_from_date', date: @project_revision.created_at)
 
 = render "projects/officer_nav"
 
@@ -12,10 +12,10 @@
 
     .span6
       .alert.alert-info
-        = t('.alert_html', date: @project_revision.created_at.to_formatted_s(:readable), officer: @project_revision.saved_by_officer ? @project_revision.saved_by_officer.display_name : t('globals.unknown_officer'))
+        = t('.alert_html', date: @project_revision.created_at.to_formatted_s(:readable), officer: @project_revision.saved_by_officer ? @project_revision.saved_by_officer.display_name : t('g.unknown_officer'))
 
       %p
         = link_to t('.back_to_current_html'), edit_project_path(@project)
 
       %p
-        = link_to t('globals.restore_this_version'), restore_project_project_revision_path(@project, @project_revision), method: :post
+        = link_to t('g.restore_this_version'), restore_project_project_revision_path(@project, @project_revision), method: :post

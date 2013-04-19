@@ -2,19 +2,19 @@
   .span3
     %ul.nav.nav-pills.nav-stacked
       %li{"class" => active_page?("collaborators#index")}
-        =link_to t('globals.collaborators'), project_collaborators_path(@project)
+        =link_to t('g.collaborators'), project_collaborators_path(@project)
 
       %li{"class" => active_page?("projects#review_mode")}
-        =link_to t('globals.review_mode'), review_mode_project_path(@project)
+        =link_to t('g.review_mode'), review_mode_project_path(@project)
 
       %li{"class" => active_page?("projects#import_csv")}
-        =link_to t('globals.import_bids_from_csv'), import_csv_project_path(@project)
+        =link_to t('g.import_bids_from_csv'), import_csv_project_path(@project)
 
       %li{"class" => active_page?("projects#export_csv")}
-        =link_to t('globals.export_bids'), export_csv_project_path(@project)
+        =link_to t('g.export_bids'), export_csv_project_path(@project)
 
       %li{"class" => active_page?("projects#wufoo")}
-        =link_to t('globals.wufoo_integration'), wufoo_project_path(@project)
+        =link_to t('g.wufoo_integration'), wufoo_project_path(@project)
 
   .span9
     = yield

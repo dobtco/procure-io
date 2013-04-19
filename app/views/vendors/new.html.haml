@@ -1,5 +1,5 @@
-- provide :page_title, t('globals.sign_up')
-!= page_header t('globals.sign_up')
+- provide :page_title, t('g.sign_up')
+!= page_header t('g.sign_up')
 
 = form_for @vendor, url: vendors_path, method: :post, html: { multipart: true, "data-validate" => "parsley" } do |f|
 
@@ -21,4 +21,4 @@
 
 
   .form-actions
-    = f.submit t('globals.submit'), class: "btn btn-primary"
+    = f.submit t('g.submit'), class: "btn btn-primary"

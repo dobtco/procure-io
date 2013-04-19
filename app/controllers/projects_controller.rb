@@ -111,7 +111,7 @@ class ProjectsController < ApplicationController
       count += 1
     end
 
-    flash[:success] = t('globals.count_imported', count: count)
+    flash[:success] = t('g.count_imported', count: count)
     redirect_to project_bids_path(@project)
   end
 
@@ -150,7 +150,7 @@ class ProjectsController < ApplicationController
 
   def post_review_mode
     @project.update_attributes(review_mode: params[:project][:review_mode])
-    flash[:success] = t('globals.updated_project_review_mode')
+    flash[:success] = t('g.updated_project_review_mode')
     redirect_to review_mode_project_path(@project)
   end
 

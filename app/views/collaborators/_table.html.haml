@@ -3,8 +3,8 @@
     %tr
       %th= Officer.human_attribute_name(:name)
       %th= User.human_attribute_name(:email)
-      %th= t('globals.status')
-      %th= t('globals.actions')
+      %th= t('g.status')
+      %th= t('g.actions')
 
   %tbody#collaborators-tbody
     - collaborators.each do |collaborator|

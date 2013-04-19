@@ -2,11 +2,11 @@
   .span3
     %ul.nav.nav-pills.nav-stacked
       %li{"class" => active_page?("settings#profile")}
-        =link_to t('globals.profile'), settings_profile_path
+        =link_to t('g.profile'), settings_profile_path
       %li{"class" => active_page?("settings#notifications")}
-        =link_to t('globals.email_notifications'), settings_notifications_path
+        =link_to t('g.email_notifications'), settings_notifications_path
       %li{"class" => active_page?("settings#account")}
-        =link_to t('globals.account'), settings_account_path
+        =link_to t('g.account'), settings_account_path
 
   .span9
     = yield

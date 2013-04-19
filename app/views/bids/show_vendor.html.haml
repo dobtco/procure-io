@@ -1,22 +1,22 @@
-- provide :page_action, t('globals.my_bid')
+- provide :page_action, t('g.my_bid')
 
 !=page_header @project.title
 
 .row-fluid
   .span7
-    %h4= t('globals.project_description')
+    %h4= t('g.project_description')
     %p= simple_format @project.body
 
   .span5
-    %h4= t('globals.my_bid')
+    %h4= t('g.my_bid')
 
     %div
       - if @bid.dismissed?
-        %span.badge.badge-important= t('globals.dismissed')
+        %span.badge.badge-important= t('g.dismissed')
       - elsif @bid.awarded?
-        %span.badge.badge-success= t('globals.awarded')
+        %span.badge.badge-success= t('g.awarded')
       - else
-        %span.badge.badge-info= t('globals.open')
+        %span.badge.badge-info= t('g.open')
 
     = link_to t('.return_to_project_html'), @project
 

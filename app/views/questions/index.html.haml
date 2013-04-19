@@ -1,4 +1,4 @@
-- provide :page_action, t('globals.questions')
+- provide :page_action, t('g.questions')
 
 = render "projects/officer_nav"
 
@@ -9,7 +9,7 @@
       %th= Question.human_attribute_name(:vendor)
       %th{"width" => "35%"}= Question.human_attribute_name(:body)
       %th{"width" => "35%"}= Question.human_attribute_name(:answer_body)
-      %th= t('globals.actions')
+      %th= t('g.actions')
 
   %tbody#questions-tbody
     :javascript
