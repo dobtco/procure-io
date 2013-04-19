@@ -3,7 +3,9 @@ module PostableByOfficer
     base.belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id", class_name: "Officer"
     base.scope :posted, base.where("posted_at IS NOT NULL")
     base.extend(ClassMethods)
+    base.send(:include, DangerousAlias)
     base.dangerous_alias :post_by_officer
+    base.dangerous_alias :unpost_by_officer
   end
 
   module ClassMethods

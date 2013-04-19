@@ -1,3 +1,4 @@
+require_relative '../../lib/dangerous_alias'
 require_relative '../../lib/fake_model'
 require_relative '../../lib/postable_by_officer'
 
@@ -45,6 +46,15 @@ describe PostableByOfficer do
       postable.unpost_by_officer(stub(id: 1))
       postable.posted_at.should be_nil
       postable.posted_by_officer_id.should be_nil
+    end
+  end
+
+
+  context "#unpost_by_officer!" do
+    it "should call save on the model" do
+      postable = Postable.new
+      postable.should_receive(:save)
+      postable.unpost_by_officer!(stub(id: 1))
     end
   end
 end

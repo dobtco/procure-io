@@ -1,5 +1,8 @@
 module DangerousAlias
-  extend ActiveSupport::Concern
+  def self.included(base)
+    base.belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id", class_name: "Officer"
+    base.extend(ClassMethods)
+  end
 
   module ClassMethods
     def dangerous_alias(method)
@@ -12,6 +15,3 @@ module DangerousAlias
     end
   end
 end
-
-ActiveRecord::Base.send(:include, DangerousAlias)
-PostableByOfficer.send(:include, DangerousAlias)
