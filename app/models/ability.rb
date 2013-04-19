@@ -2,6 +2,11 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :read, Project do |project|
+      project.posted_at &&
+      (!project.bids_due_at || (project.bids_due_at > Time.now))
+    end
+
     if user && user.owner.class.name == "Vendor"
       return vendor(user)
     elsif user && user.owner.class.name == "Officer"
@@ -13,8 +18,7 @@ class Ability
 
   def vendor(user)
     can :bid_on, Project do |project|
-      project.posted_at &&
-      (!project.bids_due_at || (project.bids_due_at > Time.now)) &&
+      (can :read, project) &&
       !user.owner.submitted_bid_for_project(project)
     end
 
@@ -26,13 +30,22 @@ class Ability
   end
 
   def officer_review_only(user)
-    can [:collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
+    can :read, Project do |project|
+      project.posted_at
+    end
+    can [:read, :collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
     can :read, :watch, :review, Bid do |bid|
       bid.submitted? && (can :collaborate_on, bid.project)
     end
   end
 
   def officer_user(user)
+    can :create, Project
+
+    can :read, Project do |project|
+      project.posted_at
+    end
+
     can [:read, :collaborate_on, :watch, :edit_response_fields, :answer_questions,
          :edit_description, :access_reports, :comment_on, :read_comments_about], Project do |project|
       project.collaborators.where(officer_id: user.owner.id).first

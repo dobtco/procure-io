@@ -106,6 +106,10 @@ en:
     revision_from_date: "Revision from %{date}"
     revisions: Revisions
     restore_this_version: "Restore this version"
+    count_imported:
+      one: "1 record imported."
+      other: "%{count} records imported."
+    updated_project_review_mode: "Successfully updated project review mode."
 
     forgot_password:
       line_html: Did you %{link}?

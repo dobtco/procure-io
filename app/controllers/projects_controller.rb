@@ -1,12 +1,21 @@
 class ProjectsController < ApplicationController
-  include ActionView::Helpers::TextHelper
-
-  before_filter :project_exists?, except: [:index, :mine, :new, :create]
-  before_filter :authenticate_officer!, except: [:index, :show]
-  before_filter :authorize_officer!, except: [:index, :show, :mine, :new, :create]
-  before_filter :project_is_posted_unless_can_collaborate_on, only: [:show]
+  # Check Enabled
   before_filter only: [:comments] { |c| c.check_enabled!('comments') }
 
+  # Load
+  load_resource except: [:new, :create]
+
+  # Authorize
+  before_filter only: [:edit, :update] { |c| c.authorize! :edit_description, @project }
+
+  before_filter only: [:import_csv, :post_import_csv, :export_csv, :post_export_csv,
+                       :review_mode, :post_review_mode, :wufoo, :post_wufoo] { |c| c.authorize! :admin, @project }
+
+  before_filter only: [:new, :create] { |c| c.authorize! :create, Project }
+
+  before_filter :authenticate_officer!, only: [:mine]
+
+  # :post_wufoo is an API call, don't use CSRF
   protect_from_forgery except: :post_wufoo
 
   def index
@@ -31,7 +40,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
-    authorize! :comment_on, @project
+    authorize! :read_comments_about, @project
     current_user.read_notifications(@project, :project_comment)
     @comments_json = serialized(@project.comments).to_json
   end
@@ -41,9 +50,10 @@ class ProjectsController < ApplicationController
   end
 
   def show
+    authorize! :read, @project
     current_user.read_notifications(@project, :project_amended, :you_were_added, :question_answered) if current_user
     @questions_json = serialized(@project.questions.all, VendorQuestionSerializer).to_json
-    impressionist(@project)
+    impressionist(@project) unless current_officer
   end
 
   def new
@@ -57,20 +67,15 @@ class ProjectsController < ApplicationController
   end
 
   def edit
-    return redirect_to project_bids_path(@project) if current_officer.permission_level == :review_only
-
-    authorize! :edit_description, @project
     current_user.read_notifications(@project, :you_were_added)
   end
 
   def update
-    authorize! :edit_description, @project
-
     @project.updating_officer_id = current_officer.id
     @project.assign_attributes(project_params)
 
     if params[:project][:posted_at] == "1" && !@project.posted?
-      @project.post_by_officer!(current_officer)
+      @project.post_by_officer(current_officer)
     elsif params[:project][:posted_at] == "0" && @project.posted?
       @project.unpost_by_officer(current_officer)
     end
@@ -83,16 +88,13 @@ class ProjectsController < ApplicationController
       @project.tags << @tag
     end
 
-
     redirect_to edit_project_path(@project)
   end
 
   def import_csv
-    authorize! :admin, @project
   end
 
   def post_import_csv
-    authorize! :admin, @project
     require 'csv'
 
     count = 0
@@ -109,16 +111,14 @@ class ProjectsController < ApplicationController
       count += 1
     end
 
-    flash[:success] = "#{pluralize(count, 'record')} imported."
+    flash[:success] = t('globals.count_imported', count: count)
     redirect_to project_bids_path(@project)
   end
 
   def export_csv
-    authorize! :admin, @project
   end
 
   def post_export_csv
-    authorize! :admin, @project
     require 'csv'
     @bids = @project.bids.submitted
 
@@ -146,23 +146,18 @@ class ProjectsController < ApplicationController
   end
 
   def review_mode
-    authorize! :admin, @project
   end
 
   def post_review_mode
-    authorize! :admin, @project
-    @project.update_attributes(project_review_mode_params)
-    flash[:success] = "Successfully updated project review mode."
+    @project.update_attributes(review_mode: params[:project][:review_mode])
+    flash[:success] = t('globals.updated_project_review_mode')
     redirect_to review_mode_project_path(@project)
   end
 
   def wufoo
-    authorize! :admin, @project
   end
 
   def post_wufoo
-    authorize! :admin, @project
-
     data = {}
 
     params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
@@ -199,35 +194,26 @@ class ProjectsController < ApplicationController
   def response_fields
   end
 
-  def use_response_field_template
-    @form_templates = FormTemplate.paginate(page: params[:page])
-    @template = FormTemplate.find(params[:template_id]) if params[:template_id]
-  end
+  # def use_response_field_template
+  #   @form_templates = FormTemplate.paginate(page: params[:page])
+  #   @template = FormTemplate.find(params[:template_id]) if params[:template_id]
+  # end
 
-  def post_use_response_field_template
-    @project.response_fields.destroy_all
-    @template = FormTemplate.find(params[:template_id])
+  # def post_use_response_field_template
+  #   @project.response_fields.destroy_all
+  #   @template = FormTemplate.find(params[:template_id])
 
-    @project.form_options = @template.form_options
-    @project.save
+  #   @project.form_options = @template.form_options
+  #   @project.save
 
-    @template.response_fields.each do |response_field|
-      @project.response_fields << ResponseField.new(response_field)
-    end
+  #   @template.response_fields.each do |response_field|
+  #     @project.response_fields << ResponseField.new(response_field)
+  #   end
 
-    redirect_to project_response_fields_path(@project)
-  end
-
+  #   redirect_to project_response_fields_path(@project)
+  # end
 
   private
-  def project_exists?
-    @project = Project.find(params[:id])
-  end
-
-  def authorize_officer!
-    authorize! :collaborate_on, @project
-  end
-
   def project_params
     filtered_params = params.require(:project).permit(:featured, :title, :abstract, :body, :bids_due_at)
 
@@ -237,13 +223,5 @@ class ProjectsController < ApplicationController
     end
 
     filtered_params
-  end
-
-  def project_review_mode_params
-    params.require(:project).permit(:review_mode)
-  end
-
-  def project_is_posted_unless_can_collaborate_on
-    return not_found if !(can? :collaborate_on, @project) && !@project.posted?
   end
 end
