@@ -1,8 +1,9 @@
-- provide :page_title, "Notifications"
+- provide :page_title, t('globals.notifications')
 
-!=page_header t('notifications.header')
+!=page_header t('globals.notifications')
 
 %p#no-notifications.hide= t('.none')
+
 #notifications-list
   :javascript
     new ProcureIo.Backbone.NotificationPage({bootstrapData: #{@notifications_json}});

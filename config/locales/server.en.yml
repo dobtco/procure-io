@@ -22,9 +22,18 @@ en:
           line_html: "Procure.io is an easier way to do government contracting. You can %{link} to bid on these projects in just 5 seconds."
           link: register
 
+  layouts:
+    application:
+      footer_html: Powered by <a href="http://www.procure.io" target="_blank">Procure.io</a>.
+
+  notifications:
+    index:
+      none: "No notifications to display."
+
   globals:
     site_name: Procure.io
     featured_projects: Featured Projects
+    sign_in_to_site_name: Sign in to %{site_name}
     see_all: See all
     sign_in: Sign in
     read_more: Read more
@@ -77,6 +86,11 @@ en:
     save: Save
     vendor_registration_form: "Vendor Registration Form"
     open_for_bids: Open for bids
+    browse_projects: Browse Projects
+    my_projects: My Projects
+    watched_projects: Watched Projects
+    saved_searches: Saved Searches
+    show_tour: Explain this page
 
     forgot_password:
       line_html: Did you %{link}?
@@ -133,28 +147,6 @@ en:
 
     saved_search:
       delete: "Delete Saved Search"
-
-  layouts:
-    application:
-      footer_html: Powered by <a href="http://www.procure.io" target="_blank">Procure.io</a>.
-
-    navbar:
-      my_projects: My Projects
-      watched_projects: Watched Projects
-      saved_searches: Saved Searches
-      browse_projects: Browse Projects
-      show_tour: Explain this page
-      global_config: Global Config
-      officers_admin: Officers Admin
-      vendors_admin: Vendors Admin
-
-    dropdown_login_form:
-      sign_in: Sign in to %{site_name}
-
-  notifications:
-    header: "Notifications"
-    index:
-      none: "No notifications to display."
 
   officers:
     edit:

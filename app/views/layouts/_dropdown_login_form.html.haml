@@ -1,6 +1,6 @@
 .dropdown-menu
   = form_tag sign_in_path, method: :post, class: "dropdown-login-form" do
-    %h4= t('.sign_in', site_name: t('globals.site_name'))
+    %h4= t('globals.sign_in_to_site_name', site_name: t('globals.site_name'))
     %input{"type" => "text", "name" => "user_session[email]", "placeholder" => User.human_attribute_name(:email)}
     %input{"type" => "password", "name" => "user_session[password]", "placeholder" => User.human_attribute_name(:password)}
     .login-button-wrapper
