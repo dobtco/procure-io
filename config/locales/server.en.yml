@@ -8,6 +8,12 @@ en:
       list_csv: "List of comma-separated emails"
       assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of"
 
+  global_config:
+    advanced:
+      enable_disable_features: Enable/Disable Features
+    vendor_registration:
+      already_ask_for_basic_info: We already ask for basic information like Name and Email Address.
+
   globals:
     site_name: Procure.io
     sign_in: Sign in
@@ -54,7 +60,9 @@ en:
     adding_collaborator: "Adding Collaborator..."
     add_one_collaborator: "Add one collaborator"
     add_multiple_collaborators: Add multiple collaborators
-
+    comments: Comments
+    save: Save
+    vendor_registration_form: "Vendor Registration Form"
 
     forgot_password:
       line_html: Did you %{link}?
@@ -80,6 +88,9 @@ en:
         you can just use that same link to login in the future.
       link: create one
     bid_was_destroyed: "Bid was successfully destroyed."
+    updated_site_configuration: "Successfully updated site configuration."
+    connected_twitter: "Successfully connected Twitter account."
+    removed_twitter: "Successfully removed Twitter account."
 
   confirmations:
     bid:

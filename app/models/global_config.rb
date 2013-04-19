@@ -23,6 +23,10 @@ require_dependency 'enum'
 class GlobalConfig < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
 
+  ON_OFF_FEATURES = [:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled,
+                     :amendments_enabled, :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled,
+                     :passwordless_invites_enabled]
+
   acts_as_singleton
 
   has_many :response_fields, as: :response_fieldable, dependent: :destroy

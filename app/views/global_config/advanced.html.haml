@@ -1,55 +1,15 @@
-- provide :page_action, "Advanced"
+- provide :page_action, t('globals.advanced')
 
 = render "admin/nav"
 
-= form_for @global_config, url: global_config_path do |f|
-  %h4 Enable/Disable Features
+= form_for @global_config, url: global_config_path(updating_advanced: true) do |f|
+  %h4= t('.enable_disable_features')
 
-  %label.checkbox
-    .switch
-      = f.check_box :bid_review_enabled
-    Bid review
-
-  %label.checkbox
-    .switch
-      = f.check_box :bid_submission_enabled
-    Bid submission
-
-  %label.checkbox
-    .switch
-      = f.check_box :comments_enabled
-    Comments
-
-  %label.checkbox
-    .switch
-      = f.check_box :questions_enabled
-    Questions
-
-  %label.checkbox
-    .switch
-      = f.check_box :amendments_enabled
-    Amendments
-
-  %label.checkbox
-    .switch
-      = f.check_box :watch_projects_enabled
-    Watch Projects
-
-  %label.checkbox
-    .switch
-      = f.check_box :save_searches_enabled
-    Save Searches
-
-  %label.checkbox
-    .switch
-      = f.check_box :search_projects_enabled
-    Fancy projects page
-
-  %label.checkbox
-    .switch
-      = f.check_box :passwordless_invites_enabled
-    Passwordless invites
+  - GlobalConfig::ON_OFF_FEATURES.each do |k|
+    %label.checkbox
+      .switch
+        = f.check_box k
+      = GlobalConfig.human_attribute_name k
 
   .form-actions
-    = f.submit "Save", class: "btn btn-inverse"
-
+    = f.submit t('globals.save'), class: "btn btn-inverse"

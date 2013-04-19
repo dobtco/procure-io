@@ -1,8 +1,8 @@
-- provide :page_action, "Event Hooks"
+- provide :page_action, t('globals.event_hooks')
 
 = render "admin/nav"
 
-= form_for @global_config, url: global_config_path do |f|
+= form_for @global_config, url: global_config_path(updating_event_hooks: true) do |f|
   .row-fluid
     .span3
       %ul.nav.nav-stacked.nav-pills
@@ -18,4 +18,3 @@
 
   .form-actions
     = f.submit "Save", class: "btn btn-inverse"
-

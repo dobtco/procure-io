@@ -1,13 +1,13 @@
-- provide :page_action, "Vendor Registration"
+- provide :page_action, t('globals.vendor_registration')
 
 = render "admin/nav"
 
-.alert.alert-info We already ask for basic information like Name and Email Address.
+.alert.alert-info= t('.already_ask_for_basic_info')
 
 #admin-response-field-page
   :javascript
     new ProcureIo.Backbone.AdminResponseFieldPage({
-      formName: "Vendor Registration Form",
+      formName: "#{t('globals.vendor_registration_form')}",
       bootstrapData: #{@global_config.response_fields.to_json},
       response_fieldable_id: #{@global_config.id},
       response_fieldable_type: "GlobalConfig",
