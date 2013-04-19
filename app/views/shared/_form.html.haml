@@ -18,7 +18,7 @@
   = render "shared/form_fields", response_fields: (defined?(response_fields) ? response_fields : response_fieldable.response_fields), responsable: responsable, response_fieldable: response_fieldable
 
   .form-actions
-    %button.btn.btn-inverse= defined?(button_text) ? button_text : t('.submit')
+    %button.btn.btn-inverse= defined?(button_text) ? button_text : t('g.submit')
     - if !defined?(save_draft_button) || save_draft_button
       %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"}= t('.save_draft')
 
