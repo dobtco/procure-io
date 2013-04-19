@@ -180,7 +180,7 @@ en:
     confirm_amendment_deletion: "Are you sure you want to delete this amendment?"
     officers: Officers
     vendors: Vendors
-    roles: roles
+    roles: Roles
     vendor_registration: Vendor Registration
     event_hooks: Event Hooks
     advanced: Advanced
@@ -208,17 +208,21 @@ en:
     view_results: View Results
     current_results: Current Results
     saved_searches: Saved Searches
+    bids: Bids
     show_tour: Explain this page
     update_officer: Update Officer
     edit: Edit
     revision_from_date: "Revision from %{date}"
     revisions: Revisions
     restore_this_version: "Restore this version"
+    reports: Reports
+    view: View
     count_imported:
       one: "1 record imported."
       other: "%{count} records imported."
     updated_project_review_mode: "Successfully updated project review mode."
     import_bids: Import Bids
+    answer_questions: Answer Questions
     import_bids_from_csv: "Import bids from CSV"
     export_bids: "Export Bids"
     wufoo_integration: "Wufoo Integration"

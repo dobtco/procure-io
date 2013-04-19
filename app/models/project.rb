@@ -64,7 +64,7 @@ class Project < ActiveRecord::Base
   has_searcher starting_query: Project.open_for_bids.posted
 
   def self.review_modes
-    @review_modes ||= Enum.new(:starring, :rating)
+    @review_modes ||= Enum.new(:stars, :one_through_five)
   end
 
   def self.add_params_to_query(query, params)
