@@ -35,6 +35,15 @@ class User < ActiveRecord::Base
   serialize :notification_preferences
   before_create :set_default_notification_preferences
 
+  # Expire tokens only for password reset, not for invites.
+  def find_for_invite_or_password_reset_token(token)
+    if crypted_password # password reset
+      User.find_using_perishable_token(token, 3.days)
+    else # invite
+      User.find_using_perishable_token(token, nil)
+    end
+  end
+
   def signed_up?
     (crypted_password || current_login_at || last_login_at) ? true : false
   end

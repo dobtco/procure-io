@@ -47,8 +47,7 @@ class UsersController < ApplicationController
 
   private
   def invite_exists?
-    # @todo expire password reset links but not invite links
-    @user = User.find_using_perishable_token(params[:token], 90.days)
-    redirect_to(root_path) unless @user
+    @user = User.find_for_invite_or_password_reset_token(params[:token])
+    not_found unless @user
   end
 end
