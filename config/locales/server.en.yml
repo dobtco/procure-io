@@ -9,6 +9,7 @@ en:
       list_csv: List of comma-separated emails
 
   confirmations:
+    delete_bid: Are you sure you want to delete this bid?
     delete_role: Are you sure you want to delete this role?
 
   errors:
@@ -100,6 +101,7 @@ en:
     date: Date
     date_by_officer: "%{date} by %{officer}"
     delete_amendment: Delete Amendment
+    delete_bid: Delete Bid
     description: Description
     destroy: Destroy
     did_you_forget_your_password:
