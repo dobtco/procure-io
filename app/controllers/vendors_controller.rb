@@ -1,11 +1,13 @@
 class VendorsController < ApplicationController
   include SaveResponsesHelper
 
+  # Load
+  load_resource :vendor, only: [:edit, :update]
+  before_filter :load_vendor_profile, only: [:edit, :update]
+
+  # Authorize
   before_filter :only_unauthenticated_user, only: [:new, :create]
-  before_filter :authenticate_officer!, except: [:new, :create]
-  before_filter :authorize_officer!, except: [:new, :create]
-  before_filter :vendor_exists?, only: [:edit, :update]
-  before_filter :get_vendor_profile, only: [:edit, :update]
+  before_filter only: [:index, :edit, :update] { |c| c.authorize! :manage, Vendor }
 
   def index
     respond_to do |format|
@@ -50,27 +52,18 @@ class VendorsController < ApplicationController
 
   def update
     @vendor_profile.save unless @vendor_profile.id
-
     @vendor.update_attributes(vendor_params_from_officer)
     save_responses(@vendor_profile, GlobalConfig.instance.response_fields)
 
     if @vendor_profile.responsable_valid?
-      flash[:success] = GlobalConfig.instance.form_options["form_confirmation_message"] || "Successfully updated vendor profile."
+      flash[:success] = t('globals.successfully_updated_vendor_profile')
     end
 
     redirect_to edit_vendor_path(@vendor)
   end
 
   private
-  def authorize_officer!
-    authorize! :view, Vendor
-  end
-
-  def vendor_exists?
-    @vendor = Vendor.find(params[:id])
-  end
-
-  def get_vendor_profile
+  def load_vendor_profile
     @vendor_profile = @vendor.vendor_profile || @vendor.build_vendor_profile
   end
 

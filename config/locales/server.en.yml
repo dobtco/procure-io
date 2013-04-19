@@ -111,6 +111,10 @@ en:
     reset_password:
       sorry_you_forgot_it_html: "Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below."
 
+  vendors:
+    edit:
+      back_to_list_html: "&larr; Back to list of vendors"
+
   globals:
     questions: Questions
     continue_writing_bid: "Continue Writing Bid"
@@ -172,6 +176,7 @@ en:
     remove: Remove
     status: Status
     successfully_updated_profile: "Successfully updated your profile."
+    successfully_updated_vendor_profile: Successfully updated vendor profile.
     profile: Profile
     successfully_updated_notification_settings: "Successfully updated your email notification settings."
     collaborators: Collaborators
@@ -286,12 +291,6 @@ en:
     last_updated: "last updated %{date}"
     vendor_projects:
       header: Watched Projects
-
-  vendors:
-    index:
-      header: "Vendors"
-    edit:
-      back_to_list_html: "&larr; Back to list of vendors"
 
   mailers:
     unsubscribe_link: |

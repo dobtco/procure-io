@@ -1,29 +1,24 @@
-- provide :page_title, "Sign Up"
-
-%h3 Sign up
+- provide :page_title, t('globals.sign_up')
+!= page_header t('globals.sign_up')
 
 = form_for @vendor, url: vendors_path, method: :post, html: { multipart: true, "data-validate" => "parsley" } do |f|
 
-  .row-fluid
-    .span4
-      .control-group
-        = f.required_label :name
-        = f.text_field :name, "data-required" => true
+  .control-group
+    = f.required_label :name
+    = f.text_field :name, "data-required" => true
 
-      = f.fields_for User.new do |f|
-        .control-group
-          = f.required_label :email
-          = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path
+  = f.fields_for User.new do |f|
+    .control-group
+      = f.required_label :email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path
 
-        .control-group
-          = f.required_label :password
-          = f.password_field :password, "data-required" => true
+    .control-group
+      = f.required_label :password
+      = f.password_field :password, "data-required" => true
 
 
-      = render "shared/form_fields", response_fields: @response_fields, responsable: @vendor_profile
+  = render "shared/form_fields", response_fields: @response_fields, responsable: @vendor_profile
 
-    .span8
-      != # Faker::Lorem.paragraphs(3).join("<br /><br />")
 
   .form-actions
-    = f.submit "Sign up", class: "btn btn-primary"
+    = f.submit t('globals.submit'), class: "btn btn-primary"
