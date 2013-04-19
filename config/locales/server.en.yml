@@ -5,8 +5,203 @@ en:
 
   collaborators:
     index:
-      list_csv: "List of comma-separated emails"
-      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of" # <select>
+      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of" #<select>
+      list_csv: List of comma-separated emails
+
+  confirmations:
+    delete_role: Are you sure you want to delete this role?
+
+  errors:
+    email_taken: That email address is already taken.
+
+  events:
+    additional_text:
+      you_were_added: You have automatically been subscribed to all updates on this project.
+
+    name:
+      bid_awarded: Bid Accepted
+      bid_comment: Bid Comment
+      bid_submitted: Bid Submitted
+      bid_unawarded: Bid Unaccepted
+      collaborator_added: Collaborator Added
+      project_amended: Project Amended
+      project_comment: Project Comment
+      question_answered: Question answered
+      question_asked: Question asked
+      vendor_bid_awarded: Bid Accepted
+      vendor_bid_dismissed: Bid Dismissed
+      vendor_bid_unawarded: Bid Unaccepted
+      vendor_bid_undismissed: Bid Undismissed
+      you_were_added: You are added
+
+    text:
+      bid_awarded: "%{officer_display_name} accepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
+      bid_comment: "%{officer_display_name} commented on %{commentable_vendor_display_name}'s bid for %{commentable_project_title}."
+      bid_submitted: "%{bid_vendor_display_name} submitted a bid for %{bid_project_title}."
+      bid_unawarded: "%{officer_display_name} unaccepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
+      collaborator_added: "%{officer_display_name} was added as a collaborator on %{project_title}."
+      project_amended: "The project %{title} has been amended."
+      project_comment: "%{officer_display_name} commented on %{commentable_title}."
+      question_answered: "%{officer_display_name} answered your question about %{project_title}."
+      question_asked: "%{vendor_display_name} asked a question about %{project_title}."
+      vendor_bid_awarded: "%{officer_display_name} has accepted your bid on %{bid_project_title}."
+      vendor_bid_dismissed: "%{officer_display_name} has dismissed your bid on %{bid_project_title}."
+      vendor_bid_unawarded: "%{officer_display_name} has unaccepted your bid on %{bid_project_title}."
+      vendor_bid_undismissed: "%{officer_display_name} has undismissed your bid on %{bid_project_title}."
+      you_were_added: "%{officer_display_name} added you as a collaborator on %{project_title}."
+
+  flashes:
+    bid_was_destroyed: Bid was successfully destroyed.
+    connected_twitter: Successfully connected Twitter account.
+    invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
+    logged_in_without_password:
+      line_html: >
+        Heya! We logged you in without a password, but you can always %{link} if you want.
+        If you don't, you can just use that same link to login in the future.
+      link: create one
+    no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
+    removed_twitter: Successfully removed Twitter account.
+    sent_reset_password_instructions: Check your email for instructions on how to reset your password.
+    updated_site_configuration: Successfully updated site configuration.
+    valid_login: You are now signed in.
+    wrong_current_password: Your current password was not correct.
+
+  g:
+    abstract: Abstract
+    accept_invite: Accept Invite
+    account: Account
+    account_settings: Account Settings
+    actions: Actions
+    add_collaborator: Add Collaborator
+    add_multiple_collaborators: Add multiple collaborators
+    add_one_collaborator: Add one collaborator
+    adding_collaborator: Adding Collaborator...
+    admin: Admin
+    advanced: Advanced
+    amendments: Amendments
+    answer_questions: Answer Questions
+    awarded: Accepted
+    bid_confirmation_message: "Thanks, your bid has been received!"
+    bid_now: Bid Now
+    bids: Bids
+    bids_due: Bids due
+    bids_due_on: "Bids due on %{date}"
+    bids_over_time: Bids over time
+    bids_were_due_on: "Bids were due on %{date}"
+    browse_projects: Browse Projects
+    collaborators: Collaborators
+    comments: Comments
+    confirm_amendment_deletion: Are you sure you want to delete this amendment?
+    continue_writing_bid: Continue Writing Bid
+    count_imported:
+      one: 1 record imported.
+      other: "%{count} records imported."
+    current_results: Current Results
+    date: Date
+    date_by_officer: "%{date} by %{officer}"
+    delete_amendment: Delete Amendment
+    description: Description
+    destroy: Destroy
+    did_you_forget_your_password:
+      line_html: "Did you %{link}?"
+      link: forget your password
+    dismissed: Dismissed
+    edit: Edit
+    edit_amendment: Edit Amendment
+    edit_description: Edit Description
+    email_notifications: Email Notifications
+    enter_your_current_password_to_confirm: Enter your current password to confirm these changes.
+    event_hooks: Event Hooks
+    experimental_follow_steps_html: >
+      <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed,
+      be sure to follow the steps below.
+    export_bids: Export Bids
+    featured_projects: Featured Projects
+    file_to_import: File to import
+    forgot_password: Forgot Password
+    general_stats: General Stats
+    global_config_form_confirmation_message: You have successfully updated your vendor profile.
+    hide: hide
+    hide_paren: (hide)
+    hotkeys_available: Hotkeys Available
+    import_bids: Import Bids
+    import_bids_from_csv: Import bids from CSV
+    impressions: Impressions
+    last_updated: Last Updated
+    link: Link
+    live: Live
+    my_bid: My Bid
+    my_projects: My Projects
+    new_amendment: New Amendment
+    new_bid: New Bid
+    new_project: New Project
+    new_role: New Role
+    next_rarr_html: "Next &rarr;"
+    no_amendments: No amendments.
+    no_data_to_display: "Sorry, no data to display."
+    notifications: Notifications
+    number_of_bids: "# of Bids"
+    officers: Officers
+    open: Open
+    open_for_bids: Open for bids
+    or_sign_up:
+      line_html: "or %{link}"
+      link: sign up
+    posted_on_date: "Posted on %{date}"
+    price_range: Price Range
+    profile: Profile
+    project_description: Project Description
+    project_listings: Project Listings
+    project_listings_on_site_name: "Project listings on %{site_name}."
+    project_title: Project Title
+    questions: Questions
+    read_more: Read more
+    remove: Remove
+    reports: Reports
+    reset_password: Reset Password
+    response_fields: Response Fields
+    restore_this_version: Restore this version
+    review_bids: Review Bids
+    review_mode: Review Mode
+    revision_from_date: "Revision from %{date}"
+    revisions: Revisions
+    roles: Roles
+    save: Save
+    saved_searches: Saved Searches
+    see_all: See all
+    send_reset_password_instructions: Send Reset Password Instructions
+    settings: Settings
+    show: show
+    show_paren: (show)
+    show_tour: Explain this page
+    sign_in: Sign in
+    sign_in_to_site_name: "Sign in to %{site_name}"
+    sign_out: Sign out
+    sign_up: Sign up
+    site_name: Procure.io
+    status: Status
+    submit: Submit
+    submit_bid: Submit Bid
+    successfully_updated_account: You successfully updated your account.
+    successfully_updated_notification_settings: Successfully updated your email notification settings.
+    successfully_updated_profile: Successfully updated your profile.
+    successfully_updated_vendor_profile: Successfully updated vendor profile.
+    type: Type
+    unique_impressions: Unique Impressions
+    unknown_officer: Unknown
+    update_amendment: Update Amendment
+    update_officer: Update Officer
+    update_project: Update Project
+    updated_project_review_mode: Successfully updated project review mode.
+    upload: Upload
+    vendor_registration: Vendor Registration
+    vendor_registration_form: Vendor Registration Form
+    vendors: Vendors
+    view: View
+    view_results: View Results
+    watched_projects: Watched Projects
+    wufoo_integration: Wufoo Integration
+    x_to_x: "%{first} to %{last}"
 
   global_config:
     advanced:
@@ -17,10 +212,12 @@ en:
   home:
     index:
       hero:
-        header: Welcome to Procure.io.
         content:
-          line_html: "Procure.io is an easier way to do government contracting. You can %{link} to bid on these projects in just 5 seconds."
+          line_html: >
+            Procure.io is an easier way to do government contracting. You can %{link} to bid on these
+            projects in just 5 seconds.
           link: register
+        header: Welcome to Procure.io.
 
   layouts:
     application:
@@ -28,7 +225,7 @@ en:
 
   notifications:
     index:
-      none: "No notifications to display."
+      none: No notifications to display.
 
   officers:
     edit:
@@ -36,40 +233,16 @@ en:
 
   project_revisions:
     show:
-      alert_html: >
-        <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
+      alert_html: "<strong>Hey there!</strong> You''re viewing a revision that was saved on %{date} by %{officer}."
       back_to_current_html: "&larr; Back to current version"
 
-  roles:
-    permission_levels:
-      user: User
-      admin: Admin
-      god: God
-      review_only: Review Only
-
-    index:
-      sorry_cant_edit: "Sorry, you can't edit this role."
-
   projects:
-    officer_nav:
-      reports_available_after_post: Reports will be available after this project goes live.
-
-    wufoo:
-      step_1:
-        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
-        link: response field labels
-      step_2_html: "In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>."
-      step_3_html: >
-        In the Wufoo admin panel, find your form and add a new Webhook notification. Your webhook URL should be
-        <code>%{url}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
-      step_4: Sit back and watch the applications roll in!
-
-
     export_csv:
       description: >
-        Want your data without the bells and whistles of %{site_name}? We understand. You can download an Excel-compatible CSV export of your bids below.
+        "Want your data without the bells and whistles of %{site_name}? We understand. You can download an
+        Excel-compatible CSV export of your bids below.
       link_text:
-        one: "Download 1 bid as CSV"
+        one: Download 1 bid as CSV
         other: "Download %{count} bids as CSV"
 
     import_csv:
@@ -78,221 +251,101 @@ en:
         link: response fields
       step_2:
         line_1: >
-          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
+          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each
+          of the response fields you configured above. Your columns should look like this:
         line_2: >
           If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
-      step_3: >
-        Save the spreadsheet as a CSV file and upload it here.
+      step_3: "Save the spreadsheet as a CSV file and upload it here."
 
     new:
       instructions: "First, tell us some basic info about your project."
 
+    officer_nav:
+      reports_available_after_post: Reports will be available after this project goes live.
+
     show:
-      you_are_collaborator:
-        line_html: "You're a collaborator on this project. %{link} for the admin page."
-        link: Click here
-      jump_to_amendments_html:
-        one: >
-          Jump to <a href="#amendments">1 amendment</a>.
-        other: >
-          Jump to <a href="#amendments">%{count} amendments</a>.
-      you_submitted_your_bid:
-        line_html: "You submitted %{link} on %{date}."
-        link: your bid
-      sign_in_to_bid:
-        line_html: "%{link} to bid."
-        link: Sign in
-      sign_in_to_ask_question:
-        line_html: "%{link} to ask a question."
-        link: Sign in
       click_here_to_answer_questions:
         line_html: "%{link} to answer questions."
         link: Click here
 
+      jump_to_amendments_html:
+        one: "Jump to <a href='#amendments'>1 amendment</a>."
+        other: "Jump to <a href='#amendments'>%{count} amendments</a>."
+
+      sign_in_to_ask_question:
+        line_html: "%{link} to ask a question."
+        link: Sign in
+
+      sign_in_to_bid:
+        line_html: "%{link} to bid."
+        link: Sign in
+
+      you_are_collaborator:
+        line_html: "You're a collaborator on this project. %{link} for the admin page."
+        link: Click here
+
+      you_submitted_your_bid:
+        line_html: "You submitted %{link} on %{date}."
+        link: your bid
+
+    wufoo:
+      step_1:
+        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
+        link: response field labels
+      step_2_html: >
+        In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>.
+      step_3_html: >
+        In the Wufoo admin panel, find your form and add a new Webhook
+        notification. Your webhook URL should be <code>%{url}</code>, and be sure
+        to check the box labeled "Include Field and Form Structures with Entry Data".
+      step_4: Sit back and watch the applications roll in!
+
+  roles:
+    index:
+      sorry_cant_edit: "Sorry, you can't edit this role."
+
+    permission_levels:
+      admin: Admin
+      god: God
+      review_only: Review Only
+      user: User
+
   saved_searches:
     index:
-      description: "These are your saved searches. You'll receive daily emails with links to any new projects posted that match these parameters."
+      description: >
+        These are your saved searches. You'll receive daily emails with
+        links to any new projects posted that match these parameters.
+
+  tooltips:
+    watch_project: >
+      Watching this project will subscribe you to alerts about comments,
+      bids, new collaborators, and more.
 
   users:
     accept_invite:
       create_password_instructions_html: >
-        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name}, simply create a password below.
+        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name},
+        simply create a password below.
 
     reset_password:
-      sorry_you_forgot_it_html: "Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below."
+      sorry_you_forgot_it_html: >
+        Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below.
 
   vendors:
     edit:
       back_to_list_html: "&larr; Back to list of vendors"
 
-  g:
-    questions: Questions
-    continue_writing_bid: "Continue Writing Bid"
-    bid_now: Bid Now
-    next_rarr_html: "Next &rarr;"
-    new_project: New Project
-    bids_due: Bids due
-    project_listings: "Project Listings"
-    project_listings_on_site_name: "Project listings on %{site_name}."
-    new_role: New Role
-    edit_description: Edit Description
-    amendments: Amendments
-    site_name: Procure.io
-    featured_projects: Featured Projects
-    sign_in_to_site_name: Sign in to %{site_name}
-    see_all: See all
-    sign_in: Sign in
-    read_more: Read more
-    sign_up: Sign up
-    sign_out: Sign out
-    actions: Actions
-    unknown_officer: Unknown
-    experimental_follow_steps_html: >
-      <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
-    show: "show"
-    hide: "hide"
-    show_paren: "(show)"
-    hide_paren: "(hide)"
-    submit: Submit
-    admin: Admin
-    settings: Settings
-    new_project: New Project
-    notifications: Notifications
-    bid_confirmation_message: "Thanks, your bid has been received!"
-    dismissed: Dismissed
-    date: Date
-    awarded: Accepted
-    open: Open
-    project_description: Project Description
-    my_bid: My Bid
-    new_bid: New Bid
-    submit_bid: Submit Bid
-    review_bids: Review Bids
-    edit_amendment: Edit Amendment
-    reset_password: Reset Password
-    posted_on_date: "Posted on %{date}"
-    send_reset_password_instructions: Send Reset Password Instructions
-    bids_due_on: "Bids due on %{date}"
-    bids_were_due_on: "Bids were due on %{date}"
-    live: Live
-    update_amendment: "Update Amendment"
-    delete_amendment: "Delete Amendment"
-    confirm_amendment_deletion: "Are you sure you want to delete this amendment?"
-    officers: Officers
-    vendors: Vendors
-    roles: Roles
-    vendor_registration: Vendor Registration
-    event_hooks: Event Hooks
-    advanced: Advanced
-    remove: Remove
-    last_updated: Last Updated
-    status: Status
-    successfully_updated_profile: "Successfully updated your profile."
-    successfully_updated_vendor_profile: Successfully updated vendor profile.
-    profile: Profile
-    successfully_updated_notification_settings: "Successfully updated your email notification settings."
-    collaborators: Collaborators
-    add_collaborator: "Add Collaborator"
-    adding_collaborator: "Adding Collaborator..."
-    add_one_collaborator: "Add one collaborator"
-    add_multiple_collaborators: Add multiple collaborators
-    comments: Comments
-    save: Save
-    vendor_registration_form: "Vendor Registration Form"
-    open_for_bids: Open for bids
-    email_notifications: Email Notifications
-    browse_projects: Browse Projects
-    description: Description
-    my_projects: My Projects
-    watched_projects: Watched Projects
-    view_results: View Results
-    current_results: Current Results
-    saved_searches: Saved Searches
-    bids: Bids
-    show_tour: Explain this page
-    update_officer: Update Officer
-    edit: Edit
-    revision_from_date: "Revision from %{date}"
-    revisions: Revisions
-    restore_this_version: "Restore this version"
-    reports: Reports
-    view: View
-    count_imported:
-      one: "1 record imported."
-      other: "%{count} records imported."
-    updated_project_review_mode: "Successfully updated project review mode."
-    import_bids: Import Bids
-    answer_questions: Answer Questions
-    import_bids_from_csv: "Import bids from CSV"
-    export_bids: "Export Bids"
-    wufoo_integration: "Wufoo Integration"
-    review_mode: Review Mode
-    new_amendment: "New Amendment"
-    no_amendments: No amendments.
-    update_project: Update Project
-    date_by_officer: "%{date} by %{officer}"
-    file_to_import: "File to import"
-    upload: "Upload"
-    global_config_form_confirmation_message: You have successfully updated your vendor profile.
-    type: Type
-    accept_invite: Accept Invite
-    project_title: Project Title
-    number_of_bids: "# of Bids"
-    abstract: Abstract
-    response_fields: Response Fields
-    bids_over_time: Bids over time
-    impressions: Impressions
-    unique_impressions: Unique Impressions
-    no_data_to_display: "Sorry, no data to display."
-    price_range: Price Range
-    x_to_x: "%{first} to %{last}"
-    general_stats: "General Stats"
-    destroy: Destroy
-    link: Link
-    successfully_updated_account: "You successfully updated your account."
-    account_settings: Account Settings
-    account: Account
-    enter_your_current_password_to_confirm: "Enter your current password to confirm these changes."
-    forgot_password: Forgot Password
-
-    did_you_forget_your_password:
-      line_html: Did you %{link}?
-      link: forget your password
-
-    or_sign_up:
-      line_html: or %{link}
-      link: sign up
-
-    hotkeys_available: Hotkeys Available
-
-  errors:
-    email_taken: "That email address is already taken."
-
-  flashes:
-    wrong_current_password: "Your current password was not correct."
-    valid_login: "You are now signed in."
-    invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
-    no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
-    sent_reset_password_instructions: "Check your email for instructions on how to reset your password."
-    logged_in_without_password:
-      line_html: >
-        Heya! We logged you in without a password, but you can always %{link} if you want. If you don't,
-        you can just use that same link to login in the future.
-      link: create one
-    bid_was_destroyed: "Bid was successfully destroyed."
-    updated_site_configuration: "Successfully updated site configuration."
-    connected_twitter: "Successfully connected Twitter account."
-    removed_twitter: "Successfully removed Twitter account."
-
-  tooltips:
-    watch_project: "Watching this project will subscribe you to alerts about comments, bids, new collaborators, and more."
-
-  confirmations:
-    delete_role: "Are you sure you want to delete this role?"
-
   mailers:
-    unsubscribe_link: |
-      Prefer not to receive these notifications via email? Change your preferences here: %{settings_notifications_url}
+    invite:
+      subject: "You've been invited to %{site_name}!"
+      text: |
+        Hey %{name},
+
+        You've been invited to collaborate on the project "%{project_title}".
+
+        Visit this link to accept the invite: %{invite_url}
+
+        -- %{site_name}
 
     notification:
       subject: "%{event_text}"
@@ -306,17 +359,6 @@ en:
 
         -- %{site_name}
 
-    invite:
-      subject: "You've been invited to %{site_name}!"
-      text: |
-        Hey %{name},
-
-        You've been invited to collaborate on the project "%{project_title}".
-
-        Visit this link to accept the invite: %{invite_url}
-
-        -- %{site_name}
-
     password_reset:
       subject: "Your password reset request for %{site_name}"
       text: |
@@ -326,7 +368,8 @@ en:
 
         Visit this link to reset it: %{reset_password_url}
 
-        If someone other than you requested this password change, please contact us immediately.
+        If someone other than you requested this password change, please contact us
+        immediately.
 
         -- %{site_name}
 
@@ -344,38 +387,7 @@ en:
 
         -- %{site_name}
 
-  events:
-    name:
-      project_comment: "Project Comment"
-      bid_comment: "Bid Comment"
-      bid_awarded: "Bid Accepted"
-      bid_unawarded: "Bid Unaccepted"
-      vendor_bid_awarded: "Bid Accepted"
-      vendor_bid_unawarded: "Bid Unaccepted"
-      vendor_bid_dismissed: "Bid Dismissed"
-      vendor_bid_undismissed: "Bid Undismissed"
-      project_amended: "Project Amended"
-      collaborator_added: "Collaborator Added"
-      you_were_added: "You are added"
-      question_asked: "Question asked"
-      question_answered: "Question answered"
-      bid_submitted: Bid Submitted
 
-    text:
-      project_comment: "%{officer_display_name} commented on %{commentable_title}."
-      bid_comment: "%{officer_display_name} commented on %{commentable_vendor_display_name}'s bid for %{commentable_project_title}."
-      bid_awarded: "%{officer_display_name} accepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
-      bid_unawarded: "%{officer_display_name} unaccepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
-      vendor_bid_awarded: "%{officer_display_name} has accepted your bid on %{bid_project_title}."
-      vendor_bid_unawarded: "%{officer_display_name} has unaccepted your bid on %{bid_project_title}."
-      vendor_bid_dismissed: "%{officer_display_name} has dismissed your bid on %{bid_project_title}."
-      vendor_bid_undismissed: "%{officer_display_name} has undismissed your bid on %{bid_project_title}."
-      project_amended: "The project %{title} has been amended."
-      collaborator_added: "%{officer_display_name} was added as a collaborator on %{project_title}."
-      you_were_added: "%{officer_display_name} added you as a collaborator on %{project_title}."
-      question_asked: "%{vendor_display_name} asked a question about %{project_title}."
-      question_answered: "%{officer_display_name} answered your question about %{project_title}."
-      bid_submitted: "%{bid_vendor_display_name} submitted a bid for %{bid_project_title}."
+    unsubscribe_link: >
+      Prefer not to receive these notifications via email? Change your preferences here: %{settings_notifications_url}
 
-    additional_text:
-      you_were_added: "You have automatically been subscribed to all updates on this project."
