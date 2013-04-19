@@ -3,132 +3,125 @@
 
 en:
   js:
-    "on": "on"
-    sign_in: Sign in
-    save: "Save"
-    saving: "Saving..."
-    loading: "Loading..."
-    characters: characters
-    editing: "Editing"
-    posting: "Posting..."
-    remove: "Remove"
-    delete: "Delete"
-    save_form: Save Form
-    all_changes_saved: All Changes Saved
-    bid_from: Bid from
-    label: Label
-    undismiss: Undismiss
-    dismiss: Dismiss
-    unaward: Unaccept
-    award: Accept
-    dismissed: Dismissed
-    undismissed: Undismissed
-    awarded: Accepted
-    unawarded: Unaccepted
-    open: Open
-    submitted_on: Submitted on
-    contact_name: Contact Name
-    email_address: Email Address
-    click_to_edit: Click to edit
-    edit_labels: Edit Labels
-    done_editing_labels: Done Editing Labels
-    label_name: Label Name
-    custom_color: Custom Color
-    save_changes: Save Changes
-    destroy_label: Destroy Label
-    create_label: Create Label
     all_bids: All Bids
-    starred_bids: Starred Bids
-    vendor_name: Vendor Name
-    status: Status
-    open_bids: Open Bids
-    dismissed_bids: Dismissed Bids
-    awarded_bids: Accepted Bids
-    search: Search
-    search_bids: Search bids...
-    searches_all_fields: Searches all fields...
-    posted: Posted
-    unposted: Unposted
-    comments: Comments
-    new_comment: New Comment
-    post_comment: Post Comment
-    filter: Filter
-    category: Category
-    categories: Categories
     all_categories: All Categories
-    filter_projects: Filter Projects
-    filter_vendors: Filter Vendors
-    bids_due_on: Bids due on
-    open_for_bids: Open for bids
-    posted_on: Posted on
-    to_get_notified: to get notified of new projects like these.
-    rss_for_search: RSS feed for this search
-    save_search: Save Search
-    show_answer: Show Answer
-    hide_answer: Hide Answer
-    no_answer: Not yet answered
+    all_changes_saved: All Changes Saved
     answered_by: Answered by
     avg_rating: Avg Rating
-
-    response_field:
-      only_visible_to_admin: Only visible to admins
-      description: description
-      integer_only: integer only
-      key_field: key field
-      label: label
-      min: min
-      max: max
-      min_length: min length
-      max_length: max_length
-      required: required
-      size: size
-      small: small
-      medium: medium
-      large: large
-      units: units
-      add_option: Add option
-      include_blank: Include blank option
-      is_default: Default?
-      value: Value
-      no_default_selected: No default selected
-      remove_field: Remove field
-      form_description: Form Description
-      form_confirmation_message: Form Confirmation Message
-      no_confirmation_message: "If no confirmation message is set, we'll just redirect the vendor to a copy of their bid."
-
-      add_new_field: Add New Field
-      edit_field: Edit Field
-      form_options: Form Options
-
-      import: Import response fields from template
-      save: Save response fields as a template
-      new_name: "Name for this template"
-
-      none: "No response fields yet. Why don't you add one?"
-
-      vendor_edit: "Can the vendor edit this attribute?"
-      vendor_see: "Can the vendor see this attribute?"
-
-    field_types:
-      text: text
-      paragraph: paragraph
-      checkboxes: checkboxes
-      radio: radio
-      dropdown: dropdown
-      price: price
-      number: number
-      date: date
-      time: time
-      website: website
-      file: file
-
-
+    award: Accept
+    awarded: Accepted
+    awarded_bids: Accepted Bids
+    bid_from: Bid from
+    bids_due_on: Bids due on
+    categories: Categories
+    category: Category
+    characters: characters
+    click_to_edit: Click to edit
     comment:
       awarded: accepted the bid.
       awarded_from: accepted the bid from
       dismissed: dismissed the bid.
+      posted: posted the project.
       unawarded: unaccepted the bid.
       unawarded_from: unaccepted the bid from
       undismissed: undismissed the bid.
-      posted: posted the project.
       unposted: unposted the project.
+    comments: Comments
+    contact_name: Contact Name
+    create_label: Create Label
+    custom_color: Custom Color
+    delete: Delete
+    destroy_label: Destroy Label
+    dismiss: Dismiss
+    dismissed: Dismissed
+    dismissed_bids: Dismissed Bids
+    done_editing_labels: Done Editing Labels
+    edit_labels: Edit Labels
+    editing: Editing
+    email_address: Email Address
+    field_types:
+      checkboxes: checkboxes
+      date: date
+      dropdown: dropdown
+      file: file
+      number: number
+      paragraph: paragraph
+      price: price
+      radio: radio
+      text: text
+      time: time
+      website: website
+    filter: Filter
+    filter_projects: Filter Projects
+    filter_vendors: Filter Vendors
+    hide_answer: Hide Answer
+    label: Label
+    label_name: Label Name
+    loading: Loading...
+    new_comment: New Comment
+    no_answer: Not yet answered
+    'on': 'on'
+    open: Open
+    open_bids: Open Bids
+    open_for_bids: Open for bids
+    post_comment: Post Comment
+    posted: Posted
+    posted_on: Posted on
+    posting: Posting...
+    remove: Remove
+    response_field:
+      add_new_field: Add New Field
+      add_option: Add option
+      description: description
+      edit_field: Edit Field
+      form_confirmation_message: Form Confirmation Message
+      form_description: Form Description
+      form_options: Form Options
+      import: Import response fields from template
+      include_blank: Include blank option
+      integer_only: integer only
+      is_default: Default?
+      key_field: key field
+      label: label
+      large: large
+      max: max
+      max_length: max_length
+      medium: medium
+      min: min
+      min_length: min length
+      new_name: Name for this template
+      no_confirmation_message: If no confirmation message is set, we'll just redirect
+        the vendor to a copy of their bid.
+      no_default_selected: No default selected
+      none: No response fields yet. Why don't you add one?
+      only_visible_to_admin: Only visible to admins
+      remove_field: Remove field
+      required: required
+      save: Save response fields as a template
+      size: size
+      small: small
+      units: units
+      value: Value
+      vendor_edit: Can the vendor edit this attribute?
+      vendor_see: Can the vendor see this attribute?
+    rss_for_search: RSS feed for this search
+    save: Save
+    save_changes: Save Changes
+    save_form: Save Form
+    save_search: Save Search
+    saving: Saving...
+    search: Search
+    search_bids: Search bids...
+    searches_all_fields: Searches all fields...
+    show_answer: Show Answer
+    sign_in: Sign in
+    starred_bids: Starred Bids
+    status: Status
+    submitted_on: Submitted on
+    to_get_notified: to get notified of new projects like these.
+    unaward: Unaccept
+    unawarded: Unaccepted
+    undismiss: Undismiss
+    undismissed: Undismissed
+    unposted: Unposted
+    vendor_name: Vendor Name
