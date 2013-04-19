@@ -1,43 +1,35 @@
 class ResponseFieldsController < ApplicationController
+  # Load
   before_filter :response_fieldable_exists?
   before_filter :response_field_exists?, only: [:update, :destroy]
 
+  # Authorize
+  before_filter { |c| c.authorize! :edit_response_fields, @response_fieldable }
+
   def create
     @response_field = @response_fieldable.response_fields.create pick(params, *allowed_params)
-    respond_to do |format|
-      format.json { render_serialized(@response_field) }
-    end
+    render_serialized(@response_field)
   end
 
   def update
     @response_field.update_attributes pick(params, *allowed_params)
-    respond_to do |format|
-      format.json { render_serialized(@response_field) }
-    end
+    render_serialized(@response_field)
   end
 
   def batch
-    if params[:response_fields]
-      params[:response_fields].each do |response_field_params|
-        response_field = @response_fieldable.response_fields.find(response_field_params[:id])
-        response_field.update_attributes pick(response_field_params, *allowed_params)
-      end
+    (params[:response_fields] || []).each do |response_field_params|
+      response_field = @response_fieldable.response_fields.find(response_field_params[:id])
+      response_field.update_attributes pick(response_field_params, *allowed_params)
     end
 
-    if params[:form_options]
-      @response_fieldable.update_attributes(form_options: params[:form_options])
-    end
+    @response_fieldable.update_attributes(form_options: params[:form_options]) if params[:form_options]
 
-    respond_to do |format|
-      format.json { render_serialized(@response_fieldable.response_fields) }
-    end
+    render_serialized(@response_fieldable.response_fields)
   end
 
   def destroy
     @response_field.destroy
-    respond_to do |format|
-      format.json { render json: {} }
-    end
+    render json: {}
   end
 
   private
@@ -47,8 +39,6 @@ class ResponseFieldsController < ApplicationController
     else
       params[:response_fieldable_type].constantize.find(params[:response_fieldable_id])
     end
-
-    authorize! :edit_response_fields, @response_fieldable # only collaborators on this project can view these pages
   end
 
   def response_field_exists?

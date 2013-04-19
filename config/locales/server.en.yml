@@ -133,6 +133,7 @@ en:
     notifications: Notifications
     bid_confirmation_message: "Thanks, your bid has been received!"
     dismissed: Dismissed
+    date: Date
     awarded: Accepted
     open: Open
     project_description: Project Description
@@ -196,6 +197,13 @@ en:
     number_of_bids: "# of Bids"
     abstract: Abstract
     response_fields: Response Fields
+    bids_over_time: Bids over time
+    impressions: Impressions
+    unique_impressions: Unique Impressions
+    no_data_to_display: "Sorry, no data to display."
+    price_range: Price Range
+    x_to_x: "%{first} to %{last}"
+    general_stats: "General Stats"
 
     forgot_password:
       line_html: Did you %{link}?
@@ -234,17 +242,6 @@ en:
 
     role:
       delete: "Are you sure you want to delete this role?"
-
-
-  reports:
-    sidebar:
-      general_stats: "General Stats"
-      bids_over_time: Bids over time
-      impressions: Impressions
-      response_fields: Response fields
-
-    common:
-      no_data: "Sorry, no data to display."
 
   roles:
     permission_levels:

@@ -1,30 +1,32 @@
 class ReportsController < ApplicationController
-  before_filter :authenticate_officer!
-  before_filter :project_exists?
-  before_filter :authorize_officer!
+  # Load
+  load_resource :project
+
+  # Authorize
+  before_filter { |c| c.authorize! :access_reports, @project }
 
   def bids_over_time
     dates = @project.posted_at.to_date..(@project.bids_due_at ? [Time.now, @project.bids_due_at].min : Time.now).to_date
     bids = @project.bids.submitted
-    @data = [['Date', '# of bids']]
+    @data = [[t('globals.date'), t('globals.number_of_bids')]]
 
     dates.each do |d|
       @data.push [ d.to_time.to_formatted_s(:readable_dateonly), bids.select { |b| b.submitted_at.to_date == d }.length ]
     end
 
-    @report_title = "Bids over time"
+    @report_title = t('globals.bids_over_time')
     render "reports/common"
   end
 
   def impressions
-    @data = [['Date', 'Impressions', 'Unique Impressions']]
+    @data = [[t('globals.date'), t('globals.impressions'), t('globals.unique_impressions')]]
     uniques = @project.impressions.select("DISTINCT(impressions.ip_address)").group("impressions.created_at::date").count
 
     @project.impressions.group("impressions.created_at::date").order("impressions.created_at::date").count.each do |date, count|
       @data.push [date, count, uniques[date]]
     end
 
-    @report_title = "Impressions"
+    @report_title = t('globals.impressions')
     render "reports/common"
   end
 
@@ -32,7 +34,7 @@ class ReportsController < ApplicationController
     @response_field = @project.response_fields.find(params[:response_field_id])
 
     if @response_field.responses.order("sortable_value DESC").first
-      @data = [['Price Range', '# of bids']]
+      @data = [[t('globals.price_range'), t('globals.number_of_bids')]]
       max = @response_field.responses.order("sortable_value DESC").first.value.to_i.round(-3)
       interval = max / 8
 
@@ -46,7 +48,7 @@ class ReportsController < ApplicationController
 
       ranges.each do |range|
         @data.push [
-          "$#{range.first} to #{range.last}",
+          t('globals.x_to_x', first: range.first, last: range.last),
           @project.bids.submitted.includes(:responses).select { |bid|
             range.cover? bid.responses.where(response_field_id: @response_field.id).first.value.to_f
           }.length
@@ -56,15 +58,5 @@ class ReportsController < ApplicationController
 
     @report_title = @response_field.label
     render "reports/common"
-  end
-
-  private
-  def project_exists?
-    @project = Project.find(params[:project_id])
-    authorize! :collaborate_on, @project
-  end
-
-  def authorize_officer!
-    authorize! :access_reports, @project
   end
 end
