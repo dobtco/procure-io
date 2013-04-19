@@ -28,10 +28,14 @@ class Ability
 
     can :watch, Project, posted: true
 
-    can :delete, Response do |response|
+    can :destroy, Response do |response|
       response.user_id == user.id &&
       (response.response_field.response_fieldable.class.name == "GlobalConfig" ||
        can(:bid_on, response.response_field.response_fieldable))
+    end
+
+    can :destroy, SavedSearch do |saved_search|
+      saved_search.vendor_id == user.owner.id
     end
   end
 

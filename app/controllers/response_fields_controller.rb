@@ -35,7 +35,7 @@ class ResponseFieldsController < ApplicationController
   end
 
   def delete_response
-    authorize! :delete, @response
+    authorize! :destroy, @response
     @response.destroy
     render json: {}
   end
