@@ -10,13 +10,7 @@
         = f.label :body
         = f.text_area :body
 
-      %h5= t('projects.revisions')
-      %ul
-        - @project.project_revisions.each do |project_revision|
-          %li
-            %a{"href" => project_project_revision_path(@project, project_revision)}
-              = t('.revision_link_text', date: project_revision.created_at.to_formatted_s(:readable), officer: project_revision.saved_by_officer ? project_revision.saved_by_officer.display_name : t('globals.unknown_officer'))
-
+      = render "project_revisions/list", project: @project
 
     .span6
       .control-group

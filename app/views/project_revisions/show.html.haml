@@ -1,4 +1,4 @@
-- provide :page_action, "Revision from #{@project_revision.created_at}"
+- provide :page_action, t('globals.revision_from_date', date: @project_revision.created_at)
 
 = render "projects/officer_nav"
 
@@ -8,13 +8,7 @@
       = f.label :body
       %textarea#project_body{"readonly" => true}= @project_revision.body
 
-      %h5= t('projects.revisions')
-      %ul
-        - @project.project_revisions.each do |project_revision|
-          - if project_revision.id == @project_revision.id
-            %li= project_revision.created_at
-          - else
-            %li= link_to project_revision.created_at, project_project_revision_path(@project, project_revision)
+      = render "project_revisions/list", project: @project, current_revision_id: @project_revision.id
 
     .span6
       .alert.alert-info
@@ -24,4 +18,4 @@
         = link_to t('.back_to_current_html'), edit_project_path(@project)
 
       %p
-        = link_to t('.restore'), restore_project_project_revision_path(@project, @project_revision), method: :post
+        = link_to t('globals.restore_this_version'), restore_project_project_revision_path(@project, @project_revision), method: :post

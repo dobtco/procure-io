@@ -1,0 +1,10 @@
+%h5= t('globals.revisions')
+
+%ul
+  - project.project_revisions.each do |project_revision|
+    - if defined?(current_revision_id) && project_revision.id == current_revision_id
+      %li= project_revision.created_at.to_formatted_s(:readable)
+    - else
+      %li
+        %a{"href" => project_project_revision_path(project, project_revision)}
+          =project_revision.created_at.to_formatted_s(:readable)

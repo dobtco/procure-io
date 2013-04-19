@@ -34,6 +34,12 @@ en:
     edit:
       back_to_list_html: "&larr; Back to list of officers"
 
+  project_revisions:
+    show:
+      alert_html: >
+        <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
+      back_to_current_html: "&larr; Back to current version"
+
   globals:
     site_name: Procure.io
     featured_projects: Featured Projects
@@ -97,6 +103,9 @@ en:
     show_tour: Explain this page
     update_officer: Update Officer
     edit: Edit
+    revision_from_date: "Revision from %{date}"
+    revisions: Revisions
+    restore_this_version: "Restore this version"
 
     forgot_password:
       line_html: Did you %{link}?
@@ -150,13 +159,6 @@ en:
 
     saved_search:
       delete: "Delete Saved Search"
-
-  project_revisions:
-    show:
-      alert_html: >
-        <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
-      back_to_current_html: "&larr; Back to current version"
-      restore: "Restore this version"
 
   projects:
     revisions: "Revisions"
