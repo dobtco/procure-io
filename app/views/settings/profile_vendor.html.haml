@@ -1,4 +1,4 @@
-- provide :page_action, "Profile"
+- provide :page_action, t('globals.profile')
 
 = render "settings/header"
 
@@ -7,5 +7,5 @@
   = render layout: "shared/form", locals: { form_action: settings_profile_path, responsable: @vendor_profile, response_fieldable: GlobalConfig.instance, save_draft_button: false, response_fields: @response_fields } do
 
     .control-group
-      %label{"for" => "vendor_name"} Name
+      %label{"for" => "vendor_name"}= Vendor.human_attribute_for(:name)
       %input#vendor_name{"type" => "text", "name" => "vendor[name]", "value" => current_vendor.name}

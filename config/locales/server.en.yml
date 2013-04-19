@@ -162,6 +162,7 @@ en:
     remove: Remove
     status: Status
     successfully_updated_profile: "Successfully updated your profile."
+    profile: Profile
     successfully_updated_notification_settings: "Successfully updated your email notification settings."
     collaborators: Collaborators
     add_collaborator: "Add Collaborator"
@@ -172,6 +173,7 @@ en:
     save: Save
     vendor_registration_form: "Vendor Registration Form"
     open_for_bids: Open for bids
+    email_notifications: Email Notifications
     browse_projects: Browse Projects
     description: Description
     my_projects: My Projects
@@ -215,6 +217,9 @@ en:
     general_stats: "General Stats"
     link: Link
     successfully_updated_account: "You successfully updated your account."
+    account_settings: Account Settings
+    account: Account
+    enter_your_current_password_to_confirm: "Enter your current password to confirm these changes."
 
     forgot_password:
       line_html: Did you %{link}?

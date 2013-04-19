@@ -1,4 +1,4 @@
-- provide :page_action, "Account"
+- provide :page_action, t('globals.account')
 
 = render "settings/header"
 
@@ -17,7 +17,7 @@
     .form-actions
       - unless !current_user.crypted_password
         .control-group
-          = f.required_label :current_password, "Enter your current password to confirm these changes."
+          = f.required_label :current_password, t('globals.enter_your_current_password_to_confirm')
           = f.password_field :current_password, "data-required" => true
 
       = f.submit class: "btn btn-inverse"
