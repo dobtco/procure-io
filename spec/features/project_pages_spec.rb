@@ -25,7 +25,7 @@ describe "Project" do
         find("#ask-question-toggle").click
         page.should have_selector("textarea#question_body", visible: true)
         find("#question_body").set("Shoop?")
-        click_button "Submit Question"
+        click_button I18n.t('globals.submit')
         page.should have_selector('.question:contains("Shoop?")')
         visit project_path(projects(:one))
         page.should have_selector('.question:contains("Shoop?")')
@@ -35,7 +35,7 @@ describe "Project" do
         count = all("#questions-list .question").length
         find("#ask-question-toggle").click
         find("#question_body").set("")
-        click_button "Submit Question"
+        click_button I18n.t('globals.submit')
         page.should have_selector("#questions-list .question", count: count)
         visit project_path(projects(:one))
         page.should have_selector("#questions-list .question", count: count)
