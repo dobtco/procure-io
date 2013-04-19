@@ -103,6 +103,14 @@ en:
     index:
       description: "These are your saved searches. You'll receive daily emails with links to any new projects posted that match these parameters."
 
+  users:
+    accept_invite:
+      create_password_instructions_html: >
+        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name}, simply create a password below.
+
+    reset_password:
+      sorry_you_forgot_it_html: "Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below."
+
   globals:
     questions: Questions
     continue_writing_bid: "Continue Writing Bid"
@@ -146,7 +154,9 @@ en:
     submit_bid: Submit Bid
     review_bids: Review Bids
     edit_amendment: Edit Amendment
+    reset_password: Reset Password
     posted_on_date: "Posted on %{date}"
+    send_reset_password_instructions: Send Reset Password Instructions
     bids_due_on: "Bids due on %{date}"
     bids_were_due_on: "Bids were due on %{date}"
     live: Live
@@ -204,6 +214,7 @@ en:
     upload: "Upload"
     global_config_form_confirmation_message: You have successfully updated your vendor profile.
     type: Type
+    accept_invite: Accept Invite
     project_title: Project Title
     number_of_bids: "# of Bids"
     abstract: Abstract
@@ -220,8 +231,9 @@ en:
     account_settings: Account Settings
     account: Account
     enter_your_current_password_to_confirm: "Enter your current password to confirm these changes."
+    forgot_password: Forgot Password
 
-    forgot_password:
+    did_you_forget_your_password:
       line_html: Did you %{link}?
       link: forget your password
 
@@ -269,20 +281,6 @@ en:
 
     index:
       header: Roles
-
-  users:
-    forgot_password:
-      header: "Forgot Password"
-      send_instructions: "Send Reset Password Instructions"
-
-    accept_invite:
-      header: Accept Invite
-      create_password_instructions_html: >
-        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name}, simply create a password below.
-
-    reset_password:
-      header: Reset Password
-      sorry_you_forgot_it_html: "Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below."
 
   watches:
     last_updated: "last updated %{date}"
