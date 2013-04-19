@@ -1,6 +1,6 @@
-- provide :page_title, "New Project"
+- provide :page_title, t('globals.new_project')
 
-!=page_header t('.header')
+!=page_header t('globals.new_project')
 
 %p= t('.instructions')
 
@@ -10,4 +10,4 @@
     = f.text_field :title, "data-required" => true
 
   .form-actions
-    = f.submit t('.next_html'), class: "btn btn-inverse"
+    = f.submit t('globals.next_rarr_html'), class: "btn btn-inverse"

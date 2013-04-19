@@ -40,7 +40,76 @@ en:
         <strong>Hey there!</strong> You're viewing a revision that was saved on %{date} by %{officer}.
       back_to_current_html: "&larr; Back to current version"
 
+  projects:
+    officer_nav:
+      reports_available_after_post: Reports will be available after this project goes live.
+
+    wufoo:
+      step_1:
+        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
+        link: response field labels
+      step_2_html: "In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>."
+      step_3_html: >
+        In the Wufoo admin panel, find your form and add a new Webhook notification. Your webhook URL should be
+        <code>%{url}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
+      step_4: Sit back and watch the applications roll in!
+
+
+    export_csv:
+      description: >
+        Want your data without the bells and whistles of %{site_name}? We understand. You can download an Excel-compatible CSV export of your bids below.
+      link_text:
+        one: "Download 1 bid as CSV"
+        other: "Download %{count} bids as CSV"
+
+    import_csv:
+      step_1:
+        line_html: "Set up the %{link} to match the fields you've collected from your bidders."
+        link: response fields
+      step_2:
+        line_1: >
+          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
+        line_2: >
+          If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
+      step_3: >
+        Save the spreadsheet as a CSV file and upload it here.
+
+    new:
+      instructions: "First, tell us some basic info about your project."
+
+    show:
+      you_are_collaborator:
+        line_html: "You're a collaborator on this project. %{link} for the admin page."
+        link: Click here
+      jump_to_amendments_html:
+        one: >
+          Jump to <a href="#amendments">1 amendment</a>.
+        other: >
+          Jump to <a href="#amendments">%{count} amendments</a>.
+      you_submitted_your_bid:
+        line_html: "You submitted %{link} on %{date}."
+        link: your bid
+      sign_in_to_bid:
+        line_html: "%{link} to bid."
+        link: Sign in
+      sign_in_to_ask_question:
+        line_html: "%{link} to ask a question."
+        link: Sign in
+      click_here_to_answer_questions:
+        line_html: "%{link} to answer questions."
+        link: Click here
+
   globals:
+    questions: Questions
+    continue_writing_bid: "Continue Writing Bid"
+    bid_now: Bid Now
+    next_rarr_html: "Next &rarr;"
+    new_project: New Project
+    bids_due: Bids due
+    project_listings: "Project Listings"
+    project_listings_on_site_name: "Project listings on %{site_name}."
+    edit_description: Edit Description
+    amendments: Amendments
     site_name: Procure.io
     featured_projects: Featured Projects
     sign_in_to_site_name: Sign in to %{site_name}
@@ -97,6 +166,7 @@ en:
     vendor_registration_form: "Vendor Registration Form"
     open_for_bids: Open for bids
     browse_projects: Browse Projects
+    description: Description
     my_projects: My Projects
     watched_projects: Watched Projects
     saved_searches: Saved Searches
@@ -110,6 +180,21 @@ en:
       one: "1 record imported."
       other: "%{count} records imported."
     updated_project_review_mode: "Successfully updated project review mode."
+    import_bids: Import Bids
+    import_bids_from_csv: "Import bids from CSV"
+    export_bids: "Export Bids"
+    wufoo_integration: "Wufoo Integration"
+    review_mode: Review Mode
+    new_amendment: "New Amendment"
+    no_amendments: No amendments.
+    update_project: Update Project
+    date_by_officer: "%{date} by %{officer}"
+    file_to_import: "File to import"
+    upload: "Upload"
+    type: Type
+    project_title: Project Title
+    number_of_bids: "# of Bids"
+    abstract: Abstract
 
     forgot_password:
       line_html: Did you %{link}?
@@ -139,6 +224,9 @@ en:
     connected_twitter: "Successfully connected Twitter account."
     removed_twitter: "Successfully removed Twitter account."
 
+  tooltips:
+    watch_project: "Watching this project will subscribe you to alerts about comments, bids, new collaborators, and more."
+
   confirmations:
     bid:
       delete: "Are you sure you want to delete this bid?"
@@ -146,138 +234,6 @@ en:
     role:
       delete: "Are you sure you want to delete this role?"
 
-  actions:
-    bid:
-      delete: "Delete Bid"
-      update: "Update Bid"
-
-    amendment:
-      new: "New Amendment"
-
-    project:
-      update: "Update Project"
-      new: "New Project"
-
-    question:
-      create: "Submit Question"
-
-    saved_search:
-      delete: "Delete Saved Search"
-
-  projects:
-    revisions: "Revisions"
-    amendments: Amendments
-    questions: Questions
-    abstract: "Abstract"
-    description: "Project Description"
-
-    admin_sidebar:
-      collaborators: "Collaborators"
-      import_bids: "Import bids from CSV"
-      export_bids: "Export bids"
-      wufoo_integration: "Wufoo Integration"
-
-    officer_nav:
-      bids:
-        long: Review Bids
-        short: Bids
-      questions:
-        long: Answer Questions
-        short: Questions
-      description:
-        long: Project Description
-        short: Description
-      response_fields: "Response Fields"
-      comments: "Comments"
-      reports: Reports
-      view: View
-
-    review_mode:
-      header: Review Mode
-      save: Update Review Mode
-
-    edit:
-      revision_link_text: >
-        %{date} by %{officer}
-      no_amendments: No amendments.
-
-    export_csv:
-      description: >
-        Want your data without the bells and whistles of %{site_name}? We understand. You can download an Excel-compatible CSV export of your bids below.
-      link_text:
-        one: "Download 1 bid as CSV"
-        other: "Download %{count} bids as CSV"
-
-    import_csv:
-      step_1:
-        line_html: "Set up the %{link} to match the fields you've collected from your bidders."
-        link: response fields
-      step_2:
-        line_1: >
-          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each of the response fields you configured above. Your columns should look like this:
-        line_2: >
-          If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
-      step_3: >
-        Save the spreadsheet as a CSV file and upload it here.
-      file_to_import: "File to import"
-      upload: "Upload"
-
-    index:
-      title: "Project Listings"
-      description: "Project listings on %{site_name}."
-
-    index_advanced:
-      header: "Browse Projects"
-
-    index_basic:
-      header: "Projects"
-      read_more: "Read more"
-
-    mine:
-      header: "My Projects"
-      type: Type
-      project_title: Project Title
-      number_bids: "# of bids"
-      bids_due: Bids due
-
-    new:
-      header: "New Project"
-      instructions: "First, tell us some basic info about your project."
-      next_html: "Next &rarr;"
-
-    show:
-      you_are_collaborator:
-        line_html: "You're a collaborator on this project. %{link} for the admin page."
-        link: Click here
-      jump_to_amendments_html:
-        one: >
-          Jump to <a href="#amendments">1 amendment</a>.
-        other: >
-          Jump to <a href="#amendments">%{count} amendments</a>.
-      you_submitted_your_bid:
-        line_html: "You submitted %{link} on %{date}."
-        link: your bid
-      continue_writing_bid: "Continue Writing Bid"
-      bid_now: Bid Now
-      sign_in_to_bid:
-        line_html: "%{link} to bid."
-        link: Sign in
-      sign_in_to_ask_question:
-        line_html: "%{link} to ask a question."
-        link: Sign in
-      click_here_to_answer_questions:
-        line_html: "%{link} to answer questions."
-        link: Click here
-
-    wufoo:
-      step_1:
-        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
-        link: response field labels
-      step_2_html: "In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>."
-      step_3_html: >
-        In the Wufoo admin panel, find your form and add a new Webhook notification. Your webhook URL should be
-        <code>%{url}</code>, and be sure to check the box labeled "Include Field and Form Structures with Entry Data".
-      step_4: Sit back and watch the applications roll in!
 
   reports:
     sidebar:

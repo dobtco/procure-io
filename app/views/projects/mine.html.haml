@@ -1,16 +1,16 @@
-- provide :page_title, "My Projects"
+- provide :page_title, t('globals.my_projects')
 
-!=page_header t('.header')
+!=page_header t('globals.my_projects')
 
-%a.btn.btn-small{"href" => new_project_path}= t('actions.project.new')
+%a.btn.btn-small{"href" => new_project_path}= t('globals.new_project')
 
 %table.table.table-boredered
   %thead
     %tr
-      %th= t('.type')
-      %th= t('.project_title')
-      %th= t('.number_bids')
-      %th= t('.bids_due')
+      %th= t('globals.type')
+      %th= t('globals.project_title')
+      %th= t('globals.number_of_bids')
+      %th= t('globals.bids_due')
 
   %tbody
     - @projects.each do |project|
@@ -22,6 +22,6 @@
           - if project.bids_due_at
             = project.bids_due_at.to_formatted_s(:readable)
           - else
-            = t('projects.open_for_bids')
+            = t('globals.open_for_bids')
 
 = will_paginate @projects, class: "pagination pagination-centered"

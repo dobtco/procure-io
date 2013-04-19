@@ -1,4 +1,4 @@
-- provide :page_action, "Import Bids"
+- provide :page_action, t('globals.import_bids')
 
 = render "projects/officer_nav"
 
@@ -25,7 +25,7 @@
       = t('projects.import_csv.step_3')
 
   = form_tag import_csv_project_path(@project), multipart: true do
-    %label{"for" => "file"}= t('projects.import_csv.file_to_import')
+    %label{"for" => "file"}= t('globals.file_to_import')
     = file_field_tag "file"
     %div
-      %button.btn.btn-inverse= t('projects.import_csv.upload')
+      %button.btn.btn-inverse= t('globals.upload')

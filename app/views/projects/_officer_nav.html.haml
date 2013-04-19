@@ -5,7 +5,7 @@
     %h3
       = @project.title
 
-    != watch_button(@project, "Watching this project will subscribe you to alerts about comments, bids, new collaborators, and more.", "bottom")
+    != watch_button(@project, t('tooltips.watch_project'), "bottom")
 
   .clearfix
 
@@ -14,8 +14,8 @@
       %li{"class" => active_page?("bids")}
         %a{"href" => project_bids_path(@project)}
           %span
-            %span.visible-desktop= t('.bids.long')
-            %span.hidden-desktop= t('.bids.short')
+            %span.visible-desktop= t('globals.review_bids')
+            %span.hidden-desktop= t('globals.bids')
           - if @project.bids.submitted.where_open.count > 0
             %span.badge.badge-info= @project.bids.submitted.where_open.count
 
@@ -23,8 +23,8 @@
       %li{"class" => active_page?("questions#index")}
         %a{"href" => project_questions_path(@project)}
           %span
-            %span.visible-desktop= t('.questions.long')
-            %span.hidden-desktop= t('.questions.short')
+            %span.visible-desktop= t('globals.answer_questions')
+            %span.hidden-desktop= t('globals.questions')
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
@@ -32,27 +32,29 @@
       %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
         %a{"href" => edit_project_path(@project)}
           %span
-            %span.visible-desktop= t('.description.long')
-            %span.hidden-desktop= t('.description.short')
+            %span.visible-desktop= t('globals.project_description')
+            %span.hidden-desktop= t('globals.description')
 
     - if can? :edit_response_fields, @project
       %li{"class" => active_page?("projects#response_fields")}
-        =link_to t('.response_fields'), response_fields_project_path(@project)
+        =link_to t('globals.response_fields'), response_fields_project_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled] && (can? :comment_on, @project)
       %li{"class" => active_page?("projects#comments")}
-        =link_to t('.comments'), comments_project_path(@project)
+        =link_to t('globals.comments'), comments_project_path(@project)
 
-    - if @project.posted? && (can? :access_reports, @project)
-      %li{"class" => active_page?("reports")}
-        =link_to t('.reports'), bids_over_time_project_reports_path(@project)
+    - if can? :access_reports, @project
+      %li{"class" => "#{active_page?("reports")} #{if !@project.posted? then 'disabled' end}"}
+        = link_to t('globals.reports'), @project.posted? ? bids_over_time_project_reports_path(@project) : '#', |
+            "data-toggle" => if !@project.posted? then "tooltip" end, |
+            "title" => if !@project.posted? then t('.reports_available_after_post') end
 
     - if can? :admin, @project
       %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
-        =link_to t('.admin'), project_collaborators_path(@project)
+        =link_to t('globals.admin'), project_collaborators_path(@project)
 
     %li.pull-right
       %a{"href" => project_path(@project)}
         %span
-          %span.visible-desktop= t('.view')
+          %span.visible-desktop= t('globals.view')
           %i.icon-share-alt

@@ -1,4 +1,4 @@
-- provide :page_action, "Review Mode"
+- provide :page_action, t('globals.review_mode')
 
 = render "projects/officer_nav"
 
@@ -9,4 +9,4 @@
     = f.select :review_mode, options_for_select(Project.review_modes, @project.review_mode)
 
     .form-actions
-      = f.submit t('projects.review_mode.save'), class: "btn btn-inverse"
+      = f.submit t('globals.save'), class: "btn btn-inverse"

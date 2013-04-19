@@ -1,5 +1,4 @@
-- provide :page_action, "Edit Description"
-
+- provide :page_action, t('globals.edit_description')
 
 = render "projects/officer_nav"
 
@@ -46,8 +45,8 @@
       - if GlobalConfig.instance[:amendments_enabled]
         %div
           %label
-            = t('projects.amendments')
-            = link_to t('actions.amendment.new'), project_amendments_path(@project), method: :post, class: "btn btn-mini"
+            = t('globals.amendments')
+            = link_to t('globals.new_amendment'), project_amendments_path(@project), method: :post, class: "btn btn-mini"
 
           - if @project.amendments.length > 0
             %ul
@@ -55,12 +54,11 @@
                 %li
                   %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
           - else
-            %div= t('.no_amendments')
+            %div= t('globals.no_amendments')
 
       .control-group
         = f.optional_label :abstract
         = f.text_area :abstract, class: "span10"
 
-
   .form-actions
-    = f.submit t('actions.project.update'), class: "btn btn-inverse"
+    = f.submit t('globals.update_project'), class: "btn btn-inverse"
