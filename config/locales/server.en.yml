@@ -3,6 +3,11 @@ en:
     show_vendor:
       return_to_project_html: "&larr; Return to Project"
 
+  collaborators:
+    index:
+      list_csv: "List of comma-separated emails"
+      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of"
+
   globals:
     site_name: Procure.io
     sign_in: Sign in
@@ -42,6 +47,14 @@ en:
     vendor_registration: Vendor Registration
     event_hooks: Event Hooks
     advanced: Advanced
+    remove: Remove
+    status: Status
+    collaborators: Collaborators
+    add_collaborator: "Add Collaborator"
+    adding_collaborator: "Adding Collaborator..."
+    add_one_collaborator: "Add one collaborator"
+    add_multiple_collaborators: Add multiple collaborators
+
 
     forgot_password:
       line_html: Did you %{link}?
@@ -83,10 +96,6 @@ en:
     amendment:
       new: "New Amendment"
 
-    collaborator:
-      create: "Add Collaborator"
-      create_loading: "Adding Collaborator..."
-
     officer:
       update: "Update Officer"
 
@@ -117,10 +126,6 @@ en:
     dropdown_login_form:
       sign_in: Sign in to %{site_name}
 
-
-  collaborators:
-    index:
-      name: Name
 
   home:
     index:

@@ -9,4 +9,4 @@
       %i.icon-envelope
   %td
     - if can? :destroy, collaborator
-      = link_to t('.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn"
+      = link_to t('globals.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn"

@@ -1,9 +1,9 @@
 %table.table.table-nonfluid#collaborators-table
   %thead
     %tr
-      %th= t('.name')
-      %th= t('.email')
-      %th= t('.status')
+      %th= Officer.human_attribute_name(:name)
+      %th= User.human_attribute_name(:email)
+      %th= t('globals.status')
       %th= t('globals.actions')
 
   %tbody#collaborators-tbody

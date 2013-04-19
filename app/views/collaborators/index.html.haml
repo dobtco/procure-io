@@ -1,27 +1,32 @@
-- provide :page_action, "Collaborators"
+- provide :page_action, t('globals.collaborators')
 
 = render "projects/officer_nav"
 
 = render layout: "projects/admin_sidebar" do
   = render "collaborators/table", collaborators: @collaborators
 
-  %h5 Add Collaborator
+  %h5= t('globals.add_collaborator')
   = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 
     .email-inputs
       .control-group
-        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", "placeholder" => User.human_attribute_name(:email)}
-        %textarea.bulk-email.span6{"name" => "email", "disabled" => true, "placeholder" => "List of comma-separated emails", "rows" => 4}
+        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", |
+          "placeholder" => User.human_attribute_name(:email)}
+
+        %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
+          "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
 
     - if can? :update, Officer
       %div
-        If they're not already registered, we'll invite them and assign them the site-wide role of
+        = t('collaborators.index.assign_role_of')
         %select{"name" => "role_id"}
           - Role.assignable_by_officer(current_officer).each do |role|
             %option{"value" => role.id}= role.name
 
     %small
-      %a.js-toggle-single-bulk{"data-toggle-text" => "Add one collaborator"} Add multiple collaborators
+      %a.js-toggle-single-bulk{"data-toggle-text" => t('globals.add_one_collaborator')}
+        = t('globals.add_multiple_collaborators')
 
     .form-actions
-      %button.btn.btn-inverse{"data-loading-text" => t('actions.collaborator.create_loading')}= t('actions.collaborator.create')
+      %button.btn.btn-inverse{"data-loading-text" => t('globals.adding_collaborator')}
+        = t('globals.add_collaborator')
