@@ -12,4 +12,4 @@
 - if GlobalConfig.instance[:comments_enabled]
   #comment-page
     :javascript
-      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "bid", commentableId: #{@bid.id}});
+      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Bid", commentableId: #{@bid.id}});

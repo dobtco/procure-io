@@ -6,7 +6,7 @@ en:
   collaborators:
     index:
       list_csv: "List of comma-separated emails"
-      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of"
+      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of" # <select>
 
   global_config:
     advanced:
@@ -14,9 +14,20 @@ en:
     vendor_registration:
       already_ask_for_basic_info: We already ask for basic information like Name and Email Address.
 
+  home:
+    index:
+      hero:
+        header: Welcome to Procure.io.
+        content:
+          line_html: "Procure.io is an easier way to do government contracting. You can %{link} to bid on these projects in just 5 seconds."
+          link: register
+
   globals:
     site_name: Procure.io
+    featured_projects: Featured Projects
+    see_all: See all
     sign_in: Sign in
+    read_more: Read more
     sign_up: Sign up
     sign_out: Sign out
     actions: Actions
@@ -43,6 +54,8 @@ en:
     review_bids: Review Bids
     edit_amendment: Edit Amendment
     posted_on_date: "Posted on %{date}"
+    bids_due_on: "Bids due on %{date}"
+    bids_were_due_on: "Bids were due on %{date}"
     live: Live
     update_amendment: "Update Amendment"
     delete_amendment: "Delete Amendment"
@@ -63,6 +76,7 @@ en:
     comments: Comments
     save: Save
     vendor_registration_form: "Vendor Registration Form"
+    open_for_bids: Open for bids
 
     forgot_password:
       line_html: Did you %{link}?
@@ -137,18 +151,6 @@ en:
     dropdown_login_form:
       sign_in: Sign in to %{site_name}
 
-
-  home:
-    index:
-      hero:
-        header: Welcome to Procure.io.
-        content:
-          line_html: "Procure.io is an easier way to do government contracting. You can %{link} to bid on these projects in just 5 seconds."
-          link: register
-      featured_projects: Featured Projects
-      see_all: See all
-      read_more: Read more
-
   notifications:
     header: "Notifications"
     index:
@@ -170,14 +172,11 @@ en:
       restore: "Restore this version"
 
   projects:
-    open_for_bids: Open for bids
     revisions: "Revisions"
     amendments: Amendments
     questions: Questions
     abstract: "Abstract"
     description: "Project Description"
-    bids_due_on: "Bids due on %{date}"
-    bids_were_due_on: "Bids were due on %{date}"
 
     admin_sidebar:
       collaborators: "Collaborators"
