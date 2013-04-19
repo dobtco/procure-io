@@ -14,3 +14,4 @@ module DangerousAlias
 end
 
 ActiveRecord::Base.send(:include, DangerousAlias)
+PostableByOfficer.send(:include, DangerousAlias)
