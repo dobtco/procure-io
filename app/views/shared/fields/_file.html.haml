@@ -1,3 +1,4 @@
+- #todo fix this
 - response = @bid && @bid.responses.where(response_field_id: response_field[:id]).first
 
 = render "shared/pieces/label", response_field: response_field
@@ -13,7 +14,6 @@
       %span.fileupload-exists Change
       %input{"type" => "file", "name" => "response_fields[#{response_field[:id]}]", "data-required" => response_field[:field_options]["required"] ? true : false, "data-trigger" => "change", "data-value" => (response && response.upload?) ? 'exists' : false}
 
-    - # @todo make this dependent on response_field_id, not response_id.
-    %a{"href" => "#", "class" => "btn fileupload-exists js-remove-bid-response-upload", "data-method" => "delete", "data-remote" => true} Remove
+    %a{"href" => response_response_field_path(response_field.id, response_fieldable_type: response_fieldable.class.name, response_fieldable_id: response_fieldable.id), "class" => "btn fileupload-exists js-remove-bid-response-upload", "data-method" => "delete", "data-remote" => true} Remove
 
 = render "shared/pieces/description", response_field: response_field

@@ -675,7 +675,8 @@ CREATE TABLE responses (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     sortable_value character varying(255),
-    upload character varying(255)
+    upload character varying(255),
+    user_id integer
 );
 
 
@@ -1696,3 +1697,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130412185237');
 INSERT INTO schema_migrations (version) VALUES ('20130412193007');
 
 INSERT INTO schema_migrations (version) VALUES ('20130416213202');
+
+INSERT INTO schema_migrations (version) VALUES ('20130419203956');

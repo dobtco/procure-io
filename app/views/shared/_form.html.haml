@@ -15,7 +15,7 @@
 
   = yield
 
-  = render "shared/form_fields", response_fields: (defined?(response_fields) ? response_fields : response_fieldable.response_fields), responsable: responsable
+  = render "shared/form_fields", response_fields: (defined?(response_fields) ? response_fields : response_fieldable.response_fields), responsable: responsable, response_fieldable: response_fieldable
 
   .form-actions
     %button.btn.btn-inverse= defined?(button_text) ? button_text : t('.submit')

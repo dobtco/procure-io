@@ -11,6 +11,7 @@
 #  updated_at        :datetime         not null
 #  sortable_value    :string(255)
 #  upload            :string(255)
+#  user_id           :integer
 #
 
 class Response < ActiveRecord::Base
@@ -22,6 +23,7 @@ class Response < ActiveRecord::Base
 
   belongs_to :responsable, polymorphic: true, touch: true
   belongs_to :response_field
+  belongs_to :user
 
   before_save :calculate_sortable_value
 

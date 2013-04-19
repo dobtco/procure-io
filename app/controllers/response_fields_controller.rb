@@ -1,10 +1,12 @@
 class ResponseFieldsController < ApplicationController
   # Load
   before_filter :response_fieldable_exists?
-  before_filter :response_field_exists?, only: [:update, :destroy]
+  before_filter :response_field_exists?, only: [:update, :destroy, :delete_response]
+  before_filter :authenticate_vendor!, only: [:delete_response]
+  before_filter :users_response_exists?, only: [:delete_response]
 
   # Authorize
-  before_filter { |c| c.authorize! :edit_response_fields, @response_fieldable }
+  before_filter except: [:delete_response] { |c| c.authorize! :edit_response_fields, @response_fieldable }
 
   def create
     @response_field = @response_fieldable.response_fields.create pick(params, *allowed_params)
@@ -32,6 +34,12 @@ class ResponseFieldsController < ApplicationController
     render json: {}
   end
 
+  def delete_response
+    authorize! :delete, @response
+    @response.destroy
+    render json: {}
+  end
+
   private
   def response_fieldable_exists?
     @response_fieldable = if params[:response_fieldable_type] == "GlobalConfig"
@@ -43,6 +51,13 @@ class ResponseFieldsController < ApplicationController
 
   def response_field_exists?
     @response_field = @response_fieldable.response_fields.find(params[:id])
+  end
+
+  def users_response_exists?
+    debugger
+    @response = @response_field.responses.joins(:user)
+                                         .where(users: {id: current_user.id})
+                                         .first
   end
 
   def allowed_params

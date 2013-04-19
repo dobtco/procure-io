@@ -27,6 +27,12 @@ class Ability
     end
 
     can :watch, Project, posted: true
+
+    can :delete, Response do |response|
+      response.user_id == user.id &&
+      (response.response_field.response_fieldable.class.name == "GlobalConfig" ||
+       can(:bid_on, response.response_field.response_fieldable))
+    end
   end
 
   def officer_review_only(user)

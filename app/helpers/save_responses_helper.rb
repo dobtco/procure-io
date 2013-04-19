@@ -1,7 +1,7 @@
 module SaveResponsesHelper
   def save_responses(responsable, response_fields)
     response_fields.each do |response_field|
-      response = responsable.responses.where(response_field_id: response_field.id).first_or_initialize
+      response = responsable.responses.where(response_field_id: response_field.id).first_or_initialize(user_id: current_user.id)
 
       case response_field.field_type
       when "text", "paragraph", "dropdown", "radio", "price", "number", "date", "website", "time"

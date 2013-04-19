@@ -21,15 +21,15 @@ FactoryGirl.define do
 
       b.project.response_fields.each do |response_field|
         if response_field.label == "Completion Time"
-          b.responses.create(response_field_id: response_field.id, value: "#{rand(1..8)} weeks")
+          b.responses.create(response_field_id: response_field.id, user_id: b.vendor.user.id, value: "#{rand(1..8)} weeks")
         elsif response_field.label == "Total Cost"
-          b.responses.create(response_field_id: response_field.id, value: "#{rand(1000..5000)}")
+          b.responses.create(response_field_id: response_field.id, user_id: b.vendor.user.id, value: "#{rand(1000..5000)}")
         elsif response_field.label == "Your Approach"
-          b.responses.create(response_field_id: response_field.id, value: Faker::Lorem.paragraphs.join("\n\n"))
+          b.responses.create(response_field_id: response_field.id, user_id: b.vendor.user.id, value: Faker::Lorem.paragraphs.join("\n\n"))
         elsif response_field.label == "Security"
-          b.responses.create(response_field_id: response_field.id, value: {"I understand all of the necessary security procedures." => true})
+          b.responses.create(response_field_id: response_field.id, user_id: b.vendor.user.id, value: {"I understand all of the necessary security procedures." => true})
         else
-          b.responses.create(response_field_id: response_field.id, value: Faker::Lorem.word)
+          b.responses.create(response_field_id: response_field.id, user_id: b.vendor.user.id, value: Faker::Lorem.word)
         end
       end
 

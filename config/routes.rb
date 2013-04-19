@@ -69,7 +69,6 @@ ProcureIo::Application.routes.draw do
       put 'batch', on: :collection
       get 'reviews', on: :member
       post 'read_notifications', on: :member
-      resources :responses, only: :destroy
     end
 
     resources :project_revisions, only: [:show] do
@@ -88,6 +87,7 @@ ProcureIo::Application.routes.draw do
 
   resources :response_fields do
     put 'batch', on: :collection
+    delete 'response' => 'response_fields#delete_response', on: :member
   end
 
   resources :form_templates, only: [:create]

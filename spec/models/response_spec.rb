@@ -11,6 +11,7 @@
 #  updated_at        :datetime         not null
 #  sortable_value    :string(255)
 #  upload            :string(255)
+#  user_id           :integer
 #
 
 require 'spec_helper'
