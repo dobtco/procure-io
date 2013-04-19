@@ -1,8 +1,13 @@
 class WatchesController < ApplicationController
-  before_filter :authenticate_user!, only: :post
-  before_filter :authenticate_vendor!, only: :vendor_projects
-  before_filter :load_and_authorize_watchable!, only: :post
+  # Check Enabled
   before_filter only: [:vendor_projects] { |c| c.check_enabled!('watch_projects') }
+
+  # Load
+  before_filter :load_watchable, only: [:post]
+
+  # Authorize
+  before_filter only: [:post] { |c| c.authorize! :watch, @watchable }
+  before_filter :authenticate_vendor!, only: [:vendor_projects]
 
   def post
     current_user.send(current_user.watches?(params[:watchable_type], params[:watchable_id]) ? :unwatch! : :watch!,
@@ -22,9 +27,8 @@ class WatchesController < ApplicationController
   end
 
   private
-  def load_and_authorize_watchable!
+  def load_watchable
     @watchable = params[:watchable_type].constantize.find(params[:watchable_id])
     return not_found if !@watchable
-    authorize! :watch, @watchable
   end
 end

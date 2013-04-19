@@ -1,12 +1,12 @@
-- provide :page_title, "Watched Projects"
+- provide :page_title, t('globals.watched_projects')
 
-!=page_header t('.header')
+!=page_header t('globals.watched_projects')
 
 %table.table
   %thead
     %tr
-      %th Project Title
-      %th Last Updated
+      %th= t('globals.project_title')
+      %th= t('globals.last_updated')
 
   %tbody
     - @projects.each do |project|
