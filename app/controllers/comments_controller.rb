@@ -26,6 +26,7 @@ class CommentsController < ApplicationController
 
   private
   def commentable_exists?
-    @commentable = params[:commentable_type].constantize.find(params[:commentable_id])
+    @commentable = find_polymorphic(:commentable)
+    not_found if !@commentable
   end
 end

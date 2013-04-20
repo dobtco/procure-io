@@ -45,7 +45,7 @@ class ResponseFieldsController < ApplicationController
     @response_fieldable = if params[:response_fieldable_type] == "GlobalConfig"
       GlobalConfig.instance
     else
-      params[:response_fieldable_type].constantize.find(params[:response_fieldable_id])
+      find_polymorphic(:response_fieldable)
     end
   end
 

@@ -117,4 +117,11 @@ module ApplicationHelper
   def render_json_dump(obj)
     render json: MultiJson.dump(obj)
   end
+
+  def find_polymorphic(name)
+    model = params[:"#{name}_type"].constantize
+    object = model.find(params[:"#{name}_id"])
+    return unless object.is_a?(ActiveRecord::Base)
+    object
+  end
 end

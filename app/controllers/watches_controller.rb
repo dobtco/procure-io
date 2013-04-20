@@ -28,7 +28,7 @@ class WatchesController < ApplicationController
 
   private
   def load_watchable
-    @watchable = params[:watchable_type].constantize.find(params[:watchable_id])
-    return not_found if !@watchable
+    @watchable = find_polymorphic(:watchable)
+    not_found if !@watchable
   end
 end
