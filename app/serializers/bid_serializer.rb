@@ -41,7 +41,7 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def watching?
-    if object.i_am_watching != nil
+    if defined?(object.i_am_watching)
       object.i_am_watching?
     else
       scope && scope.watches?("Bid", object.id)
