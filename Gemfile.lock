@@ -91,6 +91,7 @@ GEM
     colorist (0.0.2)
     columnize (0.3.6)
     daemons (1.1.9)
+    dalli (2.6.2)
     database_cleaner (0.9.1)
     debug_inspector (0.0.2)
     debugger (1.5.0)
@@ -301,6 +302,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails (~> 3.2.1)
   colorist
+  dalli
   database_cleaner
   debugger
   delayed_job_active_record

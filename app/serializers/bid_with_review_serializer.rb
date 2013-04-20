@@ -1,19 +1,21 @@
 class BidWithReviewSerializer < BidSerializer
   cached true
 
-  has_one :my_bid_review
+  attributes :starred, :read, :rating
 
-  def my_bid_review
-    object.bid_reviews.where(officer_id: scope.owner.id).first || object.new_bid_review_for_officer(scope.owner)
+  def starred
+    defined?(object.starred) ? object.starred : object.bid_review_for_officer(scope.owner).starred
   end
 
-  def include_my_bid_review?
-    scope
+  def read
+    defined?(object.read) ? object.read : object.bid_review_for_officer(scope.owner).read
+  end
+
+  def rating
+    defined?(object.rating) ? object.rating : object.bid_review_for_officer(scope.owner).rating
   end
 
   def cache_key
-    keys = [object.cache_key, 'v3']
-    keys.push(scope.cache_key, scope.owner.cache_key) if scope
-    keys
+    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v5']
   end
 end

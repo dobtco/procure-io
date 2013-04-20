@@ -1,5 +1,9 @@
 class ResponseSerializer < ActiveModel::Serializer
-  attributes :id, :responsable_id, :responsable_type, :response_field_id, :value, :display_value
+  cached true
 
-  has_one :response_field
+  attributes :id, :response_field_id, :display_value
+
+  def cache_key
+    [object.cache_key, 'v1']
+  end
 end
