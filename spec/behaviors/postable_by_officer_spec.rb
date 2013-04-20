@@ -1,9 +1,10 @@
-require_relative '../../lib/dangerous_alias'
+require_relative '../../lib/additional_aliases'
 require_relative '../../lib/fake_model'
 require_relative '../../lib/postable_by_officer'
 
 class Postable < FakeModel
   attr_accessor :posted_at, :posted_by_officer_id
+  include AdditionalAliases
   include PostableByOfficer
 end
 

@@ -120,23 +120,17 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_submitted_events!
   end
 
-  def submitted?
+  def submitted
     self.submitted_at ? true : false
   end
 
-  alias_method :submitted, :submitted?
-
-  def dismissed?
+  def dismissed
     self.dismissed_at ? true : false
   end
 
-  alias_method :dismissed, :dismissed?
-
-  def awarded?
+  def awarded
     self.awarded_at ? true : false
   end
-
-  alias_method :awarded, :awarded?
 
   def dismiss_by_officer(officer)
     return false if self.dismissed_at
@@ -146,8 +140,6 @@ class Bid < ActiveRecord::Base
     comments.create(officer_id: officer.id,
                     comment_type: "BidDismissed")
   end
-
-  dangerous_alias :dismiss_by_officer
 
   def award_by_officer(officer)
     return false if self.awarded_at
@@ -164,8 +156,6 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_awarded_events!(officer)
   end
 
-  dangerous_alias :award_by_officer
-
   def undismiss_by_officer(officer)
     return false if !self.dismissed_at
 
@@ -177,8 +167,6 @@ class Bid < ActiveRecord::Base
 
     self.delay.create_bid_undismissed_events!(officer)
   end
-
-  dangerous_alias :undismiss_by_officer
 
   def unaward_by_officer(officer)
     return false if !self.awarded_at
@@ -196,8 +184,6 @@ class Bid < ActiveRecord::Base
     self.delay.create_bid_unawarded_events!(officer)
   end
 
-  dangerous_alias :unaward_by_officer
-
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
   end
@@ -210,25 +196,17 @@ class Bid < ActiveRecord::Base
     self.total_stars = bid_reviews.where(starred: true).count
   end
 
-  dangerous_alias :calculate_total_stars
-
   def calculate_total_ratings
     self.total_ratings = bid_reviews.that_have_ratings.count
   end
-
-  dangerous_alias :calculate_total_ratings
 
   def calculate_total_comments
     self.total_comments = comments.count
   end
 
-  dangerous_alias :calculate_total_comments
-
   def calculate_average_rating
     self.average_rating = bid_reviews.that_have_ratings.average(:rating)
   end
-
-  dangerous_alias :calculate_average_rating
 
   def text_status
     if dismissed_at
@@ -243,6 +221,12 @@ class Bid < ActiveRecord::Base
   def responsable_validator
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
+
+  dangerous_alias :unaward_by_officer, :undismiss_by_officer, :award_by_officer, :dismiss_by_officer,
+                  :calculate_total_stars, :calculate_total_ratings, :calculate_total_comments,
+                  :calculate_average_rating
+
+  question_alias :submitted, :dismissed, :awarded
 
   private
   def update_timestamp(*args)
