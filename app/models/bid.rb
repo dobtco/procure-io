@@ -210,11 +210,11 @@ class Bid < ActiveRecord::Base
 
   def text_status
     if dismissed_at
-      "Dismissed"
+      I18n.t('g.dismissed')
     elsif awarded_at
-      "Awarded"
+      I18n.t('g.awarded')
     else
-      "Open"
+      I18n.t('g.open')
     end
   end
 
