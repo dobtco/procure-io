@@ -1,5 +1,5 @@
 class BidSerializer < ActiveModel::Serializer
-  # cached true
+  cached true
 
   attributes :id, :created_at, :updated_at, :submitted_at, :dismissed_at, :dismissed_by_officer_id,
              :project_id, :total_comments, :total_stars, :awarded_at, :awarded_by_officer_id,
@@ -37,7 +37,7 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v4']
+    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v5']
   end
 
   def watching?
