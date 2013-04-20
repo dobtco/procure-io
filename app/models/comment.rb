@@ -43,25 +43,28 @@ class Comment < ActiveRecord::Base
 
   def generate_events
     return if comment_type # don't proceed if this is an automatically-generated comment
-
-    if self.commentable.class.name == "Project"
-      event = commentable.events.create(event_type: Event.event_types[:project_comment],
-                                        data: CommentSerializer.new(self, root: false).to_json)
-
-      commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
-        EventFeed.create(event_id: event.id, user_id: watch.user_id)
-      end
-
-    elsif self.commentable.class.name == "Bid"
-      # subscribe to future comments unless user has already unsubscribed
-      event = commentable.events.create(event_type: Event.event_types[:bid_comment],
-                                        data: CommentSerializer.new(self, root: false).to_json)
-
-      commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
-        EventFeed.create(event_id: event.id, user_id: watch.user_id)
-      end
-    end
+    method_name = :"generate_events_for_#{commentable.class.name.downcase}"
+    self.send(method_name) if self.respond_to?(method_name)
   end
 
   handle_asynchronously :generate_events
+
+  def generate_events_for_project
+    event = commentable.events.create(event_type: Event.event_types[:project_comment],
+                                      data: CommentSerializer.new(self, root: false).to_json)
+
+    commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
+    end
+  end
+
+  def generate_events_for_bid
+    # subscribe to future comments unless user has already unsubscribed
+    event = commentable.events.create(event_type: Event.event_types[:bid_comment],
+                                      data: CommentSerializer.new(self, root: false).to_json)
+
+    commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
+    end
+  end
 end
