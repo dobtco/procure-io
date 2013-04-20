@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include AuthlogicHelper
+  include SerializationHelper
+
   protect_from_forgery
 
   rescue_from CanCan::AccessDenied do |exception|
