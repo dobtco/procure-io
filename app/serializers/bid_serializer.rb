@@ -36,11 +36,9 @@ class BidSerializer < ActiveModel::Serializer
     sprintf('%.2f', object.average_rating) if object.average_rating
   end
 
-  # def cache_key
-  #   keys = [object.cache_key, 'v3']
-  #   keys.push(scope.cache_key, scope.owner.cache_key) if scope
-  #   keys
-  # end
+  def cache_key
+    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v4']
+  end
 
   def watching?
     if object.i_am_watching != nil

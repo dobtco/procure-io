@@ -11,7 +11,7 @@
 class VendorProfile < ActiveRecord::Base
   include IsResponsable
 
-  belongs_to :vendor
+  belongs_to :vendor, touch: true
 
   def responsable_validator
     @responsable_validator ||= ResponsableValidator.new(GlobalConfig.instance.response_fields, responses)

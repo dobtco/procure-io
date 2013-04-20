@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     c.disable_perishable_token_maintenance = true
   end
 
-  belongs_to :owner, polymorphic: true
+  belongs_to :owner, polymorphic: true, touch: true
 
   has_many :event_feeds
   has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'

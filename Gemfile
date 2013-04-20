@@ -28,6 +28,7 @@ gem 'sanitize'
 gem 'impressionist'
 gem 'i18n-js'
 gem 'coffee-rails', '~> 3.2.1'
+gem 'dalli'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

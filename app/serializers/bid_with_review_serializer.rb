@@ -1,11 +1,9 @@
 class BidWithReviewSerializer < BidSerializer
-  # cached true
+  cached true
 
   attributes :starred, :read, :rating
 
   def cache_key
-    keys = [object.cache_key, 'v3']
-    keys.push(scope.cache_key, scope.owner.cache_key) if scope
-    keys
+    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v4']
   end
 end
