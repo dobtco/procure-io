@@ -84,15 +84,11 @@ class BidsController < ApplicationController
       end
     end
 
-    if (can? :label, @bid) && params[:labels]
+    if (can? :label, @bid) && params.has_key?(:labels)
       @bid.labels = []
 
-      params[:labels].each do |label|
-        if label["id"]
-          @bid.labels << @project.labels.find(label["id"])
-        else
-          @bid.labels << @project.labels.where(name: label["name"]).first
-        end
+      (params[:labels] || []).each do |label_id|
+        @bid.labels << @project.labels.find(label_id)
       end
     end
 
@@ -192,6 +188,6 @@ class BidsController < ApplicationController
 
   private
   def my_bid_review_params
-    params.require(:my_bid_review).permit(:starred, :read, :rating)
+    pick(params, :starred, :read, :rating)
   end
 end

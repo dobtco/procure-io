@@ -12,8 +12,8 @@
           %b.caret
         %ul.dropdown-menu
           - for label in @projectLabels
-            %li{"class" => if @existingLabels.indexOf(label.name) != -1 then "active"}
-              %a{"data-backbone-label" => label.name, "data-backbone-label-color" => label.color}
+            %li{"class" => if @bid.labels.indexOf(label.id) != -1 then "active"}
+              %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}
                 %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
                 #{label.name}
 
@@ -31,14 +31,14 @@
           = I18n.js('award')
 
     &nbsp;
-    %i{"data-backbone-read" => "true", "class" => (if @bid.my_bid_review.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-read" => "true", "class" => (if @bid.read then "icon-circle-blank" else "icon-circle")}
 
     - if @project.review_mode == "stars"
-      %i{"data-backbone-star" => "true", "class" => (if @bid.my_bid_review.starred then "icon-star" else "icon-star-empty")}
+      %i{"data-backbone-star" => "true", "class" => (if @bid.starred then "icon-star" else "icon-star-empty")}
       %span.total-stars= @bid.total_stars
 
     - if @project.review_mode == "one_through_five"
-      .rating-select{"data-score" => @bid.my_bid_review.rating}
+      .rating-select{"data-score" => @bid.rating}
 
       %span= @bid.average_rating
       - if @bid.total_ratings
@@ -52,7 +52,8 @@
   .span3.well
     %p
       - if ProcureIo.CurrentOfficer.permission_level != "review_only"
-        - for label in @bid.labels
+        - for label_id in @bid.labels
+          - label = @getLabel(label_id)
           %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @bid.dismissed_at
@@ -81,4 +82,4 @@
         %dd= response.display_value
 
   .span9
-    != JST['shared/_bid'](@bid)
+    != JST['shared/_bid']({bid: @bid, getResponseField: @getResponseField})
