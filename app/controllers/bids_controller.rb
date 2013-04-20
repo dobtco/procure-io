@@ -119,11 +119,11 @@ class BidsController < ApplicationController
         end
       end
     when "label"
-      @label = @project.labels.where(name: params[:options][:label_name]).first
+      @label = @project.labels.find(params[:options][:label_id])
 
       @bids.each do |bid|
         next if !(can? :label, bid)
-        if bid.labels.where(name: params[:options][:label_name]).first
+        if bid.labels.where(id: @label.id).first
           bid.labels.destroy(@label)
         else
           bid.labels << @label
@@ -164,7 +164,7 @@ class BidsController < ApplicationController
 
   def reviews
     @reviews = @bid.bid_reviews.where(starred: true)
-    render_serialized(@reviews)
+    render_serialized(@reviews, include_officer: true)
   end
 
   def emails

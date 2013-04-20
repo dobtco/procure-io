@@ -313,17 +313,18 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       pageOptions: @parentView.pageOptions
       getValue: getValue
       project: @parentView.project
+      getLabel: @parentView.getLabel
 
     rivets.bind(@$el, {bid: @model})
 
-    @$el[if !@model.get("my_bid_review.read") then "addClass" else "removeClass"]('bid-tr-unread')
+    @$el[if !@model.get("read") then "addClass" else "removeClass"]('bid-tr-unread')
     @$el[if @model.get("checked") then "addClass" else "removeClass"]('bid-tr-checked')
 
     @$el.find(".rating-select").raty
       score: ->
         $(@).attr('data-score')
       click: (score) =>
-        @model.set('my_bid_review.rating', score)
+        @model.set('rating', score)
         @model.save()
 
     @$el.find(".total-stars").tooltip
@@ -375,7 +376,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
         url: "/projects/#{@parentView.project.id}/bids/#{@model.id}/read_notifications.json"
         type: "POST"
 
-    @toggleRead() unless @model.get('my_bid_review.read')
+    @toggleRead() unless @model.get('read')
 
     @$modal = $("""
       <div class="modal container hide modal-fullscreen" tabindex="-1">
@@ -393,7 +394,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
     if ProcureIo.GlobalConfig.comments_enabled
       @modalCommentsView = new ProcureIo.Backbone.CommentPageView
-        commentableType: "bid"
+        commentableType: "Bid"
         commentableId: @model.id
         el: @$modal.find(".modal-comments-view-wrapper")
 
@@ -404,11 +405,11 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       @$modal.remove()
 
   toggleStarred: ->
-    @model.set 'my_bid_review.starred', (if @model.get('my_bid_review.starred') then false else true)
+    @model.set 'starred', (if @model.get('starred') then false else true)
     @save()
 
   toggleRead: ->
-    @model.set 'my_bid_review.read', (if @model.get('my_bid_review.read') then false else true)
+    @model.set 'read', (if @model.get('read') then false else true)
     @save()
 
   save: ->
@@ -429,7 +430,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
     "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
-    "click [data-backbone-label]": "labelCheckedBids"
+    "click [data-backbone-label-id]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
     "submit .bid-search-form": "submitBidSearchForm"
 
@@ -481,6 +482,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
 
     @subviews = {}
+
+    @getLabel = (label_id) ->
+      ProcureIo.Backbone.Labels.find((label) -> label.get('id') == label_id).toJSON()
 
     @render()
 
@@ -546,7 +550,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   labelCheckedBids: (e) ->
     ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
-    @sendBatchAction('label', ids, {label_name: $(e.target).data('backbone-label')})
+    @sendBatchAction('label', ids, {label_id: $(e.target).data('backbone-label-id')})
 
   toggleLabelAdmin: ->
     @$el.toggleClass 'editing-labels'
