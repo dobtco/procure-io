@@ -2,6 +2,7 @@ class SettingsController < ApplicationController
   include SaveResponsesHelper
 
   before_filter :authenticate_user!
+  before_filter :verify_current_password!, only: [:post_account]
 
   def profile
     if vendor_signed_in?
@@ -46,11 +47,6 @@ class SettingsController < ApplicationController
   end
 
   def post_account
-    if current_user.crypted_password && !current_user.valid_password?(user_params[:current_password])
-      flash[:error] = I18n.t('flashes.wrong_current_password')
-      return render action: "account"
-    end
-
     current_user.password = user_params[:new_password] if !user_params[:new_password].blank?
     current_user.email = user_params[:email] if !user_params[:email].blank?
 
@@ -73,5 +69,12 @@ class SettingsController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :new_password, :current_password)
+  end
+
+  def verify_current_password!
+    if current_user.crypted_password && !current_user.valid_password?(user_params[:current_password])
+      flash[:error] = I18n.t('flashes.wrong_current_password')
+      return render action: "account"
+    end
   end
 end
