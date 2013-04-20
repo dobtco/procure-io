@@ -3,16 +3,22 @@ class BidSerializer < ActiveModel::Serializer
 
   attributes :id, :created_at, :updated_at, :submitted_at, :dismissed_at, :dismissed_by_officer_id,
              :project_id, :total_comments, :total_stars, :awarded_at, :awarded_by_officer_id,
-             :submitted_at_readable, :average_rating, :total_ratings, :watching?
+             :submitted_at_readable, :average_rating, :total_ratings, :watching?, :labels
 
-  has_one :project
   has_one :vendor
 
   has_many :responses
-  has_many :labels
+
+  def labels
+    if object.labels.loaded?
+      object.labels.map(&:id)
+    else
+      object.labels.pluck(:id)
+    end
+  end
 
   def responses
-    q = object.responses.joins(:response_field)
+    q = object.responses
 
     if !scope || !Ability.new(scope).can?(:view_only_visible_to_admin_fields, ResponseField)
       q = q.without_only_visible_to_admin_fields
@@ -31,12 +37,14 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    keys = [object.cache_key, 'v3']
-    keys.push(scope.cache_key, scope.owner.cache_key) if scope
-    keys
+    keys = [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v5']
   end
 
   def watching?
-    scope && scope.watches?("Bid", object.id)
+    if defined?(object.i_am_watching)
+      object.i_am_watching?
+    else
+      scope && scope.watches?("Bid", object.id)
+    end
   end
 end

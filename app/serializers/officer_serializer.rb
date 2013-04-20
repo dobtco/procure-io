@@ -10,7 +10,7 @@ class OfficerSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    keys = [object.cache_key, 'v3']
+    keys = [object.cache_key, 'v4']
     keys.push(scope.cache_key, scope.owner.cache_key) if scope
     keys
   end

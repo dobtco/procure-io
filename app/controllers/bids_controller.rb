@@ -21,7 +21,13 @@ class BidsController < ApplicationController
 
       format.json do
         search_results = Bid.searcher(params,
-                                      starting_query: @project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted,
+                                      starting_query: @project.bids
+                                                        .includes(:labels, :responses, vendor: [:user, :vendor_profile])
+                                                        .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
+                                                        .join_my_watches(current_user.id)
+                                                        .join_my_bid_review(current_officer.id)
+                                                        .submitted,
+                                      simpler_query: @project.bids.submitted,
                                       project: @project)
 
         render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
@@ -78,15 +84,11 @@ class BidsController < ApplicationController
       end
     end
 
-    if (can? :label, @bid) && params[:labels]
+    if (can? :label, @bid) && params.has_key?(:labels)
       @bid.labels = []
 
-      params[:labels].each do |label|
-        if label["id"]
-          @bid.labels << @project.labels.find(label["id"])
-        else
-          @bid.labels << @project.labels.where(name: label["name"]).first
-        end
+      (params[:labels] || []).each do |label_id|
+        @bid.labels << @project.labels.find(label_id)
       end
     end
 
@@ -117,11 +119,11 @@ class BidsController < ApplicationController
         end
       end
     when "label"
-      @label = @project.labels.where(name: params[:options][:label_name]).first
+      @label = @project.labels.find(params[:options][:label_id])
 
       @bids.each do |bid|
         next if !(can? :label, bid)
-        if bid.labels.where(name: params[:options][:label_name]).first
+        if bid.labels.where(id: @label.id).first
           bid.labels.destroy(@label)
         else
           bid.labels << @label
@@ -162,7 +164,7 @@ class BidsController < ApplicationController
 
   def reviews
     @reviews = @bid.bid_reviews.where(starred: true)
-    render_serialized(@reviews)
+    render_serialized(@reviews, include_officer: true)
   end
 
   def emails
@@ -186,6 +188,6 @@ class BidsController < ApplicationController
 
   private
   def my_bid_review_params
-    params.require(:my_bid_review).permit(:starred, :read, :rating)
+    pick(params, :starred, :read, :rating)
   end
 end
