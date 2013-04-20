@@ -31,11 +31,14 @@ class Bid < ActiveRecord::Base
   belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
 
   has_many :bid_reviews, dependent: :destroy
+
   has_many :comments, as: :commentable, dependent: :destroy
 
   has_many :events, as: :targetable
 
   has_and_belongs_to_many :labels, after_add: :update_timestamp, after_remove: :update_timestamp
+
+  default_scope lambda { select('bids.*') }
 
   scope :submitted, where("submitted_at IS NOT NULL")
   scope :dismissed, where("dismissed_at IS NOT NULL")
@@ -47,6 +50,19 @@ class Bid < ActiveRecord::Base
     joins sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
                                                    AND responses.responsable_type = 'Bid'
                                                    AND responses.response_field_id = ?", response_field_id])
+  }
+  scope :join_my_watches, lambda { |user_id|
+    select('CASE WHEN my_watch.id IS NULL THEN false else true END as i_am_watching')
+    .joins(sanitize_sql_array(["LEFT JOIN watches as my_watch ON my_watch.watchable_type = 'Bid'
+                                                             AND my_watch.watchable_id = bids.id
+                                                             AND my_watch.user_id = ?", user_id]))
+  }
+  scope :join_my_bid_review, lambda { |officer_id|
+    select('bid_reviews.starred as starred,
+            bid_reviews.read as read,
+            bid_reviews.rating as rating')
+    .joins(sanitize_sql_array(["LEFT JOIN bid_reviews ON bid_reviews.bid_id = bids.id
+                                                      AND bid_reviews.officer_id = ?", officer_id]))
   }
 
   pg_search_scope :full_search, associated_against: { responses: [:value],
@@ -100,16 +116,18 @@ class Bid < ActiveRecord::Base
   end
 
   def self.search_meta_info(params, args = {})
+    new_args = args.merge(count_only: true, starting_query: args[:simpler_query])
+
     counts = {
-      all: self.searcher(params.merge(f1: "open"), args.merge(count_only: true)),
-      starred: self.searcher(params.merge({f1: "starred"}), args.merge(count_only: true)),
-      open: self.searcher(params.merge({f2: "open"}), args.merge(count_only: true)),
-      dismissed: self.searcher(params.merge({f2: "dismissed"}), args.merge(count_only: true)),
-      awarded: self.searcher(params.merge({f2: "awarded"}), args.merge(count_only: true))
+      all: self.searcher(params.merge(f1: "open"), new_args),
+      starred: self.searcher(params.merge({f1: "starred"}), new_args),
+      open: self.searcher(params.merge({f2: "open"}), new_args),
+      dismissed: self.searcher(params.merge({f2: "dismissed"}), new_args),
+      awarded: self.searcher(params.merge({f2: "awarded"}), new_args)
     }
 
     args[:project].labels.each do |label|
-      counts[label.id] = self.searcher(params.merge({label: label.name}), args.merge(count_only: true))
+      counts[label.id] = self.searcher(params.merge({label: label.name}), new_args)
     end
 
     { counts: counts }

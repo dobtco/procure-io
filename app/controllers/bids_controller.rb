@@ -21,7 +21,13 @@ class BidsController < ApplicationController
 
       format.json do
         search_results = Bid.searcher(params,
-                                      starting_query: @project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted,
+                                      starting_query: @project.bids
+                                                        .includes(:labels, :responses, vendor: [:user, :vendor_profile])
+                                                        .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
+                                                        .join_my_watches(current_user.id)
+                                                        .join_my_bid_review(current_officer.id)
+                                                        .submitted,
+                                      simpler_query: @project.bids.submitted,
                                       project: @project)
 
         render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
