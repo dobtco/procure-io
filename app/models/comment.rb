@@ -59,7 +59,6 @@ class Comment < ActiveRecord::Base
   end
 
   def generate_events_for_bid
-    # subscribe to future comments unless user has already unsubscribed
     event = commentable.events.create(event_type: Event.event_types[:bid_comment],
                                       data: CommentSerializer.new(self, root: false).to_json)
 
