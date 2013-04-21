@@ -1,6 +1,5 @@
 class RolesController < ApplicationController
   before_filter :authorize!
-  before_filter :build_permission_level_options, only: [:new, :edit]
   before_filter :role_exists?, only: [:edit, :update, :destroy]
 
   def index
@@ -12,6 +11,7 @@ class RolesController < ApplicationController
   end
 
   def create
+    logger.info role_params
     Role.create(role_params)
     redirect_to roles_path
   end
@@ -31,13 +31,7 @@ class RolesController < ApplicationController
 
   private
   def role_params
-    filtered_params = params.require(:role).permit(:name, :permission_level)
-
-    if current_officer.permission_level != :god
-      filtered_params.delete(:permission_level) if filtered_params[:permission_level] == Role.permission_levels[:god]
-    end
-
-    filtered_params
+    params.require(:role).permit(:name, permissions: Role.all_permissions_flat)
   end
 
   def role_exists?
@@ -47,9 +41,5 @@ class RolesController < ApplicationController
 
   def authorize!
     return not_found unless (can? :manage, Role)
-  end
-
-  def build_permission_level_options
-    @permission_level_options = current_officer.permission_level == :god ? Role.permission_levels : Role.permission_levels.except(:god)
   end
 end

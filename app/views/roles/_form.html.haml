@@ -6,55 +6,20 @@
 
   %h4 Global Permissions
 
-  %label.checkbox
-    = f.check_box_tag :collaborate_on_all_projects
-    Collaborate on all projects
-
-  %label.checkbox
-    = f.check_box_tag :create_new_projects
-    Create new projects
+  = f.fields_for :permissions do |f|
+    - Role.global_permissions.each do |permission|
+      %label.checkbox
+        = f.check_box permission[:key], checked: @role.permissions[permission[:key]] == "1"
+        = permission[:name]
 
   %h4 For projects where user is a collaborator
 
   %table.table
     %tbody
-      = render "permission_table_header", first_row: true, section_name: "Basic Project Details"
-      = render "permission_table_row", permission_name: "Edit project details", permission_key: :edit_project_details
-      = render "permission_table_row", permission_name: "Post project live", permission_key: :post_project_live
-
-      = render "permission_table_header", section_name: "Amendments"
-      = render "permission_table_row", permission_name: "Create, edit, and destroy amendments", permission_key: :create_edit_destroy_amendments
-      = render "permission_table_row", permission_name: "Post amendments live", permission_key: :post_amendments_live
-
-      = render "permission_table_header", section_name: "Bids"
-      = render "permission_table_row", permission_name: "Read bids", permission_key: :read_bids
-      = render "permission_table_row", permission_name: "Review bids", permission_key: :review_bids
-      = render "permission_table_row", permission_name: "Award & Dismiss bids", permission_key: :award_dismiss_bids
-      = render "permission_table_row", permission_name: "Read & write bid comments", permission_key: :read_and_write_bid_comments
-      = render "permission_table_row", permission_name: "View private response fields", permission_key: :view_private_response_fields
-
-      = render "permission_table_header", section_name: "Labels"
-      = render "permission_table_row", permission_name: "Label bids", permission_key: :label_bids
-      = render "permission_table_row", permission_name: "Manage labels", permission_key: :manage_labels
-
-      = render "permission_table_header", section_name: "Response Fields"
-      = render "permission_table_row", permission_name: "Manage response fields", permission_key: :manage_response_fields
-
-      = render "permission_table_header", section_name: "Questions"
-      = render "permission_table_row", permission_name: "Answer Questions", permission_key: :answer_questions
-
-      = render "permission_table_header", section_name: "Comments"
-      = render "permission_table_row", permission_name: "Read & write project comments", permission_key: :read_and_write_project_comments
-
-      = render "permission_table_header", section_name: "Collaborators"
-      = render "permission_table_row", permission_name: "And & Remove Collaborators", permission_key: :add_and_remove_collaborators
-
-      = render "permission_table_header", section_name: "Misc Admin"
-      = render "permission_table_row", permission_name: "Import Bids", permission_key: :import_bids
-      = render "permission_table_row", permission_name: "Export Bids", permission_key: :export_bids
-      = render "permission_table_row", permission_name: "Access Reports", permission_key: :access_reports
-      = render "permission_table_row", permission_name: "Change Review Mode", permission_key: :change_review_mode
-      = render "permission_table_row", permission_name: "Destroy Project", permission_key: :destroy_project
+      - Role.categorized_project_permissions.each do |section_name, permissions|
+        = render "permission_table_header", section_name: section_name
+        - permissions.each do |permission|
+          = render "permission_table_row", permission_name: permission[:name], permission_key: permission[:key]
 
 
   .form-actions

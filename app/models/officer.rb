@@ -30,14 +30,6 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def permission_level
-    if role
-      Role.permission_levels[role.permission_level]
-    else
-      :user
-    end
-  end
-
   def display_name
     !name.blank? ? name : user.email
   end

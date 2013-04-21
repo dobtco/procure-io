@@ -8,14 +8,12 @@
   %thead
     %tr
       %th= Role.human_attribute_name(:name)
-      %th= Role.human_attribute_name(:permission_level)
       %th= t('g.actions')
 
   %tbody
     - @roles.each do |role|
       %tr
         %td= role.name
-        %td= role.permission_level_name
         %td
           - if can? :manage, role
             = link_to t('g.edit'), edit_role_path(role)

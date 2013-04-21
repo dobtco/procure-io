@@ -10,7 +10,8 @@ class Ability
     if user && user.owner.class.name == "Vendor"
       return vendor(user)
     elsif user && user.owner.class.name == "Officer"
-      send(:"officer_#{user.owner.permission_level.to_s}", user)
+      # send(:"officer_#{user.owner.permission_level.to_s}", user)
+      send(:"officer_god", user)
     end
   end
 

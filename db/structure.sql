@@ -706,7 +706,8 @@ ALTER SEQUENCE responses_id_seq OWNED BY responses.id;
 CREATE TABLE roles (
     id integer NOT NULL,
     name character varying(255),
-    permission_level integer,
+    role_type integer,
+    permissions text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     undeletable boolean
