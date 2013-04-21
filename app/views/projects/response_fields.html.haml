@@ -5,7 +5,7 @@
 #admin-response-field-page
   :javascript
     new ProcureIo.Backbone.AdminResponseFieldPage({
-      formName: "Vendor Registration Form",
+      formName: "#{t('g.bid_form')}",
       bootstrapData: #{@project.response_fields.to_json},
       response_fieldable_id: #{@project.id},
       response_fieldable_type: "Project",
