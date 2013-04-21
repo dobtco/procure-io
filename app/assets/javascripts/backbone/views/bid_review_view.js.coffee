@@ -368,6 +368,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
   openBid: (e) ->
     return if e.metaKey
+    return @$modal.modal('show') if @$modal?
     e.preventDefault()
 
     if !@bidOpened
@@ -403,6 +404,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @$modal.on "hidden", =>
       @modalBidView.remove()
       @$modal.remove()
+      @$modal = undefined
 
   toggleStarred: ->
     @model.set 'starred', (if @model.get('starred') then false else true)
