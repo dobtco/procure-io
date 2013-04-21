@@ -5,28 +5,30 @@
 = render layout: "projects/admin_sidebar" do
   = render "collaborators/table", collaborators: @collaborators
 
-  %h5= t('g.add_collaborator')
-  = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
+  - if can? :add_and_remove_collaborators, @project
 
-    .email-inputs
-      .control-group
-        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", |
-          "placeholder" => User.human_attribute_name(:email)}
+    %h5= t('g.add_collaborator')
+    = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 
-        %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
-          "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
+      .email-inputs
+        .control-group
+          %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", |
+            "placeholder" => User.human_attribute_name(:email)}
 
-    - if can? :update, Officer
-      %div
-        = t('collaborators.index.assign_role_of')
-        %select{"name" => "role_id"}
-          - Role.assignable_by_officer(current_officer).each do |role|
-            %option{"value" => role.id}= role.name
+          %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
+            "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
 
-    %small
-      %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}
-        = t('g.add_multiple_collaborators')
+      - if can? :update, Officer
+        %div
+          = t('collaborators.index.assign_role_of')
+          %select{"name" => "role_id"}
+            - Role.all.each do |role|
+              %option{"value" => role.id}= role.name
 
-    .form-actions
-      %button.btn.btn-inverse{"data-loading-text" => t('g.adding_collaborator')}
-        = t('g.add_collaborator')
+      %small
+        %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}
+          = t('g.add_multiple_collaborators')
+
+      .form-actions
+        %button.btn.btn-inverse{"data-loading-text" => t('g.adding_collaborator')}
+          = t('g.add_collaborator')

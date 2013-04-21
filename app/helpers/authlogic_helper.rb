@@ -56,4 +56,8 @@ module AuthlogicHelper
     # could redirect to sign_in_path, but respond with 404 for better security.
     not_found if !officer_signed_in?
   end
+
+  def is_admin_or_god
+    not_found unless current_officer && current_officer.is_admin_or_god?
+  end
 end

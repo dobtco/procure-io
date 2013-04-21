@@ -1,18 +1,19 @@
 class RolesController < ApplicationController
-  before_filter :authorize!
-  before_filter :role_exists?, only: [:edit, :update, :destroy]
+  # Load
+  load_resource :role
+
+  # Authorize
+  before_filter :is_admin_or_god
 
   def index
     @roles = Role.order("name").paginate(page: params[:page])
   end
 
   def new
-    @role = Role.new
   end
 
   def create
-    logger.info role_params
-    Role.create(role_params)
+    @role.update_attributes(role_params)
     redirect_to roles_path
   end
 
@@ -32,14 +33,5 @@ class RolesController < ApplicationController
   private
   def role_params
     params.require(:role).permit(:name, permissions: Role.all_permissions_flat)
-  end
-
-  def role_exists?
-    @role = Role.find(params[:id])
-    return not_found unless (can? :manage, @role)
-  end
-
-  def authorize!
-    return not_found unless (can? :manage, Role)
   end
 end

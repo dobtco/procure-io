@@ -50,6 +50,10 @@ class Officer < ActiveRecord::Base
     Role.role_types[role.role_type]
   end
 
+  def is_admin_or_god?
+    role_type.in? [:admin, :god]
+  end
+
   handle_asynchronously :send_invitation_email!
 
   def default_notification_preferences

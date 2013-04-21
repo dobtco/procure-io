@@ -1,7 +1,10 @@
 class CollaboratorsController < ApplicationController
+  # Load
   load_resource :project
-  before_filter { |c| c.authorize! :admin, @project }
   load_resource :collaborator, through: :project, only: [:destroy]
+
+  # Authorize
+  before_filter except: [:index] { |c| c.authorize! :add_and_remove_collaborators, @project }
 
   def index
     current_user.read_notifications(@project, :collaborator_added, :you_were_added)

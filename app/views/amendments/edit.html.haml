@@ -5,7 +5,7 @@
 = form_for [@project, @amendment] do |f|
   = f.label :posted_at, t('g.live')
   .switch
-    = f.check_box :posted_at
+    = f.check_box :posted_at, disabled: if !(can? :post_amendments_live, @project) then true end
 
   = f.label :title
   = f.text_field :title, class: "span6"

@@ -3,10 +3,9 @@ class OfficersController < ApplicationController
   load_resource
 
   # Authorize
-  before_filter only: [:edit, :update] { |c| c.authorize! :update, @officer }
+  before_filter :is_admin_or_god, except: [:typeahead]
 
   def index
-    authorize! :read, Officer
     @officers = Officer.order("id").paginate(page: params[:page])
   end
 

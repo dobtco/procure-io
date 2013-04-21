@@ -1,7 +1,10 @@
 class LabelsController < ApplicationController
-  before_filter :project_exists?
-  before_filter :label_exists?, only: [:destroy, :update]
-  before_filter :authenticate_officer!
+  # Load
+  load_resource :project
+  load_resource :label, through: :project, only: [:destroy, :update]
+
+  # Authorize
+  before_filter { |c| c.authorize! :manage_labels, @project }
 
   def create
     @label = @project.labels.where("lower(name) = ?", params[:name]).first || @project.labels.create(name: params[:name].strip, color: params[:color])
@@ -27,15 +30,6 @@ class LabelsController < ApplicationController
   end
 
   private
-  def project_exists?
-    @project = Project.find(params[:project_id])
-    authorize! :collaborate_on, @project
-  end
-
-  def label_exists?
-    @label = @project.labels.find(params[:id])
-  end
-
   def label_params
     params.require(:label).permit(:name, :color)
   end

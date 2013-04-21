@@ -4,7 +4,7 @@ class ProjectRevisionsController < ApplicationController
   load_resource :project_revision, through: :project
 
   # Authorize
-  before_filter { |c| c.authorize! :collaborate_on, @project }
+  before_filter { |c| c.authorize! :edit_project_details, @project }
 
   def show
   end
