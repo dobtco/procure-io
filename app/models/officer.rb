@@ -46,6 +46,10 @@ class Officer < ActiveRecord::Base
     Mailer.invite_email(self, project).deliver
   end
 
+  def role_type
+    Role.role_types[role.role_type]
+  end
+
   handle_asynchronously :send_invitation_email!
 
   def default_notification_preferences
