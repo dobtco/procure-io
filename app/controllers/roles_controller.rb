@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   # Load
-  load_resource :role
+  load_resource :role, except: [:create]
 
   # Authorize
   before_filter :is_admin_or_god
@@ -13,7 +13,7 @@ class RolesController < ApplicationController
   end
 
   def create
-    @role.update_attributes(role_params)
+    Role.create(role_params)
     redirect_to roles_path
   end
 

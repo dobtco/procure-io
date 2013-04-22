@@ -24,6 +24,10 @@ class Role < ActiveRecord::Base
   #   I18n.t("roles.names.#{role_type}")
   # end
 
+  def is_god?
+    role_type == Role.role_types[:god]
+  end
+
   def self.role_types
     @role_types ||= Enum.new(
       :user, :admin, :god
