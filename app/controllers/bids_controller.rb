@@ -7,7 +7,7 @@ class BidsController < ApplicationController
 
   # Load
   load_resource :project
-  load_resource :bid
+  load_resource :bid, through: :project
 
   # Authorize
   before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }

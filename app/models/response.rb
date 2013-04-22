@@ -67,6 +67,8 @@ class Response < ActiveRecord::Base
         str += "<tr><th>#{k}</th><td>#{v}</td></tr>"
       end
       str += "</table>"
+    when "paragraph"
+      simple_format value
     else
       value
     end
