@@ -16,7 +16,9 @@
         %td
           = role.name
           - if role.default
-            %i.icon-star
+            %small
+              %i.icon-star
+              Default for new users
         %td
           = link_to t('g.set_role_as_default'), set_as_default_role_path(role), method: :post, class: "btn btn-small #{role.default ? 'disabled' : ''}"
           = link_to t('g.edit'), edit_role_path(role), class: "btn btn-small"

@@ -39,10 +39,6 @@ class Ability
     can :destroy, SavedSearch do |saved_search|
       saved_search.vendor_id == user.owner.id
     end
-
-    can :create, Question do |question|
-      can :read, question.project
-    end
   end
 
 

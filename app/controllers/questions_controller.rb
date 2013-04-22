@@ -4,14 +4,14 @@ class QuestionsController < ApplicationController
 
   # Load
   load_resource :project
-  load_resource :question, through: :project
+  load_resource :question, through: :project, except: [:create]
 
   # Authorize
-  before_filter only: [:create] { |c| c.authorize! :create, @question}
+  before_filter only: [:create] { |c| c.authorize! :read, @project}
   before_filter only: [:index, :update] { |c| c.authorize! :answer_questions, @project }
 
   def create
-    @question.update_attributes(body: params[:body], vendor_id: current_vendor.id)
+    question = @project.questions.create(body: params[:body], vendor_id: current_vendor.id)
     render_serialized(question, VendorQuestionSerializer)
   end
 
