@@ -9,7 +9,7 @@
 Role.create(name: "User", role_type: Role.role_types[:user], undeletable: true,
             permissions: Role.low_permissions, default: true)
 
-Role.create(name: "Supervisor", role_type: Role.role_types[:user], undeletable: true,
+Role.create(name: "Supervisor", role_type: Role.role_types[:user],
             permissions: Role.high_permissions)
 
 Role.create(name: "Admin", role_type: Role.role_types[:admin], undeletable: true)
