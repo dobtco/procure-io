@@ -18,10 +18,9 @@
 %td
   %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.vendor.display_name
 
-  - if ProcureIo.CurrentOfficer.permission_level != "review_only"
-    - for label_id in @bid.labels
-      - label = @getLabel(label_id)
-      %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
+  - for label_id in @bid.labels
+    - label = @getLabel(label_id)
+    %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
 
 - for index, keyField of @pageOptions.attributes.keyFields
   %td!= @getValue(keyField.id)

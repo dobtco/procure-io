@@ -51,10 +51,9 @@
 .row-fluid
   .span3.well
     %p
-      - if ProcureIo.CurrentOfficer.permission_level != "review_only"
-        - for label_id in @bid.labels
-          - label = @getLabel(label_id)
-          %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
+      - for label_id in @bid.labels
+        - label = @getLabel(label_id)
+        %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @bid.dismissed_at
         %span.badge.badge-important= I18n.js('dismissed')

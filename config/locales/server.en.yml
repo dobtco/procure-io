@@ -308,11 +308,9 @@ en:
     index:
       sorry_cant_edit: "Sorry, you can't edit this role."
 
-    permission_levels:
+    role_types:
       admin: Admin
       god: God
-      review_only: Review Only
-      user: User
 
   saved_searches:
     index:

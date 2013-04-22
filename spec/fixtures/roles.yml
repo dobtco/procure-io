@@ -11,22 +11,7 @@
 #  undeletable :boolean
 #
 
-review_only:
-  id: 1
-  name: Review Only
-  permission_level: 1
-
-user:
-  id: 2
-  name: User
-  permission_level: 2
-
-admin:
-  id: 3
-  name: Admin
-  permission_level: 3
-
 god:
-  id: 4
+  id: 1
   name: God
-  permission_level: 4
+  role_type: 3
