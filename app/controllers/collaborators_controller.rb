@@ -1,7 +1,10 @@
 class CollaboratorsController < ApplicationController
+  # Load
   load_resource :project
-  before_filter { |c| c.authorize! :admin, @project }
   load_resource :collaborator, through: :project, only: [:destroy]
+
+  # Authorize
+  before_filter except: [:index] { |c| c.authorize! :add_and_remove_collaborators, @project }
 
   def index
     current_user.read_notifications(@project, :collaborator_added, :you_were_added)
@@ -34,7 +37,7 @@ class CollaboratorsController < ApplicationController
 
     if filtered_params[:role_id]
       role = Role.find(filtered_params[:role_id])
-      filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+      filtered_params.delete(:role_id) unless user_is_admin_or_god? && !role.is_god?
     end
 
     filtered_params

@@ -35,7 +35,12 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
 
   render: ->
     bidsChecked = ProcureIo.Backbone.Bids.find (b) -> b.attributes.checked
-    @$el.html JST['bid_review/actions']({project: @options.project, labels: ProcureIo.Backbone.Labels, bidsChecked: bidsChecked, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()})
+    @$el.html JST['bid_review/actions']
+      project: @options.project
+      labels: ProcureIo.Backbone.Labels
+      bidsChecked: bidsChecked
+      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      abilities: @options.parentView.options.abilities
 
 ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
@@ -56,6 +61,7 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
     @$el.html JST['bid_review/label_filter']
       filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
       filteredHref: @options.project.filteredHref
+      abilities: @options.parentView.options.abilities
 
     @$el.find("#new-label-form").on "submit", (e) ->
       e.preventDefault()
@@ -392,6 +398,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       bid: @model
       project: @parentView.project
       el: @$modal.find(".modal-bid-view-wrapper")
+      abilities: @parentView.options.abilities
 
     if ProcureIo.GlobalConfig.comments_enabled
       @modalCommentsView = new ProcureIo.Backbone.CommentPageView
@@ -508,12 +515,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
     (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
-
-    if ProcureIo.CurrentOfficer.permission_level != "review_only"
-      (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref})).render()
-      (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
-      (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project})).render()
-
+    (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
+    (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
+    (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
     (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({project: @options.project, pageOptions: @pageOptions})).render()

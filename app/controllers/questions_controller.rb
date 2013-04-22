@@ -4,10 +4,10 @@ class QuestionsController < ApplicationController
 
   # Load
   load_resource :project
-  load_resource :question, through: :project, only: [:update]
+  load_resource :question, through: :project, except: [:create]
 
   # Authorize
-  before_filter :authenticate_vendor!, only: [:create]
+  before_filter only: [:create] { |c| c.authorize! :read, @project}
   before_filter only: [:index, :update] { |c| c.authorize! :answer_questions, @project }
 
   def create

@@ -10,7 +10,7 @@ class Ability
     if user && user.owner.class.name == "Vendor"
       return vendor(user)
     elsif user && user.owner.class.name == "Officer"
-      send(:"officer_#{user.owner.permission_level.to_s}", user)
+      send(:"officer_#{user.owner.role_type}", user)
     end
   end
 
@@ -26,7 +26,9 @@ class Ability
       bid.submitted? && bid.vendor.user == user
     end
 
-    can :watch, Project, posted: true
+    can :watch, Project do |project|
+      can :read, project
+    end
 
     can :destroy, Response do |response|
       response.user_id == user.id &&
@@ -39,71 +41,65 @@ class Ability
     end
   end
 
-  def officer_review_only(user)
-    can :read, Project do |project|
-      project.posted_at
-    end
-    can [:read, :collaborate_on, :watch], Project do |project| project.collaborators.where(officer_id: user.owner.id).first end
-    can :read, :watch, :review, Bid do |bid|
-      bid.submitted? && (can :collaborate_on, bid.project)
-    end
-  end
 
   def officer_user(user)
-    can :create, Project
+    permissions = user.owner.role.permissions
 
-    can :read, Project do |project|
-      project.posted_at
-    end
+    (can :create, Project) if permissions[:create_new_projects] == "1"
+    (can :collaborate_on, Project) if permissions[:collaborate_on_all_projects] == "1"
 
-    can [:read, :collaborate_on, :watch, :edit_response_fields, :answer_questions,
-         :edit_description, :access_reports, :comment_on, :read_comments_about], Project do |project|
+    can :collaborate_on, Project do |project|
       project.collaborators.where(officer_id: user.owner.id).first
     end
 
-    can [:destroy, :admin], Project do |project|
+    can :own, Project do |project|
       project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
-    can :manage, Amendment do |amendment|
-      can :collaborate_on, amendment.project
-    end
-
-    can [:read, :watch, :award_dismiss, :label, :review, :read_comments_about], Bid do |bid|
-      bid.submitted? && (can :collaborate_on, bid.project)
-    end
-
-    can :destroy, Collaborator do |collaborator|
-      !collaborator.owner && (collaborator.project.owner_id == user.owner.id)
+    Role.flat_project_permissions.each do |permission|
+      if permissions[permission] == "when_collaborator"
+        can permission, Project do |project|
+          can :collaborate_on, project
+        end
+      elsif permissions[permission] == "when_owner"
+        can permission, Project do |project|
+          can :own, project
+        end
+      end
     end
 
     can :destroy, Comment do |comment|
       comment.officer_id == user.owner.id
     end
+
+    post_assignment(user)
   end
 
   def officer_admin(user)
-    can :manage, Project
-    can :manage, Amendment
-    can :manage, Bid do |bid|
-      bid.submitted?
-    end
-    can [:manage, :edit_response_fields], GlobalConfig
-    can :read, Officer
-    can :update, Officer do |officer|
-      officer.permission_level != :god
-    end
-    can :manage, Vendor
-    can :manage, Role do |role|
-      role.permission_level != Role.permission_levels[:god]
-    end
-    can :destroy, Collaborator do |collaborator|
-      !collaborator.owner
-    end
-    can :view_only_visible_to_admin_fields, ResponseField
-    can :manage, Comment
+    can [:create, :collaborate_on, :own] + Role.flat_project_permissions, Project
+    can :destroy, Comment
+
+    post_assignment(user)
   end
 
+  def post_assignment(user)
+    can :destroy, Collaborator do |collaborator|
+      (can :add_and_remove_collaborators, collaborator.project) &&
+      !collaborator.owner &&
+      (collaborator.officer_id != user.owner.id)
+    end
+
+    can :watch, Project do |project|
+      can :collaborate_on, project
+    end
+
+    can [:read, :watch], Bid do |bid|
+      bid.submitted? && (can :collaborate_on, bid.project)
+    end
+  end
+
+  # God is not intended for regular users of the site.
+  # If used without caution, God permissions will let you *seriously* break things.
   def officer_god(user)
     can :manage, :all
   end

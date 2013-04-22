@@ -4,9 +4,13 @@
   %td= collaborator.officer.user.email
   %td
     - if collaborator.owner
-      %i.icon-star
+      %small
+        %i.icon-star
+        Owner
     - if !collaborator.officer.user.signed_up?
-      %i.icon-envelope
+      %small
+        %i.icon-envelope
+        Invited
   %td
     - if can? :destroy, collaborator
       = link_to t('g.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn"

@@ -3,10 +3,9 @@ class OfficersController < ApplicationController
   load_resource
 
   # Authorize
-  before_filter only: [:edit, :update] { |c| c.authorize! :update, @officer }
+  before_filter :is_admin_or_god, except: [:typeahead]
 
   def index
-    authorize! :read, Officer
     @officers = Officer.order("id").paginate(page: params[:page])
   end
 
@@ -33,7 +32,7 @@ class OfficersController < ApplicationController
     filtered_params = params.require(:officer).permit(:name, :title, :email, :role_id, user_attributes: [:id, :email])
 
     role = Role.find(filtered_params[:role_id])
-    filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+    filtered_params.delete(:role_id) if role.is_god?
 
     filtered_params
   end

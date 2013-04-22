@@ -5,7 +5,7 @@
 
     != JST['shared/_watch']({watchable: @bid, model_name: "Bid"})
 
-    - if ProcureIo.CurrentOfficer.permission_level != "review_only"
+    - if @abilities.labelBids
       .btn-group
         %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
           = I18n.js('label')
@@ -17,7 +17,7 @@
                 %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
                 #{label.name}
 
-
+    - if @abilities.awardAndDismissBids
       %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
         - if @bid.dismissed_at
           = I18n.js('undismiss')
@@ -51,10 +51,9 @@
 .row-fluid
   .span3.well
     %p
-      - if ProcureIo.CurrentOfficer.permission_level != "review_only"
-        - for label_id in @bid.labels
-          - label = @getLabel(label_id)
-          %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
+      - for label_id in @bid.labels
+        - label = @getLabel(label_id)
+        %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @bid.dismissed_at
         %span.badge.badge-important= I18n.js('dismissed')

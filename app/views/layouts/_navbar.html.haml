@@ -38,14 +38,15 @@
                 %li
                   =link_to t('g.settings'), settings_profile_path
 
-                - if (can? :manage, GlobalConfig) || (can? :update, Officer)
+                - if user_is_admin_or_god?
                   %li
                     = link_to raw("<strong>#{t('g.admin')}</strong>"), officers_path
 
             - if officer_signed_in?
-              %li
-                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('g.new_project')}
-                  %i.icon-pencil
+              - if can? :create, Project
+                %li
+                  %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('g.new_project')}
+                    %i.icon-pencil
 
             %li.dropdown
               %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('g.notifications'), "data-trigger" => "manual"}

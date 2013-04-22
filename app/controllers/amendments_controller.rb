@@ -1,7 +1,13 @@
 class AmendmentsController < ApplicationController
-  load_and_authorize_resource :project
-  load_and_authorize_resource :amendment, through: :project
+  # Check Enabled
   before_filter { |c| c.check_enabled!('amendments') }
+
+  # Load
+  load_resource :project
+  load_resource :amendment, through: :project
+
+  # Authorize
+  before_filter { |c| c.authorize! :create_edit_destroy_amendments, @project }
 
   def create
     @amendment = @project.amendments.create
@@ -14,16 +20,17 @@ class AmendmentsController < ApplicationController
   def update
     @amendment.assign_attributes(amendment_params)
 
-    if params[:amendment][:posted_at] == "1" && !@amendment.posted?
-      @amendment.post_by_officer(current_officer)
-    elsif params[:amendment][:posted_at] == "0" && @amendment.posted?
-      @amendment.unpost_by_officer(current_officer)
+    if can? :post_amendments_live, @project
+      if params[:amendment][:posted_at] == "1" && !@amendment.posted?
+        @amendment.post_by_officer(current_officer)
+      elsif params[:amendment][:posted_at] == "0" && @amendment.posted?
+        @amendment.unpost_by_officer(current_officer)
+      end
     end
 
     @amendment.save
 
     flash[:success] = "Amendment saved successfully."
-
     redirect_to edit_project_path(@project)
   end
 

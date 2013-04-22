@@ -1,24 +1,26 @@
-- unless @filterOptions.f2 is "awarded"
-  %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
-    - if @filterOptions.f2 is "dismissed"
-      = I18n.js('undismiss')
-    - else
-      = I18n.js('dismiss')
+- if @abilities.awardAndDismissBids
+  - unless @filterOptions.f2 is "awarded"
+    %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+      - if @filterOptions.f2 is "dismissed"
+        = I18n.js('undismiss')
+      - else
+        = I18n.js('dismiss')
 
-- unless @filterOptions.f2 is "dismissed"
-  %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
-    - if @filterOptions.f2 is "awarded"
-      = I18n.js('unaward')
-    - else
-      = I18n.js('award')
+  - unless @filterOptions.f2 is "dismissed"
+    %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
+      - if @filterOptions.f2 is "awarded"
+        = I18n.js('unaward')
+      - else
+        = I18n.js('award')
 
-.btn-group
-  %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
-    = I18n.js('label')
-    %b.caret
-  %ul.dropdown-menu
-    - @labels.each (label) ->
-      %li
-        %a{"data-backbone-label-id" => label.get('id')}
-          %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
-          #{label.get('name')}
+- if @abilities.labelBids
+  .btn-group
+    %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
+      = I18n.js('label')
+      %b.caret
+    %ul.dropdown-menu
+      - @labels.each (label) ->
+        %li
+          %a{"data-backbone-label-id" => label.get('id')}
+            %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+            #{label.get('name')}

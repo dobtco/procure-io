@@ -2,15 +2,16 @@
 
 %ul.nav.nav-pills.nav-stacked.filter-nav#labels-list
 
-%form#new-label-form
-  %input.hidden-color-input{"type" => "hidden", "name" => "label[color]", "value" => "#898989"}
-  %input{"type" => "text", "name" => "label[name]", "placeholder" => "New label name"}
-  .color-wrapper.hide
-    != JST['bid_review/_color_swatches']()
+- if @abilities.manageLabels
+  %form#new-label-form
+    %input.hidden-color-input{"type" => "hidden", "name" => "label[color]", "value" => "#898989"}
+    %input{"type" => "text", "name" => "label[name]", "placeholder" => "New label name"}
+    .color-wrapper.hide
+      != JST['bid_review/_color_swatches']()
 
-    %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.js('custom_color')
-    %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
+      %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.js('custom_color')
+      %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
 
-  %button.btn.btn-inverse= I18n.js('create_label')
+    %button.btn.btn-inverse= I18n.js('create_label')
 
-%a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.js('edit_labels')
+  %a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.js('edit_labels')

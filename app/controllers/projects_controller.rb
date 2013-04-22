@@ -6,10 +6,16 @@ class ProjectsController < ApplicationController
   load_resource except: [:new, :create]
 
   # Authorize
-  before_filter only: [:edit, :update] { |c| c.authorize! :edit_description, @project }
+  before_filter only: [:edit, :update] { |c| c.authorize! :edit_project_details, @project }
 
-  before_filter only: [:import_csv, :post_import_csv, :export_csv, :post_export_csv,
-                       :review_mode, :post_review_mode, :wufoo, :post_wufoo] { |c| c.authorize! :admin, @project }
+  before_filter only: [:import_csv, :post_import_csv] { |c| c.authorize! :import_bids, @project }
+
+  before_filter only: [:export_csv, :post_export_csv] { |c| c.authorize! :export_bids, @project }
+
+  before_filter only: [:review_mode, :post_review_mode] { |c| c.authorize! :change_review_mode, @project }
+
+  # @todo authorize wufoo
+  # @todo add destroy method
 
   before_filter only: [:new, :create] { |c| c.authorize! :create, Project }
 
@@ -40,7 +46,7 @@ class ProjectsController < ApplicationController
   end
 
   def comments
-    authorize! :read_comments_about, @project
+    authorize! :read_and_write_project_comments, @project
     current_user.read_notifications(@project, :project_comment)
     @comments_json = serialized(@project.comments).to_json
   end
@@ -74,10 +80,12 @@ class ProjectsController < ApplicationController
     @project.updating_officer_id = current_officer.id
     @project.assign_attributes(project_params)
 
-    if params[:project][:posted_at] == "1" && !@project.posted?
-      @project.post_by_officer(current_officer)
-    elsif params[:project][:posted_at] == "0" && @project.posted?
-      @project.unpost_by_officer(current_officer)
+    if can? :post_project_live, @project
+      if params[:project][:posted_at] == "1" && !@project.posted?
+        @project.post_by_officer(current_officer)
+      elsif params[:project][:posted_at] == "0" && @project.posted?
+        @project.unpost_by_officer(current_officer)
+      end
     end
 
     @project.save
