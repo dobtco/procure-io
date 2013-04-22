@@ -4,7 +4,7 @@
 #
 #  id          :integer          not null, primary key
 #  name        :string(255)
-#  role_type   :integer
+#  role_type   :integer          default(1), not null
 #  permissions :text
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

@@ -47,7 +47,7 @@ class Ability
 
 
   def officer_user(user)
-    permissions = user.owner.permissions
+    permissions = user.owner.role.permissions
 
     (can :create, Project) if permissions[:create_new_projects] == "1"
     (can :collaborate_on, Project) if permissions[:collaborate_on_all_projects] == "1"
@@ -60,7 +60,7 @@ class Ability
       project.collaborators.where(officer_id: user.owner.id, owner: true).first
     end
 
-    Role.flat_project_permissions do |permission|
+    Role.flat_project_permissions.each do |permission|
       if permissions[permission] == "when_collaborator"
         can permission, Project do |project|
           can :collaborate_on, project
