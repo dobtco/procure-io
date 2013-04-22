@@ -26,6 +26,6 @@ class ProjectSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v2']
+    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v3']
   end
 end

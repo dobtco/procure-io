@@ -13,7 +13,7 @@
 class Label < ActiveRecord::Base
   include Colorist
 
-  belongs_to :project
+  belongs_to :project, touch: true
   has_and_belongs_to_many :bids
 
   before_destroy :touch_all_bids
