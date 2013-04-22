@@ -1,5 +1,9 @@
 .action-header
-  %h4.pull-left #{I18n.js('bid_from')} #{@bid.vendor.display_name}
+  %h4.pull-left
+    - if @bid.vendor
+      #{I18n.js('bid_from')} #{@bid.vendor.display_name}
+    - else
+      = @bid.bidder_name
 
   .pull-right
 
@@ -71,15 +75,16 @@
           = @bid.total_comments
           = if @bid.total_comments is 1 then "comment" else "comments"
 
-    %dl
-      %dt= I18n.js('contact_name')
-      %dd= @bid.vendor.display_name
-      %dt= I18n.js('email_address')
-      %dd= @bid.vendor.user.email
+    - if @bid.vendor
+      %dl
+        %dt= I18n.js('contact_name')
+        %dd= @bid.vendor.display_name
+        %dt= I18n.js('email_address')
+        %dd= @bid.vendor.user.email
 
-      - for response in (@bid.vendor.vendor_profile?.responses || [])
-        %dt= response.response_field.label
-        %dd= response.display_value
+        - for response in (@bid.vendor.vendor_profile?.responses || [])
+          %dt= response.response_field.label
+          %dd= response.display_value
 
   .span9
     != JST['shared/_bid']({bid: @bid, getResponseField: @getResponseField})

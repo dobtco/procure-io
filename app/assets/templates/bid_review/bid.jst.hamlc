@@ -16,7 +16,7 @@
       %span.total_ratings= @bid.total_ratings
 
 %td
-  %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.vendor.display_name
+  %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.bidder_name
 
   - for label_id in @bid.labels
     - label = @getLabel(label_id)

@@ -99,11 +99,7 @@ class Project < ActiveRecord::Base
   end
 
   def key_fields
-    if response_fields.where(key_field: true).any?
-      response_fields.where(key_field: true)
-    else
-      []
-    end
+    response_fields.where(key_field: true)
   end
 
   def unread_bids_for_officer(officer)
