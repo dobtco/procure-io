@@ -16,8 +16,8 @@
         %li{"class" => active_page?("projects#export_csv")}
           =link_to t('g.export_bids'), export_csv_project_path(@project)
 
-      %li{"class" => active_page?("projects#wufoo")}
-        =link_to t('g.wufoo_integration'), wufoo_project_path(@project)
+      - #%li{"class" => active_page?("projects#wufoo")}
+      - #  =link_to t('g.wufoo_integration'), wufoo_project_path(@project)
 
   .span9
     = yield

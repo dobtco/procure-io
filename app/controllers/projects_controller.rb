@@ -26,7 +26,7 @@ class ProjectsController < ApplicationController
   before_filter :authenticate_officer!, only: [:mine]
 
   # :post_wufoo is an API call, don't use CSRF
-  protect_from_forgery except: :post_wufoo
+  # protect_from_forgery except: :post_wufoo
 
   def index
     GlobalConfig.instance[:search_projects_enabled] ? index_advanced : index_basic
@@ -166,42 +166,42 @@ class ProjectsController < ApplicationController
     redirect_to review_mode_project_path(@project)
   end
 
-  def wufoo
-  end
+  # def wufoo
+  # end
 
-  def post_wufoo
-    data = {}
+  # def post_wufoo
+  #   data = {}
 
-    params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
+  #   params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
 
-    params[:FieldStructure]["Fields"].each do |field|
-      field_ids = []
+  #   params[:FieldStructure]["Fields"].each do |field|
+  #     field_ids = []
 
-      if field["SubFields"]
-        field["SubFields"].each { |subfield| field_ids << subfield["ID"] }
-      else
-        field_ids << field["ID"]
-      end
+  #     if field["SubFields"]
+  #       field["SubFields"].each { |subfield| field_ids << subfield["ID"] }
+  #     else
+  #       field_ids << field["ID"]
+  #     end
 
-      val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
+  #     val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
 
-      case field["Type"]
-      when "date"
-        val = "#{val[4..5]}/#{val[6..7]}/#{val[0..3]}"
-      when "radio", "checkbox"
-        val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(", ")
-      when "file"
-        val = params.values_at("#{field_ids[0]}-url")
-      end
+  #     case field["Type"]
+  #     when "date"
+  #       val = "#{val[4..5]}/#{val[6..7]}/#{val[0..3]}"
+  #     when "radio", "checkbox"
+  #       val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(", ")
+  #     when "file"
+  #       val = params.values_at("#{field_ids[0]}-url")
+  #     end
 
-      data[field["Title"].downcase] = val
-    end
+  #     data[field["Title"].downcase] = val
+  #   end
 
-    label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
-    @project.create_bid_from_hash!(data, label)
+  #   label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
+  #   @project.create_bid_from_hash!(data, label)
 
-    render json: { status: "success" }
-  end
+  #   render json: { status: "success" }
+  # end
 
   def response_fields
   end
