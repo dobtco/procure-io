@@ -6,6 +6,9 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+Role.create(name: "User", role_type: Role.role_types[:user], undeletable: true,
+            permissions: Role.low_permissions, default: true)
+Role.create(name: "Admin", role_type: Role.role_types[:admin], undeletable: true)
 Role.create(name: "God", role_type: Role.role_types[:god], undeletable: true)
 
 unless Rails.env.production?

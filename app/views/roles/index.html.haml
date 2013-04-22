@@ -13,13 +13,14 @@
   %tbody
     - @roles.each do |role|
       %tr
-        %td= role.name
         %td
-          - if can? :manage, role
-            = link_to t('g.edit'), edit_role_path(role)
-            - unless role.undeletable?
-              = link_to t('g.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role')
-          - else
-            = t('.sorry_cant_edit')
+          = role.name
+          - if role.default
+            %i.icon-star
+        %td
+          = link_to t('g.set_role_as_default'), set_as_default_role_path(role), method: :post, class: "btn btn-small #{role.default ? 'disabled' : ''}"
+          = link_to t('g.edit'), edit_role_path(role), class: "btn btn-small"
+          - unless role.undeletable?
+            = link_to t('g.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role'), class: "btn btn-small"
 
 = will_paginate @roles, class: "pagination pagination-centered"

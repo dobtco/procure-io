@@ -37,7 +37,7 @@ class CollaboratorsController < ApplicationController
 
     if filtered_params[:role_id]
       role = Role.find(filtered_params[:role_id])
-      filtered_params.delete(:role_id) unless role.assignable_by_officer?(current_officer)
+      filtered_params.delete(:role_id) unless user_is_admin_or_god? && !role.is_god?
     end
 
     filtered_params

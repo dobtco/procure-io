@@ -9,6 +9,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  undeletable :boolean
+#  default     :boolean
 #
 
 require_dependency 'enum'
@@ -20,9 +21,9 @@ class Role < ActiveRecord::Base
 
   after_initialize :set_default_permissions
 
-  # def self.role_type_name(role_type)
-  #   I18n.t("roles.names.#{role_type}")
-  # end
+  def self.role_type_name(role_type)
+    I18n.t("roles.role_types.#{role_type}")
+  end
 
   def is_god?
     role_type == Role.role_types[:god]
@@ -33,6 +34,8 @@ class Role < ActiveRecord::Base
       :user, :admin, :god
     )
   end
+
+  scope :not_god, where("role_type != ?", Role.role_types[:god])
 
   def self.categorized_project_permissions
     {
@@ -104,6 +107,32 @@ class Role < ActiveRecord::Base
     Role.flat_project_permissions + Role.flat_global_permissions
   end
 
+  def self.low_permissions
+    {
+      create_new_projects: "1",
+      edit_project_details: "when_collaborator",
+      post_project_live: "when_owner",
+      create_edit_destroy_amendments: "when_collaborator",
+      post_amendments_live: "when_owner",
+      read_bids: "when_collaborator",
+      review_bids: "when_collaborator",
+      award_and_dismiss_bids: "when_owner",
+      read_and_write_bid_comments: "when_collaborator",
+      view_private_response_fields: "when_owner",
+      label_bids: "when_collaborator",
+      manage_labels: "when_owner",
+      manage_response_fields: "when_owner",
+      answer_questions: "when_collaborator",
+      read_and_write_project_comments: "when_collaborator",
+      add_and_remove_collaborators: "when_owner",
+      import_bids: "when_owner",
+      export_bids: "when_owner",
+      access_reports: "when_owner",
+      change_review_mode: "when_owner",
+      destroy_project: "when_owner"
+    }
+  end
+
   private
   def set_default_permissions
     return if self.permissions
@@ -116,16 +145,4 @@ class Role < ActiveRecord::Base
 
     self.permissions = new_permissions
   end
-
-  # def assignable_by_officer?(officer)
-  #   permission_level <= (officer.role ? officer.role.permission_level : Role.permission_levels[:user])
-  # end
-
-  # scope :assignable_by_officer, lambda { |officer| where("permission_level <= ?", (officer.role ? officer.role.permission_level : Role.permission_levels[:user])) }
-
-  # scope :not_god, where("permission_level != ?", Role.permission_levels[:god])
-
-  # def permission_level_name
-  #   Role.permission_level_name(Role.permission_levels[permission_level])
-  # end
 end

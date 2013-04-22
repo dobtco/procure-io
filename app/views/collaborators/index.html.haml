@@ -18,12 +18,12 @@
           %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
             "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
 
-      - if can? :update, Officer
+      - if user_is_admin_or_god?
         %div
           = t('collaborators.index.assign_role_of')
           %select{"name" => "role_id"}
-            - Role.all.each do |role|
-              %option{"value" => role.id}= role.name
+            - Role.not_god.all.each do |role|
+              %option{"value" => role.id, "selected" => role.default}= role.name
 
       %small
         %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}

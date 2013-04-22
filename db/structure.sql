@@ -710,7 +710,8 @@ CREATE TABLE roles (
     permissions text,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    undeletable boolean
+    undeletable boolean,
+    "default" boolean
 );
 
 
@@ -1700,3 +1701,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130412193007');
 INSERT INTO schema_migrations (version) VALUES ('20130416213202');
 
 INSERT INTO schema_migrations (version) VALUES ('20130419203956');
+
+INSERT INTO schema_migrations (version) VALUES ('20130422010306');
