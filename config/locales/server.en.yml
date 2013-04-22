@@ -256,7 +256,7 @@ en:
   projects:
     export_csv:
       description: >
-        "Want your data without the bells and whistles of %{site_name}? We understand. You can download an
+        Want your data without the bells and whistles of %{site_name}? We understand. You can download an
         Excel-compatible CSV export of your bids below.
       link_text:
         one: Download 1 bid as CSV
