@@ -1,22 +1,10 @@
-class ProjectSerializer < ActiveModel::Serializer
+class SimpleProjectSerializer < ActiveModel::Serializer
   cached true
 
   attributes :id, :title, :abstract, :body, :bids_due_at, :posted_at, :bids_due_at_readable, :posted_at_readable,
-             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly, :form_options, :review_mode
+             :bids_due_at_readable_dateonly, :posted_at_readable_dateonly, :review_mode
 
   has_many :tags
-  has_many :labels
-
-  has_many :response_fields
-  has_many :key_fields
-
-  def response_fields
-    if scope && Ability.new(scope).can?(:view_only_visible_to_admin_fields, ResponseField)
-      object.response_fields
-    else
-      object.response_fields.without_only_visible_to_admin_fields
-    end
-  end
 
   def abstract
     object.abstract_or_truncated_body
@@ -43,6 +31,6 @@ class ProjectSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v1']
+    [object.cache_key, 'v1']
   end
 end

@@ -20,7 +20,7 @@ class ResponseField < ActiveRecord::Base
 
   scope :without_only_visible_to_admin_fields, where("only_visible_to_admin IS NULL OR only_visible_to_admin = ?", false)
 
-  belongs_to :response_fieldable, polymorphic: true
+  belongs_to :response_fieldable, polymorphic: true, touch: true
   has_many :responses, dependent: :destroy
 
   serialize :field_options, Hash
