@@ -31,6 +31,7 @@ class RolesController < ApplicationController
     elsif @role.undeletable?
       flash[:error] = I18n.t('flashes.role_undeletable')
     else
+      flash[:error] = I18n.t('flashes.users_role_deleted', count: @role.officers.count) if @role.officers.count > 0
       @role.destroy
     end
 

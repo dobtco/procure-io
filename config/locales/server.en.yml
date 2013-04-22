@@ -66,6 +66,9 @@ en:
     role_undeletable: "Sorry, that role can't be deleted."
     sent_reset_password_instructions: Check your email for instructions on how to reset your password.
     updated_site_configuration: Successfully updated site configuration.
+    users_role_deleted:
+      one: "You successfully deleted the role, but careful, there is 1 user who now doesn't have a role set."
+      others: "You successfully deleted the role, but careful, there are %{count} users who now doesn't have a role set."
     valid_login: You are now signed in.
     wrong_current_password: Your current password was not correct.
 
