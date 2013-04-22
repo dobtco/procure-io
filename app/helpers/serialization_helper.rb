@@ -30,8 +30,13 @@ module SerializationHelper
       opts[:root] = false
     end
 
-    scope = opts.delete(:scope)
-    scope = current_user if scope == nil
+    if opts.has_key?(:scope)
+      scope = opts.delete(:scope)
+    elsif defined?(current_user)
+      scope = current_user
+    else
+      scope = false
+    end
 
     # If it's an array, apply the serializer as an each_serializer to the elements
     serializer_opts = {scope: scope}.merge!(opts)

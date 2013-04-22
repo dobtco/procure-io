@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper
   include AuthlogicHelper
+  include EventsHelper
   include SerializationHelper
 
   protect_from_forgery

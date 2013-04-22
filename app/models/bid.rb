@@ -23,6 +23,8 @@ class Bid < ActiveRecord::Base
   include PgSearch
   include IsResponsable
   include Searcher
+  include SerializationHelper
+  include EventsHelper
 
   belongs_to :project
   belongs_to :vendor
@@ -263,48 +265,55 @@ class Bid < ActiveRecord::Base
   end
 
   def create_bid_submitted_events!
-    event = events.create(event_type: Event.event_types[:bid_submitted], data: {bid: BidSerializer.new(self, root: false)}.to_json)
-
-    project.watches.not_disabled.where_user_is_officer.each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id)
-    end
+    create_events(:bid_submitted,
+                  project.watches.not_disabled.where_user_is_officer.pluck("users.id"),
+                  event_data_without_officer)
   end
 
   def create_bid_awarded_events!(officer)
-    event = events.create(event_type: Event.event_types[:bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
+    create_events(:bid_awarded,
+                  project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
+                  event_data)
 
-    project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id)
-    end
-
-    if vendor
-      vendor_event = events.create(event_type: Event.event_types[:vendor_bid_awarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-      EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
-    end
+    create_events(:vendor_bid_awarded,
+                  vendor.user.id,
+                  event_data) if vendor
   end
 
   def create_bid_unawarded_events!(officer)
-    event = events.create(event_type: Event.event_types[:bid_unawarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
+    create_events(:bid_unawarded,
+                  project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
+                  event_data)
 
-    project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id)
-    end
-
-    if vendor
-      vendor_event = events.create(event_type: Event.event_types[:vendor_bid_unawarded], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-      EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
-    end
+    create_events(:vendor_bid_unawarded,
+                  vendor.user.id,
+                  event_data) if vendor
   end
 
   def create_bid_dismissed_events!(officer)
-    return unless vendor
-    vendor_event = events.create(event_type: Event.event_types[:vendor_bid_dismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
+    create_events(:vendor_bid_dismissed,
+                  vendor.user.id,
+                  event_data) if vendor
   end
 
   def create_bid_undismissed_events!(officer)
-    return unless vendor
-    vendor_event = events.create(event_type: Event.event_types[:vendor_bid_undismissed], data: {bid: BidSerializer.new(self, root: false), officer: OfficerSerializer.new(officer, root: false)}.to_json)
-    EventFeed.create(event_id: vendor_event.id, user_id: vendor.user.id)
+    create_events(:vendor_bid_undismissed,
+                  vendor.user.id,
+                  event_data) if vendor
+  end
+
+  def event_data
+    {
+      bid: serialized(self),
+      project: serialized(project, SimpleProjectSerializer),
+      officer: serialized(officer)
+    }
+  end
+
+  def event_data_without_officer
+    {
+      bid: serialized(self),
+      project: serialized(project, SimpleProjectSerializer)
+    }
   end
 end

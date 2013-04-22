@@ -15,6 +15,7 @@
 
 class Comment < ActiveRecord::Base
   include SerializationHelper
+  include EventsHelper
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :officer
@@ -46,18 +47,15 @@ class Comment < ActiveRecord::Base
   def generate_events
     return if comment_type # don't proceed if this is an automatically-generated comment
 
-    if commentable.class.name == "Project"
-      event = commentable.events.create(event_type: Event.event_types[:project_comment],
-                                        data: serialized(self, scope: false, include_commentable: true).to_json)
-    elsif commentable.class.name == "Bid"
-      event = commentable.events.create(event_type: Event.event_types[:bid_comment],
-                                        data: {comment: serialized(self, scope: false, include_commentable: true),
-                                               project: serialized(commentable.project, scope: false)}.to_json)
+    data = { comment: serialized(self, include_commentable: true)}
+
+    if commentable.class.name == "Bid"
+      data[:project] = serialized(commentable.project)
     end
 
-    commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id)
-    end
+    create_events(:"#{commentable.class.name.downcase}_comment",
+              commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
+              event_data)
   end
 
   handle_asynchronously :generate_events

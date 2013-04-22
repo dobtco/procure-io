@@ -13,6 +13,8 @@
 #
 
 class Question < ActiveRecord::Base
+  include EventsHelper
+
   default_scope order('created_at')
 
   scope :unanswered, where("answer_body = '' OR answer_body IS NULL")
@@ -29,23 +31,19 @@ class Question < ActiveRecord::Base
 
   private
   def generate_question_asked_events!
-    event = project.events.create(event_type: Event.event_types[:question_asked],
-                                  data: { vendor: VendorSerializer.new(vendor, root: false),
-                                          project: ProjectSerializer.new(project, root: false) }.to_json )
-
-    project.watches.not_disabled.where_user_is_officer.each do |watch|
-      EventFeed.create(event_id: event.id, user_id: watch.user_id)
-    end
+    create_events(:question_asked,
+                  project.watches.not_disabled.where_user_is_officer.pluck("users.id"),
+                  vendor: serialized(vendor),
+                  project: serialized(project, SimpleProjectSerializer))
   end
 
   handle_asynchronously :generate_question_asked_events!
 
   def generate_question_answered_events!
-    event = project.events.create(event_type: Event.event_types[:question_answered],
-                                  data: { officer: OfficerSerializer.new(officer, root: false),
-                                          project: ProjectSerializer.new(project, root: false) }.to_json )
-
-    vendor.user.event_feeds.create(event_id: event.id)
+    create_events(:question_answered,
+                  vendor.user.id,
+                  officer: serialized(officer),
+                  project: serialized(project, SimpleProjectSerializer))
   end
 
   handle_asynchronously :generate_question_answered_events!

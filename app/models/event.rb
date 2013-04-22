@@ -19,6 +19,8 @@ class Event < ActiveRecord::Base
   has_many :event_feeds, dependent: :destroy
   belongs_to :targetable, polymorphic: :true
 
+  serialize :data, Hash
+
   def self.event_types
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
@@ -29,10 +31,6 @@ class Event < ActiveRecord::Base
 
   def self.event_name_for(event_type)
     I18n.t("events.name.#{event_type}")
-  end
-
-  def data
-    ActiveSupport::JSON.decode(read_attribute(:data))
   end
 
   def path
@@ -85,7 +83,7 @@ class Event < ActiveRecord::Base
       keys = a.split('.')
       value = nil
       keys.each do |k|
-        break if !(value = (value ? value : data)[k])
+        break if !(value = (value ? value : data)[k.to_sym])
       end
       return_hash[keys.join('_').to_sym] = value
     end
