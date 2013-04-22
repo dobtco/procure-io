@@ -9,6 +9,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  added_by_officer_id :integer
+#  added_in_bulk       :boolean
 #
 
 class Collaborator < ActiveRecord::Base
@@ -26,8 +27,23 @@ class Collaborator < ActiveRecord::Base
     officer.user.watches.where(watchable_type: "Bid").where("watchable_id IN (?)", project.bids.pluck(:id)).destroy_all
   end
 
+  def self.send_added_in_bulk_events!(users, project, current_user_id)
+    event = project.events.create(event_type: Event.event_types[:bulk_collaborators_added],
+                                  data: { names: users.map(&:display_name).join(', '),
+                                          count: users.count,
+                                          project: ProjectSerializer.new(project, root: false)}.to_json )
+
+    not_ids = [current_user_id] + users.map(&:id)
+
+    project.watches.where_user_is_officer.not_disabled.where("user_id NOT IN (?)", not_ids).each do |watch|
+      EventFeed.create(event_id: event.id, user_id: watch.user_id)
+    end
+  end
+
   private
   def create_collaborator_added_events!
+    return if added_in_bulk # don't send multiple emails when bulk-adding collaborators
+
     event = project.events.create(event_type: Event.event_types[:collaborator_added],
                                   data: { officer: OfficerSerializer.new(officer, root: false),
                                           project: ProjectSerializer.new(project, root: false)}.to_json )

@@ -7,21 +7,30 @@ class CollaboratorsController < ApplicationController
   before_filter except: [:index] { |c| c.authorize! :add_and_remove_collaborators, @project }
 
   def index
-    current_user.read_notifications(@project, :collaborator_added, :you_were_added)
+    current_user.read_notifications(@project, :collaborator_added, :you_were_added, :bulk_collaborators_added)
     @collaborators = @project.collaborators
   end
 
   def create
     emails = create_collaborator_params[:email].split(',').map{ |e| e.strip }
+    added_in_bulk = emails.count > 1
+    users = []
 
     emails.each do |email|
       officer = Officer.joins(:user).where(users: { email: email }).first ||
                 Officer.invite!(email, @project, create_collaborator_params[:role_id])
 
       if officer.valid?
-        officer.collaborators.where(project_id: @project.id).first_or_create(added_by_officer_id: current_officer.id)
+        officer.collaborators
+               .where(project_id: @project.id)
+               .first_or_create(added_by_officer_id: current_officer.id, added_in_bulk: true)
+
+        users << officer.user
       end
     end
+
+    Collaborator.delay.send_added_in_bulk_events!(users, @project, current_user.id) if added_in_bulk
+
     @collaborators = @project.collaborators
   end
 

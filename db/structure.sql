@@ -160,7 +160,8 @@ CREATE TABLE collaborators (
     owner boolean,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    added_by_officer_id integer
+    added_by_officer_id integer,
+    added_in_bulk boolean
 );
 
 
@@ -1703,3 +1704,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130416213202');
 INSERT INTO schema_migrations (version) VALUES ('20130419203956');
 
 INSERT INTO schema_migrations (version) VALUES ('20130422010306');
+
+INSERT INTO schema_migrations (version) VALUES ('20130422040330');

@@ -21,7 +21,7 @@ class Officer < ActiveRecord::Base
   belongs_to :role
 
   def self.event_types
-    types = [:collaborator_added, :you_were_added]
+    types = [:collaborator_added, :you_were_added, :bulk_collaborators_added]
     types.push(:question_asked) if GlobalConfig.instance[:questions_enabled]
     types.push(:project_comment) if GlobalConfig.instance[:comments_enabled]
     types.push(:bid_comment) if GlobalConfig.instance[:bid_review_enabled] && GlobalConfig.instance[:comments_enabled]
@@ -57,6 +57,6 @@ class Officer < ActiveRecord::Base
   handle_asynchronously :send_invitation_email!
 
   def default_notification_preferences
-    Officer.event_types.except(:collaborator_added, :bid_submitted).values
+    Officer.event_types.except(:collaborator_added, :bid_submitted, :bulk_collaborators_added).values
   end
 end

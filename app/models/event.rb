@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
     @event_types ||= Enum.new(
       :project_comment, :bid_comment, :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded,
       :vendor_bid_dismissed, :vendor_bid_undismissed, :project_amended, :collaborator_added, :you_were_added,
-      :question_asked, :question_answered, :bid_submitted
+      :question_asked, :question_answered, :bid_submitted, :bulk_collaborators_added
     )
   end
 
@@ -48,7 +48,7 @@ class Event < ActiveRecord::Base
       project_questions_path(targetable_id)
     when :project_amended, :question_answered
       project_path(targetable_id)
-    when :collaborator_added
+    when :collaborator_added, :bulk_collaborators_added
       project_collaborators_path(targetable_id)
     when :you_were_added
       edit_project_path(targetable_id)
@@ -60,7 +60,7 @@ class Event < ActiveRecord::Base
   end
 
   def additional_text
-    if event_type.in? Event.event_types.only(:you_were_added).values
+    if event_type.in? Event.event_types.only(:you_were_added, :bulk_collaborators_added).values
       I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
     end
   end
@@ -77,7 +77,7 @@ class Event < ActiveRecord::Base
     attrs = [
       "officer.display_name", "commentable.title", "commentable.vendor.display_name", "commentable.project.title",
       "bid.vendor.display_name", "bid.project.title", "title", "project.title", "vendor.display_name",
-      "comment.officer.display_name", "comment.commentable.vendor.display_name"
+      "comment.officer.display_name", "comment.commentable.vendor.display_name", "names", "count"
     ]
 
     attrs.each do |a|

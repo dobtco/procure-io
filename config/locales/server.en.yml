@@ -18,6 +18,7 @@ en:
   events:
     additional_text:
       you_were_added: You have automatically been subscribed to all updates on this project.
+      bulk_collaborators_added: "%{names} were added."
 
     name:
       bid_awarded: Bid Accepted
@@ -25,6 +26,7 @@ en:
       bid_submitted: Bid Submitted
       bid_unawarded: Bid Unaccepted
       collaborator_added: Collaborator Added
+      bulk_collaborators_added: Multiple Collaborators Added
       project_amended: Project Amended
       project_comment: Project Comment
       question_answered: Question answered
@@ -41,6 +43,7 @@ en:
       bid_submitted: "%{bid_vendor_display_name} submitted a bid for %{bid_project_title}."
       bid_unawarded: "%{officer_display_name} unaccepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
       collaborator_added: "%{officer_display_name} was added as a collaborator on %{project_title}."
+      bulk_collaborators_added: "%{count} collaborators were added to %{project_title}."
       project_amended: "The project %{title} has been amended."
       project_comment: "%{officer_display_name} commented on %{commentable_title}."
       question_answered: "%{officer_display_name} answered your question about %{project_title}."
