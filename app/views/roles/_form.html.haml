@@ -14,7 +14,7 @@
 
   %h4 For projects where user is a collaborator
 
-  %table.table
+  %table.table.table-nonfluid
     %tbody
       - Role.categorized_project_permissions.each do |section_name, permissions|
         = render "permission_table_header", section_name: section_name

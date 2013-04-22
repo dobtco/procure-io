@@ -1,10 +1,10 @@
 class CollaboratorsController < ApplicationController
   # Load
   load_resource :project
-  load_resource :collaborator, through: :project, only: [:destroy]
+  load_resource :collaborator, through: :project, only: [:destroy, :owner]
 
   # Authorize
-  before_filter except: [:index] { |c| c.authorize! :add_and_remove_collaborators, @project }
+  before_filter except: [:index, :owner] { |c| c.authorize! :add_and_remove_collaborators, @project }
 
   def index
     current_user.read_notifications(@project, :collaborator_added, :you_were_added, :bulk_collaborators_added)
@@ -38,6 +38,22 @@ class CollaboratorsController < ApplicationController
     authorize! :destroy, @collaborator
     @collaborator.destroy
     render json: {}
+  end
+
+  def owner
+    authorize! :assign_owner, @project
+
+    if @collaborator.owner # remove ownership
+      if @project.owners.count > 1
+        @collaborator.update_attributes(owner: false)
+      else
+        flash[:error] = t('flashes.cant_remove_last_owner')
+      end
+    else # add ownership
+      @collaborator.update_attributes(owner: true)
+    end
+
+    redirect_to :back
   end
 
   private

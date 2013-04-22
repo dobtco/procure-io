@@ -1,20 +1,20 @@
 - provide :page_title, @project.title
 
 - if can? :collaborate_on, @project
-  .alert.alert-success= t('.you_are_collaborator.line_html', link: link_to(t('.you_are_collaborator.link'), edit_project_path(@project)))
-
-!= page_header @project.title do
-  %small
-    - if @project.featured
-      %i.icon-star
-    - if @project.bids_due_at
-      = t("g.#{@project.open_for_bids? ? 'bids_due_on' : 'bids_were_due_on'}", date: @project.bids_due_at.to_formatted_s(:readable))
-    - else
-      = t('g.open_for_bids')
+  = render "projects/officer_nav"
+- else
+  != page_header @project.title do
+    %small
+      - if @project.featured
+        %i.icon-star
+      - if @project.bids_due_at
+        = t("g.#{@project.open_for_bids? ? 'bids_due_on' : 'bids_were_due_on'}", date: @project.bids_due_at.to_formatted_s(:readable))
+      - else
+        = t('g.open_for_bids')
 
 .row-fluid
   .span7
-    - if @project.abstract
+    - if !@project.abstract.blank?
       %h4= Project.human_attribute_name(:abstract)
       %p= @project.abstract
 
@@ -60,7 +60,7 @@
             %br
             = f.submit t('g.submit'), class: "btn btn-inverse"
         %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
-      - elsif officer_signed_in? && (can? :collaborate_on, @project)
+      - elsif officer_signed_in? && (can? :answer_questions, @project)
         .alert.alert-success
           = t('.click_here_to_answer_questions.line_html', link: link_to(t('.click_here_to_answer_questions.link'), project_questions_path(@project)))
       - elsif !officer_signed_in?

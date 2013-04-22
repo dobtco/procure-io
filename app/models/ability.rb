@@ -89,8 +89,13 @@ class Ability
       (collaborator.officer_id != user.owner.id)
     end
 
-    can :watch, Project do |project|
+    can [:read, :watch], Project do |project|
       can? :collaborate_on, project
+    end
+
+    can :assign_owner, Project do |project|
+      (can? :own, project) &&
+      (can? :add_and_remove_collaborators, project)
     end
 
     can [:read, :watch], Bid do |bid|

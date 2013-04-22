@@ -94,12 +94,8 @@ class Project < ActiveRecord::Base
     !read_attribute(:abstract).blank? ? read_attribute(:abstract) : truncate(self.body, length: 130, omission: "...")
   end
 
-  def owner
-    officers.where(collaborators: {owner: true}).first
-  end
-
-  def owner_id
-    owner ? owner.id : nil
+  def owners
+    officers.where(collaborators: {owner: true})
   end
 
   def key_fields

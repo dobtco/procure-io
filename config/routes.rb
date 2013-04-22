@@ -80,7 +80,9 @@ ProcureIo::Application.routes.draw do
     resources :amendments
     resources :labels, only: [:create, :destroy, :update]
     resources :questions
-    resources :collaborators
+    resources :collaborators do
+      post 'owner', on: :member
+    end
 
     get 'response_fields' => 'projects#response_fields', on: :member
     get 'use_response_field_template' => 'projects#use_response_field_template', on: :member

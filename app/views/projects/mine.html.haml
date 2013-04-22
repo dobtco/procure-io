@@ -16,7 +16,7 @@
     - @projects.each do |project|
       %tr
         %td= project.tags.map(&:name).join(', ')
-        %td= link_to project.title, edit_project_path(project)
+        %td= link_to project.title, project_path(project)
         %td= link_to project.bids.submitted.count, project_bids_path(project)
         %td
           - if project.bids_due_at

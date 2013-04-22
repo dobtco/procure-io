@@ -6,7 +6,11 @@ class ProjectsController < ApplicationController
   load_resource except: [:new, :create]
 
   # Authorize
-  before_filter only: [:edit, :update] { |c| c.authorize! :edit_project_details, @project }
+  before_filter only: [:edit, :update] { |c|
+    if !(can? :edit_project_details, @project)
+      return redirect_to project_path(@project)
+    end
+  }
 
   before_filter only: [:import_csv, :post_import_csv] { |c| c.authorize! :import_bids, @project }
 

@@ -55,8 +55,10 @@ class BidsController < ApplicationController
   end
 
   def update
-    review = @bid.bid_review_for_officer(current_officer)
-    review.update_attributes(my_bid_review_params)
+    if can? :review_bids, @project
+      review = @bid.bid_review_for_officer(current_officer)
+      review.update_attributes(my_bid_review_params)
+    end
 
     if can? :award_and_dismiss_bids, @project
       if @bid.dismissed? && params[:dismissed_at] == false

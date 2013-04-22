@@ -4,13 +4,20 @@
   .header
     %h3
       = @project.title
+      %small
+        - if @project.featured
+          %i.icon-star
+        - if @project.bids_due_at
+          = t("g.#{@project.open_for_bids? ? 'bids_due_on' : 'bids_were_due_on'}", date: @project.bids_due_at.to_formatted_s(:readable))
+        - else
+          = t('g.open_for_bids')
 
     != watch_button(@project, t('tooltips.watch_project'), "bottom")
 
   .clearfix
 
   %ul.nav.nav-tabs
-    - if GlobalConfig.instance[:bid_review_enabled]
+    - if GlobalConfig.instance[:bid_review_enabled] && (can? :read_bids, @project)
       %li{"class" => active_page?("bids")}
         %a{"href" => project_bids_path(@project)}
           %span
@@ -52,8 +59,5 @@
     %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
       =link_to t('g.admin'), project_collaborators_path(@project)
 
-    %li.pull-right
-      %a{"href" => project_path(@project)}
-        %span
-          %span.visible-desktop= t('g.view')
-          %i.icon-share-alt
+    %li.pull-right{"class" => active_page?("projects#show")}
+      %a{"href" => project_path(@project)}= t('g.view')
