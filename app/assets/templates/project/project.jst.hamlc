@@ -1,7 +1,6 @@
 %div
   %span.project-name
     %a{"href" => "/projects/#{@id}"}= @title
-  / %span.project-department
 
 .project-abtract= @abstract
 
@@ -15,11 +14,11 @@
 
   %span.project-bids-due-at
     - if @bids_due_at
-      #{I18n.js('bids_due_on')} #{@bids_due_at_readable_dateonly}
+      #{I18n.js('bids_due_on')} #{moment(@bids_due_at).format(ProcureIo.READABLE_DATEONLY)}
     - else
       = I18n.js('open_for_bids')
 
   &middot;
 
   %span.posted-at
-    #{I18n.js('posted_on')} #{@posted_at_readable_dateonly}
+    #{I18n.js('posted_on')} #{moment(@posted_at).format(ProcureIo.READABLE_DATEONLY)}

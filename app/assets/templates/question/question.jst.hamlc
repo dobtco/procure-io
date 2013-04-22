@@ -3,7 +3,7 @@
 - if @answer_body
   %div.answer-body.collapse{"id" => "answer-body-#{@id}"}
     %p= @answer_body
-    %span.answered-by #{I18n.js('answered_by')} #{@officer_name} #{I18n.js('on')} #{@updated_at_readable}
+    %span.answered-by #{I18n.js('answered_by')} #{@officer_name} #{I18n.js('on')} #{moment(@updated_at).format(ProcureIo.READABLE)}
   %a{"data-toggle" => "collapse", "data-target" => "#answer-body-#{@id}", "data-toggle-text" => I18n.js('hide_answer')}= I18n.js('show_answer')
 - else
   .no-answer-body= I18n.js('no_answer')

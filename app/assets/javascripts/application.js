@@ -16,6 +16,7 @@
 //= require i18n.extensions
 //= require prototype_hacks
 //= require moment.min
+//= require time_formats
 //= require jquery
 //= require jquery.mixins
 //= require jquery_ujs

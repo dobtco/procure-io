@@ -63,7 +63,7 @@
         %span.badge.badge-info= I18n.js('open')
 
     %p
-      %span #{I18n.js('submitted_on')} #{@bid.submitted_at_readable}
+      %span #{I18n.js('submitted_on')} #{moment(@bid.submitted_at).format(ProcureIo.READABLE)}
 
     - if @abilities.readAndWriteBidComments
       %p

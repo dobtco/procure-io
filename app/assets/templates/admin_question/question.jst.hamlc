@@ -1,4 +1,4 @@
-%td= @created_at_readable
+%td= moment(@created_at).format(ProcureIo.READABLE)
 %td= @vendor.name
 %td= @body
 %td
