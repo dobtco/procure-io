@@ -25,6 +25,7 @@ class Project < ActiveRecord::Base
   include WatchableByUser
   include PgSearch
   include Searcher
+  include EventsHelper
 
   attr_accessor :updating_officer_id
 

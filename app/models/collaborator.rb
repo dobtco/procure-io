@@ -13,7 +13,7 @@
 #
 
 class Collaborator < ActiveRecord::Base
-  include EventsHelper
+  include SerializationHelper
 
   belongs_to :project
   belongs_to :officer
@@ -32,7 +32,7 @@ class Collaborator < ActiveRecord::Base
   def self.send_added_in_bulk_events!(users, project, current_user_id)
     not_ids = [current_user_id] + users.map(&:id)
 
-    create_events(:bulk_collaborators_added,
+    project.create_events(:bulk_collaborators_added,
                   project.watches.where_user_is_officer.not_disabled.where("user_id NOT IN (?)", not_ids).pluck("users.id"),
                   names: users.map(&:display_name).join(', '),
                   count: users.count,
@@ -46,7 +46,7 @@ class Collaborator < ActiveRecord::Base
     not_ids = [officer.user.id]
     not_ids.push(Officer.find(added_by_officer_id).user.id) if added_by_officer_id
 
-    create_events(:collaborator_added,
+    project.create_events(:collaborator_added,
                   project.watches.where_user_is_officer.not_disabled.where("user_id NOT IN (?)", not_ids).pluck("users.id"),
                   officer: serialized(officer),
                   project: serialized(project, SimpleProjectSerializer))
@@ -56,7 +56,7 @@ class Collaborator < ActiveRecord::Base
     return if !added_by_officer_id
     return if !officer.user.signed_up?
 
-    create_events(:you_were_added,
+    project.create_events(:you_were_added,
                   officer.user.id,
                   officer: serialized(officer),
                   project: serialized(project, SimpleProjectSerializer))

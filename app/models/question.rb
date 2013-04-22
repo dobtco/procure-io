@@ -13,7 +13,7 @@
 #
 
 class Question < ActiveRecord::Base
-  include EventsHelper
+  include SerializationHelper
 
   default_scope order('created_at')
 
@@ -31,7 +31,7 @@ class Question < ActiveRecord::Base
 
   private
   def generate_question_asked_events!
-    create_events(:question_asked,
+    project.create_events(:question_asked,
                   project.watches.not_disabled.where_user_is_officer.pluck("users.id"),
                   vendor: serialized(vendor),
                   project: serialized(project, SimpleProjectSerializer))
@@ -40,7 +40,7 @@ class Question < ActiveRecord::Base
   handle_asynchronously :generate_question_asked_events!
 
   def generate_question_answered_events!
-    create_events(:question_answered,
+    project.create_events(:question_answered,
                   vendor.user.id,
                   officer: serialized(officer),
                   project: serialized(project, SimpleProjectSerializer))

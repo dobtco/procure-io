@@ -14,7 +14,7 @@
 
 class Amendment < ActiveRecord::Base
   include PostableByOfficer
-  include EventsHelper
+  include SerializationHelper
 
   belongs_to :project, touch: true
 
@@ -24,9 +24,9 @@ class Amendment < ActiveRecord::Base
   end
 
   def create_vendor_notifications!
-    create_events(:project_amended,
+    project.create_events(:project_amended,
                   project.watches.not_disabled.where_user_is_vendor.pluck("users.id"),
-                  serialized(project, SimpleProject))
+                  serialized(project, SimpleProjectSerializer))
   end
 
   handle_asynchronously :create_vendor_notifications!

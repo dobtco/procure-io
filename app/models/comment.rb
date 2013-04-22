@@ -47,13 +47,13 @@ class Comment < ActiveRecord::Base
   def generate_events
     return if comment_type # don't proceed if this is an automatically-generated comment
 
-    data = { comment: serialized(self, include_commentable: true)}
+    event_data = { comment: serialized(self, include_commentable: true)}
 
     if commentable.class.name == "Bid"
-      data[:project] = serialized(commentable.project)
+      event_data[:project] = serialized(commentable.project)
     end
 
-    create_events(:"#{commentable.class.name.downcase}_comment",
+    commentable.create_events(:"#{commentable.class.name.downcase}_comment",
               commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
               event_data)
   end
