@@ -2,12 +2,14 @@
 #
 # Table name: roles
 #
-#  id               :integer          not null, primary key
-#  name             :string(255)
-#  permission_level :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  undeletable      :boolean
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  role_type   :integer          default(1), not null
+#  permissions :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  undeletable :boolean
+#  default     :boolean
 #
 
 require 'spec_helper'

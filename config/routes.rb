@@ -31,7 +31,9 @@ ProcureIo::Application.routes.draw do
 
   get 'users/validate_email' => 'users#validate_email', as: :users_validate_email
 
-  resources :roles
+  resources :roles do
+    post 'set_as_default', on: :member, as: :set_as_default
+  end
 
   resources :notifications, only: [:index, :update]
 

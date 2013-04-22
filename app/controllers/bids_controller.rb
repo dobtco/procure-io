@@ -55,12 +55,10 @@ class BidsController < ApplicationController
   end
 
   def update
-    authorize! :review, @bid
-
     review = @bid.bid_review_for_officer(current_officer)
     review.update_attributes(my_bid_review_params)
 
-    if can? :award_dismiss, @bid
+    if can? :award_and_dismiss_bids, @project
       if @bid.dismissed? && params[:dismissed_at] == false
         @bid.undismiss_by_officer!(current_officer)
       elsif !@bid.dismissed? && params[:dismissed_at] == true
@@ -76,15 +74,13 @@ class BidsController < ApplicationController
       end
     end
 
-    if can? :watch, @bid
-      if current_user.watches?("Bid", @bid) && !params[:watching]
-        current_user.unwatch!("Bid", @bid)
-      elsif !current_user.watches?("Bid", @bid) && params[:watching]
-        current_user.watch!("Bid", @bid)
-      end
+    if current_user.watches?("Bid", @bid) && !params[:watching]
+      current_user.unwatch!("Bid", @bid)
+    elsif !current_user.watches?("Bid", @bid) && params[:watching]
+      current_user.watch!("Bid", @bid)
     end
 
-    if (can? :label, @bid) && params.has_key?(:labels)
+    if (can? :label_bids, @project) && params.has_key?(:labels)
       @bid.labels = []
 
       (params[:labels] || []).each do |label_id|
@@ -102,7 +98,7 @@ class BidsController < ApplicationController
     case params[:bid_action]
     when "dismiss"
       @bids.each do |bid|
-        next if !(can? :award_dismiss, bid)
+        next if !(can? :award_and_dismiss_bids, @project)
         if bid.dismissed?
           bid.undismiss_by_officer!(current_officer)
         else
@@ -111,7 +107,7 @@ class BidsController < ApplicationController
       end
     when "award"
       @bids.each do |bid|
-        next if !(can? :award_dismiss, bid)
+        next if !(can? :award_and_dismiss_bids, @project)
         if bid.awarded?
           bid.unaward_by_officer!(current_officer)
         else
@@ -122,7 +118,7 @@ class BidsController < ApplicationController
       @label = @project.labels.find(params[:options][:label_id])
 
       @bids.each do |bid|
-        next if !(can? :label, bid)
+        next if !(can? :label_bids, @project)
         if bid.labels.where(id: @label.id).first
           bid.labels.destroy(@label)
         else

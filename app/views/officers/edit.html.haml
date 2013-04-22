@@ -21,7 +21,7 @@
 
   .control-group
     = f.label :role, class: "label-optional"
-    = f.collection_select :role_id, Role.assignable_by_officer(current_officer), :id, :name, include_blank: true
+    = f.collection_select :role_id, Role.all, :id, :name
 
   .form-actions
     = f.submit t('g.update_officer'), class: "btn btn-inverse"

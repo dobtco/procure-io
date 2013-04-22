@@ -2,30 +2,18 @@
 #
 # Table name: roles
 #
-#  id               :integer          not null, primary key
-#  name             :string(255)
-#  permission_level :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  undeletable      :boolean
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  role_type   :integer          default(1), not null
+#  permissions :text
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  undeletable :boolean
+#  default     :boolean
 #
 
-review_only:
-  id: 1
-  name: Review Only
-  permission_level: 1
-
-user:
-  id: 2
-  name: User
-  permission_level: 2
-
-admin:
-  id: 3
-  name: Admin
-  permission_level: 3
-
 god:
-  id: 4
+  id: 1
   name: God
-  permission_level: 4
+  role_type: 3
+  default: true

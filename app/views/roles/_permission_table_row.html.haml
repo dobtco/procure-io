@@ -1,0 +1,8 @@
+%tr
+  %td= permission_name
+  %td
+    %input{"type" => "radio", "name" => "role[permissions][#{permission_key}]", "value" => "never", "checked" => @role.permissions[permission_key] == "never"}
+  %td
+    %input{"type" => "radio", "name" => "role[permissions][#{permission_key}]", "value" => "when_owner", "checked" => @role.permissions[permission_key] == "when_owner"}
+  %td
+    %input{"type" => "radio", "name" => "role[permissions][#{permission_key}]", "value" => "when_collaborator", "checked" => @role.permissions[permission_key] == "when_collaborator"}

@@ -33,6 +33,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
       projectLabels: @options.project.labels
       getResponseField: @getResponseField
       getLabel: @getLabel
+      abilities: @options.abilities
 
     rivets.bind(@$el, {bid: @bid})
 

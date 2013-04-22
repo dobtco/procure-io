@@ -29,6 +29,10 @@ module AuthlogicHelper
     current_officer ? true : false
   end
 
+  def user_is_admin_or_god?
+    current_officer && current_officer.is_admin_or_god?
+  end
+
   def only_unauthenticated_user
     redirect_to(root_path) if current_user
   end
@@ -55,5 +59,9 @@ module AuthlogicHelper
   def authenticate_officer!
     # could redirect to sign_in_path, but respond with 404 for better security.
     not_found if !officer_signed_in?
+  end
+
+  def is_admin_or_god
+    not_found unless user_is_admin_or_god?
   end
 end

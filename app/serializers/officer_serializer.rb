@@ -1,7 +1,7 @@
 class OfficerSerializer < ActiveModel::Serializer
   cached true
 
-  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?, :permission_level
+  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?
 
   has_one :user
 

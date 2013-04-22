@@ -6,7 +6,7 @@ class ResponseFieldsController < ApplicationController
   before_filter :users_response_exists?, only: [:delete_response]
 
   # Authorize
-  before_filter except: [:delete_response] { |c| c.authorize! :edit_response_fields, @response_fieldable }
+  before_filter except: [:delete_response] { |c| c.authorize! :manage_response_fields, @response_fieldable }
 
   def create
     @response_field = @response_fieldable.response_fields.create pick(params, *allowed_params)

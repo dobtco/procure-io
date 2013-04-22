@@ -14,10 +14,10 @@ adam:
   id: 1
   name: Adam
   title: DOBTCOCTO
-  role_id: 4
+  role_id: 1
 
 clay:
   id: 2
   name: Clay
   title: DOBTCOCEO
-  role_id: 4
+  role_id: 1

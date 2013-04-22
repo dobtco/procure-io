@@ -30,20 +30,12 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def permission_level
-    if role
-      Role.permission_levels[role.permission_level]
-    else
-      :user
-    end
-  end
-
   def display_name
     !name.blank? ? name : user.email
   end
 
   def self.invite!(email, project, role_id = nil)
-    role_id ||= Role.where(permission_level: Role.permission_levels[:user], undeletable: true).first.id
+    role_id ||= Role.where(default: true).first.id
     officer = Officer.create(role_id: role_id)
     user = User.create(email: email, owner: officer).reset_perishable_token!
     officer.send_invitation_email!(project)
@@ -52,6 +44,14 @@ class Officer < ActiveRecord::Base
 
   def send_invitation_email!(project)
     Mailer.invite_email(self, project).deliver
+  end
+
+  def role_type
+    Role.role_types[role.role_type]
+  end
+
+  def is_admin_or_god?
+    role_type.in? [:admin, :god]
   end
 
   handle_asynchronously :send_invitation_email!
