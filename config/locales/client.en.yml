@@ -39,6 +39,9 @@ en:
     edit_labels: Edit Labels
     editing: Editing
     email_address: Email Address
+    javascript_error: >
+      Sorry, an error occurred. Try refreshing the page, and if the problem persists,
+      please contact us for assistance.
     field_types:
       checkboxes: checkboxes
       date: date

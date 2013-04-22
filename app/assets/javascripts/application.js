@@ -24,6 +24,7 @@
 //= require jquery.intro
 //= require jquery.scrollto
 //= require jquery.raty
+//= require javascript_error
 //= require procureio.chart
 //= require bootstrap
 //= require bootstrap.flash_button
