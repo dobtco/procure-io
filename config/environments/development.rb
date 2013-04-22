@@ -47,4 +47,6 @@ ProcureIo::Application.configure do
     Debugger.settings[:reload_source_on_change] = true
     Debugger.start_remote
   end
+
+  Delayed::Worker.delay_jobs = false
 end

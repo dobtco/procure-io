@@ -46,13 +46,19 @@ class Comment < ActiveRecord::Base
   def generate_events
     return if comment_type # don't proceed if this is an automatically-generated comment
 
-    event = commentable.events.create(event_type: Event.event_types[:"#{commentable.class.name.downcase}_comment"],
-                                      data: serialized(self, scope: officer.user, include_commentable: true).to_json)
+    if commentable.class.name == "Project"
+      event = commentable.events.create(event_type: Event.event_types[:project_comment],
+                                        data: serialized(self, scope: false, include_commentable: true).to_json)
+    elsif commentable.class.name == "Bid"
+      event = commentable.events.create(event_type: Event.event_types[:bid_comment],
+                                        data: {comment: serialized(self, scope: false, include_commentable: true),
+                                               project: serialized(commentable.project, scope: false)}.to_json)
+    end
 
     commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).each do |watch|
       EventFeed.create(event_id: event.id, user_id: watch.user_id)
     end
   end
 
-  # handle_asynchronously :generate_events
+  handle_asynchronously :generate_events
 end

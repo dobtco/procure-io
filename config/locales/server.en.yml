@@ -37,7 +37,7 @@ en:
 
     text:
       bid_awarded: "%{officer_display_name} accepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
-      bid_comment: "%{officer_display_name} commented on %{commentable_vendor_display_name}'s bid for %{commentable_project_title}."
+      bid_comment: "%{comment_officer_display_name} commented on %{comment_commentable_vendor_display_name}'s bid for %{project_title}."
       bid_submitted: "%{bid_vendor_display_name} submitted a bid for %{bid_project_title}."
       bid_unawarded: "%{officer_display_name} unaccepted %{bid_vendor_display_name}'s bid on %{bid_project_title}."
       collaborator_added: "%{officer_display_name} was added as a collaborator on %{project_title}."

@@ -30,8 +30,11 @@ module SerializationHelper
       opts[:root] = false
     end
 
+    scope = opts.delete(:scope)
+    scope = current_user if scope == nil
+
     # If it's an array, apply the serializer as an each_serializer to the elements
-    serializer_opts = {scope: opts.delete(:scope) || current_user}.merge!(opts)
+    serializer_opts = {scope: scope}.merge!(opts)
     if is_collection
       serializer_opts[:each_serializer] = serializer if serializer
       ActiveModel::ArraySerializer.new(obj, serializer_opts).as_json
