@@ -26,7 +26,14 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role.destroy unless @role.undeletable?
+    if @role.default
+      flash[:error] = I18n.t('flashes.cant_delete_default_role')
+    elsif @role.undeletable?
+      flash[:error] = I18n.t('flashes.role_undeletable')
+    else
+      @role.destroy
+    end
+
     redirect_to roles_path
   end
 

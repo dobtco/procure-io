@@ -18,7 +18,7 @@ class Ability
 
   def vendor(user)
     can :bid_on, Project do |project|
-      (can :read, project) &&
+      (can? :read, project) &&
       !user.owner.submitted_bid_for_project(project)
     end
 
@@ -27,13 +27,13 @@ class Ability
     end
 
     can :watch, Project do |project|
-      can :read, project
+      can? :read, project
     end
 
     can :destroy, Response do |response|
       response.user_id == user.id &&
       (response.response_field.response_fieldable.class.name == "GlobalConfig" ||
-       can(:bid_on, response.response_field.response_fieldable))
+       can?(:bid_on, response.response_field.response_fieldable))
     end
 
     can :destroy, SavedSearch do |saved_search|
@@ -43,7 +43,7 @@ class Ability
 
 
   def officer_user(user)
-    permissions = user.owner.role.permissions
+    permissions = user.owner.role ? user.owner.role.permissions : {}
 
     (can :create, Project) if permissions[:create_new_projects] == "1"
     (can :collaborate_on, Project) if permissions[:collaborate_on_all_projects] == "1"
@@ -59,11 +59,11 @@ class Ability
     Role.flat_project_permissions.each do |permission|
       if permissions[permission] == "when_collaborator"
         can permission, Project do |project|
-          can :collaborate_on, project
+          can? :collaborate_on, project
         end
       elsif permissions[permission] == "when_owner"
         can permission, Project do |project|
-          can :own, project
+          can? :own, project
         end
       end
     end
@@ -84,17 +84,17 @@ class Ability
 
   def post_assignment(user)
     can :destroy, Collaborator do |collaborator|
-      (can :add_and_remove_collaborators, collaborator.project) &&
+      (can? :add_and_remove_collaborators, collaborator.project) &&
       !collaborator.owner &&
       (collaborator.officer_id != user.owner.id)
     end
 
     can :watch, Project do |project|
-      can :collaborate_on, project
+      can? :collaborate_on, project
     end
 
     can [:read, :watch], Bid do |bid|
-      bid.submitted? && (can :collaborate_on, bid.project)
+      bid.submitted? && (can? :collaborate_on, bid.project)
     end
   end
 

@@ -53,6 +53,7 @@ en:
 
   flashes:
     bid_was_destroyed: Bid was successfully destroyed.
+    cant_delete_default_role: "You can't delete the default role!"
     connected_twitter: Successfully connected Twitter account.
     invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
     logged_in_without_password:
@@ -62,6 +63,7 @@ en:
       link: create one
     no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
     removed_twitter: Successfully removed Twitter account.
+    role_undeletable: "Sorry, that role can't be deleted."
     sent_reset_password_instructions: Check your email for instructions on how to reset your password.
     updated_site_configuration: Successfully updated site configuration.
     valid_login: You are now signed in.

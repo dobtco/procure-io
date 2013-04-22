@@ -6,7 +6,6 @@
   = render "collaborators/table", collaborators: @collaborators
 
   - if can? :add_and_remove_collaborators, @project
-
     %h5= t('g.add_collaborator')
     = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 

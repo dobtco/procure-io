@@ -47,7 +47,7 @@ class Officer < ActiveRecord::Base
   end
 
   def role_type
-    Role.role_types[role.role_type]
+    role ? Role.role_types[role.role_type] : :user
   end
 
   def is_admin_or_god?

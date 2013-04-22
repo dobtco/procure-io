@@ -133,6 +133,33 @@ class Role < ActiveRecord::Base
     }
   end
 
+  def self.high_permissions
+    {
+      collaborate_on_all_projects: "1",
+      create_new_projects: "1",
+      edit_project_details: "when_collaborator",
+      post_project_live: "when_collaborator",
+      create_edit_destroy_amendments: "when_collaborator",
+      post_amendments_live: "when_collaborator",
+      read_bids: "when_collaborator",
+      review_bids: "when_collaborator",
+      award_and_dismiss_bids: "when_collaborator",
+      read_and_write_bid_comments: "when_collaborator",
+      view_private_response_fields: "when_collaborator",
+      label_bids: "when_collaborator",
+      manage_labels: "when_collaborator",
+      manage_response_fields: "when_collaborator",
+      answer_questions: "when_collaborator",
+      read_and_write_project_comments: "when_collaborator",
+      add_and_remove_collaborators: "when_collaborator",
+      import_bids: "when_collaborator",
+      export_bids: "when_collaborator",
+      access_reports: "when_collaborator",
+      change_review_mode: "when_collaborator",
+      destroy_project: "when_collaborator"
+    }
+  end
+
   private
   def set_default_permissions
     return if self.permissions

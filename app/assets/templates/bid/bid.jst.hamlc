@@ -65,10 +65,11 @@
     %p
       %span #{I18n.js('submitted_on')} #{@bid.submitted_at_readable}
 
-    %p
-      %a{"href" => "#comment-page"}
-        = @bid.total_comments
-        = if @bid.total_comments is 1 then "comment" else "comments"
+    - if @abilities.readAndWriteBidComments
+      %p
+        %a{"href" => "#comment-page"}
+          = @bid.total_comments
+          = if @bid.total_comments is 1 then "comment" else "comments"
 
     %dl
       %dt= I18n.js('contact_name')

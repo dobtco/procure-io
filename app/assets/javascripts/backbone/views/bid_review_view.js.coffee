@@ -400,7 +400,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       el: @$modal.find(".modal-bid-view-wrapper")
       abilities: @parentView.options.abilities
 
-    if ProcureIo.GlobalConfig.comments_enabled
+    if ProcureIo.GlobalConfig.comments_enabled && @parentView.options.abilities.readAndWriteBidComments
       @modalCommentsView = new ProcureIo.Backbone.CommentPageView
         commentableType: "Bid"
         commentableId: @model.id
