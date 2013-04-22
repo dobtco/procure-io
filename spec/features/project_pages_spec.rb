@@ -60,23 +60,23 @@ describe "Project" do
       it { should have_text("My Projects") }
       it { should have_text(projects(:one).title) }
 
-      describe "project edit page" do
-        before { click_link(projects(:one).title) }
-        it { should have_selector('form.edit_project') }
+      # describe "project edit page" do
+      #   before { click_link(projects(:one).title) }
+      #   it { should have_selector('form.edit_project') }
 
-        describe "project page" do
-          before { click_link("View") }
-          it { should have_text("You're a collaborator on this project") }
-        end
+      #   describe "project page" do
+      #     before { click_link("View") }
+      #     it { should have_text("You're a collaborator on this project") }
+      #   end
 
-        describe "editing project" do
-          before do
-            fill_in "project[title]", with: "awesome!"
-            click_button "Update Project"
-          end
-          it { should have_selector('input[value="awesome!"]') }
-        end
-      end
+      #   describe "editing project" do
+      #     before do
+      #       fill_in "project[title]", with: "awesome!"
+      #       click_button "Update Project"
+      #     end
+      #     it { should have_selector('input[value="awesome!"]') }
+      #   end
+      # end
     end
 
     describe "new project page" do

@@ -19,7 +19,7 @@ describe "Collaborator" do
     describe "removing collaborator" do
       it "should remove collaborators from the list" do
         page.should have_selector('#collaborators-tbody tr', count: 2)
-        find("#collaborators-tbody tr:eq(2) .btn").click
+        find("#collaborators-tbody tr:eq(2) .btn:contains(\"Remove\")").click
         page.should have_selector('#collaborators-tbody tr', count: 1)
         visit project_collaborators_path(projects(:one))
         page.should have_selector('#collaborators-tbody tr', count: 1)

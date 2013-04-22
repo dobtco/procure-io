@@ -79,19 +79,7 @@ describe Project do
 
   describe "owner" do
     it "should have the correct owner" do
-      projects(:one).owner.should == officers(:adam)
-      projects(:one).owner_id.should == officers(:adam).id
-    end
-
-    describe "with no owner" do
-      before do
-        projects(:one).collaborators = []
-      end
-
-      it "should equal nil" do
-        projects(:one).owner.should == nil
-        projects(:one).owner_id.should == nil
-      end
+      projects(:one).owners.should == [officers(:adam)]
     end
   end
 
