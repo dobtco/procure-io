@@ -32,7 +32,7 @@
           %h5
             = amendment.title
             %small= t('g.posted_on_date', date: amendment.posted_at.to_formatted_s(:readable_dateonly))
-          %p= simple_format amendment.body
+          %p!= amendment.body
 
   .span5
     - if vendor_signed_in?

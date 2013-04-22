@@ -41,6 +41,13 @@ class AmendmentsController < ApplicationController
 
   private
   def amendment_params
-    params.require(:amendment).permit(:title, :body)
+    filtered_params = params.require(:amendment).permit(:title, :body)
+
+    if filtered_params[:body]
+      require 'sanitize'
+      filtered_params[:body] = Sanitize.clean(filtered_params[:body], Sanitize::Config::RELAXED)
+    end
+
+    filtered_params
   end
 end
