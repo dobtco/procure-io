@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
   load_resource :comment, through: :commentable, only: :destroy
 
   # Authorize
-  before_filter only: [:index, :create] { |c| c.authorize! :"read_and_write_#{@commentable.class.name.downcase}_comments", @commentable }
+  before_filter :authorize_commentable, only: [:index, :create]
 
   def index
     @comments = @commentable.comments
@@ -29,5 +29,14 @@ class CommentsController < ApplicationController
   def commentable_exists?
     @commentable = find_polymorphic(:commentable)
     not_found if !@commentable
+  end
+
+  def authorize_commentable
+    case @commentable.class.name
+    when "Project"
+      authorize! :read_and_write_project_comments, @commentable
+    when "Bid"
+      authorize! :read_and_write_bid_comments, @commentable.project
+    end
   end
 end

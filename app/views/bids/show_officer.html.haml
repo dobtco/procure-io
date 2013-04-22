@@ -7,7 +7,11 @@
 
 #bid-page
   :javascript
-    new ProcureIo.Backbone.BidPageView({bootstrapData: #{@bid_json}, project: #{ProjectSerializer.new(@project, root: false).to_json}});
+    new ProcureIo.Backbone.BidPageView({
+      bootstrapData: #{@bid_json},
+      project: #{ProjectSerializer.new(@project, root: false).to_json},
+      #{render partial: "projects/abilities_node", formats: [:js]}
+    });
 
 - if GlobalConfig.instance[:comments_enabled]
   #comment-page

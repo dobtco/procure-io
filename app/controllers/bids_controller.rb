@@ -55,8 +55,6 @@ class BidsController < ApplicationController
   end
 
   def update
-    authorize! :review, @bid
-
     review = @bid.bid_review_for_officer(current_officer)
     review.update_attributes(my_bid_review_params)
 

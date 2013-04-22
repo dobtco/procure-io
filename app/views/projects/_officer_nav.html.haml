@@ -28,18 +28,18 @@
           - if @project.questions.unanswered.count > 0
             %span.badge.badge-info= @project.questions.unanswered.count
 
-    - if can? :edit_description, @project
+    - if can? :edit_project_details, @project
       %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
         %a{"href" => edit_project_path(@project)}
           %span
             %span.visible-desktop= t('g.project_description')
             %span.hidden-desktop= t('g.description')
 
-    - if can? :edit_response_fields, @project
+    - if can? :manage_response_fields, @project
       %li{"class" => active_page?("projects#response_fields")}
         =link_to t('g.response_fields'), response_fields_project_path(@project)
 
-    - if GlobalConfig.instance[:comments_enabled] && (can? :comment_on, @project)
+    - if GlobalConfig.instance[:comments_enabled] && (can? :read_and_write_project_comments, @project)
       %li{"class" => active_page?("projects#comments")}
         =link_to t('g.comments'), comments_project_path(@project)
 
@@ -49,9 +49,8 @@
             "data-toggle" => if !@project.posted? then "tooltip" end, |
             "title" => if !@project.posted? then t('.reports_available_after_post') end
 
-    - if can? :admin, @project
-      %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
-        =link_to t('g.admin'), project_collaborators_path(@project)
+    %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
+      =link_to t('g.admin'), project_collaborators_path(@project)
 
     %li.pull-right
       %a{"href" => project_path(@project)}

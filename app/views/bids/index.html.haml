@@ -4,4 +4,7 @@
 
 #bid-review-page
   :javascript
-    new ProcureIo.Backbone.BidReviewPage({project: #{ProjectSerializer.new(@project, root: false).to_json}});
+    new ProcureIo.Backbone.BidReviewPage({
+      project: #{ProjectSerializer.new(@project, root: false).to_json},
+      #{render partial: "projects/abilities_node", formats: [:js]}
+    });

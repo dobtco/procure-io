@@ -1,0 +1,5 @@
+abilities: {
+  manageLabels: <%= can? :manage_labels, @project %>,
+  awardAndDismissBids: <%= can? :award_and_dismiss_bids, @project %>,
+  labelBids: <%= can? :label_bids, @project %>
+}
