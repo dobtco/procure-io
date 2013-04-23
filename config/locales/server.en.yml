@@ -45,7 +45,7 @@ en:
       bid_unawarded: "%{officer_display_name} unaccepted %{bid_bidder_name}'s bid on %{bid_project_title}."
       collaborator_added: "%{officer_display_name} was added as a collaborator on %{project_title}."
       bulk_collaborators_added: "%{count} collaborators were added to %{project_title}."
-      project_amended: "The project %{title} has been amended."
+      project_amended: "The project %{project_title} has been amended."
       project_comment: "%{officer_display_name} commented on %{commentable_title}."
       question_answered: "%{officer_display_name} answered your question about %{project_title}."
       question_asked: "%{vendor_display_name} asked a question about %{project_title}."

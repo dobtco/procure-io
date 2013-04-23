@@ -14,13 +14,11 @@
 #
 
 class Comment < ActiveRecord::Base
+  include TargetableForEvents
   include SerializationHelper
-  include EventsHelper
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :officer
-
-  has_many :events, as: :targetable
 
   serialize :data
 
@@ -47,15 +45,15 @@ class Comment < ActiveRecord::Base
   def generate_events
     return if comment_type # don't proceed if this is an automatically-generated comment
 
-    event_data = { comment: serialized(self, include_commentable: true)}
+    event_data = { comment: serialized(self, include_commentable: true) }
 
     if commentable.class.name == "Bid"
       event_data[:project] = serialized(commentable.project)
     end
 
     commentable.create_events(:"#{commentable.class.name.downcase}_comment",
-              commentable.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
-              event_data)
+                              commentable.active_watchers(:officer, not_users: officer.user),
+                              event_data)
   end
 
   handle_asynchronously :generate_events

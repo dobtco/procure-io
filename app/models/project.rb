@@ -25,7 +25,7 @@ class Project < ActiveRecord::Base
   include WatchableByUser
   include PgSearch
   include Searcher
-  include EventsHelper
+  include TargetableForEvents
 
   attr_accessor :updating_officer_id
 
@@ -40,8 +40,6 @@ class Project < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
-
-  has_many :events, as: :targetable
 
   has_many :project_revisions, dependent: :destroy, order: 'created_at DESC'
 

@@ -6,7 +6,6 @@ module SerializationHelper
   # Rails doesn't call MultiJson.dump when you pass it json: obj but
   # it seems we don't need whatever Rails is doing.
   def serialized(*args)
-
     obj = args[0]
     is_collection = obj.respond_to?(:each)
 
@@ -18,11 +17,13 @@ module SerializationHelper
       opts = args[2]
     end
 
+    opts = {} if !opts
+
+    serializer = opts.delete(:serializer)
+
     if !serializer && !(is_collection && obj.empty?)
       serializer = "#{is_collection ? obj[0].class.name : obj.class.name}Serializer".constantize
     end
-
-    opts = {} if !opts
 
     if opts[:meta]
       opts[:root] = "results"

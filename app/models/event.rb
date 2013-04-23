@@ -74,7 +74,7 @@ class Event < ActiveRecord::Base
 
     attrs = [
       "officer.display_name", "commentable.title", "commentable.vendor.display_name", "commentable.project.title",
-      "bid.vendor.display_name", "bid.project.title", "title", "project.title", "vendor.display_name",
+      "bid.vendor.display_name", "bid.project.title", "project.title", "vendor.display_name",
       "comment.officer.display_name", "comment.commentable.vendor.display_name", "names", "count",
       "comment.commentable.bidder_name", "bid.bidder_name"
     ]

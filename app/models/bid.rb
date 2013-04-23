@@ -24,7 +24,7 @@ class Bid < ActiveRecord::Base
   include IsResponsable
   include Searcher
   include SerializationHelper
-  include EventsHelper
+  include TargetableForEvents
 
   belongs_to :project
   belongs_to :vendor
@@ -35,8 +35,6 @@ class Bid < ActiveRecord::Base
   has_many :bid_reviews, dependent: :destroy
 
   has_many :comments, as: :commentable, dependent: :destroy
-
-  has_many :events, as: :targetable
 
   has_and_belongs_to_many :labels, after_add: :update_timestamp, after_remove: :update_timestamp
 
@@ -170,6 +168,8 @@ class Bid < ActiveRecord::Base
 
     comments.create(officer_id: officer.id,
                     comment_type: "BidDismissed")
+
+    self.delay.create_bid_dismissed_events!(officer)
   end
 
   def award_by_officer(officer)
@@ -265,55 +265,28 @@ class Bid < ActiveRecord::Base
   end
 
   def create_bid_submitted_events!
-    create_events(:bid_submitted,
-                  project.watches.not_disabled.where_user_is_officer.pluck("users.id"),
-                  event_data_without_officer)
+    create_events(:bid_submitted, project.active_watchers(:officer), self, project)
   end
 
   def create_bid_awarded_events!(officer)
-    create_events(:bid_awarded,
-                  project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
-                  event_data)
-
-    create_events(:vendor_bid_awarded,
-                  vendor.user.id,
-                  event_data) if vendor
+    create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), *event_data)
+    create_events(:vendor_bid_awarded, vendor.user, *event_data) if vendor
   end
 
   def create_bid_unawarded_events!(officer)
-    create_events(:bid_unawarded,
-                  project.watches.not_disabled.where_user_is_officer.where("user_id != ?", officer.user.id).pluck("users.id"),
-                  event_data)
-
-    create_events(:vendor_bid_unawarded,
-                  vendor.user.id,
-                  event_data) if vendor
+    create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), *event_data)
+    create_events(:vendor_bid_unawarded, vendor.user, *event_data) if vendor
   end
 
   def create_bid_dismissed_events!(officer)
-    create_events(:vendor_bid_dismissed,
-                  vendor.user.id,
-                  event_data) if vendor
+    create_events(:vendor_bid_dismissed, vendor.user, *event_data) if vendor
   end
 
   def create_bid_undismissed_events!(officer)
-    create_events(:vendor_bid_undismissed,
-                  vendor.user.id,
-                  event_data) if vendor
+    create_events(:vendor_bid_undismissed, vendor.user, *event_data) if vendor
   end
 
   def event_data
-    {
-      bid: serialized(self),
-      project: serialized(project, SimpleProjectSerializer),
-      officer: serialized(officer)
-    }
-  end
-
-  def event_data_without_officer
-    {
-      bid: serialized(self),
-      project: serialized(project, SimpleProjectSerializer)
-    }
+    [ self, project, officer ]
   end
 end
