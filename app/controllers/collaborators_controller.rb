@@ -29,14 +29,7 @@ class CollaboratorsController < ApplicationController
       end
     end
 
-    if added_in_bulk
-      @project.create_events(:bulk_collaborators_added,
-                             @project.active_watchers(:officer, not_users: [current_user, *users]),
-                             names: users.map(&:display_name).join(', '),
-                             count: users.count,
-                             project: serialized(@project, SimpleProjectSerializer))
-
-    end
+    Collaborator.delay.send_added_in_bulk_events!(users, @project, current_user) if added_in_bulk
 
     @collaborators = @project.collaborators
   end

@@ -28,6 +28,14 @@ class Collaborator < ActiveRecord::Base
     officer.user.watches.where(watchable_type: "Bid").where("watchable_id IN (?)", project.bids.pluck(:id)).destroy_all
   end
 
+  def self.send_added_in_bulk_events!(users, project, current_user)
+    project.create_events(:bulk_collaborators_added,
+                          project.active_watchers(:officer, not_users: [current_user, *users]),
+                          names: users.map(&:display_name).join(', '),
+                          count: users.count,
+                          project: SimpleProjectSerializer.new(project, root: false))
+  end
+
   private
   def create_collaborator_added_events!
     return if added_in_bulk # don't send multiple emails when bulk-adding collaborators
