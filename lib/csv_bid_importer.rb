@@ -27,20 +27,14 @@ class CSVBidImporter
       headers.reject! { |k, v| k.downcase.in? ["vendor id", "email"] }
     end
 
-    headers.each_with_index do |column_name, index|
+    headers.uniq.each_with_index do |column_name, index|
       @project.response_fields.create(label: column_name, field_type: "paragraph", key_field: (index == 0), sort_order: index)
     end
   end
 
   def import
     @csv.each do |row|
-
-      # downcase row keys
-      new_hash = {}
-      row.to_hash.each_pair do |k,v|
-        new_hash.merge!({k.downcase => v})
-      end
-      row = new_hash
+      row = transform_row(row)
 
       if @params[:associate_vendor_account]
         if row["vendor id"]
@@ -67,5 +61,23 @@ class CSVBidImporter
 
       @count += 1
     end
+  end
+
+  def transform_row(row)
+    transformed = {}
+
+    row.each do |k, v|
+      next if v.blank?
+
+      key = k.downcase
+
+      if !transformed.has_key?(key)
+        transformed[key] = v
+      else
+        transformed[key] += ", " + v
+      end
+    end
+
+    transformed
   end
 end

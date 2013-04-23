@@ -33,7 +33,7 @@ class BidSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v8']
+    [object.cache_key, object.project.cache_key, scope ? scope.cache_key : 'no-scope', 'v8']
   end
 
   def watching?

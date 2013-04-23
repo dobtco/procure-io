@@ -633,7 +633,7 @@ CREATE TABLE response_fields (
     id integer NOT NULL,
     response_fieldable_id integer,
     response_fieldable_type character varying(255),
-    label character varying(255),
+    label text,
     field_type character varying(255),
     field_options text,
     created_at timestamp without time zone NOT NULL,
@@ -1706,3 +1706,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130419203956');
 INSERT INTO schema_migrations (version) VALUES ('20130422010306');
 
 INSERT INTO schema_migrations (version) VALUES ('20130422040330');
+
+INSERT INTO schema_migrations (version) VALUES ('20130423211340');

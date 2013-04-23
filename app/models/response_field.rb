@@ -5,7 +5,7 @@
 #  id                      :integer          not null, primary key
 #  response_fieldable_id   :integer
 #  response_fieldable_type :string(255)
-#  label                   :string(255)
+#  label                   :text
 #  field_type              :string(255)
 #  field_options           :text
 #  created_at              :datetime         not null
