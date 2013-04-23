@@ -44,12 +44,14 @@ class User < ActiveRecord::Base
   end
 
   # Expire tokens only for password reset, not for invites.
-  def find_for_invite_or_password_reset_token(token)
-    if crypted_password # password reset
-      User.find_using_perishable_token(token, 3.days)
-    else # invite
-      User.find_using_perishable_token(token, nil)
+  def self.find_for_invite_or_password_reset_token(token)
+    user = User.find_using_perishable_token(token, nil)
+
+    if user.crypted_password
+      user = User.find_using_perishable_token(token, 3.days)
     end
+
+    user
   end
 
   def signed_up?
@@ -109,7 +111,7 @@ class User < ActiveRecord::Base
 
     ability = Ability.new(self)
 
-    case event.event_type
+    case Event.event_types[event.event_type]
     when :project_comment
       ability.can? :read_and_write_project_comments, event.targetable
     when :bid_comment
