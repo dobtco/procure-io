@@ -38,10 +38,10 @@ class Event < ActiveRecord::Base
     when :project_comment
       comments_project_path(targetable_id)
     when :bid_comment
-      project_bid_path(data['project']['id'], targetable_id) + "#comment-page"
+      project_bid_path(data[:project][:id], targetable_id) + "#comment-page"
     when :bid_awarded, :bid_unawarded, :vendor_bid_awarded, :vendor_bid_unawarded, :vendor_bid_dismissed,
          :vendor_bid_undismissed, :bid_submitted
-      project_bid_path(data['bid']['project_id'], data['bid']['id'])
+      project_bid_path(data[:bid][:project_id], data[:bid][:id])
     when :question_asked
       project_questions_path(targetable_id)
     when :project_amended, :question_answered
@@ -73,10 +73,9 @@ class Event < ActiveRecord::Base
     return_hash = {}
 
     attrs = [
-      "officer.display_name", "commentable.title", "commentable.vendor.display_name", "commentable.project.title",
-      "bid.vendor.display_name", "bid.project.title", "project.title", "vendor.display_name",
-      "comment.officer.display_name", "comment.commentable.vendor.display_name", "names", "count",
-      "comment.commentable.bidder_name", "bid.bidder_name", "comment.officer.display_name", "comment.commentable.title"
+      "officer.display_name", "bid.vendor.display_name", "project.title", "vendor.display_name",
+      "comment.officer.display_name", "names", "count", "comment.commentable.bidder_name",
+      "bid.bidder_name", "comment.officer.display_name", "comment.commentable.title"
     ]
 
     attrs.each do |a|
