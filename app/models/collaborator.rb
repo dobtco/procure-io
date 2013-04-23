@@ -13,8 +13,6 @@
 #
 
 class Collaborator < ActiveRecord::Base
-  include SerializationHelper
-
   belongs_to :project
   belongs_to :officer
   belongs_to :added_by_officer, class_name: "Officer"
@@ -28,14 +26,6 @@ class Collaborator < ActiveRecord::Base
   before_destroy do
     officer.user.watches.where(watchable_type: "Project", watchable_id: project_id).destroy_all
     officer.user.watches.where(watchable_type: "Bid").where("watchable_id IN (?)", project.bids.pluck(:id)).destroy_all
-  end
-
-  def self.send_added_in_bulk_events!(users, project, current_user_id)
-    project.create_events(:bulk_collaborators_added,
-                          project.active_watchers(:officer, not_users: [current_user, *users]),
-                          names: users.map(&:display_name).join(', '),
-                          count: users.count,
-                          project: serialized(project, SimpleProjectSerializer))
   end
 
   private
