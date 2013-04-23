@@ -16,6 +16,7 @@
 
 class Response < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
+  include SimplerFormat
 
   default_scope({include: :response_field, joins: :response_field, order: "response_fields.sort_order"})
 
@@ -68,7 +69,7 @@ class Response < ActiveRecord::Base
       end
       str += "</table>"
     when "paragraph"
-      simple_format value
+      simpler_format value
     else
       value
     end

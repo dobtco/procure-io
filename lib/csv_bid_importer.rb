@@ -1,21 +1,71 @@
 class CSVBidImporter
   attr_reader :count
 
-  def initialize(project, params = {})
+  def initialize(project, file_contents, params = {})
+    require 'csv'
+    @count = 0
+    @project = project
+    @params = params
+    @options = {}
+    @csv = CSV.parse file_contents, headers: true
+
+    if !params[:label_imported_bids].blank?
+      @options[:label] = @project.labels.where(name: params[:label_imported_bids]).first_or_create(color: "4FEB5A")
+    end
+
+    setup_response_fields if params[:override_response_fields] && project.bids.count == 0
+
+    import
   end
-    # require 'csv'
 
-    # count = 0
-    # label = @project.labels.where(name: "Imported from CSV").first_or_create(color: "4FEB5A")
-    # csv = CSV.parse params[:file].read, headers: true
-    # csv.each do |row|
-    #   new_hash = {}
-    #   row.to_hash.each_pair do |k,v|
-    #     new_hash.merge!({k.downcase => v})
-    #   end
+  def setup_response_fields
+    @project.response_fields.destroy_all
 
-    #   @project.create_bid_from_hash!(new_hash, label)
+    headers = @csv.headers
 
-    #   count += 1
-    # end
+    if @params[:associate_vendor_account]
+      headers.reject! { |k, v| k.downcase.in? ["vendor id", "email"] }
+    end
+
+    headers.each_with_index do |column_name, index|
+      @project.response_fields.create(label: column_name, field_type: "paragraph", key_field: (index == 0), sort_order: index)
+    end
+  end
+
+  def import
+    @csv.each do |row|
+
+      # downcase row keys
+      new_hash = {}
+      row.to_hash.each_pair do |k,v|
+        new_hash.merge!({k.downcase => v})
+      end
+      row = new_hash
+
+      if @params[:associate_vendor_account]
+        if row["vendor id"]
+          vendor = Vendor.find(row["vendor_id"])
+        elsif row["email"]
+          vendor = Vendor.joins(:user).where(users: { email: row["email"] }).first
+        else
+          vendor = nil
+        end
+      end
+
+      bid = @project.bids.create(submitted_at: Time.now,
+                                 vendor: vendor)
+
+      @project.response_fields.each do |response_field|
+        if (val = row[response_field.label.downcase])
+          bid.responses.create(response_field_id: response_field.id, value: val)
+        end
+      end
+
+      if @options[:label]
+        bid.labels << @options[:label]
+      end
+
+      @count += 1
+    end
+  end
 end
