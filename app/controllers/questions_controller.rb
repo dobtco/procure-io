@@ -18,7 +18,7 @@ class QuestionsController < ApplicationController
   def index
     current_user.read_notifications(@project, :question_asked)
     @questions = @project.questions.paginate(page: params[:page])
-    @questions_json = serialized(@questions, OfficerQuestionSerializer).to_json
+    @questions_json = serialized(@questions, OfficerQuestionSerializer, include_vendor: true).to_json
   end
 
   def update
