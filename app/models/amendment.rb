@@ -19,12 +19,8 @@ class Amendment < ActiveRecord::Base
 
   private
   def after_post_by_officer(officer)
-    create_vendor_notifications!
-  end
-
-  def create_vendor_notifications!
     project.create_events(:project_amended, project.active_watchers(:vendor), project)
   end
 
-  handle_asynchronously :create_vendor_notifications!
+  handle_asynchronously :after_post_by_officer
 end
