@@ -76,7 +76,7 @@ class Event < ActiveRecord::Base
       "officer.display_name", "commentable.title", "commentable.vendor.display_name", "commentable.project.title",
       "bid.vendor.display_name", "bid.project.title", "project.title", "vendor.display_name",
       "comment.officer.display_name", "comment.commentable.vendor.display_name", "names", "count",
-      "comment.commentable.bidder_name", "bid.bidder_name"
+      "comment.commentable.bidder_name", "bid.bidder_name", "comment.officer.display_name", "comment.commentable.title"
     ]
 
     attrs.each do |a|
