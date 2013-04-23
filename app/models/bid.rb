@@ -269,24 +269,20 @@ class Bid < ActiveRecord::Base
   end
 
   def create_bid_awarded_events!(officer)
-    create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), *event_data)
-    create_events(:vendor_bid_awarded, vendor.user, *event_data) if vendor
+    create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    create_events(:vendor_bid_awarded, vendor.user, self, project, officer) if vendor
   end
 
   def create_bid_unawarded_events!(officer)
-    create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), *event_data)
-    create_events(:vendor_bid_unawarded, vendor.user, *event_data) if vendor
+    create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    create_events(:vendor_bid_unawarded, vendor.user, self, project, officer) if vendor
   end
 
   def create_bid_dismissed_events!(officer)
-    create_events(:vendor_bid_dismissed, vendor.user, *event_data) if vendor
+    create_events(:vendor_bid_dismissed, vendor.user, self, project, officer) if vendor
   end
 
   def create_bid_undismissed_events!(officer)
-    create_events(:vendor_bid_undismissed, vendor.user, *event_data) if vendor
-  end
-
-  def event_data
-    [ self, project, officer ]
+    create_events(:vendor_bid_undismissed, vendor.user, self, project, officer) if vendor
   end
 end
