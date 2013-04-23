@@ -15,10 +15,11 @@ module TargetableForEvents
     event = self.events.create(event_type: Event.event_types[event_type], data: data)
 
     Array(users).each do |user|
-      EventFeed.create(event_id: event.id, user_id: user.id)
+      EventFeed.create(event_id: event.id, user_id: user.id) if user.can_receive_event(event)
     end
   end
 
+  private
   def build_serialized_data_for_objects(objects)
     data = {}
 
