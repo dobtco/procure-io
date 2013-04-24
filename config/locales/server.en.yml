@@ -55,11 +55,16 @@ en:
       vendor_bid_undismissed: "%{officer_display_name} has undismissed your bid on %{project_title}."
       you_were_added: "%{officer_display_name} added you as a collaborator on %{project_title}."
 
+  form_templates:
+    index:
+      select_to_preview: Select a template on the left to preview it.
+
   flashes:
     bid_was_destroyed: Bid was successfully destroyed.
     cant_delete_default_role: "You can't delete the default role!"
     cant_remove_last_owner: "You can't remove the only owner from the project. Assign a new owner first."
     connected_twitter: Successfully connected Twitter account.
+    copied_form_template: "Successfully copied form from template."
     invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
     logged_in_without_password:
       line_html: >
@@ -167,6 +172,8 @@ en:
       line_html: "or %{link}"
       link: sign up
     posted_on_date: "Posted on %{date}"
+    preview: Preview
+    previewing: Previewing
     price_range: Price Range
     profile: Profile
     project_description: Project Description
@@ -218,6 +225,8 @@ en:
     update_project: Update Project
     updated_project_review_mode: Successfully updated project review mode.
     upload: Upload
+    use: Use
+    use_this_template: "Use This Template"
     vendor_registration: Vendor Registration
     vendor_registration_form: Vendor Registration Form
     vendor: Vendor
