@@ -54,7 +54,6 @@ class ResponseFieldsController < ApplicationController
   end
 
   def users_response_exists?
-    debugger
     @response = @response_field.responses.joins(:user)
                                          .where(users: {id: current_user.id})
                                          .first

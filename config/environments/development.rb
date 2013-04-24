@@ -39,14 +39,5 @@ ProcureIo::Application.configure do
 
   config.action_mailer.delivery_method = :letter_opener
 
-  unless $rails_rake_task || defined?(Rails::Console)
-    require 'ruby-debug'
-
-    Debugger.settings[:autoeval] = true
-    Debugger.settings[:autolist] = 1
-    Debugger.settings[:reload_source_on_change] = true
-    Debugger.start_remote
-  end
-
   Delayed::Worker.delay_jobs = false
 end
