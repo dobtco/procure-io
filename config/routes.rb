@@ -94,7 +94,10 @@ ProcureIo::Application.routes.draw do
     delete 'response' => 'response_fields#delete_response', on: :member
   end
 
-  resources :form_templates, only: [:create]
+  resources :form_templates, only: [:index, :create, :show] do
+    get 'preview', on: :member
+    post 'use', on: :member
+  end
 
   resources :comments
 

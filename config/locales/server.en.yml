@@ -132,6 +132,7 @@ en:
     export_bids: Export Bids
     featured_projects: Featured Projects
     file_to_import: File to import
+    form_templates: Form Templates
     forgot_password: Forgot Password
     general_stats: General Stats
     global_config_form_confirmation_message: You have successfully updated your vendor profile.
@@ -146,6 +147,7 @@ en:
     last_updated: Last Updated
     link: Link
     live: Live
+    loading: Loading...
     my_bid: My Bid
     my_projects: My Projects
     new_amendment: New Amendment

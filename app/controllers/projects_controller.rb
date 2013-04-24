@@ -192,25 +192,6 @@ class ProjectsController < ApplicationController
   def response_fields
   end
 
-  # def use_response_field_template
-  #   @form_templates = FormTemplate.paginate(page: params[:page])
-  #   @template = FormTemplate.find(params[:template_id]) if params[:template_id]
-  # end
-
-  # def post_use_response_field_template
-  #   @project.response_fields.destroy_all
-  #   @template = FormTemplate.find(params[:template_id])
-
-  #   @project.form_options = @template.form_options
-  #   @project.save
-
-  #   @template.response_fields.each do |response_field|
-  #     @project.response_fields << ResponseField.new(response_field)
-  #   end
-
-  #   redirect_to project_response_fields_path(@project)
-  # end
-
   private
   def project_params
     filtered_params = params.require(:project).permit(:featured, :title, :abstract, :body, :bids_due_at)

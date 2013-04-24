@@ -1,9 +1,14 @@
 class FormTemplatesController < ApplicationController
   # Load
+  load_resource only: [:preview]
   before_filter :response_fieldable_exists?
 
   # Authorize
-  before_filter { |c| c.authorize! :manage_response_fields, @response_fieldable }
+  before_filter except: [:preview] { |c| c.authorize! :manage_response_fields, @response_fieldable }
+
+  def index
+    @form_templates = FormTemplate.paginate(page: params[:page])
+  end
 
   def create
     response_fields = []
@@ -19,13 +24,37 @@ class FormTemplatesController < ApplicationController
     render json: @form_template
   end
 
+  def preview
+  end
+
   private
   def response_fieldable_exists?
     @response_fieldable = find_polymorphic(:response_fieldable)
-    not_found unless @response_fieldable
   end
 
   def form_template_params
     params.require(:form_template).permit(:name)
   end
 end
+
+# From projects controller:
+
+  # def use_response_field_template
+  #   @form_templates = FormTemplate.paginate(page: params[:page])
+  #   @template = FormTemplate.find(params[:template_id]) if params[:template_id]
+  # end
+
+  # def post_use_response_field_template
+  #   @project.response_fields.destroy_all
+  #   @template = FormTemplate.find(params[:template_id])
+
+  #   @project.form_options = @template.form_options
+  #   @project.save
+
+  #   @template.response_fields.each do |response_field|
+  #     @project.response_fields << ResponseField.new(response_field)
+  #   end
+
+  #   redirect_to project_response_fields_path(@project)
+  # end
+
