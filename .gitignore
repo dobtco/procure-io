@@ -24,3 +24,7 @@ config/database.yml
 public/uploads
 
 sublime-project.sublime-workspace
+
+# zeus
+zeus.json
+custom_plan.rb
