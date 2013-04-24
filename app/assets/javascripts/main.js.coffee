@@ -67,9 +67,10 @@ $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
       notifications: data.results
       count: data.meta.count
 
-$(document).on "ajax:beforeSend", "#form-template-form", (e) ->
-  $(e.target).resetForm()
-  $(e.target).closest("#form-template-form").hide()
+$(document).on "ajax:before", "#form-template-form", (e) ->
+  return false if !$(@).find("input[type=text]").val()
+
+  $(@).resetForm().hide()
   $("#form-template-created").show()
   setTimeout ->
     $("#form-template-created").hide()
