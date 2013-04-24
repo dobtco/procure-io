@@ -137,8 +137,8 @@ class Bid < ActiveRecord::Base
     if vendor
       vendor.display_name
     elsif project.key_fields.any?
-      responses = responses.where("response_field_id IN (?)", project.key_fields.map(&:id))
-      responses.map { |r| r.display_value }.join(" ")
+      key_field_responses = responses.where("response_field_id IN (?)", project.key_fields.map(&:id))
+      key_field_responses.map { |r| r.display_value }.join(" ")
     else
       "#{I18n.t('g.vendor')} ##{id}"
     end

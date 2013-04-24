@@ -101,6 +101,7 @@ en:
     bids_over_time: Bids over time
     bids_were_due_on: "Bids were due on %{date}"
     browse_projects: Browse Projects
+    careful!: "Careful!"
     collaborators: Collaborators
     comments: Comments
     confirm_amendment_deletion: Are you sure you want to delete this amendment?
@@ -137,8 +138,10 @@ en:
     hide: hide
     hide_paren: (hide)
     hotkeys_available: Hotkeys Available
+    import: Import
     import_bids: Import Bids
     import_bids_from_csv: Import bids from CSV
+    imported_from_csv: Imported from CSV
     impressions: Impressions
     last_updated: Last Updated
     link: Link
@@ -157,6 +160,7 @@ en:
     officers: Officers
     open: Open
     open_for_bids: Open for bids
+    options: Options
     or_sign_up:
       line_html: "or %{link}"
       link: sign up
@@ -184,6 +188,7 @@ en:
     save_draft: Save Draft
     saved_searches: Saved Searches
     see_all: See all
+    select_the_file: Select the file
     send_reset_password_instructions: Send Reset Password Instructions
     set_owner: Set as owner
     set_role_as_default: Set Role as Default
@@ -264,17 +269,17 @@ en:
         other: "Download %{count} bids as CSV"
 
     import_csv:
-      step_1:
-        line_html: "Set up the %{link} to match the fields you've collected from your bidders."
-        link: response fields
-      step_2:
-        line_1: >
-          Gather your bids into a spreadsheet (or CSV format), with columns for email, name, and each
-          of the response fields you configured above. Your columns should look like this:
-        line_2: >
-          If you have any duplicated column names you will run into issues. Any additional columns will be ignored.
-      step_3: "Save the spreadsheet as a CSV file and upload it here."
-
+      associate_vendor_account: Link a vendor account to each bid. Will create an account if one doesn't exist.
+      override_response_fields: Automatically set up response fields
+      not_possible_bids_already_exist: "Not possible, bids already exist"
+      label_imported_bids_as: Label imported bids as
+      leave_blank_for_no_label: Leave this field blank if you'd rather not add a label.
+      response_fields_help_html: >
+        Make sure your CSV column headers match your response field labels.<br />
+        You should have columns for
+      vendor_account_help_html: >
+        We'll look for an <code>Email</code> or <code>Vendor ID</code> column in your file to try and
+        find the correct vendor in Procure.io.
     new:
       instructions: "First, tell us some basic info about your project."
 
