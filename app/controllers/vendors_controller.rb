@@ -7,7 +7,7 @@ class VendorsController < ApplicationController
 
   # Authorize
   before_filter :only_unauthenticated_user, only: [:new, :create]
-  before_filter :is_admin_or_god, only: [:index, :edit, :update]
+  before_filter :ensure_is_admin_or_god, only: [:index, :edit, :update]
 
   def index
     respond_to do |format|

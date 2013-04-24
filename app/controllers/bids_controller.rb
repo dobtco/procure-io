@@ -12,6 +12,7 @@ class BidsController < ApplicationController
   # Authorize
   before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }
   before_filter only: [:new, :create] { |c| c.authorize! :bid_on, @project }
+  before_filter :ensure_is_admin_or_god, only: [:edit]
 
   def index
     respond_to do |format|
@@ -33,6 +34,10 @@ class BidsController < ApplicationController
         render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
       end
     end
+  end
+
+  def edit
+
   end
 
   def new

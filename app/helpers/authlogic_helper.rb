@@ -61,7 +61,7 @@ module AuthlogicHelper
     not_found if !officer_signed_in?
   end
 
-  def is_admin_or_god
+  def ensure_is_admin_or_god
     not_found unless user_is_admin_or_god?
   end
 end

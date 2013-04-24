@@ -4,7 +4,7 @@ class GlobalConfigController < ApplicationController
   before_filter only: [:twitter_oauth, :twitter_oauth_callback] { @client = ProcureIoTwitterOAuth.client }
 
   # Authorize
-  before_filter :is_admin_or_god
+  before_filter :ensure_is_admin_or_god
 
   def event_hooks
   end

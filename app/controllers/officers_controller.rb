@@ -3,7 +3,7 @@ class OfficersController < ApplicationController
   load_resource
 
   # Authorize
-  before_filter :is_admin_or_god, except: [:typeahead]
+  before_filter :ensure_is_admin_or_god, except: [:typeahead]
 
   def index
     @officers = Officer.order("id").paginate(page: params[:page])

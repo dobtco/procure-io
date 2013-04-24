@@ -3,7 +3,7 @@ class RolesController < ApplicationController
   load_resource :role, except: [:create]
 
   # Authorize
-  before_filter :is_admin_or_god
+  before_filter :ensure_is_admin_or_god
 
   def index
     @roles = Role.not_god.order("name").paginate(page: params[:page])
