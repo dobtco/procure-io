@@ -35,15 +35,19 @@
       %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => I18n.js('all_changes_saved')}
         = I18n.js('save_form')
 
-    - #%p
-    - #  %a.smaller{"href" => "/projects/#{@id}/response_fields/use_template"}= I18n.js('response_field.import')
-    - #%p
-    - #  %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.js('response_field.save')
+    %p
+      %a.smaller{"href" => "/form_templates/use?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}"}= I18n.js('response_field.import')
 
-    - #%form#form-template-form.hide{"action" => "/form_templates", "method" => "post"}
-    - #  %input{"type" => "hidden", "name" => "project_id", "value" => @project.id}
-    - #  %input{"type" => "text", "name" => "name", "placeholder" => I18n.js('response_field.new_name')}
-    - #  %button.btn.btn-inverse= I18n.js('save')
+    - if ProcureIo.CurrentOfficer.is_admin_or_god
+      %p
+        %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.js('response_field.save')
+
+      %form#form-template-form.hide{"action" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}", "method" => "post", "data-remote" => "true"}
+        .input-append
+          %input{"type" => "text", "name" => "form_template[name]", "placeholder" => I18n.js('response_field.new_name')}
+          %button.btn.btn-inverse= I18n.js('save')
+
+      .alert.alert-success#form-template-created{"style" => "display: none;"}= I18n.js('form_template_created')
 
   .span7.bid-form-span
     %h4= @options.formName

@@ -42,6 +42,7 @@ en:
     javascript_error: >
       Sorry, an error occurred. Try refreshing the page, and if the problem persists,
       please contact us for assistance.
+    form_template_created: Successfully created a form template!
     field_types:
       checkboxes: checkboxes
       date: date

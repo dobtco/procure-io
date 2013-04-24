@@ -1,9 +1,13 @@
 class OfficerSerializer < ActiveModel::Serializer
-  cached true
+  # cached true
 
-  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?
+  attributes :id, :name, :display_name, :created_at, :title, :updated_at, :me?, :is_admin_or_god
 
   has_one :user
+
+  def include_is_admin_or_god?
+    me?
+  end
 
   def me?
     scope && scope.owner == object

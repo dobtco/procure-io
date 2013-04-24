@@ -67,6 +67,14 @@ $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
       notifications: data.results
       count: data.meta.count
 
+$(document).on "ajax:beforeSend", "#form-template-form", (e) ->
+  $(e.target).resetForm()
+  $(e.target).closest("#form-template-form").hide()
+  $("#form-template-created").show()
+  setTimeout ->
+    $("#form-template-created").hide()
+  , 2000
+
 toggleHotkeyModal = ->
   if $("#hotkey-modal").length == 0
     $("body").append JST['shared/hotkey_modal']

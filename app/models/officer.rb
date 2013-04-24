@@ -50,9 +50,11 @@ class Officer < ActiveRecord::Base
     role ? Role.role_types[role.role_type] : :user
   end
 
-  def is_admin_or_god?
+  def is_admin_or_god
     role_type.in? [:admin, :god]
   end
+
+  question_alias :is_admin_or_god
 
   handle_asynchronously :send_invitation_email!
 

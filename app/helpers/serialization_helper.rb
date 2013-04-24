@@ -19,7 +19,7 @@ module SerializationHelper
 
     opts = {} if !opts
 
-    serializer = opts.delete(:serializer)
+    serializer ||= opts.delete(:serializer)
 
     if !serializer && !(is_collection && obj.empty?)
       serializer = "#{is_collection ? obj[0].class.name : obj.class.name}Serializer".constantize
