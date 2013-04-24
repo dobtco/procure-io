@@ -1,7 +1,7 @@
 class FormTemplatesController < ApplicationController
   # Load
   load_resource only: [:preview]
-  before_filter :response_fieldable_exists?
+  before_filter :response_fieldable_exists?, except: [:preview]
 
   # Authorize
   before_filter except: [:preview] { |c| c.authorize! :manage_response_fields, @response_fieldable }

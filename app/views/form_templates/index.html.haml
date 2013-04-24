@@ -16,7 +16,7 @@
             %td
               = link_to "Use", use_form_template_path(form_template.id, request.parameters), method: :post
               &middot;
-              %a.js-preview-form-template{"href" => preview_form_template_path(form_template.id, request.parameters), "data-remote" => "true"} Preview
+              %a.js-preview-form-template{"href" => preview_form_template_path(form_template.id), "data-remote" => "true"} Preview
 
 
     = will_paginate @form_templates, class: "pagination pagination-centered"
