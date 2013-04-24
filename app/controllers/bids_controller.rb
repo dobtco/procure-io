@@ -165,7 +165,7 @@ class BidsController < ApplicationController
       review.update_attributes read: true
     end
 
-    @bid_json = serialized(@bid, BidWithReviewSerializer).to_json
+    @bid_json = serialized(@bid.reload, BidWithReviewSerializer).to_json
     @comments_json = serialized(@bid.comments).to_json
     render "bids/show_officer"
   end
