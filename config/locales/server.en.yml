@@ -137,6 +137,7 @@ en:
     export_bids: Export Bids
     featured_projects: Featured Projects
     file_to_import: File to import
+    form_template: Form Template
     form_templates: Form Templates
     forgot_password: Forgot Password
     general_stats: General Stats
@@ -167,6 +168,7 @@ en:
     officers: Officers
     open: Open
     open_for_bids: Open for bids
+    optional_paren: (optional)
     options: Options
     or_sign_up:
       line_html: "or %{link}"
@@ -292,6 +294,7 @@ en:
         We'll look for an <code>Email</code> or <code>Vendor ID</code> column in your file to try and
         find the correct vendor in Procure.io.
     new:
+      choose_a_template: Choose a template for receiving responses.
       instructions: "First, tell us some basic info about your project."
 
     officer_nav:

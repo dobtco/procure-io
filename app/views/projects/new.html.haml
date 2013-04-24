@@ -9,5 +9,17 @@
     = f.required_label :title
     = f.text_field :title, "data-required" => true
 
+
+  - unless current_officer.never_allowed_to(:manage_response_fields)
+    .control-group
+      %label
+        = t('g.form_template')
+        = t('g.optional_paren')
+      %select{"name" => "form_template_id"}
+        %option{"value" => ""}
+        - FormTemplate.all.each do |form_template|
+          %option{"value" => form_template.id}= form_template.name
+      .help-block= t('.choose_a_template')
+
   .form-actions
     = f.submit t('g.next_rarr_html'), class: "btn btn-inverse"

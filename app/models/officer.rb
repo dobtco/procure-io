@@ -54,6 +54,10 @@ class Officer < ActiveRecord::Base
     role_type.in? [:admin, :god]
   end
 
+  def never_allowed_to(permission)
+    !is_admin_or_god? && role.permissions[permission] == "never"
+  end
+
   question_alias :is_admin_or_god
 
   handle_asynchronously :send_invitation_email!
