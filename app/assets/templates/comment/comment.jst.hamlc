@@ -6,4 +6,4 @@
   - if @currentOfficerId == @officer.id
     %a.delete{"data-backbone-clear" => "true"}= I18n.js('delete')
 
-%p= @body
+%p!= @body.replace(/\n/g, '<br />')
