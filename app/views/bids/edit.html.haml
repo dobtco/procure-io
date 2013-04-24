@@ -1,0 +1,6 @@
+= render "projects/officer_nav"
+
+%h4= t('.editing_bid_from', name: @bid.bidder_name)
+
+= render "shared/form", form_action: edit_project_bid_path(@project, @bid), responsable: @bid, |
+    response_fieldable: @project, button_text: t('g.update_bid'), save_draft_button: false

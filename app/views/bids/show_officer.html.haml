@@ -2,9 +2,6 @@
 
 = render "projects/officer_nav"
 
-- if can? :destroy, @bid
-  = link_to t('g.delete_bid'), project_bid_path(@project, @bid), method: :delete, confirm: t('confirmations.delete_bid')
-
 #bid-page
   :javascript
     new ProcureIo.Backbone.BidPageView({

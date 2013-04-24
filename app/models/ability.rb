@@ -101,6 +101,12 @@ class Ability
     can [:read, :watch], Bid do |bid|
       bid.submitted? && (can? :collaborate_on, bid.project)
     end
+
+    if user.is_admin_or_god?
+      can [:edit, :destroy], Bid do |bid|
+        can? :read, Bid
+      end
+    end
   end
 
   # God is not intended for regular users of the site.

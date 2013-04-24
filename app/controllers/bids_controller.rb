@@ -7,12 +7,12 @@ class BidsController < ApplicationController
 
   # Load
   load_resource :project
-  load_resource :bid, through: :project
+  load_resource :bid, through: :project, except: [:new, :create]
 
   # Authorize
   before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }
   before_filter only: [:new, :create] { |c| c.authorize! :bid_on, @project }
-  before_filter :ensure_is_admin_or_god, only: [:edit]
+  before_filter only: [:edit, :post_edit] { |c| c.authorize! :edit, @bid }
 
   def index
     respond_to do |format|
@@ -37,7 +37,12 @@ class BidsController < ApplicationController
   end
 
   def edit
+  end
 
+  def post_edit
+    save_responses(@bid, @project.response_fields)
+    @bid.save
+    redirect_to project_bid_path(@project, @bid)
   end
 
   def new

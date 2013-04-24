@@ -5,6 +5,11 @@
     - else
       = @bid.bidder_name
 
+    - if ProcureIo.CurrentOfficer.is_admin_or_god
+      %small
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}/edit"}= I18n.js('edit')
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}", "data-method" => "delete", "data-confirm" => I18n.js('delete_bid_confirmation')}= I18n.js('delete')
+
   .pull-right
 
     != JST['shared/_watch']({watchable: @bid, model_name: "Bid"})
