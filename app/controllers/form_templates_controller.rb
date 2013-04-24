@@ -1,6 +1,6 @@
 class FormTemplatesController < ApplicationController
   # Load
-  load_resource only: [:preview]
+  load_resource only: [:preview, :use]
   before_filter :response_fieldable_exists?, except: [:preview]
 
   # Authorize
@@ -27,6 +27,12 @@ class FormTemplatesController < ApplicationController
   def preview
   end
 
+  def use
+    @response_fieldable.use_form_template!(@form_template)
+    flash[:success] = "Successfully copied form from template."
+    redirect_to redirect_path_for(@response_fieldable)
+  end
+
   private
   def response_fieldable_exists?
     @response_fieldable = find_polymorphic(:response_fieldable)
@@ -34,6 +40,15 @@ class FormTemplatesController < ApplicationController
 
   def form_template_params
     params.require(:form_template).permit(:name)
+  end
+
+  def redirect_path_for(response_fieldable)
+    case response_fieldable.class.name
+    when "Project"
+      response_fields_project_path(response_fieldable.id)
+    else
+      :back
+    end
   end
 end
 

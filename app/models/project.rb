@@ -26,6 +26,7 @@ class Project < ActiveRecord::Base
   include PgSearch
   include Searcher
   include TargetableForEvents
+  include IsResponseFieldable
 
   attr_accessor :updating_officer_id
 
@@ -36,7 +37,6 @@ class Project < ActiveRecord::Base
   has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
                       order: 'created_at'
   has_many :questions, dependent: :destroy
-  has_many :response_fields, as: :response_fieldable, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
@@ -95,10 +95,6 @@ class Project < ActiveRecord::Base
 
   def owners
     officers.where(collaborators: {owner: true})
-  end
-
-  def key_fields
-    response_fields.where(key_field: true)
   end
 
   def unread_bids_for_officer(officer)

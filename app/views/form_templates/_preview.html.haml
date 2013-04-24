@@ -1,3 +1,6 @@
 %h4 Previewing "#{@form_template.name}"
 
 = render "shared/form_fields", response_fields: @form_template.response_fields
+
+.form-actions
+  = link_to "Use This Template", use_form_template_path(@form_template.id, request.parameters), method: :post, class: "btn btn-inverse"
