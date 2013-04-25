@@ -23,6 +23,84 @@ describe Project do
 
   let(:project) { projects(:one) }
 
+  describe 'Project#add_params_to_query' do
+    before { @query = FakeQuery.new }
+
+    # describe 'the f2 query parameter' do
+    #   it 'should filter for dismissed' do
+    #     @query.should_receive(:dismissed).and_return(@query)
+    #     Bid.add_params_to_query(@query, f2: 'dismissed')
+    #   end
+
+    #   it 'should filter for awarded' do
+    #     @query.should_receive(:awarded).and_return(@query)
+    #     Bid.add_params_to_query(@query, f2: 'awarded')
+    #   end
+
+    #   it 'should default to filtering for open bids' do
+    #     @query.should_receive(:where_open).and_return(@query)
+    #     Bid.add_params_to_query(@query, {})
+    #   end
+    # end
+
+    # describe 'the f1 query parameter' do
+    #   it 'should filter for starred' do
+    #     @query.should_receive(:starred).and_return(@query)
+    #     Bid.add_params_to_query(@query, f1: 'starred')
+    #   end
+    # end
+
+    describe 'the posted_after parameter' do
+      it 'should search in the correct date range' do
+        @query.should_receive(:where).and_return(@query)
+        Project.add_params_to_query(@query, posted_after: Time.now - 10.days)
+      end
+    end
+
+    describe 'the sort parameter' do
+      it 'should sort by posted_at if blank' do
+        @query.should_receive(:order).with(/posted_at/).and_return(@query)
+        Project.add_params_to_query(@query, sort: '')
+      end
+
+      it 'should sort by posted_at if not a valid option' do
+        @query.should_receive(:order).with(/posted_at/).and_return(@query)
+        Project.add_params_to_query(@query, sort: 'asdf')
+      end
+
+      it 'should sort appropriately if passed a proper option' do
+        @query.should_receive(:order).with("bids_due_at asc").and_return(@query)
+        Project.add_params_to_query(@query, sort: 'bids_due_at', direction: 'asc')
+      end
+    end
+
+    describe 'the category parameter' do
+      it 'should serach by category' do
+        @query.should_receive(:join_tags).and_return(@query)
+        @query.should_receive(:where).with("tags.name = ?", 'Foo').and_return(@query)
+        Project.add_params_to_query(@query, category: 'Foo')
+      end
+
+      it 'should not search if blank' do
+        @query.should_not_receive(:join_tags)
+        Project.add_params_to_query(@query, category: '')
+      end
+    end
+
+    describe 'the q parameter' do
+      it 'should perform a full search' do
+        @query.should_receive(:full_search).with('Foo').and_return(@query)
+        Project.add_params_to_query(@query, q: 'Foo')
+      end
+
+      it 'should not search if blank' do
+        @query.should_not_receive(:full_search)
+        Project.add_params_to_query(@query, q: '')
+      end
+    end
+  end
+
+
   describe "#abstract_or_truncated_body" do
     it "should truncate the body if abstract is blank" do
       p = Project.new(body: "a"*140, abstract: "")

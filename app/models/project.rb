@@ -47,6 +47,7 @@ class Project < ActiveRecord::Base
 
   scope :featured, where(featured: true)
   scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
+  scope :join_tags, joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
 
   has_searcher starting_query: Project.open_for_bids.posted
 
@@ -70,8 +71,7 @@ class Project < ActiveRecord::Base
     end
 
     if !params[:category].blank?
-      query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
-                   .where("tags.name = ?", params[:category])
+      query = query.join_tags.where("tags.name = ?", params[:category])
     end
 
     if params[:posted_after]
