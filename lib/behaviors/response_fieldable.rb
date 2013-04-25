@@ -21,5 +21,13 @@ module Behaviors
 
       update_attributes(form_options: form_template.form_options)
     end
+
+    def form_confirmation_message
+      if !form_options["form_confirmation_message"].blank?
+        form_options["form_confirmation_message"]
+      else
+        I18n.t("g.#{self.class.name.downcase}_form_confirmation_message")
+      end
+    end
   end
 end

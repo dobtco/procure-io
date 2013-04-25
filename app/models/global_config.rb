@@ -22,6 +22,7 @@ require_dependency 'enum'
 
 class GlobalConfig < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
+  include Behaviors::ResponseFieldable
 
   ON_OFF_FEATURES = [:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled,
                      :amendments_enabled, :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled,
@@ -29,26 +30,8 @@ class GlobalConfig < ActiveRecord::Base
 
   acts_as_singleton
 
-  has_many :response_fields, as: :response_fieldable, dependent: :destroy
-
   serialize :event_hooks, Hash
   serialize :form_options, Hash
-
-  def form_confirmation_message
-    if !form_options["form_confirmation_message"].blank?
-      form_options["form_confirmation_message"]
-    else
-      I18n.t('g.global_config_form_confirmation_message')
-    end
-  end
-
-  def key_fields
-    if response_fields.where(key_field: true).any?
-      response_fields.where(key_field: true)
-    else
-      response_fields.limit(2)
-    end
-  end
 
   def self.event_hooks
     @event_hooks ||= Enum.new(

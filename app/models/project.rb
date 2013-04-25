@@ -109,14 +109,6 @@ class Project < ActiveRecord::Base
     !bids_due_at || (bids_due_at > Time.now)
   end
 
-  def bid_confirmation_message
-    if !form_options["form_confirmation_message"].blank?
-      form_options["form_confirmation_message"]
-    else
-      I18n.t('g.bid_confirmation_message')
-    end
-  end
-
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
