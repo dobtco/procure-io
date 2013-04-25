@@ -70,6 +70,11 @@ class Bid < ActiveRecord::Base
                                         labels: [:name] },
                   using: { tsearch: { prefix: true } }
 
+  calculator :total_stars do bid_reviews.where(starred: true) end
+  calculator :total_ratings do bid_reviews.that_have_ratings end
+  calculator :total_comments do comments end
+  calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
+
   def self.add_params_to_query(query, params)
     if params[:f2] == "dismissed"
       query = query.dismissed
@@ -142,11 +147,6 @@ class Bid < ActiveRecord::Base
   def bid_review_for_officer(officer)
     bid_reviews.where(officer_id: officer.id).first_or_initialize
   end
-
-  calculator :total_stars do bid_reviews.where(starred: true) end
-  calculator :total_ratings do bid_reviews.that_have_ratings end
-  calculator :total_comments do comments end
-  calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def responsable_validator
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)

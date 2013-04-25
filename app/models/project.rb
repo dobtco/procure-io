@@ -38,12 +38,10 @@ class Project < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
-
   has_many :project_revisions, dependent: :destroy, order: 'created_at DESC'
+  has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
 
   after_update :generate_project_revisions_if_body_changed!
-
-  has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
 
   serialize :form_options, Hash
 
@@ -59,6 +57,8 @@ class Project < ActiveRecord::Base
                                 using: {
                                   tsearch: {prefix: true}
                                 }
+
+  calculator :total_comments do comments end
 
   def self.review_modes
     @review_modes ||= Enum.new(:stars, :one_through_five)
@@ -88,7 +88,7 @@ class Project < ActiveRecord::Base
   end
 
   def abstract_or_truncated_body
-    !read_attribute(:abstract).blank? ? read_attribute(:abstract) : truncate(self.body, length: 130, omission: "...")
+    !abstract.blank? ? abstract : truncate(self.body, length: 130, omission: "...")
   end
 
   def owners
@@ -100,11 +100,6 @@ class Project < ActiveRecord::Base
                   .where("bid_reviews.read = false OR bid_reviews.read IS NULL")
   end
 
-  def calculate_total_comments!
-    self.total_comments = comments.count
-    self.save
-  end
-
   def open_for_bids?
     !bids_due_at || (bids_due_at > Time.now)
   end
@@ -114,7 +109,7 @@ class Project < ActiveRecord::Base
     comments.create(officer_id: officer.id,
                     comment_type: "ProjectPosted")
 
-    GlobalConfig.instance.delay.run_event_hooks_for_project!(self)
+    GlobalConfig.instance.run_event_hooks_for_project!(self)
   end
 
   def after_unpost_by_officer(officer)

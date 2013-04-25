@@ -64,4 +64,6 @@ class GlobalConfig < ActiveRecord::Base
       end
     end
   end
+
+  handle_asynchronously :run_event_hooks_for_project!
 end
