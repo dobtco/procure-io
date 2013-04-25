@@ -76,17 +76,17 @@ class User < ActiveRecord::Base
     self.event_feeds.unread.count
   end
 
-  def watches?(watchable_type, watchable_id)
-    watches.where(watchable_type: watchable_type, watchable_id: watchable_id, disabled: false).first ? true : false
+  def watches?(watchable)
+    watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id, disabled: false).first ? true : false
   end
 
-  def watch!(watchable_type, watchable_id)
-    watch = watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first_or_create
+  def watch!(watchable)
+    watch = watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id).first_or_create
     if watch.disabled then watch.update_attributes(disabled: false) end
   end
 
-  def unwatch!(watchable_type, watchable_id)
-    watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first.update_attributes(disabled: true)
+  def unwatch!(watchable)
+    watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id).first.update_attributes(disabled: true)
   end
 
   def send_email_notifications_for?(event_type_value)

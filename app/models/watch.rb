@@ -18,4 +18,12 @@ class Watch < ActiveRecord::Base
   scope :not_disabled, where(disabled: false)
   scope :where_user_is_officer, joins: :user, conditions: { users: { owner_type: "Officer" } }
   scope :where_user_is_vendor, joins: :user, conditions: { users: { owner_type: "Vendor" } }
+
+  scope :for, lambda { |model, ids = nil|
+    if model.is_a?(ActiveRecord::Base)
+      where(watchable_type: model.class.name, watchable_id: model.id)
+    else
+      where(watchable_type: model.to_s.capitalize).where("watchable_id IN (?)", ids)
+    end
+  }
 end
