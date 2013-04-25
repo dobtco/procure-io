@@ -31,6 +31,7 @@ describe EventFeed do
 
     it 'should return early if the user does not receive email notifications for this event type' do
       e = EventFeed.new(user: users(:adam_user))
+      e.stub(:event).and_return(OpenStruct.new)
       users(:adam_user).stub(:send_email_notifications_for?).and_return(false)
       Mailer.should_not_receive(:notification_email)
       e.send(:send_email)
