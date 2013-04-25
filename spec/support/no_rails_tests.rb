@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class FakeModel < OpenStruct
   def self.belongs_to(*args) end
   def self.where(*args) end
