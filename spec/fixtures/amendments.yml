@@ -12,14 +12,10 @@
 #  title                :text
 #
 
-require 'spec_helper'
-
-describe Amendment do
-  subject { amendments(:one) }
-
-  it "should create an event when it's posted" do
-    amendments(:one).project.should_receive(:create_events)
-    amendments(:one).posted_at = nil
-    amendments(:one).post_by_officer(officers(:adam))
-  end
-end
+one:
+  id: 1
+  project_id: 1
+  title: "Amendment One"
+  body: "I am amending the project."
+  posted_at: <%= Time.now.to_s(:db) %>
+  posted_by_officer_id: 1
