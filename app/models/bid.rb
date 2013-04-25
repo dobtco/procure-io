@@ -143,10 +143,6 @@ class Bid < ActiveRecord::Base
     bid_reviews.where(officer_id: officer.id).first_or_initialize
   end
 
-  def new_bid_review_for_officer(officer)
-    bid_reviews.build(officer_id: officer.id)
-  end
-
   calculator :total_stars do bid_reviews.where(starred: true) end
   calculator :total_ratings do bid_reviews.that_have_ratings end
   calculator :total_comments do comments end

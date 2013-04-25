@@ -43,7 +43,7 @@ class Project < ActiveRecord::Base
 
   after_update :generate_project_revisions_if_body_changed!
 
-  has_and_belongs_to_many :tags, after_add: :update_timestamp, after_remove: :update_timestamp
+  has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
 
   serialize :form_options, Hash
 
@@ -118,10 +118,6 @@ class Project < ActiveRecord::Base
   end
 
   private
-  def update_timestamp(*args)
-    self.touch
-  end
-
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "ProjectPosted")
