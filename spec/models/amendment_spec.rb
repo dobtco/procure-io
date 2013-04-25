@@ -17,7 +17,7 @@ require 'spec_helper'
 describe Amendment do
   subject { amendments(:one) }
 
-  it "should create an event when it's posted" do
+  it 'should create an event when posted' do
     amendments(:one).project.should_receive(:create_events)
     amendments(:one).posted_at = nil
     amendments(:one).post_by_officer(officers(:adam))

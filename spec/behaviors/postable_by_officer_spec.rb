@@ -1,61 +1,40 @@
-require_relative '../../lib/additional_aliases'
-require_relative '../../lib/fake_model'
+require_relative '../support/no_rails_tests'
 require_relative '../../lib/postable_by_officer'
 
 class Postable < FakeModel
-  attr_accessor :posted_at, :posted_by_officer_id
-  include AdditionalAliases
   include PostableByOfficer
 end
 
 describe PostableByOfficer do
-  context "#posted? and #posted" do
-    it "should return true or false based on posted_at" do
-      postable = Postable.new
-      postable.posted_at = Time.now
-      postable.should be_posted
-      postable.posted.should == true
-      postable.posted_at = nil
-      postable.should_not be_posted
-      postable.posted.should == false
+
+  before { @postable = Postable.new }
+
+  describe '#posted' do
+    it 'should return true or false based on posted_at' do
+      @postable.posted_at = Time.now
+      @postable.posted.should == true
+      @postable.posted_at = nil
+      @postable.posted.should == false
     end
   end
 
 
-  context "#post_by_officer" do
-    it "should set posted_at and posted_by_officer_id" do
-      postable = Postable.new
-      postable.post_by_officer(stub(id: 1))
-      postable.posted_at.to_i.should == Time.now.to_i
-      postable.posted_by_officer_id.should == 1
+  describe '#post_by_officer' do
+    it 'should set posted_at and posted_by_officer_id' do
+      @postable.post_by_officer(stub(id: 1))
+      @postable.posted_at.to_i.should == Time.now.to_i
+      @postable.posted_by_officer_id.should == 1
     end
   end
 
-  context "#post_by_officer!" do
-    it "should call save on the model" do
-      postable = Postable.new
-      postable.should_receive(:save)
-      postable.post_by_officer!(stub(id: 1))
+  describe '#unpost_by_officer' do
+    it 'should remove posted_at and posted_by_officer_id' do
+      @postable.posted_at = Time.now
+      @postable.posted_by_officer_id = 1
+      @postable.unpost_by_officer(stub(id: 1))
+      @postable.posted_at.should be_nil
+      @postable.posted_by_officer_id.should be_nil
     end
   end
 
-  context "#unpost_by_officer" do
-    it "should remove posted_at and posted_by_officer_id" do
-      postable = Postable.new
-      postable.posted_at = Time.now
-      postable.posted_by_officer_id = 1
-      postable.unpost_by_officer(stub(id: 1))
-      postable.posted_at.should be_nil
-      postable.posted_by_officer_id.should be_nil
-    end
-  end
-
-
-  context "#unpost_by_officer!" do
-    it "should call save on the model" do
-      postable = Postable.new
-      postable.should_receive(:save)
-      postable.unpost_by_officer!(stub(id: 1))
-    end
-  end
 end
