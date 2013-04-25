@@ -12,7 +12,6 @@
 class Vendor < ActiveRecord::Base
   include SharedUserMethods
   include PgSearch
-  include Searcher
 
   has_many :bids, dependent: :destroy
   has_many :questions

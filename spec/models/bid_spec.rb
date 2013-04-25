@@ -97,6 +97,25 @@ describe Bid do
     end
   end
 
+  describe '#bidder_name' do
+    it 'should return the name of the vendor if one exists' do
+      bids(:one).should_receive(:vendor).at_least(:once).and_return(mock(display_name: 'Foo'))
+      bids(:one).bidder_name.should == 'Foo'
+    end
+
+    it 'should next return the key field responses' do
+      bids(:one).should_receive(:vendor).and_return(nil)
+      bids(:one).should_receive(:project).and_return(mock(key_fields: [mock(id: 1)]))
+      bids(:one).should_receive(:key_field_responses).and_return([mock(display_value: "Hi"), mock(display_value: "Bye")])
+      bids(:one).bidder_name.should == 'Hi Bye'
+    end
+
+    it 'should otherwise return an identification number' do
+      bids(:one).should_receive(:vendor).and_return(nil)
+      bids(:one).should_receive(:project).and_return(mock(key_fields: []))
+      bids(:one).bidder_name.should == "#{I18n.t('g.vendor')} ##{bids(:one).id}"
+    end
+  end
 
   # describe "submit" do
   #   before { bids(:one).update_attributes(submitted_at: nil) }

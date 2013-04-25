@@ -24,7 +24,6 @@ class Project < ActiveRecord::Base
   include PostableByOfficer
   include WatchableByUser
   include PgSearch
-  include Searcher
   include TargetableForEvents
   include IsResponseFieldable
 
