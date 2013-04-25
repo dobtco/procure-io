@@ -44,13 +44,15 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'heroku_san'
+  gem 'guard-rspec'
+  gem 'terminal-notifier-guard'
 end
 
 group :development, :test do
-  gem 'rspec-rails'
   gem 'capybara', '2.0.3'
   gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'rspec-rails'
   gem 'simplecov', require: false
 end
 
