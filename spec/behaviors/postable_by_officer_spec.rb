@@ -1,11 +1,11 @@
 require_relative '../support/no_rails_tests'
-require_relative '../../lib/postable_by_officer'
+require_relative '../../lib/behaviors/postable_by_officer'
 
 class Postable < FakeModel
-  include PostableByOfficer
+  include Behaviors::PostableByOfficer
 end
 
-describe PostableByOfficer do
+describe Behaviors::PostableByOfficer do
 
   before { @postable = Postable.new }
 
