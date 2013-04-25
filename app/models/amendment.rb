@@ -13,7 +13,7 @@
 #
 
 class Amendment < ActiveRecord::Base
-  include PostableByOfficer
+  include Behaviors::PostableByOfficer
 
   belongs_to :project, touch: true
 

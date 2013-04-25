@@ -14,8 +14,8 @@
 #
 
 class Comment < ActiveRecord::Base
-  include TargetableForEvents
   include SerializationHelper
+  include Behaviors::TargetableForEvents
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :officer

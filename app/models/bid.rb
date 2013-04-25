@@ -19,23 +19,20 @@
 #
 
 class Bid < ActiveRecord::Base
-  include WatchableByUser
-  include PgSearch
-  include IsResponsable
   include SerializationHelper
-  include TargetableForEvents
-  include Submittable
-  include AwardableAndDismissableByOfficer
+
+  include Behaviors::AwardableAndDismissableByOfficer
+  include Behaviors::Responsable
+  include Behaviors::Submittable
+  include Behaviors::TargetableForEvents
+  include Behaviors::WatchableByUser
 
   belongs_to :project
   belongs_to :vendor
   has_one :user, through: :vendor
-
   has_many :bid_reviews, dependent: :destroy
-
   has_many :comments, as: :commentable, dependent: :destroy
-
-  has_and_belongs_to_many :labels, after_add: :update_timestamp, after_remove: :update_timestamp
+  has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
   default_scope lambda { select('bids.*') }
 
@@ -63,14 +60,15 @@ class Bid < ActiveRecord::Base
                                                       AND bid_reviews.officer_id = ?", officer_id]))
   }
 
-  pg_search_scope :full_search, associated_against: { responses: [:value],
-                                                      vendor: [:name],
-                                                      user: [:email],
-                                                      comments: [:body],
-                                                      labels: [:name] },
-                                using: { tsearch: { prefix: true } }
-
   has_searcher
+
+  pg_search_scope :full_search,
+                  associated_against: { responses: [:value],
+                                        vendor: [:name],
+                                        user: [:email],
+                                        comments: [:body],
+                                        labels: [:name] },
+                  using: { tsearch: { prefix: true } }
 
   def self.add_params_to_query(query, params)
     if params[:f2] == "dismissed"
@@ -131,10 +129,6 @@ class Bid < ActiveRecord::Base
     { counts: counts }
   end
 
-  def key_field_responses
-    responses.where("response_field_id IN (?)", project.key_fields.map(&:id))
-  end
-
   def bidder_name
     if vendor
       vendor.display_name
@@ -153,35 +147,21 @@ class Bid < ActiveRecord::Base
     bid_reviews.build(officer_id: officer.id)
   end
 
-  def calculate_total_stars
-    self.total_stars = bid_reviews.where(starred: true).count
-  end
-
-  def calculate_total_ratings
-    self.total_ratings = bid_reviews.that_have_ratings.count
-  end
-
-  def calculate_total_comments
-    self.total_comments = comments.count
-  end
-
-  def calculate_average_rating
-    self.average_rating = bid_reviews.that_have_ratings.average(:rating)
-  end
+  calculator :total_stars do bid_reviews.where(starred: true) end
+  calculator :total_ratings do bid_reviews.that_have_ratings end
+  calculator :total_comments do comments end
+  calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def responsable_validator
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
-
-  dangerous_alias :calculate_total_stars, :calculate_total_ratings, :calculate_total_comments,
-                  :calculate_average_rating
 
   private
   def after_dismiss_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidDismissed")
 
-    self.delay.create_bid_dismissed_events!(officer)
+    delay.create_events(:vendor_bid_dismissed, vendor.user, self, project, officer) if vendor
   end
 
   def after_award_by_officer(officer)
@@ -192,14 +172,15 @@ class Bid < ActiveRecord::Base
                             comment_type: "ProjectBidAwarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
 
-    self.delay.create_bid_awarded_events!(officer)
+    delay.create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    delay.create_events(:vendor_bid_awarded, vendor.user, self, project, officer) if vendor
   end
 
   def after_undismiss_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidUndismissed")
 
-    self.delay.create_bid_undismissed_events!(officer)
+    delay.create_events(:vendor_bid_undismissed, vendor.user, self, project, officer) if vendor
   end
 
   def after_unaward_by_officer(officer)
@@ -210,36 +191,11 @@ class Bid < ActiveRecord::Base
                             comment_type: "ProjectBidUnawarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
 
-    self.delay.create_bid_unawarded_events!(officer)
+    delay.create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    delay.create_events(:vendor_bid_unawarded, vendor.user, self, project, officer) if vendor
   end
 
   def after_submit
-    self.delay.create_bid_submitted_events!
-  end
-
-  def update_timestamp(*args)
-    self.touch
-  end
-
-  def create_bid_submitted_events!
-    create_events(:bid_submitted, project.active_watchers(:officer), self, project)
-  end
-
-  def create_bid_awarded_events!(officer)
-    create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
-    create_events(:vendor_bid_awarded, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_unawarded_events!(officer)
-    create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
-    create_events(:vendor_bid_unawarded, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_dismissed_events!(officer)
-    create_events(:vendor_bid_dismissed, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_undismissed_events!(officer)
-    create_events(:vendor_bid_undismissed, vendor.user, self, project, officer) if vendor
+    delay.create_events(:bid_submitted, project.active_watchers(:officer), self, project)
   end
 end

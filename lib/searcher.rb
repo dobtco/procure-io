@@ -5,6 +5,8 @@ module Searcher
 
   module ClassMethods
     def has_searcher(args = {})
+      send(:include, PgSearch)
+
       if args[:starting_query]
         define_singleton_method :searcher_starting_query do
           args[:starting_query]

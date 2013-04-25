@@ -21,11 +21,10 @@ require_dependency 'enum'
 
 class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  include PostableByOfficer
-  include WatchableByUser
-  include PgSearch
-  include TargetableForEvents
-  include IsResponseFieldable
+  include Behaviors::PostableByOfficer
+  include Behaviors::WatchableByUser
+  include Behaviors::TargetableForEvents
+  include Behaviors::ResponseFieldable
 
   attr_accessor :updating_officer_id
 
@@ -51,6 +50,8 @@ class Project < ActiveRecord::Base
   scope :featured, where(featured: true)
   scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
 
+  has_searcher starting_query: Project.open_for_bids.posted
+
   pg_search_scope :full_search, against: [:title, :body],
                                 associated_against: { amendments: [:title, :body],
                                                       questions: [:body, :answer_body],
@@ -58,8 +59,6 @@ class Project < ActiveRecord::Base
                                 using: {
                                   tsearch: {prefix: true}
                                 }
-
-  has_searcher starting_query: Project.open_for_bids.posted
 
   def self.review_modes
     @review_modes ||= Enum.new(:stars, :one_through_five)

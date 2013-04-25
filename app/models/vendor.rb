@@ -11,7 +11,6 @@
 
 class Vendor < ActiveRecord::Base
   include SharedUserMethods
-  include PgSearch
 
   has_many :bids, dependent: :destroy
   has_many :questions
@@ -22,11 +21,11 @@ class Vendor < ActiveRecord::Base
   has_one :vendor_profile, dependent: :destroy
   has_many :responses, through: :vendor_profile
 
+  has_searcher starting_query: Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
+
   pg_search_scope :full_search, against: [:name],
                                 associated_against: { responses: [:value], user: [:email] },
                                 using: { tsearch: { prefix: true } }
-
-  has_searcher starting_query: Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
   after_update :touch_all_bids!
 
