@@ -97,10 +97,6 @@ class User < ActiveRecord::Base
     self.notification_preferences = owner.default_notification_preferences
   end
 
-  def display_name
-    owner.display_name
-  end
-
   def send_reset_password_instructions!
     Mailer.password_reset_email(self).deliver
   end

@@ -58,10 +58,6 @@ class Vendor < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def display_name
-    !name.blank? ? name : user.email
-  end
-
   def bid_for_project(project)
     bids.where(project_id: project.id).first
   end

@@ -31,7 +31,7 @@ class Collaborator < ActiveRecord::Base
   def self.send_added_in_bulk_events!(users, project, current_user)
     project.create_events(:bulk_collaborators_added,
                           project.active_watchers(:officer, not_users: [current_user, *users]),
-                          names: users.map(&:display_name).join(', '),
+                          names: users.map {|u| u.owner.display_name}.join(', '),
                           count: users.count,
                           project: SimpleProjectSerializer.new(project, root: false))
   end
