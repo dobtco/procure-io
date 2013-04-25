@@ -36,6 +36,8 @@ group :development do
   gem 'annotate'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'factory_girl_rails'
+  gem 'ffaker'
   gem 'guard-rspec'
   gem 'heroku_san'
   gem 'immigrant'
@@ -49,8 +51,6 @@ group :development, :test do
   gem 'capybara', '2.0.3'
   gem 'capybara-webkit'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
-  gem 'ffaker'
   gem 'rspec-rails'
   gem 'simplecov', require: false
 end
