@@ -10,8 +10,7 @@ class WatchesController < ApplicationController
   before_filter :authenticate_vendor!, only: [:vendor_projects]
 
   def post
-    current_user.send(current_user.watches?(params[:watchable_type], params[:watchable_id]) ? :unwatch! : :watch!,
-                      params[:watchable_type], params[:watchable_id])
+    current_user.send(current_user.watches?(@watchable) ? :unwatch! : :watch!, @watchable)
 
     respond_to do |format|
       format.html { redirect_to :back }

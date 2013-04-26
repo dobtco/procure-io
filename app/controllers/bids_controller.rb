@@ -86,10 +86,10 @@ class BidsController < ApplicationController
       end
     end
 
-    if current_user.watches?("Bid", @bid) && !params[:watching]
-      current_user.unwatch!("Bid", @bid)
-    elsif !current_user.watches?("Bid", @bid) && params[:watching]
-      current_user.watch!("Bid", @bid)
+    if current_user.watches?(@bid) && !params[:watching]
+      current_user.unwatch!(@bid)
+    elsif !current_user.watches?(@bid) && params[:watching]
+      current_user.watch!(@bid)
     end
 
     if (can? :label_bids, @project) && params.has_key?(:labels)
