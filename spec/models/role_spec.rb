@@ -15,5 +15,31 @@
 require 'spec_helper'
 
 describe Role do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  describe 'Role#role_type_name' do
+    it 'should look up the correct translation' do
+      I18n.should_receive(:t).with("roles.role_types.foo")
+      Role.role_type_name(:foo)
+    end
+  end
+
+  describe '#is_god' do
+    it 'should return true when role_type is god' do
+      r = Role.new(role_type: Role.role_types[:god])
+      r.is_god?.should == true
+    end
+
+    it 'should return false otherwise' do
+      r = Role.new(role_type: Role.role_types[:admin])
+      r.is_god?.should == false
+    end
+  end
+
+  describe 'default permissions' do
+    it 'should be set on initialization' do
+      r = Role.new
+      r.permissions[:post_project_live].should == "never"
+    end
+  end
+
 end
