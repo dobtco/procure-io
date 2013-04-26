@@ -25,3 +25,7 @@ one:
   posted_at: <%= Time.now.to_s(:db) %>
   posted_by_officer_id: 1
   bids_due_at: <%= (Time.now + 1.month).to_s(:db) %>
+
+two:
+  id: 2
+  title: "Second project"

@@ -36,18 +36,18 @@ class User < ActiveRecord::Base
   before_create :set_default_notification_preferences
 
   def is_vendor?
-    owner.class == Vendor
+    owner.class.name == "Vendor"
   end
 
   def is_officer?
-    owner.class == Officer
+    owner.class.name == "Officer"
   end
 
   # Expire tokens only for password reset, not for invites.
   def self.find_for_invite_or_password_reset_token(token)
     user = User.find_using_perishable_token(token, nil)
 
-    if user.crypted_password
+    if user.signed_up?
       user = User.find_using_perishable_token(token, 3.days)
     end
 
