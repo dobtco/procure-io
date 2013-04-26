@@ -1,13 +1,13 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/responsable'
 
-class Model < FakeModel
+class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::Responsable
 end
 
 describe Behaviors::Responsable do
 
-  before { @model = Model.new }
+  before { @model = NoRailsTests::Model.new }
 
   describe '#responsable_valid?' do
     it 'should return true if there are no errors' do

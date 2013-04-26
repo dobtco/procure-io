@@ -1,17 +1,18 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/response_fieldable'
-require 'active_support/core_ext/string'
+require 'active_support/all'
 
-class Model < FakeModel
+class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::ResponseFieldable
-end
-
-class ResponseField
 end
 
 describe Behaviors::ResponseFieldable do
 
-  before { @model = Model.new }
+  before do
+    @model = NoRailsTests::Model.new
+    stub_const("I18n", OpenStruct.new)
+    stub_const("ResponseField", OpenStruct.new)
+  end
 
   describe '#use_form_template!' do
     it 'should destroy all response fields and copy them from the template' do

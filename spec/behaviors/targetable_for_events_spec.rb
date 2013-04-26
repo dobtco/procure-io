@@ -1,38 +1,24 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/targetable_for_events'
+require_relative '../../app/helpers/serialization_helper'
 
-module SerializationHelper
-end
-
-class Event
-end
-
-class EventFeed
-end
-
-class Project
-end
-
-class Bid
-end
-
-class Model < FakeModel
+class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::TargetableForEvents
-end
-
-class SimpleProjectSerializer
 end
 
 describe Behaviors::TargetableForEvents do
 
-  before { @model = Model.new }
+  before do
+    @model = NoRailsTests::Model.new
+  end
 
   describe '#create_events' do
     it 'should create the proper event' do
       @model.stub(:build_serialized_data_for_objects).and_return("data!")
       events = OpenStruct.new
       @model.stub(:events).and_return(events)
-      Event.should_receive(:event_types).and_return(["bar"])
+      stub_const "Event", (event_const = OpenStruct.new)
+      event_const.should_receive(:event_types).and_return(["bar"])
       events.should_receive(:create).with(event_type: "bar", data: "data!")
       @model.create_events(0, [], "boo")
     end
@@ -43,9 +29,11 @@ describe Behaviors::TargetableForEvents do
       user = OpenStruct.new(id: 8)
       @model.stub(:build_serialized_data_for_objects).and_return("data!")
       @model.stub(:events).and_return(events)
-      Event.should_receive(:event_types).and_return(["bar"])
+      stub_const "Event", (event_const = OpenStruct.new)
+      event_const.should_receive(:event_types).and_return(["bar"])
       user.should_receive(:can_receive_event).and_return(true)
-      EventFeed.should_receive(:create).with(event_id: 9, user_id: 8)
+      stub_const "EventFeed", (event_feed_const = OpenStruct.new)
+      event_feed_const.should_receive(:create).with(event_id: 9, user_id: 8)
       @model.create_events(0, [user], "boo")
     end
   end
@@ -56,9 +44,11 @@ describe Behaviors::TargetableForEvents do
     end
 
     it 'should serialize each object' do
-      obj1 = Project.new
-      obj2 = Bid.new
-      @model.should_receive(:serialized).with(obj1, SimpleProjectSerializer)
+      obj1 = OpenStruct.new
+      obj1.stub(:class).and_return(OpenStruct.new(name: "Project"))
+      obj2 = OpenStruct.new
+      stub_const "SimpleProjectSerializer", simple_project_serializer_const = OpenStruct.new
+      @model.should_receive(:serialized).with(obj1, simple_project_serializer_const)
       @model.should_receive(:serialized).with(obj2, nil)
       @model.send(:build_serialized_data_for_objects, [obj1, obj2])
     end

@@ -2,23 +2,24 @@ require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/watchable_by_user'
 require 'active_support/all'
 
-class Model < FakeModel
+class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::WatchableByUser
 end
 
-class FakeQuery
+class NoRailsTests::FakeQuery
   def method_missing(meth, *args)
     self
   end
 end
 
+
 describe Behaviors::WatchableByUser do
 
-  before { @model = Model.new }
+  before { @model = NoRailsTests::Model.new }
 
   describe '#active_watchers' do
     before do
-      @model.stub(:watches).and_return(@q = FakeQuery.new)
+      @model.stub(:watches).and_return(@q = NoRailsTests::FakeQuery.new)
     end
 
     it 'should raise an exception if passed something other than :vendor or :officer' do

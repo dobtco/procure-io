@@ -1,16 +1,16 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/awardable_and_dismissable_by_officer'
 
-class Model < FakeModel
+class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::AwardableAndDismissableByOfficer
-end
-
-class I18n
 end
 
 describe Behaviors::AwardableAndDismissableByOfficer do
 
-  before { @model = Model.new }
+  before do
+    @model = NoRailsTests::Model.new
+    stub_const("I18n", OpenStruct.new)
+  end
 
   describe '#dismiss_by_officer' do
     it 'should return false if it is already dismissed' do
