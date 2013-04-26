@@ -2,6 +2,7 @@ require 'ostruct'
 
 class FakeModel < OpenStruct
   def self.belongs_to(*args) end
+  def self.has_many(*args) end
   def self.where(*args) end
   def self.scope(*args) end
   def self.dangerous_alias(*args) end
