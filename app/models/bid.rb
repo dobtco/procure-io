@@ -137,7 +137,7 @@ class Bid < ActiveRecord::Base
   def bidder_name
     if vendor
       vendor.display_name
-    elsif project.key_fields.any?
+    elsif project && project.key_fields.any?
       key_field_responses.map { |r| r.display_value }.join(" ")
     else
       "#{I18n.t('g.vendor')} ##{id}"
