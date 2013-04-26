@@ -40,7 +40,7 @@ class BidSerializer < ActiveModel::Serializer
     if defined?(object.i_am_watching)
       object.i_am_watching?
     else
-      scope && scope.watches?("Bid", object.id)
+      scope && scope.watches?(object)
     end
   end
 end

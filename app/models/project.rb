@@ -21,12 +21,10 @@ require_dependency 'enum'
 
 class Project < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  include PostableByOfficer
-  include WatchableByUser
-  include PgSearch
-  include Searcher
-  include TargetableForEvents
-  include IsResponseFieldable
+  include Behaviors::PostableByOfficer
+  include Behaviors::WatchableByUser
+  include Behaviors::TargetableForEvents
+  include Behaviors::ResponseFieldable
 
   attr_accessor :updating_officer_id
 
@@ -40,17 +38,18 @@ class Project < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
-
   has_many :project_revisions, dependent: :destroy, order: 'created_at DESC'
+  has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
 
   after_update :generate_project_revisions_if_body_changed!
-
-  has_and_belongs_to_many :tags, after_add: :update_timestamp, after_remove: :update_timestamp
 
   serialize :form_options, Hash
 
   scope :featured, where(featured: true)
   scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
+  scope :join_tags, joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
+
+  has_searcher starting_query: Project.open_for_bids.posted
 
   pg_search_scope :full_search, against: [:title, :body],
                                 associated_against: { amendments: [:title, :body],
@@ -60,7 +59,7 @@ class Project < ActiveRecord::Base
                                   tsearch: {prefix: true}
                                 }
 
-  has_searcher starting_query: Project.open_for_bids.posted
+  calculator :total_comments do comments end
 
   def self.review_modes
     @review_modes ||= Enum.new(:stars, :one_through_five)
@@ -72,8 +71,7 @@ class Project < ActiveRecord::Base
     end
 
     if !params[:category].blank?
-      query = query.joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
-                   .where("tags.name = ?", params[:category])
+      query = query.join_tags.where("tags.name = ?", params[:category])
     end
 
     if params[:posted_after]
@@ -90,7 +88,7 @@ class Project < ActiveRecord::Base
   end
 
   def abstract_or_truncated_body
-    !read_attribute(:abstract).blank? ? read_attribute(:abstract) : truncate(self.body, length: 130, omission: "...")
+    !abstract.blank? ? abstract : truncate(self.body, length: 130, omission: "...")
   end
 
   def owners
@@ -102,33 +100,16 @@ class Project < ActiveRecord::Base
                   .where("bid_reviews.read = false OR bid_reviews.read IS NULL")
   end
 
-  def calculate_total_comments!
-    self.total_comments = comments.count
-    self.save
-  end
-
   def open_for_bids?
     !bids_due_at || (bids_due_at > Time.now)
   end
 
-  def bid_confirmation_message
-    if !form_options["form_confirmation_message"].blank?
-      form_options["form_confirmation_message"]
-    else
-      I18n.t('g.bid_confirmation_message')
-    end
-  end
-
   private
-  def update_timestamp(*args)
-    self.touch
-  end
-
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "ProjectPosted")
 
-    GlobalConfig.instance.delay.run_event_hooks_for_project!(self)
+    GlobalConfig.instance.run_event_hooks_for_project!(self)
   end
 
   def after_unpost_by_officer(officer)

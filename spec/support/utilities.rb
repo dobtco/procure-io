@@ -17,3 +17,9 @@ end
 def sign_out
   UserSession.stub!(:find).and_return(nil)
 end
+
+class FakeQuery
+  def method_missing(meth, *args)
+    self
+  end
+end

@@ -14,8 +14,8 @@
 #
 
 class Comment < ActiveRecord::Base
-  include TargetableForEvents
   include SerializationHelper
+  include Behaviors::TargetableForEvents
 
   belongs_to :commentable, polymorphic: true, touch: true
   belongs_to :officer
@@ -35,10 +35,10 @@ class Comment < ActiveRecord::Base
 
   def subscribe_officer_if_never_subscribed!
     return if comment_type # don't proceed if this is an automatically-generated comment
-    return unless commentable && commentable.class.name == "Bid"
+    return unless commentable && commentable.class.name == "Bid" # only proceed if commentable is a bid
 
     if !commentable.ever_watched_by?(officer)
-      officer.user.watch!("Bid", commentable.id)
+      officer.user.watch!(commentable)
     end
   end
 

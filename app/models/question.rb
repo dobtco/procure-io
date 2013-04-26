@@ -13,8 +13,6 @@
 #
 
 class Question < ActiveRecord::Base
-  include SerializationHelper
-
   default_scope order('created_at')
 
   scope :unanswered, where("answer_body = '' OR answer_body IS NULL")

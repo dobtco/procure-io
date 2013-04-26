@@ -15,5 +15,11 @@
 require 'spec_helper'
 
 describe Amendment do
-  pending "add some examples to (or delete) #{__FILE__}"
+  subject { amendments(:one) }
+
+  it 'should create an event when posted' do
+    amendments(:one).project.should_receive(:create_events)
+    amendments(:one).posted_at = nil
+    amendments(:one).post_by_officer(officers(:adam))
+  end
 end

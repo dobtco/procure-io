@@ -19,17 +19,6 @@ require 'spec_helper'
 
 describe ResponseField do
 
-  subject { response_fields(:one) }
-
-  it { should respond_to(:label) }
-  it { should respond_to(:field_type) }
-  it { should respond_to(:field_options) }
-  it { should respond_to(:sort_order) }
-  it { should respond_to(:key_field) }
-
-  it { should respond_to(:response_fieldable) }
-  it { should respond_to(:responses) }
-
   describe "default scope" do
     it "should sort correctly" do
       ResponseField.all.should == [response_fields(:one), response_fields(:two)]

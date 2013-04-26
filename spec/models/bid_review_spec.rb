@@ -18,9 +18,12 @@ describe BidReview do
 
   subject { bid_reviews(:one) }
 
-  it { should respond_to(:starred) }
-  it { should respond_to(:read) }
-
-  it { should respond_to(:bid) }
-  it { should respond_to(:officer) }
+  describe 'after saving' do
+    it 'should perform calculations on bid' do
+      bid_reviews(:one).bid.should_receive(:calculate_total_stars)
+      bid_reviews(:one).bid.should_receive(:calculate_average_rating)
+      bid_reviews(:one).bid.should_receive(:calculate_total_ratings)
+      bid_reviews(:one).save
+    end
+  end
 end

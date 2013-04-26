@@ -99,7 +99,7 @@ en:
     amendments: Amendments
     answer_questions: Answer Questions
     awarded: Accepted
-    bid_confirmation_message: "Thanks, your bid has been received!"
+    bid_form_confirmation_message: "Thanks, your bid has been received!"
     bid_form: Bid Form
     bid_now: Bid Now
     bids: Bids
@@ -143,7 +143,7 @@ en:
     form_templates: Form Templates
     forgot_password: Forgot Password
     general_stats: General Stats
-    global_config_form_confirmation_message: You have successfully updated your vendor profile.
+    globalconfig_form_confirmation_message: You have successfully updated your vendor profile.
     hide: hide
     hide_paren: (hide)
     hotkeys_available: Hotkeys Available

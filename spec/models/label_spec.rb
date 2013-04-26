@@ -14,25 +14,25 @@ require 'spec_helper'
 
 describe Label do
 
-  subject { labels(:one) }
+  let(:label) { labels(:one) }
 
-  it { should respond_to(:name) }
-  it { should respond_to(:color) }
-
-  it { should respond_to(:project) }
-  it { should respond_to(:bids) }
-
-  describe "text color" do
+  describe "#text_color" do
     it "should be light when background is dark" do
-      labels(:one).text_color.should == "light"
+      label.text_color.should == "light"
     end
 
-    describe "when label has light background" do
-      before { labels(:one).update_attributes(color: "ffffff") }
-      it "should be dark" do
-        labels(:one).text_color.should == "dark"
-      end
+    it "should be dark when background is light" do
+      label.update_attributes(color: "ffffff")
+      label.text_color.should == "dark"
     end
   end
 
+  describe '#touch_all_bids' do
+    it 'should update the timestamps of all the labels bids' do
+      bids = []
+      label.stub(:bids).and_return(bids)
+      bids.should_receive(:update_all)
+      label.send(:touch_all_bids)
+    end
+  end
 end
