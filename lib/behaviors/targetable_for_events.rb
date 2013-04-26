@@ -1,10 +1,9 @@
 module Behaviors
   module TargetableForEvents
-    include SerializationHelper
-
     def self.included(base)
       base.has_many :events, as: :targetable
       base.extend(ClassMethods)
+      base.send(:include, SerializationHelper)
     end
 
     module ClassMethods
@@ -28,7 +27,7 @@ module Behaviors
       return objects[0] if objects[0].is_a?(Hash)
 
       objects.each do |object|
-        serializer = object.class == Project ? SimpleProjectSerializer : nil
+        serializer = object.class.name == "Project" ? SimpleProjectSerializer : nil
         data[object.class.name.downcase.to_sym] = serialized(object, serializer)
       end
 

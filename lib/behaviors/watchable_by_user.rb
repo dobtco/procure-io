@@ -1,4 +1,4 @@
-module Behaviors
+ module Behaviors
   module WatchableByUser
     def self.included(base)
       base.has_many :watches, as: :watchable, include: :user
