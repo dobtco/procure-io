@@ -26,30 +26,6 @@ describe Project do
   describe 'Project#add_params_to_query' do
     before { @query = FakeQuery.new }
 
-    # describe 'the f2 query parameter' do
-    #   it 'should filter for dismissed' do
-    #     @query.should_receive(:dismissed).and_return(@query)
-    #     Bid.add_params_to_query(@query, f2: 'dismissed')
-    #   end
-
-    #   it 'should filter for awarded' do
-    #     @query.should_receive(:awarded).and_return(@query)
-    #     Bid.add_params_to_query(@query, f2: 'awarded')
-    #   end
-
-    #   it 'should default to filtering for open bids' do
-    #     @query.should_receive(:where_open).and_return(@query)
-    #     Bid.add_params_to_query(@query, {})
-    #   end
-    # end
-
-    # describe 'the f1 query parameter' do
-    #   it 'should filter for starred' do
-    #     @query.should_receive(:starred).and_return(@query)
-    #     Bid.add_params_to_query(@query, f1: 'starred')
-    #   end
-    # end
-
     describe 'the posted_after parameter' do
       it 'should search in the correct date range' do
         @query.should_receive(:where).and_return(@query)

@@ -888,7 +888,6 @@ ALTER SEQUENCE vendor_profiles_id_seq OWNED BY vendor_profiles.id;
 
 CREATE TABLE vendors (
     id integer NOT NULL,
-    account_disabled boolean,
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
@@ -1708,3 +1707,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130422010306');
 INSERT INTO schema_migrations (version) VALUES ('20130422040330');
 
 INSERT INTO schema_migrations (version) VALUES ('20130423211340');
+
+INSERT INTO schema_migrations (version) VALUES ('20130426182600');
