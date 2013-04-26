@@ -14,5 +14,17 @@
 require 'spec_helper'
 
 describe Watch do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "the :for scope" do
+    it 'should search by an object' do
+      Watch.for(projects(:one)).should == [watches(:one)]
+      Watch.for(bids(:one)).should == [watches(:two)]
+    end
+
+    it 'should search by class & multiple ids' do
+      Watch.for("Project", 1).should == [watches(:one)]
+      Watch.for("Project", [1, 2]).should == [watches(:one)]
+      w3 = Watch.create(user: users(:adam_user), watchable: projects(:two))
+      Watch.for("Project", [1, 2]).should include(watches(:one), w3)
+    end
+  end
 end

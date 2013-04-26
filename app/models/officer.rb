@@ -30,10 +30,6 @@ class Officer < ActiveRecord::Base
     Event.event_types.only(*types)
   end
 
-  def display_name
-    !name.blank? ? name : user.email
-  end
-
   def self.invite!(email, project, role_id = nil)
     role_id ||= Role.where(default: true).first.id
     officer = Officer.create(role_id: role_id)
@@ -46,6 +42,8 @@ class Officer < ActiveRecord::Base
     Mailer.invite_email(self, project).deliver
   end
 
+  handle_asynchronously :send_invitation_email!
+
   def role_type
     role ? Role.role_types[role.role_type] : :user
   end
@@ -54,13 +52,11 @@ class Officer < ActiveRecord::Base
     role_type.in? [:admin, :god]
   end
 
+  question_alias :is_admin_or_god
+
   def never_allowed_to(permission)
     !is_admin_or_god? && role.permissions[permission] == "never"
   end
-
-  question_alias :is_admin_or_god
-
-  handle_asynchronously :send_invitation_email!
 
   def default_notification_preferences
     Officer.event_types.except(:collaborator_added, :bid_submitted, :bulk_collaborators_added).values

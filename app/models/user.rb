@@ -36,18 +36,18 @@ class User < ActiveRecord::Base
   before_create :set_default_notification_preferences
 
   def is_vendor?
-    owner.class == Vendor
+    owner.class.name == "Vendor"
   end
 
   def is_officer?
-    owner.class == Officer
+    owner.class.name == "Officer"
   end
 
   # Expire tokens only for password reset, not for invites.
   def self.find_for_invite_or_password_reset_token(token)
     user = User.find_using_perishable_token(token, nil)
 
-    if user.crypted_password
+    if user.signed_up?
       user = User.find_using_perishable_token(token, 3.days)
     end
 
@@ -76,17 +76,17 @@ class User < ActiveRecord::Base
     self.event_feeds.unread.count
   end
 
-  def watches?(watchable_type, watchable_id)
-    watches.where(watchable_type: watchable_type, watchable_id: watchable_id, disabled: false).first ? true : false
+  def watches?(watchable)
+    watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id, disabled: false).first ? true : false
   end
 
-  def watch!(watchable_type, watchable_id)
-    watch = watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first_or_create
+  def watch!(watchable)
+    watch = watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id).first_or_create
     if watch.disabled then watch.update_attributes(disabled: false) end
   end
 
-  def unwatch!(watchable_type, watchable_id)
-    watches.where(watchable_type: watchable_type, watchable_id: watchable_id).first.update_attributes(disabled: true)
+  def unwatch!(watchable)
+    watches.where(watchable_type: watchable.class.name, watchable_id: watchable.id).first.update_attributes(disabled: true)
   end
 
   def send_email_notifications_for?(event_type_value)
@@ -95,10 +95,6 @@ class User < ActiveRecord::Base
 
   def set_default_notification_preferences
     self.notification_preferences = owner.default_notification_preferences
-  end
-
-  def display_name
-    owner.display_name
   end
 
   def send_reset_password_instructions!

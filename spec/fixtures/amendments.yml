@@ -1,0 +1,21 @@
+# == Schema Information
+#
+# Table name: amendments
+#
+#  id                   :integer          not null, primary key
+#  project_id           :integer
+#  body                 :text
+#  posted_at            :datetime
+#  posted_by_officer_id :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  title                :text
+#
+
+one:
+  id: 1
+  project_id: 1
+  title: "Amendment One"
+  body: "I am amending the project."
+  posted_at: <%= Time.now.to_s(:db) %>
+  posted_by_officer_id: 1

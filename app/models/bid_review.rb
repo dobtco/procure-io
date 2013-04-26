@@ -13,15 +13,15 @@
 #
 
 class BidReview < ActiveRecord::Base
-  belongs_to :bid, touch: true
+  belongs_to :bid
   belongs_to :officer
 
-  after_save :calculate_bid_total_stars_and_average_rating!
+  after_save :perform_calculations_on_bid!
 
   scope :that_have_ratings, where("rating IS NOT NULL")
 
   private
-  def calculate_bid_total_stars_and_average_rating!
+  def perform_calculations_on_bid!
     bid.calculate_total_stars
     bid.calculate_average_rating
     bid.calculate_total_ratings

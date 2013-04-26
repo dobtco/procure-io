@@ -19,44 +19,39 @@
 #
 
 class Bid < ActiveRecord::Base
-  include WatchableByUser
-  include PgSearch
-  include IsResponsable
-  include Searcher
   include SerializationHelper
-  include TargetableForEvents
+
+  include Behaviors::AwardableAndDismissableByOfficer
+  include Behaviors::Responsable
+  include Behaviors::Submittable
+  include Behaviors::TargetableForEvents
+  include Behaviors::WatchableByUser
 
   belongs_to :project
   belongs_to :vendor
   has_one :user, through: :vendor
-  belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
-  belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
-
   has_many :bid_reviews, dependent: :destroy
-
   has_many :comments, as: :commentable, dependent: :destroy
-
-  has_and_belongs_to_many :labels, after_add: :update_timestamp, after_remove: :update_timestamp
+  has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
   default_scope lambda { select('bids.*') }
 
-  scope :submitted, where("submitted_at IS NOT NULL")
-  scope :dismissed, where("dismissed_at IS NOT NULL")
-  scope :awarded, where("awarded_at IS NOT NULL")
-  scope :where_open, where("dismissed_at IS NULL AND awarded_at IS NULL")
   scope :starred, where("total_stars > 0")
   scope :join_labels, joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
+
   scope :join_responses_for_response_field_id, lambda { |response_field_id|
     joins sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
                                                    AND responses.responsable_type = 'Bid'
                                                    AND responses.response_field_id = ?", response_field_id])
   }
+
   scope :join_my_watches, lambda { |user_id|
     select('CASE WHEN my_watch.id IS NULL THEN false else true END as i_am_watching')
     .joins(sanitize_sql_array(["LEFT JOIN watches as my_watch ON my_watch.watchable_type = 'Bid'
                                                              AND my_watch.watchable_id = bids.id
                                                              AND my_watch.user_id = ?", user_id]))
   }
+
   scope :join_my_bid_review, lambda { |officer_id|
     select('bid_reviews.starred as starred,
             bid_reviews.read as read,
@@ -65,14 +60,20 @@ class Bid < ActiveRecord::Base
                                                       AND bid_reviews.officer_id = ?", officer_id]))
   }
 
-  pg_search_scope :full_search, associated_against: { responses: [:value],
-                                                      vendor: [:name],
-                                                      user: [:email],
-                                                      comments: [:body],
-                                                      labels: [:name] },
-                                using: { tsearch: { prefix: true } }
-
   has_searcher
+
+  pg_search_scope :full_search,
+                  associated_against: { responses: [:value],
+                                        vendor: [:name],
+                                        user: [:email],
+                                        comments: [:body],
+                                        labels: [:name] },
+                  using: { tsearch: { prefix: true } }
+
+  calculator :total_stars do bid_reviews.where(starred: true) end
+  calculator :total_ratings do bid_reviews.that_have_ratings end
+  calculator :total_comments do comments end
+  calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def self.add_params_to_query(query, params)
     if params[:f2] == "dismissed"
@@ -136,47 +137,30 @@ class Bid < ActiveRecord::Base
   def bidder_name
     if vendor
       vendor.display_name
-    elsif project.key_fields.any?
-      key_field_responses = responses.where("response_field_id IN (?)", project.key_fields.map(&:id))
+    elsif project && project.key_fields.any?
       key_field_responses.map { |r| r.display_value }.join(" ")
     else
       "#{I18n.t('g.vendor')} ##{id}"
     end
   end
 
-  def submit
-    self.submitted_at = Time.now
-    self.delay.create_bid_submitted_events!
+  def bid_review_for_officer(officer)
+    bid_reviews.where(officer_id: officer.id).first_or_initialize
   end
 
-  def submitted
-    self.submitted_at ? true : false
+  def responsable_validator
+    @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
 
-  def dismissed
-    self.dismissed_at ? true : false
-  end
-
-  def awarded
-    self.awarded_at ? true : false
-  end
-
-  def dismiss_by_officer(officer)
-    return false if self.dismissed_at
-    self.dismissed_at = Time.now
-    self.dismissed_by_officer_id = officer.id
-
+  private
+  def after_dismiss_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidDismissed")
 
-    self.delay.create_bid_dismissed_events!(officer)
+    delay.create_events(:vendor_bid_dismissed, vendor.user, self, project, officer) if vendor
   end
 
-  def award_by_officer(officer)
-    return false if self.awarded_at
-    self.awarded_at = Time.now
-    self.awarded_by_officer_id = officer.id
-
+  def after_award_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidAwarded")
 
@@ -184,27 +168,18 @@ class Bid < ActiveRecord::Base
                             comment_type: "ProjectBidAwarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
 
-    self.delay.create_bid_awarded_events!(officer)
+    delay.create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    delay.create_events(:vendor_bid_awarded, vendor.user, self, project, officer) if vendor
   end
 
-  def undismiss_by_officer(officer)
-    return false if !self.dismissed_at
-
-    self.dismissed_at = nil
-    self.dismissed_by_officer_id = nil
-
+  def after_undismiss_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidUndismissed")
 
-    self.delay.create_bid_undismissed_events!(officer)
+    delay.create_events(:vendor_bid_undismissed, vendor.user, self, project, officer) if vendor
   end
 
-  def unaward_by_officer(officer)
-    return false if !self.awarded_at
-
-    self.awarded_at = nil
-    self.awarded_by_officer_id = nil
-
+  def after_unaward_by_officer(officer)
     comments.create(officer_id: officer.id,
                     comment_type: "BidUnawarded")
 
@@ -212,77 +187,11 @@ class Bid < ActiveRecord::Base
                             comment_type: "ProjectBidUnawarded",
                             data: BidForCommentSerializer.new(self, root: false).to_json)
 
-    self.delay.create_bid_unawarded_events!(officer)
+    delay.create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
+    delay.create_events(:vendor_bid_unawarded, vendor.user, self, project, officer) if vendor
   end
 
-  def bid_review_for_officer(officer)
-    bid_reviews.where(officer_id: officer.id).first_or_initialize
-  end
-
-  def new_bid_review_for_officer(officer)
-    bid_reviews.build(officer_id: officer.id)
-  end
-
-  def calculate_total_stars
-    self.total_stars = bid_reviews.where(starred: true).count
-  end
-
-  def calculate_total_ratings
-    self.total_ratings = bid_reviews.that_have_ratings.count
-  end
-
-  def calculate_total_comments
-    self.total_comments = comments.count
-  end
-
-  def calculate_average_rating
-    self.average_rating = bid_reviews.that_have_ratings.average(:rating)
-  end
-
-  def text_status
-    if dismissed_at
-      I18n.t('g.dismissed')
-    elsif awarded_at
-      I18n.t('g.awarded')
-    else
-      I18n.t('g.open')
-    end
-  end
-
-  def responsable_validator
-    @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
-  end
-
-  dangerous_alias :unaward_by_officer, :undismiss_by_officer, :award_by_officer, :dismiss_by_officer,
-                  :calculate_total_stars, :calculate_total_ratings, :calculate_total_comments,
-                  :calculate_average_rating
-
-  question_alias :submitted, :dismissed, :awarded
-
-  private
-  def update_timestamp(*args)
-    self.touch
-  end
-
-  def create_bid_submitted_events!
-    create_events(:bid_submitted, project.active_watchers(:officer), self, project)
-  end
-
-  def create_bid_awarded_events!(officer)
-    create_events(:bid_awarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
-    create_events(:vendor_bid_awarded, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_unawarded_events!(officer)
-    create_events(:bid_unawarded, project.active_watchers(:officer, not_users: officer.user), self, project, officer)
-    create_events(:vendor_bid_unawarded, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_dismissed_events!(officer)
-    create_events(:vendor_bid_dismissed, vendor.user, self, project, officer) if vendor
-  end
-
-  def create_bid_undismissed_events!(officer)
-    create_events(:vendor_bid_undismissed, vendor.user, self, project, officer) if vendor
+  def after_submit
+    delay.create_events(:bid_submitted, project.active_watchers(:officer), self, project)
   end
 end

@@ -21,91 +21,78 @@ require 'spec_helper'
 
 describe Project do
 
-  subject { projects(:one) }
+  let(:project) { projects(:one) }
 
-  it { should respond_to(:title) }
-  it { should respond_to(:body) }
-  it { should respond_to(:bids_due_at) }
-  it { should respond_to(:posted_at) }
-  it { should respond_to(:posted_by_officer_id) }
-  it { should respond_to(:posted_by_officer) }
+  describe 'Project#add_params_to_query' do
+    before { @query = FakeQuery.new }
 
-  it { should respond_to(:bids) }
-  it { should respond_to(:collaborators) }
-  it { should respond_to(:officers) }
-  it { should respond_to(:questions) }
-  it { should respond_to(:response_fields) }
-  it { should respond_to(:tags) }
-  it { should respond_to(:labels) }
-  it { should respond_to(:watches) }
-
-  describe "abstract" do
-    before { projects(:one).update_attributes(body: "a"*140, abstract: nil) }
-    it "should truncate properly" do
-      projects(:one).abstract_or_truncated_body.length.should be < 140
-      projects(:one).abstract_or_truncated_body.should match /a\.\.\.$/
-    end
-  end
-
-  describe "submitted bids" do
-    it "should return submitted bids" do
-      projects(:one).bids.submitted.should == [bids(:one)]
+    describe 'the posted_after parameter' do
+      it 'should search in the correct date range' do
+        @query.should_receive(:where).and_return(@query)
+        Project.add_params_to_query(@query, posted_after: Time.now - 10.days)
+      end
     end
 
-    describe "when not submitted" do
-      before { bids(:one).update_attributes(submitted_at: nil) }
-      it "should return nothing" do
-        projects(:one).bids.submitted.should == []
+    describe 'the sort parameter' do
+      it 'should sort by posted_at if blank' do
+        @query.should_receive(:order).with(/posted_at/).and_return(@query)
+        Project.add_params_to_query(@query, sort: '')
+      end
+
+      it 'should sort by posted_at if not a valid option' do
+        @query.should_receive(:order).with(/posted_at/).and_return(@query)
+        Project.add_params_to_query(@query, sort: 'asdf')
+      end
+
+      it 'should sort appropriately if passed a proper option' do
+        @query.should_receive(:order).with("bids_due_at asc").and_return(@query)
+        Project.add_params_to_query(@query, sort: 'bids_due_at', direction: 'asc')
+      end
+    end
+
+    describe 'the category parameter' do
+      it 'should serach by category' do
+        @query.should_receive(:join_tags).and_return(@query)
+        @query.should_receive(:where).with("tags.name = ?", 'Foo').and_return(@query)
+        Project.add_params_to_query(@query, category: 'Foo')
+      end
+
+      it 'should not search if blank' do
+        @query.should_not_receive(:join_tags)
+        Project.add_params_to_query(@query, category: '')
+      end
+    end
+
+    describe 'the q parameter' do
+      it 'should perform a full search' do
+        @query.should_receive(:full_search).with('Foo').and_return(@query)
+        Project.add_params_to_query(@query, q: 'Foo')
+      end
+
+      it 'should not search if blank' do
+        @query.should_not_receive(:full_search)
+        Project.add_params_to_query(@query, q: '')
       end
     end
   end
 
-  describe "dismissed bids" do
-    it "should return nothing" do
-      projects(:one).bids.dismissed.should == []
+
+  describe "#abstract_or_truncated_body" do
+    it "should truncate the body if abstract is blank" do
+      p = Project.new(body: "a"*140, abstract: "")
+      p.abstract_or_truncated_body.length.should be < 140
+      p.abstract_or_truncated_body.should match /a\.\.\.$/
     end
 
-    describe "when dismissed" do
-      before { bids(:one).update_attributes(dismissed_at: Time.now) }
-      it "should return dismissed bids" do
-        projects(:one).bids.dismissed.should == [bids(:one)]
-      end
-    end
-  end
-
-  describe "validate bid" do
-    pending
-  end
-
-  describe "owner" do
-    it "should have the correct owner" do
-      projects(:one).owners.should == [officers(:adam)]
+    it "use the abstract if it has one" do
+      p = Project.new(body: "a"*140, abstract: "yo")
+      p.abstract_or_truncated_body.should == "yo"
     end
   end
 
-  describe "posted" do
-    it "should show posted items" do
-      Project.posted.should include(projects(:one))
-    end
-
-    describe "unposted" do
-      before { projects(:one).unpost_by_officer(officers(:adam)); projects(:one).save }
-      it "should not show unposted items" do
-        Project.posted.should_not include(projects(:one))
-      end
-    end
-  end
-
-  describe "key fields" do
-    it "when there is at least one key field, it should return it" do
-      projects(:one).key_fields.should == [response_fields(:one)]
-    end
-
-    describe "no key fields" do
-      before { response_fields(:one).update_attributes(key_field: false) }
-      it "if there are no key fields, it should return none" do
-        projects(:one).key_fields.should == []
-      end
+  describe "owners" do
+    it "should return the correct result" do
+      project.owners.should == [officers(:adam)]
     end
   end
 
@@ -115,37 +102,71 @@ describe Project do
     end
 
     describe "when for a different user" do
-      before { bid_reviews(:one).update_attributes(officer_id: 2) }
       it "be unread if another user has read it" do
-        projects(:one).unread_bids_for_officer(officers(:adam)).should include(bids(:one))
+        bid_reviews(:one).update_attributes(officer_id: 2)
+        projects(:one).unread_bids_for_officer(officers(:adam)).length.should == 1
       end
     end
 
     describe "when unread" do
-      before { bid_reviews(:one).update_attributes(read: false) }
       it "when a bid has been marked as unread, should include it" do
-        projects(:one).unread_bids_for_officer(officers(:adam)).should include(bids(:one))
+        bid_reviews(:one).update_attributes(read: false)
+        projects(:one).unread_bids_for_officer(officers(:adam)).length.should == 1
       end
     end
 
     describe "when no bid_review record" do
-      before { bid_reviews(:one).destroy }
       it "should be unread" do
-        projects(:one).unread_bids_for_officer(officers(:adam)).should include(bids(:one))
+        bid_reviews(:one).destroy
+        projects(:one).unread_bids_for_officer(officers(:adam)).length.should == 1
       end
     end
   end
 
-  describe "submitted bids" do
-    it "should include bids where submitted_at is not null" do
-      projects(:one).bids.submitted.should include(bids(:one))
+  describe '#open_for_bids?' do
+    it 'should be true when no bids_due_at is set' do
+      p = Project.new(bids_due_at: nil)
+      p.open_for_bids?.should == true
     end
 
-    describe "when null" do
-      before { bids(:one).update_attributes(submitted_at: nil) }
-      it "should not include bids where submitted_at is null" do
-        projects(:one).bids.submitted.length.should == 0
-      end
+    it 'should be true when bids_due_at is in the future' do
+      p = Project.new(bids_due_at: Time.now + 1.day)
+      p.open_for_bids?.should == true
+    end
+
+    it 'should be false when bids_due_at is in the past' do
+      p = Project.new(bids_due_at: Time.now - 1.day)
+      p.open_for_bids?.should == false
+    end
+  end
+
+  describe '#after_post_by_officer' do
+    it 'should create events and run event hooks' do
+      project.comments.should_receive(:create)
+      GlobalConfig.stub(:instance).and_return(gc = mock())
+      gc.should_receive(:run_event_hooks_for_project!)
+      project.send(:after_post_by_officer, officers(:adam))
+    end
+  end
+
+  describe '#after_unpost_by_officer' do
+    it 'should create a comment' do
+      project.comments.should_receive(:create).with(officer_id: 999, comment_type: "ProjectUnposted")
+      project.send(:after_unpost_by_officer, mock(id: 999))
+    end
+  end
+
+  describe '#generate_project_revisions_if_body_changed' do
+    it 'should create a revision if the body is changed' do
+      project.stub(:body_changed?).and_return(true)
+      project.project_revisions.should_receive(:create)
+      project.send(:generate_project_revisions_if_body_changed!)
+    end
+
+    it 'should return early if body is not changed' do
+      project.stub(:body_changed?).and_return(false)
+      project.project_revisions.should_not_receive(:create)
+      project.send(:generate_project_revisions_if_body_changed!)
     end
   end
 

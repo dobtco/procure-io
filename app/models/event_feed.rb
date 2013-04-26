@@ -19,19 +19,19 @@ class EventFeed < ActiveRecord::Base
   after_create :send_email
 
   def read!
-    self.update_attributes(read: true)
+    update_attributes(read: true)
   end
 
   def unread!
-    self.update_attributes(read: false)
+    update_attributes(read: false)
   end
 
   private
   def send_email
-    return if !user.signed_up? # don't send an email to a user if they're not signed up
+    # don't send an email to a user if they're not signed up or their preferences are set
+    # to not receive these types of emails
+    return if !user.signed_up? || !user.send_email_notifications_for?(event.event_type)
 
-    if user.send_email_notifications_for?(event.event_type)
-      Mailer.notification_email(user, event).deliver
-    end
+    Mailer.notification_email(user, event).deliver
   end
 end

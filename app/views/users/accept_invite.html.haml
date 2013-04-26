@@ -1,7 +1,7 @@
 - provide :page_title, t('g.accept_invite')
 != page_header t('g.accept_invite')
 
-.alert.alert-info= t('.create_password_instructions_html', name: @user.display_name, site_name: t('g.site_name'))
+.alert.alert-info= t('.create_password_instructions_html', name: @user.owner.display_name, site_name: t('g.site_name'))
 
 = form_for @user, url: users_accept_invite_path, method: :post do |f|
   = f.label :password

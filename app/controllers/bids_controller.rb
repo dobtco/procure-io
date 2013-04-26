@@ -57,7 +57,7 @@ class BidsController < ApplicationController
     if params[:draft_only] != 'true' && @bid.responsable_valid?
       @bid.submit
       @bid.save
-      flash[:success] = @project.bid_confirmation_message
+      flash[:success] = @project.form_confirmation_message
       redirect_to project_bid_path(@project, @bid)
     else
       redirect_to new_project_bid_path
@@ -86,10 +86,10 @@ class BidsController < ApplicationController
       end
     end
 
-    if current_user.watches?("Bid", @bid) && !params[:watching]
-      current_user.unwatch!("Bid", @bid)
-    elsif !current_user.watches?("Bid", @bid) && params[:watching]
-      current_user.watch!("Bid", @bid)
+    if current_user.watches?(@bid) && !params[:watching]
+      current_user.unwatch!(@bid)
+    elsif !current_user.watches?(@bid) && params[:watching]
+      current_user.watch!(@bid)
     end
 
     if (can? :label_bids, @project) && params.has_key?(:labels)

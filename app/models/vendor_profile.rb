@@ -9,7 +9,7 @@
 #
 
 class VendorProfile < ActiveRecord::Base
-  include IsResponsable
+  include Behaviors::Responsable
 
   belongs_to :vendor, touch: true
 

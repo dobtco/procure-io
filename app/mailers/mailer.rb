@@ -16,7 +16,7 @@ class Mailer < ActionMailer::Base
                 'notification',
                 event_text: event.text,
                 event_additional_text: event.additional_text,
-                name: user.display_name,
+                name: user.owner.display_name,
                 event_url: URI.join(root_url, event.path),
                 add_unsubscribe_link: true
   end
@@ -24,7 +24,7 @@ class Mailer < ActionMailer::Base
   def password_reset_email(user)
     build_email user.email,
                 'password_reset',
-                name: user.display_name,
+                name: user.owner.display_name,
                 reset_password_url: users_reset_password_url(token: user.perishable_token)
   end
 

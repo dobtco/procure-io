@@ -99,11 +99,11 @@ FactoryGirl.define do
       p.tags << Tag.all(order: "RANDOM()").first
 
       Officer.all.each do |officer|
-        officer.user.watch!("Project", p.id)
+        officer.user.watch!(p)
       end
 
       Vendor.all.each do |vendor|
-        vendor.user.watch!("Project", p.id) if rand(1..2) == 2
+        vendor.user.watch!(p) if rand(1..2) == 2
       end
 
       FactoryGirl.create(:comment, commentable: p)

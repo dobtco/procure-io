@@ -68,7 +68,6 @@ class Event < ActiveRecord::Base
   end
 
   private
-
   def calculate_i18n_interpolation_data
     return_hash = {}
 
