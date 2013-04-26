@@ -104,15 +104,15 @@ describe Bid do
     end
 
     it 'should next return the key field responses' do
-      bids(:one).should_receive(:vendor).and_return(nil)
-      bids(:one).should_receive(:project).and_return(mock(key_fields: [mock(id: 1)]))
-      bids(:one).should_receive(:key_field_responses).and_return([mock(display_value: "Hi"), mock(display_value: "Bye")])
+      bids(:one).should_receive(:vendor).at_least(:once).and_return(nil)
+      bids(:one).should_receive(:project).at_least(:once).and_return(mock(key_fields: [mock(id: 1)]))
+      bids(:one).should_receive(:key_field_responses).at_least(:once).and_return([mock(display_value: "Hi"), mock(display_value: "Bye")])
       bids(:one).bidder_name.should == 'Hi Bye'
     end
 
     it 'should otherwise return an identification number' do
-      bids(:one).should_receive(:vendor).and_return(nil)
-      bids(:one).should_receive(:project).and_return(mock(key_fields: []))
+      bids(:one).should_receive(:vendor).at_least(:once).and_return(nil)
+      bids(:one).should_receive(:project).at_least(:once).and_return(mock(key_fields: []))
       bids(:one).bidder_name.should == "#{I18n.t('g.vendor')} ##{bids(:one).id}"
     end
   end
