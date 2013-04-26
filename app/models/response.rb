@@ -85,7 +85,7 @@ class Response < ActiveRecord::Base
       hours += 12 if value['am_pm'] && value['am_pm'] == 'PM'
       (hours*60*60) + (value['minutes'].to_i * 60) + value['seconds'].to_i
     when "file"
-      upload ? 1 : 0
+      self.upload ? 1 : 0
     when "checkboxes"
       self.value.is_a?(Hash) ? self.value.values[0] : nil
     else
