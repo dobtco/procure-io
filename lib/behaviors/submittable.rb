@@ -10,6 +10,7 @@ module Behaviors
     end
 
     def submit
+      return if self.submitted_at
       self.submitted_at = Time.now
       after_submit if self.respond_to?(:after_submit, true)
     end
