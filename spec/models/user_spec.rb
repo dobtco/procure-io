@@ -98,4 +98,68 @@ describe User do
       user.watches?(projects(:two)).should == true
     end
   end
+
+  describe '#send_reset_password_instructions!' do
+    it 'should send an email' do
+      Mailer.should_receive(:password_reset_email).with(user).and_return(OpenStruct.new)
+      user.send_reset_password_instructions!
+    end
+  end
+
+  describe '#can_receive_event' do
+    it 'should return true for a vendor, regardless of event type' do
+      users(:vendor_user).can_receive_event("foo").should == true
+      users(:vendor_user).can_receive_event(:bid_comment).should == true
+    end
+
+    it 'should calculate true for officers' do
+      event = OpenStruct.new(event_type: Event.event_types[:project_comment])
+      ability = mock("Ability")
+      ability.should_receive(:can?).and_return(true)
+      Ability.should_receive(:new).and_return(ability)
+      user.can_receive_event(event).should == true
+    end
+
+    it 'should calculate false for officers' do
+      event = OpenStruct.new(event_type: Event.event_types[:project_comment])
+      ability = mock("Ability")
+      ability.should_receive(:can?).and_return(false)
+      Ability.should_receive(:new).and_return(ability)
+      user.can_receive_event(event).should == false
+    end
+  end
+
+  describe '#set_default_notification_preferences' do
+    it 'should be called before create' do
+      u = User.new(email: "bar@baz.com")
+      u.stub(:owner).and_return(OpenStruct.new(default_notification_preferences: "foo"))
+      u.should_receive(:notification_preferences=).with("foo")
+      u.save
+    end
+  end
+
+  describe '#read_notifications' do
+    before do
+      @event = Event.create(targetable: projects(:one), event_type: Event.event_types[:project_comment])
+      @event_feed = EventFeed.create(event: @event, user: user)
+    end
+
+    it 'should read notifications by event type' do
+      user.unread_notification_count.should == 1
+      user.read_notifications(projects(:one), :project_comment)
+      user.unread_notification_count.should == 0
+    end
+
+    it 'should not read notifications if they do not match the event type' do
+      user.unread_notification_count.should == 1
+      user.read_notifications(projects(:one), :bid_comment)
+      user.unread_notification_count.should == 1
+    end
+
+    it 'should read all notifications if not passed an event type' do
+      user.unread_notification_count.should == 1
+      user.read_notifications(projects(:one))
+      user.unread_notification_count.should == 0
+    end
+  end
 end
