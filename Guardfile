@@ -25,7 +25,7 @@ group :features do
 end
 
 group :models do
-  guard :rspec, all_on_start: false, all_after_pass: false, spec_paths: ['spec/models', 'spec/behaviors'] do
+  guard :rspec, all_on_start: false, all_after_pass: false, spec_paths: ['spec/models', 'spec/behaviors', 'spec/modules'] do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch('spec/spec_helper.rb')  { "spec" }
@@ -37,7 +37,7 @@ group :models do
 end
 
 group :behaviors do
-  guard :rspec, all_on_start: false, all_after_pass: false, spec_paths: ['spec/behaviors'] do
+  guard :rspec, all_on_start: false, all_after_pass: false, spec_paths: ['spec/behaviors', 'spec/modules'] do
     watch(%r{^spec/.+_spec\.rb$})
     watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch('spec/spec_helper.rb')  { "spec" }
