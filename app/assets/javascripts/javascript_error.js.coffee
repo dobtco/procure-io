@@ -10,11 +10,6 @@ ProcureIo.JavascriptError = ->
 ProcureIo.ClearJavascriptError = ->
   $("#javascript-error").remove()
 
-$(document).ajaxError (e, xhr, options) ->
-  # dont show error when request has been aborted
-  if xhr.getAllResponseHeaders()
-    ProcureIo.JavascriptError()
-
 $(document).on "ajaxSend", (_, xhr) ->
   xhr.timeoutId = setTimeout ->
     ProcureIo.JavascriptError()
@@ -23,3 +18,9 @@ $(document).on "ajaxSend", (_, xhr) ->
 $(document).on "ajaxSuccess", (_, xhr) ->
   ProcureIo.ClearJavascriptError()
   clearTimeout(xhr.timeoutId)
+
+$(document).on "ajaxError", (_, xhr) ->
+  # dont show error when request has been aborted
+  clearTimeout(xhr.timeoutId)
+  if xhr.getAllResponseHeaders()
+    ProcureIo.JavascriptError()

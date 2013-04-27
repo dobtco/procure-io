@@ -62,10 +62,16 @@ $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
   return if $(@).data('notifications-loaded')
   $(@).data 'notifications-loaded', true
 
-  $.getJSON $(@).attr('href'), (data) ->
-    $("#notifications-dropdown").html JST['notification/dropdown']
-      notifications: data.results
-      count: data.meta.count
+  $.ajax
+    type: "get"
+    dataType: "json"
+    url: $(@).attr('href')
+    success: (data) ->
+      $("#notifications-dropdown").html JST['notification/dropdown']
+        notifications: data.results
+        count: data.meta.count
+    error: =>
+      $(@).data 'notifications-loaded', false
 
 $(document).on "ajax:before", "#form-template-form", (e) ->
   return false if !$(@).find("input[type=text]").val()
