@@ -6,13 +6,6 @@ class NoRailsTests::Model < NoRailsTests::FakeModel
   include Behaviors::WatchableByUser
 end
 
-class NoRailsTests::FakeQuery
-  def method_missing(meth, *args)
-    self
-  end
-end
-
-
 describe Behaviors::WatchableByUser do
 
   before { @model = NoRailsTests::Model.new }

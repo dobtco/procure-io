@@ -15,7 +15,7 @@ describe Vendor do
   subject { vendors(:one) }
 
   describe 'Vendor#add_params_to_query' do
-    before { @query = FakeQuery.new }
+    before { @query = NoRailsTests::FakeQuery.new }
 
     describe 'the sort parameter' do
       it 'should sort by response field when it is a number' do

@@ -9,4 +9,10 @@ module NoRailsTests
     def self.dangerous_alias(*args) end
     def self.question_alias(*args) end
   end
+
+  class FakeQuery
+    def method_missing(meth, *args)
+      self
+    end
+  end
 end

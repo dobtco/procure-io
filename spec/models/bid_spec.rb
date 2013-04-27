@@ -25,7 +25,7 @@ describe Bid do
   subject { bids(:one) }
 
   describe 'Bid#add_params_to_query' do
-    before { @query = FakeQuery.new }
+    before { @query = NoRailsTests::FakeQuery.new }
 
     describe 'the f2 query parameter' do
       it 'should filter for dismissed' do

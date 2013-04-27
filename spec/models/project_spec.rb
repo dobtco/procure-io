@@ -24,7 +24,7 @@ describe Project do
   let(:project) { projects(:one) }
 
   describe 'Project#add_params_to_query' do
-    before { @query = FakeQuery.new }
+    before { @query = NoRailsTests::FakeQuery.new }
 
     describe 'the posted_after parameter' do
       it 'should search in the correct date range' do
