@@ -1,3 +1,4 @@
+# @todo cleanup and test
 class ResponsableValidator
   attr_accessor :errors
 

@@ -28,7 +28,7 @@ module Searcher
 
         return_object[:meta][:total] = query.count
         return_object[:meta][:last_page] = [(return_object[:meta][:total].to_f / return_object[:meta][:per_page]).ceil, 1].max
-        return_object[:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
+        return_object[:meta][:page] = [return_object[:meta][:last_page], return_object[:meta][:page]].min
 
         return_object[:results] = query.limit(return_object[:meta][:per_page])
                                        .offset((return_object[:meta][:page] - 1)*return_object[:meta][:per_page])
