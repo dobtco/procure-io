@@ -38,13 +38,13 @@ class CSVBidImporter
 
       if @params[:associate_vendor_account]
         if row["vendor id"]
-          vendor = Vendor.find(row["vendor_id"])
+          vendor = Vendor.find(row["vendor id"])
         elsif row["email"]
           vendor = Vendor.joins(:user).where(users: { email: row["email"] }).first
-        else
-          vendor = nil
         end
       end
+
+      vendor ||= nil
 
       bid = @project.bids.create(submitted_at: Time.now,
                                  vendor: vendor)
