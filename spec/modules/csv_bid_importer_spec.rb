@@ -125,9 +125,25 @@ describe CSVBidImporter do
   end
 
   describe '#transform_row' do
-    it 'should remove blank values'
-    it 'should downcase keys'
-    it 'should join identical keys'
+    before do
+      CSVBidImporter.any_instance.stub(:setup_response_fields)
+      CSVBidImporter.any_instance.stub(:import)
+    end
+
+    it 'should remove blank values' do
+      importer = CSVBidImporter.new(project = NoRailsTests::FakeQuery.new, "contents", {})
+      importer.transform_row({a: "b", c: ""}).should == {a: "b"}
+    end
+
+    it 'should downcase keys' do
+      importer = CSVBidImporter.new(project = NoRailsTests::FakeQuery.new, "contents", {})
+      importer.transform_row({:"A" => "b"}).should == {a: "b"}
+    end
+
+    it 'should join identical keys' do
+      importer = CSVBidImporter.new(project = NoRailsTests::FakeQuery.new, "contents", {})
+      importer.transform_row({"a" => "b", "A" => "c"}).should == {"a" => "b, c"}
+    end
   end
 
 end
