@@ -5,13 +5,13 @@
 = form_tag sign_in_path, method: :post do
 
   %label=  User.human_attribute_name(:email)
-  %input{"type" => "text", "name" => "user_session[email]", "value" => @user_session.email, "autofocus" => true}
+  %input.signin-page-input-email{"type" => "text", "name" => "user_session[email]", "value" => @user_session.email, "autofocus" => true}
 
   %label=  User.human_attribute_name(:password)
-  %input{"type" => "password", "name" => "user_session[password]"}
+  %input.signin-page-input-password{"type" => "password", "name" => "user_session[password]"}
 
   .form-actions
-    %button.btn.btn-primary= t('g.sign_in')
+    %button.btn.btn-primary.signin-page-submit-button= t('g.sign_in')
     = t('g.or_sign_up.line_html', link: link_to(t('g.or_sign_up.link'), new_vendor_path))
 
   .forgot-password-wrapper

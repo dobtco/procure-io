@@ -58,7 +58,7 @@ describe "Bid" do
         expect(page).to have_selector('#save-draft-button:not(.disabled)')
         find("#save-draft-button").click
         expect(page).to have_selector('#save-draft-button.disabled')
-        visit new_project_bid_path(projects(:one))
+        visit current_path
         find_field("response_fields[1]").value.should == 'Yo'
         find_field("response_fields[2]").value.should == 'This is my essay.'
       end

@@ -4,9 +4,7 @@ class UserSessionsController < ApplicationController
 
   def new
     @user_session = UserSession.new
-    if request.referer && ((path = URI(request.referer).path) != sign_in_path)
-      session[:signin_redirect] = path
-    end
+    set_signin_redirect
   end
 
   def create
@@ -17,6 +15,7 @@ class UserSessionsController < ApplicationController
       redirect_to successful_signin_redirect_path
     else
       flash[:error] = t('flashes.invalid_login')
+      set_signin_redirect
       render action: :new
     end
   end
@@ -47,6 +46,12 @@ class UserSessionsController < ApplicationController
       mine_projects_path
     else
       get_path_from_referer_or_session
+    end
+  end
+
+  def set_signin_redirect
+    if request.referer && ((path = URI(request.referer).path) != sign_in_path)
+      session[:signin_redirect] = path
     end
   end
 end

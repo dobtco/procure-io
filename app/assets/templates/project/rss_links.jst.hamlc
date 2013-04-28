@@ -7,4 +7,4 @@
 
 - if !ProcureIo.CurrentVendorId && !ProcureIo.CurrentOfficerId
   %p
-    <a href="/users/sign_in">#{I18n.js('sign_in')}</a> #{I18n.js('to_get_notified')}
+    <a href="/sign_in">#{I18n.js('sign_in')}</a> #{I18n.js('to_get_notified')}
