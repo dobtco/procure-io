@@ -106,8 +106,22 @@ describe CSVBidImporter do
       importer = CSVBidImporter.new(project, "contents", {})
     end
 
-    it 'should add the label'
-    it 'should increment the count'
+    it 'should add the label' do
+      CSV.stub(:parse).and_return([{"a" => "b"}])
+      project = NoRailsTests::FakeQuery.new
+      project.should_receive(:create).and_return(bid = OpenStruct.new(labels: []))
+      project.should_receive(:first_or_create).and_return(label = "foo")
+      project.should_receive(:response_fields).and_return([])
+      bid.labels.should_receive(:"<<").with(label)
+      importer = CSVBidImporter.new(project, "contents", {label_imported_bids: "foo"})
+    end
+
+    it 'should increment the count' do
+      CSV.stub(:parse).and_return([{"a" => "b"}])
+      project = NoRailsTests::FakeQuery.new
+      importer = CSVBidImporter.new(project, "contents", {})
+      importer.count.should == 1
+    end
   end
 
   describe '#transform_row' do

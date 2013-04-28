@@ -54,7 +54,7 @@ class CSVBidImporter
           bid.responses.create(response_field_id: response_field.id, value: val)
         end
       end
-
+      p @options
       if @options[:label]
         bid.labels << @options[:label]
       end
