@@ -2,13 +2,13 @@ require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/watchable_by_user'
 require 'active_support/all'
 
-class NoRailsTests::Model < NoRailsTests::FakeModel
+class NoRailsTests::WatchableByUserModel < NoRailsTests::FakeModel
   include Behaviors::WatchableByUser
 end
 
 describe Behaviors::WatchableByUser do
 
-  before { @model = NoRailsTests::Model.new }
+  before { @model = NoRailsTests::WatchableByUserModel.new }
 
   describe '#active_watchers' do
     before do

@@ -2,14 +2,14 @@ require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/response_fieldable'
 require 'active_support/all'
 
-class NoRailsTests::Model < NoRailsTests::FakeModel
+class NoRailsTests::ResponseFieldableModel < NoRailsTests::FakeModel
   include Behaviors::ResponseFieldable
 end
 
 describe Behaviors::ResponseFieldable do
 
   before do
-    @model = NoRailsTests::Model.new
+    @model = NoRailsTests::ResponseFieldableModel.new
     stub_const("I18n", OpenStruct.new)
     stub_const("ResponseField", OpenStruct.new)
   end

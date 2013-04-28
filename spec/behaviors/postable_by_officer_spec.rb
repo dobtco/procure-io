@@ -1,13 +1,13 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/postable_by_officer'
 
-class NoRailsTests::Model < NoRailsTests::FakeModel
+class NoRailsTests::PostableByOfficerModel < NoRailsTests::FakeModel
   include Behaviors::PostableByOfficer
 end
 
 describe Behaviors::PostableByOfficer do
 
-  before { @model = NoRailsTests::Model.new }
+  before { @model = NoRailsTests::PostableByOfficerModel.new }
 
   describe '#posted' do
     it 'should return true or false based on posted_at' do

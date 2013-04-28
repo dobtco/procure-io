@@ -2,14 +2,14 @@ require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/targetable_for_events'
 require_relative '../../app/helpers/serialization_helper'
 
-class NoRailsTests::Model < NoRailsTests::FakeModel
+class NoRailsTests::TargetableForEventsModel < NoRailsTests::FakeModel
   include Behaviors::TargetableForEvents
 end
 
 describe Behaviors::TargetableForEvents do
 
   before do
-    @model = NoRailsTests::Model.new
+    @model = NoRailsTests::TargetableForEventsModel.new
   end
 
   describe '#create_events' do

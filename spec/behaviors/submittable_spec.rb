@@ -1,13 +1,13 @@
 require_relative '../support/no_rails_tests'
 require_relative '../../lib/behaviors/submittable'
 
-class NoRailsTests::Model < NoRailsTests::FakeModel
+class NoRailsTests::SubmittableModel < NoRailsTests::FakeModel
   include Behaviors::Submittable
 end
 
 describe Behaviors::Submittable do
 
-  before { @model = NoRailsTests::Model.new }
+  before { @model = NoRailsTests::SubmittableModel.new }
 
   describe '#submit' do
     it 'should return early if model is already submitted' do
