@@ -76,14 +76,14 @@ describe CSVBidImporter do
 
     it 'should associate vendors by id' do
       CSV.stub(:parse).and_return([{"vendor id" => 1}])
-      Vendor = OpenStruct.new
+      stub_const "Vendor", OpenStruct.new
       Vendor.should_receive(:find).with(1)
       importer = CSVBidImporter.new(project = NoRailsTests::FakeQuery.new, "contents", {associate_vendor_account: true})
     end
 
     it 'should associate vendors by email' do
       CSV.stub(:parse).and_return([{"email" => "yo@yo.com"}])
-      Vendor = NoRailsTests::FakeQuery.new
+      stub_const "Vendor", NoRailsTests::FakeQuery.new
       Vendor.should_receive(:where).with(users: {email: "yo@yo.com"}).and_return(Vendor)
       importer = CSVBidImporter.new(project = NoRailsTests::FakeQuery.new, "contents", {associate_vendor_account: true})
     end
