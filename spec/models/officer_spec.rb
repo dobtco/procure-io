@@ -34,7 +34,7 @@ describe Officer do
 
   describe 'Officer#invite!' do
     it 'should create an officer with the default role' do
-      Officer.should_receive(:create).with(role_id: roles(:god).id).and_return(o = OpenStruct.new)
+      Officer.should_receive(:create).with(role_id: roles(:admin).id).and_return(o = OpenStruct.new)
       User.should_receive(:create).and_return(OpenStruct.new)
       o.should_receive(:send_invitation_email!)
       Officer.invite!('foo@bar.com', projects(:one), nil)

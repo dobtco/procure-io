@@ -102,7 +102,7 @@ class Ability
       bid.submitted? && (can? :collaborate_on, bid.project)
     end
 
-    if user.is_admin_or_god?
+    if user.owner.is_admin_or_god?
       can [:edit, :destroy], Bid do |bid|
         can? :read, Bid
       end

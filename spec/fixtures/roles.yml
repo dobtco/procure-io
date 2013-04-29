@@ -12,8 +12,8 @@
 #  default     :boolean
 #
 
-god:
+admin:
   id: 1
-  name: God
-  role_type: 3
+  name: Admin
+  role_type: 2
   default: true
