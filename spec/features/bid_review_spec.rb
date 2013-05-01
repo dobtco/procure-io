@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Bid Review', js: true, retry: 3 do
+describe 'Bid Review', js: true do
 
   before { sign_in(officers(:adam).user) }
 
@@ -129,7 +129,7 @@ describe 'Bid Review', js: true, retry: 3 do
 
       it 'should recalculate star count asynchronously'
 
-      it 'should save star count when refreshing' do
+      it 'should save star count when refreshing', retry: 5 do
         find('[data-backbone-star]').click
         ensure_request_has_finished
         before_and_after_refresh do
