@@ -250,6 +250,8 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
+    rspec-retry (0.2.1)
+      rspec
     ruby-hmac (0.4.0)
     rubyzip (0.9.9)
     sanitize (2.0.3)
@@ -352,6 +354,7 @@ DEPENDENCIES
   rails-backbone!
   rmagick (= 2.13.2)
   rspec-rails
+  rspec-retry
   sanitize
   sass-rails (~> 3.2.3)
   select2-rails

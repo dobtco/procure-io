@@ -52,6 +52,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'simplecov', require: false
 end
 

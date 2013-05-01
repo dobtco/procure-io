@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Bid Review', js: true do
+describe 'Bid Review', js: true, retry: 3 do
 
   before { sign_in(officers(:adam).user) }
 
@@ -131,6 +131,7 @@ describe 'Bid Review', js: true do
 
       it 'should save star count when refreshing' do
         find('[data-backbone-star]').click
+        ensure_request_has_finished
         before_and_after_refresh do
           ensure_bid_is_unstarred
         end
