@@ -181,6 +181,7 @@ ProcureIo.Backbone.AdminResponseFieldPage = Backbone.View.extend
 
     @$el.find("#response-fields").bind 'sortupdate', =>
       @updateSortOrder()
+      @ensureEditViewScrolled()
 
     @toggleNoResponseFields()
 
