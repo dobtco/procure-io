@@ -99,7 +99,6 @@ en:
     amendments: Amendments
     answer_questions: Answer Questions
     awarded: Accepted
-    bid_form_confirmation_message: "Thanks, your bid has been received!"
     bid_form: Bid Form
     bid_now: Bid Now
     bids: Bids
@@ -184,6 +183,7 @@ en:
     profile: Profile
     project: Project
     project_description: Project Description
+    project_form_confirmation_message: "Thanks, your bid has been received!"
     project_listings: Project Listings
     project_listings_on_site_name: "Project listings on %{site_name}."
     project_title: Project Title

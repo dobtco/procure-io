@@ -38,16 +38,17 @@
     - if vendor_signed_in?
       != watch_button(@project, "Watching this project will subscribe you to alerts about amendments.")
 
-    - if GlobalConfig.instance[:bid_submission_enabled] && @project.open_for_bids?
-      - if vendor_signed_in?
+    - if GlobalConfig.instance[:bid_submission_enabled]
+      - if current_vendor && (bid = current_vendor.bid_for_project(@project)) && bid.submitted
+        = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
+
+      - elsif vendor_signed_in? && @project.open_for_bids?
         - if (bid = current_vendor.bid_for_project(@project))
-          - if bid.submitted_at
-            = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
-          - else
-            =link_to t('g.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
+          =link_to t('g.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
         - else
           =link_to t('g.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
-      - elsif !officer_signed_in?
+
+      - elsif !signed_in?
         = t('.sign_in_to_bid.line_html', link: link_to(t('.sign_in_to_bid.link'), sign_in_path))
 
 
