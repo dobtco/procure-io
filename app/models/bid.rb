@@ -16,6 +16,7 @@
 #  awarded_by_officer_id   :integer
 #  average_rating          :decimal(3, 2)
 #  total_ratings           :integer
+#  bidder_name             :string(255)
 #
 
 class Bid < ActiveRecord::Base
@@ -37,6 +38,8 @@ class Bid < ActiveRecord::Base
   has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
   default_scope lambda { select('bids.*') }
+
+  before_save :calculate_bidder_name
 
   scope :starred, where("total_stars > 0")
   scope :join_labels, joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
@@ -108,7 +111,7 @@ class Bid < ActiveRecord::Base
     elsif params[:sort] == "created_at"
       query = query.order("bids.created_at #{direction}")
     elsif params[:sort] == "name" || params[:sort].blank?
-      query = query.order("vendors.name #{direction}")
+      query = query.order("COALESCE(vendors.name, bids.bidder_name) #{direction}, bids.created_at #{direction}")
     end
 
     if !params[:q].blank?
@@ -136,14 +139,18 @@ class Bid < ActiveRecord::Base
     { counts: counts }
   end
 
-  def bidder_name
+  calculator :bidder_name do
     if vendor
-      vendor.display_name
+      nil
     elsif project && project.key_fields.any?
       key_field_responses.map { |r| r.display_value }.join(" ")
     else
       "#{I18n.t('g.vendor')} ##{id}"
     end
+  end
+
+  def bidder_name
+    vendor ? vendor.display_name : read_attribute(:bidder_name)
   end
 
   def bid_review_for_officer(officer)
