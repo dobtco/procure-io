@@ -9,7 +9,14 @@
       %th= t('g.last_updated')
 
   %tbody
+    - if @projects.count == 0
+      %tr
+        %td{"colspan" => 2}
+          .alert.alert-info= t('.none.line_html', link: link_to(t('.none.link'), projects_path))
+
     - @projects.each do |project|
       %tr
         %td= link_to project.title, project_path(project)
         %td= project.updated_at.to_formatted_s(:readable)
+
+= will_paginate @projects, class: "pagination pagination-centered"
