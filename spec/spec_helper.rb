@@ -15,6 +15,7 @@ RSpec.configure do |config|
   config.order = "random"
   config.global_fixtures = :all
   config.verbose_retry = true
+  config.default_retry_count = 2
 end
 
 Capybara.javascript_driver = :webkit
