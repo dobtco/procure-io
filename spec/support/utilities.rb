@@ -28,6 +28,7 @@ end
 
 def wait_for_load
   ensure_loading
+  sleep(0.1)
   ensure_done_loading
 end
 
@@ -51,11 +52,11 @@ def pagination_should_be_on_page(page_number)
 end
 
 def ensure_bid_is_starred
-  page.should have_selector('[data-backbone-star].icon-star')
+  expect(page).to have_selector('[data-backbone-star].icon-star')
 end
 
 def ensure_bid_is_unstarred
-  page.should have_selector('[data-backbone-star].icon-star-empty')
+  expect(page).to have_selector('[data-backbone-star].icon-star-empty')
 end
 
 def render_404
