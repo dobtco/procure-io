@@ -13,7 +13,7 @@
 #
 
 class BidReview < ActiveRecord::Base
-  belongs_to :bid
+  belongs_to :bid, touch: true # redundant, but perform_calculations_on_bid! was not updating the timestamp.
   belongs_to :officer
 
   after_save :perform_calculations_on_bid!
