@@ -2,7 +2,7 @@
 
 !=page_header t('g.saved_searches')
 
-.alert.alert-info= t('.description')
+%p= t('.description')
 
 %table.table
   %thead
@@ -11,6 +11,11 @@
       %th= t('g.current_results')
       %th= t('g.actions')
   %tbody
+    - if @saved_searches.count == 0
+      %tr
+        %td{"colspan" => 3}
+          .alert.alert-info= t('.none.line_html', link: link_to(t('.none.link'), projects_path))
+
     - @saved_searches.each do |saved_search|
       %tr
         %td= saved_search.search_parameters

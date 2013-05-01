@@ -357,6 +357,11 @@ en:
       description: >
         These are your saved searches. You'll receive daily emails with
         links to any new projects posted that match these parameters.
+      none:
+        line_html: >
+          You haven't saved any searches yet. Visit the %{link} and click "Save Search" to get started.
+        link: browse projects page
+
 
   tooltips:
     watch_project: >
