@@ -34,3 +34,12 @@ two:
   field_type: paragraph
   sort_order: 1
   key_field: false
+
+three:
+  id: 3
+  response_fieldable_id: 1
+  response_fieldable_type: Project
+  label: Total Cost
+  field_type: price
+  sort_order: 2
+  key_field: false

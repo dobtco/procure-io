@@ -7,18 +7,43 @@ describe 'Bid Review', js: true do
   describe 'bids/index' do
     before do
       15.times { |i| FactoryGirl.create(:bid, project: projects(:one), submitted_at: Time.now + i.seconds) }
-      visit project_bids_path(projects(:one), sort: 'created_at', direction: 'asc')
+      visit project_bids_path(projects(:one))
     end
 
-    it 'should show 10 bids' do
-      page.should have_selector('#bids-tbody tr', count: 10)
-    end
+    describe 'sorting' do
+      it 'should automatically sort by vendor name' do
+        first_bid = projects(:one).bids.first
+        ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
+      end
 
-    it 'should sort'
+      it 'should sort by created at' do
+        first_bid = projects(:one).bids.joins(:vendor).order("created_at ASC").first
+        sort_by('created_at')
+        ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
+      end
+
+      it 'by response field' do
+        first_bid = projects(:one)
+                    .bids
+                    .join_responses_for_response_field_id(response_fields(:three).id)
+                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
+                            responses.sortable_value::numeric ASC")
+                    .first
+
+        sort_by(response_fields(:three).id)
+
+        # When we sort by a response field, we should see it in the table.
+        page.should have_selector('th', text: response_fields(:three).label)
+        page.should have_selector('td', text: first_bid.responses.where(response_field_id: response_fields(:three).id).first.display_value)
+
+        ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
+      end
+    end
 
     describe 'pagination' do
-      it 'should render' do
+      it 'should render and show 10 bids at a time' do
         pagination_should_be_on_page(1)
+        page.should have_selector('#bids-tbody tr', count: 10)
       end
 
       it 'should render longer paginations'
@@ -66,7 +91,7 @@ describe 'Bid Review', js: true do
           all('#bids-tbody input[type=checkbox]').each { |e| e.set(true) }
           click_button 'Dismiss'
           wait_for_load
-          page.should have_selector('.pagination ul li', count: 3)
+          ensure_pagination_has_num_pages(1)
         end
       end
     end
@@ -105,11 +130,8 @@ describe 'Bid Review', js: true do
     end
 
     describe 'dismissal' do
-      it 'should initially be open' do
+      it 'should initially be open and should dismiss bids' do
         page.should have_selector('.badge', text: 'Open')
-      end
-
-      it 'should dismiss bids' do
         click_button 'Dismiss'
         before_and_after_refresh do
           page.should have_selector('.badge', text: 'Dismissed')

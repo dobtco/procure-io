@@ -30,3 +30,11 @@ two:
   value: Melons!
   user_id: 3
 
+three:
+  id: 3
+  responsable_id: 1
+  responsable_type: Bid
+  response_field_id: 3
+  value: 432
+  user_id: 3
+

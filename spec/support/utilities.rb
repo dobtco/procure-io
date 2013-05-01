@@ -1,6 +1,5 @@
 include ApplicationHelper
 
-
 class FakeUserSession
   def initialize(user_id)
     class_eval %Q{
@@ -75,4 +74,17 @@ end
 
 def render_404
   raise_error(ActionController::RoutingError)
+end
+
+def sort_by(x)
+  find(".js-sort-select").set(x)
+  find(".js-sort-select").trigger('change')
+  wait_for_load
+end
+
+def ensure_bid_is_first_then_reverse_and_ensure_last(bid)
+  page.should have_bid_link(bid)
+  find(".js-direction-select").click
+  wait_for_load
+  page.should_not have_bid_link(bid)
 end
