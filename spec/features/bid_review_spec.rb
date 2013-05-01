@@ -131,7 +131,6 @@ describe 'Bid Review', js: true do
 
       it 'should save star count when refreshing' do
         find('[data-backbone-star]').click
-        sleep(0.1) # wait for ajax req to finish :/
         before_and_after_refresh do
           ensure_bid_is_unstarred
         end
