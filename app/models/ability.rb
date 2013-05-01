@@ -106,6 +106,10 @@ class Ability
       can [:edit, :destroy], Bid do |bid|
         can? :read, Bid
       end
+
+      can :update, Officer do |officer|
+        officer == user.owner || officer.role_type != :god
+      end
     end
   end
 

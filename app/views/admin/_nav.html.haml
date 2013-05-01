@@ -3,22 +3,20 @@
 != page_header t('g.admin')
 
 %ul.nav.nav-tabs
-  - if can? :update, Officer
-    %li{"class" => active_page?("officers")}
-      = link_to t('g.officers'), officers_path
-  - if can? :view, Vendor
-    %li{"class" => active_page?("vendors")}
-      = link_to t('g.vendors'), vendors_path
-  - if can? :manage, Role
-    %li{"class" => active_page?("roles")}
-      = link_to t('g.roles'), roles_path
+  %li{"class" => active_page?("officers")}
+    = link_to t('g.officers'), officers_path
 
-  - if can? :manage, GlobalConfig
-    %li{"class" => active_page?("global_config#vendor_registration")}
-      =link_to t('g.vendor_registration'), global_config_vendor_registration_path
+  %li{"class" => active_page?("vendors")}
+    = link_to t('g.vendors'), vendors_path
 
-    %li{"class" => active_page?("global_config#event_hooks")}
-      =link_to t('g.event_hooks'), global_config_event_hooks_path
+  %li{"class" => active_page?("roles")}
+    = link_to t('g.roles'), roles_path
 
-    %li{"class" => active_page?("global_config#advanced")}
-      =link_to t('g.advanced'), global_config_advanced_path
+  %li{"class" => active_page?("global_config#vendor_registration")}
+    =link_to t('g.vendor_registration'), global_config_vendor_registration_path
+
+  %li{"class" => active_page?("global_config#event_hooks")}
+    =link_to t('g.event_hooks'), global_config_event_hooks_path
+
+  %li{"class" => active_page?("global_config#advanced")}
+    =link_to t('g.advanced'), global_config_advanced_path
