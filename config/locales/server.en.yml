@@ -295,7 +295,7 @@ en:
         other: "Download %{count} bids as CSV"
 
     import_csv:
-      associate_vendor_account: Link a vendor account to each bid. Will create an account if one doesn't exist.
+      associate_vendor_account: Link a vendor account to each bid if one exists.
       override_response_fields: Automatically set up response fields
       not_possible_bids_already_exist: "Not possible, bids already exist"
       label_imported_bids_as: Label imported bids as
