@@ -173,8 +173,8 @@
 
         var manage = function ( isConstraintValid, message ) {
           // remove error message if we got a server message, different from previous message
-          if ( 'undefined' !== typeof message && 'undefined' !== typeof self.Validator.messages.remote && message !== self.Validator.messages.remote ) {
-            $( self.ulError + ' .remote' ).remove();
+          if ( 'undefined' !== typeof message && 'undefined' !== typeof self.Validator.messages.remotevalidate && message !== self.Validator.messages.remotevalidate ) {
+            $( self.ulError + ' .remotevalidate' ).remove();
           }
 
           self.updtConstraint( { name: 'remotevalidate', valid: isConstraintValid }, message );
