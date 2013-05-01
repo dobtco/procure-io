@@ -50,7 +50,7 @@ describe Officer do
 
   describe '#role_type' do
     it 'should return a symbol describing the officers role type' do
-      officer.role_type.should == :god
+      officer.role_type.should == :admin
     end
 
     it 'should return :user if officer has no role' do
