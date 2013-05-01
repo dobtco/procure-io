@@ -52,7 +52,6 @@ end
 
 def before_and_after_refresh(&block)
   instance_eval(&block)
-  ensure_request_has_finished
   refresh
   instance_eval(&block)
 end
