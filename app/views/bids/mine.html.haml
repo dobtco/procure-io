@@ -10,6 +10,11 @@
       %th= t('g.bids_due')
 
   %tbody
+    - if @bids.count == 0
+      %tr
+        %td{"colspan" => 4}
+          .alert.alert-info= t('.none.line_html', link: link_to(t('.none.link'), projects_path))
+
     - @bids.each do |bid|
       %tr
         %td= link_to bid.project.title, bid.submitted? ? project_bid_path(bid.project, bid) : new_project_bid_path(bid.project)

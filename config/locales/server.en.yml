@@ -6,6 +6,13 @@ en:
     edit:
       editing_bid_from: "Editing bid from %{name}"
 
+    mine:
+      none:
+        line_html: >
+          You haven't made any bids yet. Visit the %{link} to find some projects that interest you.
+        link: projects page
+
+
   collaborators:
     index:
       assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of" #<select>
