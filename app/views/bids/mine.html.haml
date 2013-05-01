@@ -1,0 +1,24 @@
+- provide :page_title, t('g.my_bids')
+!= page_header t('g.my_bids')
+
+%table.table
+  %thead
+    %tr
+      %th= t('g.project')
+      %th= t('g.status')
+      %th= t('g.updated_at')
+      %th= t('g.bids_due')
+
+  %tbody
+    - @bids.each do |bid|
+      %tr
+        %td= link_to bid.project.title, bid.submitted? ? project_bid_path(bid.project, bid) : new_project_bid_path(bid.project)
+        %td!= bid.badged_text_status
+        %td= bid.updated_by_vendor_at
+        %td
+          - if bid.project.bids_due_at
+            = bid.project.bids_due_at.to_formatted_s(:readable)
+          - else
+            = t('g.open_for_bids')
+
+= will_paginate @bids, class: "pagination pagination-centered"

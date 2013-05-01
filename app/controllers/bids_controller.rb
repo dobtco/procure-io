@@ -3,16 +3,17 @@ class BidsController < ApplicationController
 
   # Check Enabled
   before_filter only: [:index, :show, :batch, :reviews, :read_notifications, :emails] { |c| c.check_enabled!('bid_review') }
-  before_filter only: [:new, :create] { |c| c.check_enabled!('bid_submission') }
+  before_filter only: [:new, :create, :mine] { |c| c.check_enabled!('bid_submission') }
 
   # Load
-  load_resource :project
-  load_resource :bid, through: :project, except: [:new, :create]
+  load_resource :project, except: [:mine]
+  load_resource :bid, through: :project, except: [:new, :create, :mine]
 
   # Authorize
   before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }
   before_filter only: [:new, :create] { |c| c.authorize! :bid_on, @project }
   before_filter only: [:edit, :post_edit] { |c| c.authorize! :edit, @bid }
+  before_filter :authenticate_vendor!, only: [:mine]
 
   def index
     respond_to do |format|
@@ -34,6 +35,10 @@ class BidsController < ApplicationController
         render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
       end
     end
+  end
+
+  def mine
+    @bids = current_vendor.bids.includes(:project).order('submitted_at DESC').paginate(page: params[:page])
   end
 
   def edit

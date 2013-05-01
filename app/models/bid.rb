@@ -154,6 +154,41 @@ class Bid < ActiveRecord::Base
     @responsable_validator ||= ResponsableValidator.new(project.response_fields, responses)
   end
 
+  def status
+    if !submitted?
+      'draft_saved'
+    else
+      awarded_dismissed_or_open_status
+    end
+  end
+
+  def text_status
+    I18n.t("g.#{status}")
+  end
+
+  def badged_text_status
+    badge_class = case status
+    when 'awarded'
+      "badge-success"
+    when 'dismissed'
+      "badge-important"
+    when 'open'
+      "badge-info"
+    when 'draft_saved'
+      ""
+    end
+
+    "<span class='badge #{badge_class}'>#{text_status}</span>"
+  end
+
+  def updated_by_vendor_at
+    if submitted?
+      submitted_at
+    else
+      updated_at
+    end
+  end
+
   private
   def after_dismiss_by_officer(officer)
     comments.create(officer_id: officer.id,

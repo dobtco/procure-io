@@ -48,6 +48,10 @@ ProcureIo::Application.routes.draw do
   post 'watches/:watchable_type/:watchable_id' => 'watches#post', as: :watches
   get 'watched_projects' => 'watches#vendor_projects', as: :vendor_projects_watches
 
+  resources :bids, only: [] do
+    get 'mine', on: :collection
+  end
+
   resources :projects do
     get 'review_mode' => 'projects#review_mode', on: :member
     post 'review_mode' => 'projects#post_review_mode', on: :member

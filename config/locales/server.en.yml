@@ -127,6 +127,7 @@ en:
       line_html: "Did you %{link}?"
       link: forget your password
     dismissed: Dismissed
+    draft_saved: Draft Saved
     edit: Edit
     edit_amendment: Edit Amendment
     edit_description: Edit Description
@@ -157,6 +158,7 @@ en:
     live: Live
     loading: Loading...
     my_bid: My Bid
+    my_bids: My Bids
     my_projects: My Projects
     new_amendment: New Amendment
     new_bid: New Bid
@@ -180,6 +182,7 @@ en:
     previewing: Previewing
     price_range: Price Range
     profile: Profile
+    project: Project
     project_description: Project Description
     project_listings: Project Listings
     project_listings_on_site_name: "Project listings on %{site_name}."
@@ -228,6 +231,7 @@ en:
     update_bid: Update Bid
     update_officer: Update Officer
     update_project: Update Project
+    updated_at: Updated At
     updated_project_review_mode: Successfully updated project review mode.
     upload: Upload
     use: Use

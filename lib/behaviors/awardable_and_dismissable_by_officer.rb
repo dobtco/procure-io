@@ -52,14 +52,18 @@ module Behaviors
       awarded_at ? true : false
     end
 
-    def text_status
+    def awarded_dismissed_or_open_status
       if dismissed_at
-        I18n.t('g.dismissed')
+        'dismissed'
       elsif awarded_at
-        I18n.t('g.awarded')
+        'awarded'
       else
-        I18n.t('g.open')
+        'open'
       end
+    end
+
+    def awarded_dismissed_or_open_text_status
+      I18n.t("g.#{awarded_dismissed_or_open_status}")
     end
 
   end

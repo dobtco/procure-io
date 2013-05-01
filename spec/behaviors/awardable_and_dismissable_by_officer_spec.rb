@@ -102,26 +102,26 @@ describe Behaviors::AwardableAndDismissableByOfficer do
     end
   end
 
-  describe '#text_status' do
+  describe '#awarded_dismissed_or_open_text_status' do
     it 'should return the proper status when dismissed' do
       I18n.should_receive(:t).with("g.dismissed")
       @model.awarded_at = Time.now
       @model.dismissed_at = Time.now
-      @model.text_status
+      @model.awarded_dismissed_or_open_text_status
     end
 
     it 'should return the proper status when awarded' do
       I18n.should_receive(:t).with("g.awarded")
       @model.dismissed_at = nil
       @model.awarded_at = Time.now
-      @model.text_status
+      @model.awarded_dismissed_or_open_text_status
     end
 
     it 'should return the proper status when open' do
       I18n.should_receive(:t).with("g.open")
       @model.dismissed_at = nil
       @model.awarded_at = nil
-      @model.text_status
+      @model.awarded_dismissed_or_open_text_status
     end
   end
 
