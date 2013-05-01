@@ -8,7 +8,7 @@
 
     .control-group
       = f.required_label :email
-      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path, "data-existing" => current_user.email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remotevalidate" => users_validate_email_path, "data-existing" => current_user.email
 
     .control-group
       = f.optional_label :new_password

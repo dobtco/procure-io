@@ -17,7 +17,7 @@
   = f.fields_for :user do |f|
     .control-group
       = f.required_label :email
-      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path, "data-existing" => @officer.user.email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remotevalidate" => users_validate_email_path, "data-existing" => @officer.user.email
 
   .control-group
     = f.label :role, class: "label-optional"

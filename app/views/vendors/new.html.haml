@@ -10,7 +10,7 @@
   = f.fields_for User.new do |f|
     .control-group
       = f.required_label :email
-      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remotevalidate" => users_validate_email_path
 
     .control-group
       = f.required_label :password

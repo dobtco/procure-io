@@ -159,7 +159,7 @@
         return val === $( elem ).val();
       }
 
-      , remote: function ( val, url, self ) {
+      , remotevalidate: function ( val, url, self ) {
         var result = null
           , data = {}
           , dataType = {};
@@ -177,7 +177,7 @@
             $( self.ulError + ' .remote' ).remove();
           }
 
-          self.updtConstraint( { name: 'remote', valid: isConstraintValid }, message );
+          self.updtConstraint( { name: 'remotevalidate', valid: isConstraintValid }, message );
           self.manageValidationResult();
         };
 

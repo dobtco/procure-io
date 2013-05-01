@@ -13,7 +13,7 @@
   = f.fields_for :user do |f|
     .control-group
       = f.required_label :email
-      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remote" => users_validate_email_path, "data-existing" => @vendor.user.email
+      = f.text_field :email, "data-required" => true, "data-type" => "email", "data-remotevalidate" => users_validate_email_path, "data-existing" => @vendor.user.email
 
   = render "shared/form_fields", response_fields: GlobalConfig.instance.response_fields, responsable: @vendor_profile
 
