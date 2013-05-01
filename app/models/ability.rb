@@ -3,8 +3,7 @@ class Ability
 
   def initialize(user)
     can :read, Project do |project|
-      project.posted_at &&
-      (!project.bids_due_at || (project.bids_due_at > Time.now))
+      project.posted_at
     end
 
     if user && user.owner.class.name == "Vendor"
@@ -19,6 +18,7 @@ class Ability
   def vendor(user)
     can :bid_on, Project do |project|
       (can? :read, project) &&
+      (!project.bids_due_at || (project.bids_due_at > Time.now)) &&
       !user.owner.submitted_bid_for_project(project)
     end
 
