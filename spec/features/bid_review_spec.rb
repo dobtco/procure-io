@@ -86,10 +86,10 @@ describe "Bid Review", js: true do
 
   describe "bids/show" do
     describe "when vendor has not submitted bid" do
-      it "should render 404" #do
-        # bids(:one).update_attributes(submitted_at: nil)
-        # expect { visit project_bid_path(projects(:one), bids(:one)) }.to raise_error(ActionController::RoutingError)
-      # end
+      it "should render 404", js: false do
+        bids(:one).update_attributes(submitted_at: nil)
+        expect { visit project_bid_path(projects(:one), bids(:one)) }.to raise_error(ActionController::RoutingError)
+      end
     end
 
     describe "basic rendering" do
