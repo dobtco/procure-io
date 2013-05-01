@@ -16,6 +16,6 @@ class BidWithReviewSerializer < BidSerializer
   end
 
   def cache_key
-    [object.cache_key, object.project ? object.project.cache_key : 'no-project', scope ? scope.cache_key : 'no-scope', 'v7']
+    [object.cache_key, (object.project ? object.project.cache_key : 'no-project'), (scope ? scope.cache_key : 'no-scope'), 'v8']
   end
 end

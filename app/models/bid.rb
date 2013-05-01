@@ -27,6 +27,8 @@ class Bid < ActiveRecord::Base
   include Behaviors::TargetableForEvents
   include Behaviors::WatchableByUser
 
+  self.cache_timestamp_format = :nsec
+
   belongs_to :project
   belongs_to :vendor
   has_one :user, through: :vendor
