@@ -1,3 +1,5 @@
+# Run rake i18n:js:export to generate the client-side i18n file.
+
 en:
   bids:
     show_vendor:
@@ -228,6 +230,7 @@ en:
     new_amendment: New Amendment
     new_bid: New Bid
     new_comment: New Comment
+    new_label_name: New label name
     new_project: New Project
     new_role: New Role
     next_rarr_html: "Next &rarr;"

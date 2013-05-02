@@ -129,12 +129,73 @@ describe 'Bid Review', js: true do
     end
 
     describe 'labels' do
-      it 'should sort by label'
-      it 'should create and destroy labels'
+      it 'should sort by label' do
+        @new_label = projects(:one).labels.create(name: 'Foo')
+        bids(:one).labels << @new_label
+        refresh
+        page.should have_selector('#bids-tbody tr', count: 10)
+        click_link @new_label.name
+        page.should have_selector('#bids-tbody tr', count: 1)
+        page.should have_bid_link(responses(:one).responsable)
+        click_link @new_label.name # deselect label
+        page.should have_selector('#bids-tbody tr', count: 10)
+      end
+
+      it 'should create, edit and destroy labels' do
+        page.should have_selector("#labels-list li", count: 1)
+
+        # Create
+        within "#new-label-form" do
+          fill_in I18n.t('g.new_label_name'), with: "Phooey"
+          click_button "Create Label"
+        end
+
+        before_and_after_refresh do
+          page.should have_selector("#labels-list li", count: 2)
+          page.should have_selector("#labels-admin-list a", text: "Phooey")
+        end
+
+        # Edit
+        find("[data-backbone-togglelabeladmin]", visible: true).click
+        find("#labels-admin-list a", text: "Phooey").click
+
+        within "#edit-label-form" do
+          find("[data-rv-value=\"label.name\"]").set('Blooey')
+          find("[data-rv-value=\"label.name\"]").trigger('change')
+          click_button I18n.t('g.save_changes')
+        end
+
+        find("[data-backbone-togglelabeladmin]", visible: true).click
+
+        before_and_after_refresh do
+          page.should have_selector("#labels-admin-list a", text: "Blooey")
+        end
+
+        page.should have_selector("#labels-list li", count: 2)
+
+        # Destroy
+        find("[data-backbone-togglelabeladmin]", visible: true).click
+        find("#labels-admin-list a", text: "Blooey").click
+        find("[data-backbone-destroy-label]").click
+
+        before_and_after_refresh do
+          page.should have_selector("#labels-list li", count: 1)
+        end
+      end
     end
 
     describe 'searching' do
-      it 'should search bids'
+      it 'should perform a simple search' do
+        page.should have_selector('#bids-tbody tr', count: 10)
+
+        within ".bid-search-form" do
+          fill_in I18n.t('g.search_bids'), with: responses(:one).value
+          click_button I18n.t('g.search')
+        end
+
+        page.should have_selector('#bids-tbody tr', count: 1)
+        page.should have_bid_link(bids(:one))
+      end
     end
   end
 

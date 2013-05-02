@@ -5,7 +5,7 @@
 - if @abilities.manageLabels
   %form#new-label-form
     %input.hidden-color-input{"type" => "hidden", "name" => "label[color]", "value" => "#898989"}
-    %input{"type" => "text", "name" => "label[name]", "placeholder" => "New label name"}
+    %input{"type" => "text", "name" => "label[name]", "placeholder" => I18n.t('g.new_label_name')}
     .color-wrapper.hide
       != JST['bid_review/_color_swatches']()
 
