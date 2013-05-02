@@ -10,7 +10,7 @@ class BidsController < ApplicationController
   load_resource :bid, through: :project, except: [:new, :create, :mine]
 
   # Authorize
-  before_filter only: [:index, :update, :batch, :reviews, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }
+  before_filter only: [:index, :update, :batch, :emails, :destroy] { |c| c.authorize! :collaborate_on, @project }
   before_filter only: [:new, :create] { |c| c.authorize! :bid_on, @project }
   before_filter only: [:edit, :post_edit] { |c| c.authorize! :edit, @bid }
   before_filter :authenticate_vendor!, only: [:mine]
@@ -172,12 +172,28 @@ class BidsController < ApplicationController
 
     @bid_json = serialized(@bid.reload, BidWithReviewSerializer).to_json
     @comments_json = serialized(@bid.comments).to_json
+
+    if @project.review_mode == Project.review_modes[:stars]
+      reviews = @bid.bid_reviews.where(starred: true)
+    else # one_through_five
+      reviews = @bid.bid_reviews.where("rating IS NOT NULL")
+    end
+
+
+    @reviews_json = serialized(reviews, include_officer: true).to_json
     render "bids/show_officer"
   end
 
   def reviews
-    @reviews = @bid.bid_reviews.where(starred: true)
-    render_serialized(@reviews, include_officer: true)
+    authorize! :see_all_bid_reviews, @project
+
+    if @project.review_mode == Project.review_modes[:stars]
+      reviews = @bid.bid_reviews.where(starred: true)
+    else # one_through_five
+      reviews = @bid.bid_reviews.where("rating IS NOT NULL")
+    end
+
+    render_serialized(reviews, include_officer: true)
   end
 
   def emails

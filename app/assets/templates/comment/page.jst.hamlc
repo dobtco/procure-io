@@ -6,7 +6,6 @@
     = I18n.t('g.loading')
   #comments-wrapper
 
-  %h5= I18n.t('g.new_comment')
   %form#new-comment-form{"data-validate" => "parsley"}
     .control-group
       %textarea{"data-required" => true}

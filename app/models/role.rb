@@ -54,7 +54,8 @@ class Role < ActiveRecord::Base
         {name: "Review Bids", key: :review_bids},
         {name: "Award & Dismiss Bids", key: :award_and_dismiss_bids},
         {name: "Read & Write Bid Comments", key: :read_and_write_bid_comments},
-        {name: "View Private Response Fields", key: :view_private_response_fields}
+        {name: "View Private Response Fields", key: :view_private_response_fields},
+        {name: "See other officers' bid reviews", key: :see_all_bid_reviews}
       ],
 
       "Labels" => [
@@ -129,7 +130,8 @@ class Role < ActiveRecord::Base
       export_bids: "when_owner",
       access_reports: "when_owner",
       change_review_mode: "when_owner",
-      destroy_project: "when_owner"
+      destroy_project: "when_owner",
+      see_all_bid_reviews: "when-owner"
     }
   end
 
@@ -156,7 +158,8 @@ class Role < ActiveRecord::Base
       export_bids: "when_collaborator",
       access_reports: "when_collaborator",
       change_review_mode: "when_collaborator",
-      destroy_project: "when_collaborator"
+      destroy_project: "when_collaborator",
+      see_all_bid_reviews: "when_collaborator"
     }
   end
 

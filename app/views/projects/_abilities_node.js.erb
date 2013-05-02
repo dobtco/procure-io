@@ -2,5 +2,6 @@ abilities: {
   manageLabels: <%= can? :manage_labels, @project %>,
   awardAndDismissBids: <%= can? :award_and_dismiss_bids, @project %>,
   labelBids: <%= can? :label_bids, @project %>,
-  readAndWriteBidComments: <%= can? :read_and_write_bid_comments, @project %>
+  readAndWriteBidComments: <%= can? :read_and_write_bid_comments, @project %>,
+  seeAllBidReviews: <%= can? :see_all_bid_reviews, @project %>
 }

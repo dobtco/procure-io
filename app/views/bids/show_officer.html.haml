@@ -10,7 +10,18 @@
       #{render partial: "projects/abilities_node", formats: [:js]}
     });
 
+- if can?(:see_all_bid_reviews?, @project)
+  #bid-page-reviews
+    :javascript
+      new ProcureIo.Backbone.BidPageReviewsView({
+        bootstrapData: #{@reviews_json}
+      });
+
 - if GlobalConfig.instance[:comments_enabled] && can?(:read_and_write_bid_comments, @project)
   #comment-page
     :javascript
-      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Bid", commentableId: #{@bid.id}});
+      new ProcureIo.Backbone.CommentPageView({
+        bootstrapData: #{@comments_json},
+        commentableType: "Bid",
+        commentableId: #{@bid.id}
+      });

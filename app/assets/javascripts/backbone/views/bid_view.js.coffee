@@ -84,3 +84,23 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
 
     @bid.set('labels', labels)
     @bid.save()
+
+ProcureIo.Backbone.BidPageReviewsView = Backbone.View.extend
+  el: "#bid-page-reviews"
+
+  initialize: ->
+    @$el = @options.el if @options.el?
+    @bidReviews = @options.bootstrapData
+
+    if !@options.bootstrapData
+      $.getJSON "/projects/#{@options.project_id}/bids/#{@options.bid_id}/reviews", (data) =>
+        @bidReviews = data
+        @render()
+
+    @render()
+
+  render: ->
+    @$el.html JST['bid/reviews']
+      bidReviews: @bidReviews
+
+    return @

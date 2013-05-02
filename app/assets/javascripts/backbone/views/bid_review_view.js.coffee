@@ -333,39 +333,40 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
         @model.set('rating', score)
         @model.save()
 
-    @$el.find(".total-stars").tooltip
-      title: "Loading..."
-      animation: false
-      delay:
-        show: 1000
-        hide: 100
+    if @parentView.options.abilities.seeAllBidReviews
+      @$el.find(".total-stars").tooltip
+        title: "Loading..."
+        animation: false
+        delay:
+          show: 1000
+          hide: 100
 
-    @starrersLoaded = false
-    self = @
+      @starrersLoaded = false
+      self = @
 
-    loadStarrers = ->
-      return if self.starrersLoaded
+      loadStarrers = ->
+        return if self.starrersLoaded
 
-      if !$(@).data('tooltip')?.$tip?
-        return setTimeout (=> loadStarrers.call(@)), 1000
+        if !$(@).data('tooltip')?.$tip?
+          return setTimeout (=> loadStarrers.call(@)), 1000
 
-      self.starrersLoaded = true
+        self.starrersLoaded = true
 
-      $.getJSON "#{ProcureIo.Backbone.Bids.baseUrl}/#{self.model.get('id')}/reviews.json", (data) =>
-        starrers = _.map data, (bid) ->
-          if bid.officer.me then "You" else bid.officer.display_name
+        $.getJSON "#{ProcureIo.Backbone.Bids.baseUrl}/#{self.model.get('id')}/reviews.json", (data) =>
+          starrers = _.map data, (bid) ->
+            if bid.officer.me then "You" else bid.officer.display_name
 
-        newTitle = if starrers.length > 0 then starrers.join(", ") else "No stars yet."
+          newTitle = if starrers.length > 0 then starrers.join(", ") else "No stars yet."
 
-        $(@).attr('data-original-title', newTitle).tooltip('fixTitle')
+          $(@).attr('data-original-title', newTitle).tooltip('fixTitle')
 
-        if $(@).data('tooltip').$tip.is(":visible")
-          $(@).tooltip('show')
+          if $(@).data('tooltip').$tip.is(":visible")
+            $(@).tooltip('show')
 
-    @$el.find(".total-stars").on "mouseover", loadStarrers
+      @$el.find(".total-stars").on "mouseover", loadStarrers
 
-    @$el.find(".rating-select").on "change", =>
-      @save()
+      @$el.find(".rating-select").on "change", =>
+        @save()
 
     return @
 
@@ -389,6 +390,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       <div class="modal container hide modal-fullscreen" tabindex="-1">
         <div class="modal-body">
           <div class="modal-bid-view-wrapper"></div>
+          <div class="modal-bid-view-reviews-wrapper"></div>
           <div class="modal-comments-view-wrapper"></div>
         </div>
       </div>
@@ -406,10 +408,18 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
         commentableId: @model.id
         el: @$modal.find(".modal-comments-view-wrapper")
 
+    if @parentView.options.abilities.seeAllBidReviews
+      @modalReviewsView = new ProcureIo.Backbone.BidPageReviewsView
+        project_id: @parentView.project.id
+        bid_id: @model.id
+        el: @$modal.find(".modal-bid-view-reviews-wrapper")
+
     @$modal.modal('show')
 
     @$modal.on "hidden", =>
       @modalBidView.remove()
+      @modalCommentsView?.remove()
+      @modalReviewsView?.remove()
       @$modal.remove()
       @$modal = undefined
 
