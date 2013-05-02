@@ -176,7 +176,11 @@ describe 'Bid Review', js: true do
     end
 
     describe 'unread' do
-      it 'should mark as read when reloading the page'
+      it 'should mark as read when reloading the page' do
+        bid_reviews(:one).update_attributes(read: false)
+        refresh
+        page.should have_selector('.icon-circle-blank')
+      end
     end
 
     describe 'comments' do
