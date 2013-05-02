@@ -117,7 +117,15 @@ describe 'Bid Review', js: true do
     end
 
     describe 'key fields' do
-      pending
+      it 'should show key fields in table' do
+        page.should have_selector('th', text: response_fields(:one).label)
+        page.should have_selector('td', text: bids(:one).responses.where(response_field_id: response_fields(:one).id).first.display_value)
+        page.should_not have_selector('th', text: response_fields(:two).label)
+        response_fields(:two).update_attributes(key_field: true)
+        refresh
+        page.should have_selector('th', text: response_fields(:two).label)
+        page.should have_selector('td', text: bids(:one).responses.where(response_field_id: response_fields(:two).id).first.display_value)
+      end
     end
   end
 
