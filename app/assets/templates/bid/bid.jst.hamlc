@@ -20,6 +20,9 @@
           = I18n.t('g.label')
           %b.caret
         %ul.dropdown-menu
+          - if @projectLabels.length == 0
+            %li.disabled
+              %a No labels
           - for label in @projectLabels
             %li{"class" => if @bid.labels.indexOf(label.id) != -1 then "active"}
               %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}

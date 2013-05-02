@@ -19,6 +19,9 @@
       = I18n.t('g.label')
       %b.caret
     %ul.dropdown-menu
+      - if @labels.length == 0
+        %li.disabled
+          %a No labels
       - @labels.each (label) ->
         %li
           %a{"data-backbone-label-id" => label.get('id')}
