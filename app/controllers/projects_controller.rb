@@ -165,7 +165,7 @@ class ProjectsController < ApplicationController
       @leaderboard = @leaderboard.where("rating IS NOT NULL")
     end
 
-    @leaderboard = @leaderboard.paginate(page: params[:page])
+    @leaderboard = @leaderboard.order("review_count DESC").paginate(page: params[:page])
   end
 
   private
