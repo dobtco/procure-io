@@ -1,4 +1,5 @@
 require 'spec_helper'
+include BidReviewSpecHelper
 
 describe 'Bid Review', js: true do
 
@@ -43,7 +44,7 @@ describe 'Bid Review', js: true do
     describe 'pagination' do
       it 'should render and show 10 bids at a time' do
         pagination_should_be_on_page(1)
-        page.should have_selector('#bids-tbody tr', count: 10)
+        page.should have_num_bids(10)
       end
 
       it 'should render longer paginations' do
@@ -97,7 +98,7 @@ describe 'Bid Review', js: true do
     describe 'bulk actions' do
       describe 'dismissal' do
         it 'should correctly mark multiple bids as dismissed' do
-          all('#bids-tbody input[type=checkbox]').each { |e| e.set(true) }
+          check_all_bids_in_list
           click_button 'Dismiss'
           wait_for_load
           ensure_pagination_has_num_pages(1)
@@ -133,16 +134,16 @@ describe 'Bid Review', js: true do
         @new_label = projects(:one).labels.create(name: 'Foo')
         bids(:one).labels << @new_label
         refresh
-        page.should have_selector('#bids-tbody tr', count: 10)
+        page.should have_num_bids(10)
         click_link @new_label.name
-        page.should have_selector('#bids-tbody tr', count: 1)
+        page.should have_num_bids(1)
         page.should have_bid_link(responses(:one).responsable)
         click_link @new_label.name # deselect label
-        page.should have_selector('#bids-tbody tr', count: 10)
+        page.should have_num_bids(10)
       end
 
       it 'should create, edit and destroy labels' do
-        page.should have_selector("#labels-list li", count: 1)
+        page.should have_num_labels(1)
 
         # Create
         within "#new-label-form" do
@@ -151,7 +152,7 @@ describe 'Bid Review', js: true do
         end
 
         before_and_after_refresh do
-          page.should have_selector("#labels-list li", count: 2)
+          page.should have_num_labels(2)
           page.should have_selector("#labels-admin-list a", text: "Phooey")
         end
 
@@ -171,7 +172,7 @@ describe 'Bid Review', js: true do
           page.should have_selector("#labels-admin-list a", text: "Blooey")
         end
 
-        page.should have_selector("#labels-list li", count: 2)
+        page.should have_num_labels(2)
 
         # Destroy
         find("[data-backbone-togglelabeladmin]", visible: true).click
@@ -179,21 +180,21 @@ describe 'Bid Review', js: true do
         find("[data-backbone-destroy-label]").click
 
         before_and_after_refresh do
-          page.should have_selector("#labels-list li", count: 1)
+          page.should have_num_labels(1)
         end
       end
     end
 
     describe 'searching' do
       it 'should perform a simple search' do
-        page.should have_selector('#bids-tbody tr', count: 10)
+        page.should have_num_bids(10)
 
         within ".bid-search-form" do
           fill_in I18n.t('g.search_bids'), with: responses(:one).value
           click_button I18n.t('g.search')
         end
 
-        page.should have_selector('#bids-tbody tr', count: 1)
+        page.should have_num_bids(1)
         page.should have_bid_link(bids(:one))
       end
     end
@@ -312,7 +313,11 @@ describe 'Bid Review', js: true do
     end
 
     describe 'labeling' do
-      it 'should label and unlabel bid'
+      it 'should label and unlabel bid' do
+        bid_should_not_be_labeled_as(labels(:one).name)
+        find("li a[data-backbone-label-id]", text: labels(:one).name).click
+        before_and_after_refresh { bid_should_be_labeled_as(labels(:one).name) }
+      end
     end
   end
 end
