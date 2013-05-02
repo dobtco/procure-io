@@ -18,11 +18,4 @@
 require 'spec_helper'
 
 describe ResponseField do
-
-  describe "default scope" do
-    it "should sort correctly" do
-      ResponseField.all.should == [response_fields(:one), response_fields(:two)]
-    end
-  end
-
 end

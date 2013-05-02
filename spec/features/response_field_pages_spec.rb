@@ -30,11 +30,11 @@ describe "ResponseField" do
 
       describe "adding fields" do
         it "should be able to add a text field" do
-          page.should have_selector(".response-field-wrapper input[type=text]", count: 1)
+          page.should have_selector(".response-field-wrapper input[type=text]", count: 2)
           find("[data-backbone-add-field=text]").click
-          page.should have_selector(".response-field-wrapper input[type=text]", count: 2)
+          page.should have_selector(".response-field-wrapper input[type=text]", count: 3)
           visit response_fields_project_path(projects(:one))
-          page.should have_selector(".response-field-wrapper input[type=text]", count: 2)
+          page.should have_selector(".response-field-wrapper input[type=text]", count: 3)
         end
 
         it "should be able to add a paragraph field" do

@@ -20,12 +20,6 @@ describe Response do
 
   let(:response) { responses(:one) }
 
-  describe "default scope" do
-    it "should sort properly" do
-      Response.all.should == [responses(:two), responses(:one)]
-    end
-  end
-
   describe '#value' do
     it 'should unserialize if necessary' do
       response.response_field.update_attributes(field_type: ResponseField::SERIALIZED_FIELDS[0])
