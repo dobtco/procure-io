@@ -7,7 +7,6 @@ describe 'Vendor Watching Projects' do
   end
 
   it 'should let vendors watch and unwatch projects', js: true do
-    watches(:three).destroy
     visit project_path(projects(:one))
 
     # Watch
@@ -28,6 +27,8 @@ describe 'Vendor Watching Projects' do
   end
 
   it 'should alert vendors to amendments for projects that they are watching', js: true do
+    vendors(:one).user.watch!(projects(:one))
+
     visit notifications_path
     page.should_not have_text(I18n.t('events.text.project_amended', project_title: projects(:one).title))
 
@@ -40,6 +41,7 @@ describe 'Vendor Watching Projects' do
 
   describe 'the /watched_projects page' do
     before do
+      vendors(:one).user.watch!(projects(:one))
       visit vendor_projects_watches_path
     end
 

@@ -22,9 +22,3 @@ two:
   user_id: 1
   watchable_id: 1
   watchable_type: Bid
-
-three:
-  id: 3
-  user_id: 3
-  watchable_id: 1
-  watchable_type: Project
