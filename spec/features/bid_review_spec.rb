@@ -146,18 +146,37 @@ describe 'Bid Review', js: true do
     end
 
     describe 'dismissal' do
-      it 'should initially be open and should dismiss bids' do
-        page.should have_selector('.badge', text: 'Open')
-        click_button 'Dismiss'
+      it 'should dismiss and undismiss bids' do
+        # Dismiss
+        page.should have_selector('.badge', text: I18n.t('g.open'))
+        click_button I18n.t('g.dismiss')
         before_and_after_refresh do
           page.should have_selector('.badge', text: 'Dismissed')
+        end
+
+        # Undismiss
+        click_button I18n.t('g.undismiss')
+        before_and_after_refresh do
+          page.should have_selector('.badge', text: I18n.t('g.open'))
         end
       end
     end
 
-    describe 'undismissal' do
-      before { bids(:one).dismiss_by_officer!(officers(:adam)) }
-      it 'should undismiss bids'
+    describe 'should award and unaward bids' do
+      it 'should award and unaward bids' do
+        # Award
+        page.should have_selector('.badge', text: I18n.t('g.open'))
+        click_button I18n.t('g.award')
+        before_and_after_refresh do
+          page.should have_selector('.badge', text: I18n.t('g.awarded'))
+        end
+
+        # Unaward
+        click_button I18n.t('g.unaward')
+        before_and_after_refresh do
+          page.should have_selector('.badge', text: I18n.t('g.open'))
+        end
+      end
     end
 
     describe 'starring' do

@@ -104,6 +104,7 @@ en:
     advanced: Advanced
     amendments: Amendments
     answer_questions: Answer Questions
+    award: Accept
     awarded: Accepted
     bid_form: Bid Form
     bid_now: Bid Now
@@ -131,6 +132,7 @@ en:
     did_you_forget_your_password:
       line_html: "Did you %{link}?"
       link: forget your password
+    dismiss: Dismiss
     dismissed: Dismissed
     draft_saved: Draft Saved
     edit: Edit
@@ -231,6 +233,8 @@ en:
     successfully_updated_profile: Successfully updated your profile.
     successfully_updated_vendor_profile: Successfully updated vendor profile.
     type: Type
+    unaward: Unaccept
+    undismiss: Undismiss
     unique_impressions: Unique Impressions
     unknown_officer: Unknown
     update_amendment: Update Amendment
