@@ -1,3 +1,3 @@
-%span #{@officer.display_name} #{I18n.js('comment.posted')}
-%span.badge.badge-success= I18n.js('posted')
+%span #{@officer.display_name} #{I18n.t('g.comment.posted')}
+%span.badge.badge-success= I18n.t('g.posted')
 %span.timestamp= moment(@created_at).fromNow()

@@ -1,3 +1,3 @@
 %label.checkbox
-  = I18n.js('response_field.integer_only')
+  = I18n.t('g.response_field.integer_only')
   %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.integer_only"}

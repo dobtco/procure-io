@@ -1,13 +1,13 @@
-%h4= I18n.js('comments')
+%h4= I18n.t('g.comments')
 
 .readable-width-large
   .loading-comments
     %i.icon-refresh.icon-spin
-    = I18n.js('loading')
+    = I18n.t('g.loading')
   #comments-wrapper
 
-  %h5= I18n.js('new_comment')
+  %h5= I18n.t('g.new_comment')
   %form#new-comment-form{"data-validate" => "parsley"}
     .control-group
       %textarea{"data-required" => true}
-    %button.btn.btn-inverse.pull-right= I18n.js('post_comment')
+    %button.btn.btn-inverse.pull-right= I18n.t('g.post_comment')

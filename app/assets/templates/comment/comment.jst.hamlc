@@ -4,6 +4,6 @@
   %span.posted-at #{moment(@created_at).fromNow()}
 
   - if @currentOfficerId == @officer.id
-    %a.delete{"data-backbone-clear" => "true"}= I18n.js('delete')
+    %a.delete{"data-backbone-clear" => "true"}= I18n.t('g.delete')
 
 %p!= @body.replace(/\n/g, '<br />')

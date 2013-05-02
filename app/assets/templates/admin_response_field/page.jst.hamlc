@@ -2,27 +2,27 @@
   .span5
     %ul.nav.nav-tabs#response-field-tabs
       %li.active
-        %a{"href" => "#addNewField", "data-toggle" => "tab"}= I18n.js('response_field.add_new_field')
+        %a{"href" => "#addNewField", "data-toggle" => "tab"}= I18n.t('g.response_field.add_new_field')
       %li
-        %a{"href" => "#editField", "data-toggle" => "tab"}= I18n.js('response_field.edit_field')
+        %a{"href" => "#editField", "data-toggle" => "tab"}= I18n.t('g.response_field.edit_field')
 
       - if @options.formOptions
         %li
-          %a{"href" => "#formOptions", "data-toggle" => "tab"}= I18n.js('response_field.form_options')
+          %a{"href" => "#formOptions", "data-toggle" => "tab"}= I18n.t('g.response_field.form_options')
 
     .tab-content
       .tab-pane.active#addNewField
-        %a.btn.btn-small{"data-backbone-add-field" => "text"}= I18n.js('field_types.text')
-        %a.btn.btn-small{"data-backbone-add-field" => "paragraph"}= I18n.js('field_types.paragraph')
-        %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"}= I18n.js('field_types.checkboxes')
-        %a.btn.btn-small{"data-backbone-add-field" => "radio"}= I18n.js('field_types.radio')
-        %a.btn.btn-small{"data-backbone-add-field" => "dropdown"}= I18n.js('field_types.dropdown')
-        %a.btn.btn-small{"data-backbone-add-field" => "price"}= I18n.js('field_types.price')
-        %a.btn.btn-small{"data-backbone-add-field" => "number"}= I18n.js('field_types.number')
-        %a.btn.btn-small{"data-backbone-add-field" => "date"}= I18n.js('field_types.date')
-        %a.btn.btn-small{"data-backbone-add-field" => "time"}= I18n.js('field_types.time')
-        %a.btn.btn-small{"data-backbone-add-field" => "website"}= I18n.js('field_types.website')
-        %a.btn.btn-small{"data-backbone-add-field" => "file"}= I18n.js('field_types.file')
+        %a.btn.btn-small{"data-backbone-add-field" => "text"}= I18n.t('g.field_types.text')
+        %a.btn.btn-small{"data-backbone-add-field" => "paragraph"}= I18n.t('g.field_types.paragraph')
+        %a.btn.btn-small{"data-backbone-add-field" => "checkboxes"}= I18n.t('g.field_types.checkboxes')
+        %a.btn.btn-small{"data-backbone-add-field" => "radio"}= I18n.t('g.field_types.radio')
+        %a.btn.btn-small{"data-backbone-add-field" => "dropdown"}= I18n.t('g.field_types.dropdown')
+        %a.btn.btn-small{"data-backbone-add-field" => "price"}= I18n.t('g.field_types.price')
+        %a.btn.btn-small{"data-backbone-add-field" => "number"}= I18n.t('g.field_types.number')
+        %a.btn.btn-small{"data-backbone-add-field" => "date"}= I18n.t('g.field_types.date')
+        %a.btn.btn-small{"data-backbone-add-field" => "time"}= I18n.t('g.field_types.time')
+        %a.btn.btn-small{"data-backbone-add-field" => "website"}= I18n.t('g.field_types.website')
+        %a.btn.btn-small{"data-backbone-add-field" => "file"}= I18n.t('g.field_types.file')
 
       .tab-pane#editField
         #edit-response-field-wrapper
@@ -32,27 +32,27 @@
           #form-options-wrapper
 
     .form-actions
-      %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => I18n.js('all_changes_saved')}
-        = I18n.js('save_form')
+      %button.btn.btn-success{"data-backbone-save-form" => "true", "data-loading-text" => I18n.t('g.all_changes_saved')}
+        = I18n.t('g.save_form')
 
     %p
-      %a.smaller{"href" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}"}= I18n.js('response_field.import')
+      %a.smaller{"href" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}"}= I18n.t('g.response_field.import')
 
     - if ProcureIo.CurrentOfficer.is_admin_or_god
       %p
-        %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.js('response_field.save')
+        %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.t('g.response_field.save')
 
       %form#form-template-form.hide{"action" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}", "method" => "post", "data-remote" => "true"}
         .input-append
-          %input{"type" => "text", "name" => "form_template[name]", "placeholder" => I18n.js('response_field.new_name')}
-          %button.btn.btn-inverse= I18n.js('save')
+          %input{"type" => "text", "name" => "form_template[name]", "placeholder" => I18n.t('g.response_field.new_name')}
+          %button.btn.btn-inverse= I18n.t('g.save')
 
-      .alert.alert-success#form-template-created{"style" => "display: none;"}= I18n.js('form_template_created')
+      .alert.alert-success#form-template-created{"style" => "display: none;"}= I18n.t('g.form_template_created')
 
   .span7.bid-form-span
     %h4= @options.formName
     %span.help-block{"data-rv-text" => "formOptions.form_description"}
-    #no-response-fields= I18n.js('response_field.none')
+    #no-response-fields= I18n.t('g.response_field.none')
     #response-fields
 
     != JST['shared/loading_indicator']()

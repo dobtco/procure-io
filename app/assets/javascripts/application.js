@@ -13,7 +13,6 @@
 //= require_self
 //= require i18n
 //= require_tree ./i18n_translations
-//= require i18n.extensions
 //= require prototype_hacks
 //= require moment.min
 //= require time_formats

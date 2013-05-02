@@ -1,3 +1,3 @@
-%span #{@officer.display_name} #{I18n.js('comment.unposted')}
+%span #{@officer.display_name} #{I18n.t('g.comment.unposted')}
 %span.badge.badge-important Unposted
 %span.timestamp= moment(@created_at).fromNow()

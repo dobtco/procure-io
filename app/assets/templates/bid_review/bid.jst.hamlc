@@ -27,8 +27,8 @@
 
 %td
   - if @bid.dismissed_at
-    %span.badge.badge-important= I18n.js('dismissed')
+    %span.badge.badge-important= I18n.t('g.dismissed')
   - else if @bid.awarded_at
-    %span.badge.badge-success= I18n.js('awarded')
+    %span.badge.badge-success= I18n.t('g.awarded')
   - else
-    %span.badge= I18n.js('open')
+    %span.badge= I18n.t('g.open')

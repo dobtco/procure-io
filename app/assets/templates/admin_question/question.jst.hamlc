@@ -4,4 +4,4 @@
 %td
   %textarea= @answer_body || ''
 %td
-  %button.btn.btn-inverse{"data-backbone-save" => "true", "data-loading-text" => I18n.js('saving')}= I18n.js('save')
+  %button.btn.btn-inverse{"data-backbone-save" => "true", "data-loading-text" => I18n.t('g.saving')}= I18n.t('g.save')

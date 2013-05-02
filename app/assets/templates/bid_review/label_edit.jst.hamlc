@@ -1,17 +1,17 @@
 %form#edit-label-form
-  %label= I18n.js('label_name')
+  %label= I18n.t('g.label_name')
   %input{"type" => "text", "data-rv-value" => "label.name"}
 
   != JST['bid_review/_color_swatches']()
 
-  %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.js('custom_color')
+  %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.t('g.custom_color')
   %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
 
   %input{"type" => "hidden", "data-rv-value" => "label.color"}
 
   .clearfix &nbsp;
 
-  %button.btn.btn-inverse= I18n.js('save_changes')
+  %button.btn.btn-inverse= I18n.t('g.save_changes')
 
   %p
-    %a.smaller{"data-backbone-destroy-label" => "true"}= I18n.js('destroy_label')
+    %a.smaller{"data-backbone-destroy-label" => "true"}= I18n.t('g.destroy_label')

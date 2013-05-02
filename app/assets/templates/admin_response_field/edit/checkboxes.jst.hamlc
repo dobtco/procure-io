@@ -4,6 +4,6 @@
   %label.checkbox
     %input{"type" => "text", "data-rv-value" => "option:label"}
     %input{"type" => "checkbox", "data-rv-checked" => "option:checked"}
-    %a.backbone-remove-option= I18n.js('remove')
+    %a.backbone-remove-option= I18n.t('g.remove')
 
-%a.backbone-add-option= I18n.js('response_field.add_option')
+%a.backbone-add-option= I18n.t('g.response_field.add_option')

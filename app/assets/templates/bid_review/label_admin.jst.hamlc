@@ -1,4 +1,4 @@
 %a
   %span.rectangular-color-swatch{"style" => "background-color: ##{@color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
   #{@name}
-  %span.click-to-edit= I18n.js('click_to_edit')
+  %span.click-to-edit= I18n.t('g.click_to_edit')

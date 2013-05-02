@@ -6,7 +6,7 @@
 
 .bottom-info
   %span.project-tags
-    #{I18n.js('categories')}:
+    #{I18n.t('g.categories')}:
     - for tag, i in @tags
       <a href="#{@filteredHref({category: tag.name, page: false})}" data-backbone-updatefilter="true">#{tag.name}</a>#{if i != @tags.length - 1 then ', ' else ''}
 
@@ -14,11 +14,11 @@
 
   %span.project-bids-due-at
     - if @bids_due_at
-      #{I18n.js('bids_due_on')} #{moment(@bids_due_at).format(ProcureIo.READABLE_DATEONLY)}
+      #{I18n.t('g.bids_due_on')} #{moment(@bids_due_at).format(ProcureIo.READABLE_DATEONLY)}
     - else
-      = I18n.js('open_for_bids')
+      = I18n.t('g.open_for_bids')
 
   &middot;
 
   %span.posted-at
-    #{I18n.js('posted_on')} #{moment(@posted_at).format(ProcureIo.READABLE_DATEONLY)}
+    #{I18n.t('g.posted_on')} #{moment(@posted_at).format(ProcureIo.READABLE_DATEONLY)}

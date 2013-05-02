@@ -1,6 +1,6 @@
 ProcureIo.JavascriptError = ->
   $alert = $("""
-    <div class="alert alert-error" id="javascript-error" style="display:none;">#{I18n.js('javascript_error')}</div>
+    <div class="alert alert-error" id="javascript-error" style="display:none;">#{I18n.t('g.javascript_error')}</div>
   """)
 
   $alert.appendTo("body")

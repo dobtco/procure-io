@@ -9,9 +9,9 @@
     .color-wrapper.hide
       != JST['bid_review/_color_swatches']()
 
-      %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.js('custom_color')
+      %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.t('g.custom_color')
       %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
 
-    %button.btn.btn-inverse= I18n.js('create_label')
+    %button.btn.btn-inverse= I18n.t('g.create_label')
 
-  %a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.js('edit_labels')
+  %a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.t('g.edit_labels')

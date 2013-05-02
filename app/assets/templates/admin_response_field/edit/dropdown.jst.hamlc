@@ -2,13 +2,13 @@
 
 %label.checkbox
   %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.include_blank_option"}
-  = I18n.js('response_field.include_blank')
+  = I18n.t('g.response_field.include_blank')
 
 %table.table.dropdown-options-table
   %thead
     %tr
-      %th= I18n.js('response_field.is_default')
-      %th= I18n.js('response_field.value')
+      %th= I18n.t('g.response_field.is_default')
+      %th= I18n.t('g.response_field.value')
 
   %tbody
     %tr{"data-rv-each-option" => "model.field_options.options"}
@@ -17,7 +17,7 @@
       %td
         %input{"type" => "text", "data-rv-value" => "option:label"}
         %a.backbone-remove-option
-          = I18n.js('remove')
+          = I18n.t('g.remove')
           <span data-rv-text="index"></span></a>
 
-%a.backbone-add-option= I18n.js('response_field.add_option')
+%a.backbone-add-option= I18n.t('g.response_field.add_option')

@@ -1,2 +1,2 @@
-%label= I18n.js('response_field.label')
+%label= I18n.t('g.response_field.label')
 %input{"type" => "text", "data-rv-value" => "model.label"}

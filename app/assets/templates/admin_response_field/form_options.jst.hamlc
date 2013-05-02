@@ -1,5 +1,5 @@
-<label>#{I18n.js('response_field.form_description')}</label>
+<label>#{I18n.t('g.response_field.form_description')}</label>
 <textarea data-rv-value="formOptions.form_description"></textarea>
-<label>#{I18n.js('response_field.form_confirmation_message')}</label>
+<label>#{I18n.t('g.response_field.form_confirmation_message')}</label>
 <textarea data-rv-value="formOptions.form_confirmation_message"></textarea>
-<span class="help-block">#{I18n.js('response_field.no_confirmation_message')}</span>
+<span class="help-block">#{I18n.t('g.response_field.no_confirmation_message')}</span>

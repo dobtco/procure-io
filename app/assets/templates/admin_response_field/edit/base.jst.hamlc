@@ -1,15 +1,15 @@
 %h5
-  = I18n.js('editing')
+  = I18n.t('g.editing')
   "<span data-rv-text="model.label"></span>"
   %i.icon-arrow-right.pull-right
 
 - if @options.showVendorOfficerToggle
   %label.checkbox
     %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.vendor_edit"}
-    = I18n.js('response_field.vendor_edit')
+    = I18n.t('g.response_field.vendor_edit')
 
   %label.checkbox
     %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.vendor_see"}
-    = I18n.js('response_field.vendor_see')
+    = I18n.t('g.response_field.vendor_see')
 
 .edit-subtemplate-wrapper

@@ -1,10 +1,10 @@
 %p
-  %a{"href" => @filteredHref({page: false, sort: false, direction: false}, 'rss')}= I18n.js('rss_for_search')
+  %a{"href" => @filteredHref({page: false, sort: false, direction: false}, 'rss')}= I18n.t('g.rss_for_search')
 
 - if ProcureIo.CurrentVendorId
   %p
-    %button.btn.btn-primary#save-search-button{"data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"}= I18n.js('save_search')
+    %button.btn.btn-primary#save-search-button{"data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"}= I18n.t('g.save_search')
 
 - if !ProcureIo.CurrentVendorId && !ProcureIo.CurrentOfficerId
   %p
-    <a href="/sign_in">#{I18n.js('sign_in')}</a> #{I18n.js('to_get_notified')}
+    <a href="/sign_in">#{I18n.t('g.sign_in')}</a> #{I18n.t('g.to_get_notified')}

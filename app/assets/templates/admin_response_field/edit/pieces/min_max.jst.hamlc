@@ -1,5 +1,5 @@
-%label= I18n.js('response_field.min')
+%label= I18n.t('g.response_field.min')
 %input.span2{"type" => "text", "data-rv-value" => "model.field_options.min"}
 
-%label= I18n.js('response_field.max')
+%label= I18n.t('g.response_field.max')
 %input.span2{"type" => "text", "data-rv-value" => "model.field_options.max"}

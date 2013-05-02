@@ -1,2 +1,2 @@
-%label= I18n.js('response_field.units')
+%label= I18n.t('g.response_field.units')
 %input{"type" => "text", "data-rv-value" => "model.field_options.units"}

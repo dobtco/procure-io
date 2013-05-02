@@ -1,14 +1,14 @@
 .action-header
   %h4.pull-left
     - if @bid.vendor
-      #{I18n.js('bid_from')} #{@bid.vendor.display_name}
+      #{I18n.t('g.bid_from')} #{@bid.vendor.display_name}
     - else
       = @bid.bidder_name
 
     - if ProcureIo.CurrentOfficer.is_admin_or_god
       %small
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}/edit"}= I18n.js('edit')
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}", "data-method" => "delete", "data-confirm" => I18n.js('delete_bid_confirmation')}= I18n.js('delete')
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}/edit"}= I18n.t('g.edit')
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
 
   .pull-right
 
@@ -17,7 +17,7 @@
     - if @abilities.labelBids
       .btn-group
         %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
-          = I18n.js('label')
+          = I18n.t('g.label')
           %b.caret
         %ul.dropdown-menu
           - for label in @projectLabels
@@ -29,15 +29,15 @@
     - if @abilities.awardAndDismissBids
       %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
         - if @bid.dismissed_at
-          = I18n.js('undismiss')
+          = I18n.t('g.undismiss')
         - else
-          = I18n.js('dismiss')
+          = I18n.t('g.dismiss')
 
       %button.btn.btn-success{"data-backbone-award" => "true"}
         - if @bid.awarded_at
-          = I18n.js('unaward')
+          = I18n.t('g.unaward')
         - else
-          = I18n.js('award')
+          = I18n.t('g.award')
 
     &nbsp;
     %i{"data-backbone-read" => "true", "class" => (if @bid.read then "icon-circle-blank" else "icon-circle")}
@@ -65,14 +65,14 @@
         %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
       - if @bid.dismissed_at
-        %span.badge.badge-important= I18n.js('dismissed')
+        %span.badge.badge-important= I18n.t('g.dismissed')
       - else if @bid.awarded_at
-        %span.badge.badge-success= I18n.js('awarded')
+        %span.badge.badge-success= I18n.t('g.awarded')
       - else
-        %span.badge.badge-info= I18n.js('open')
+        %span.badge.badge-info= I18n.t('g.open')
 
     %p
-      %span #{I18n.js('submitted_on')} #{moment(@bid.submitted_at).format(ProcureIo.READABLE)}
+      %span #{I18n.t('g.submitted_on')} #{moment(@bid.submitted_at).format(ProcureIo.READABLE)}
 
     - if @abilities.readAndWriteBidComments
       %p
@@ -82,9 +82,9 @@
 
     - if @bid.vendor
       %dl
-        %dt= I18n.js('contact_name')
+        %dt= I18n.t('g.contact_name')
         %dd= @bid.vendor.display_name
-        %dt= I18n.js('email_address')
+        %dt= I18n.t('g.email_address')
         %dd= @bid.vendor.user.email
 
         - for response in (@bid.vendor.vendor_profile?.responses || [])

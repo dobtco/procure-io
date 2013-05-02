@@ -1,3 +1,3 @@
 %label.checkbox
-  = I18n.js('response_field.key_field')
+  = I18n.t('g.response_field.key_field')
   %input{"type" => "checkbox", "data-rv-checked" => "model.key_field"}

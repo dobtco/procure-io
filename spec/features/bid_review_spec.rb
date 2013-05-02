@@ -127,6 +127,15 @@ describe 'Bid Review', js: true do
         page.should have_selector('td', text: bids(:one).responses.where(response_field_id: response_fields(:two).id).first.display_value)
       end
     end
+
+    describe 'labels' do
+      it 'should sort by label'
+      it 'should create and destroy labels'
+    end
+
+    describe 'searching' do
+      it 'should search bids'
+    end
   end
 
   describe 'bids/show' do
@@ -239,6 +248,10 @@ describe 'Bid Review', js: true do
           page.should_not have_selector('.comment a.delete')
         end
       end
+    end
+
+    describe 'labeling' do
+      it 'should label and unlabel bid'
     end
   end
 end

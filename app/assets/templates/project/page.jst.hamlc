@@ -2,17 +2,17 @@
   .span3
     %form#project-filter-form.well
       .control-group
-        %label= I18n.js('filter')
-        %input.search-query{"type" => "text", "placeholder" => I18n.js('searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
+        %label= I18n.t('g.filter')
+        %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
 
       .control-group
-        %label= I18n.js('category')
+        %label= I18n.t('g.category')
         %select#category-filter{"data-backbone-filter-tag" => "true", "name" => "category", "data-rv-value" => "filterOptions.category"}
-          %option{"value" => ""}= I18n.js('all_categories')
+          %option{"value" => ""}= I18n.t('g.all_categories')
           - for category in @allCategories
             %option{"value" => category}= category
 
-      %button.btn.btn-inverse.pull-right= I18n.js('filter_projects')
+      %button.btn.btn-inverse.pull-right= I18n.t('g.filter_projects')
 
       .clearfix &nbsp;
 
