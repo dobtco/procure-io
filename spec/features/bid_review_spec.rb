@@ -161,11 +161,11 @@ describe 'Bid Review', js: true do
     end
 
     describe 'starring' do
-      it 'should initially be starred' do
-        ensure_bid_page_is_starred
+      it 'should recalculate star count asynchronously' do
+        page.should have_selector('.total-stars', text: "1")
+        find('[data-backbone-star]').click
+        page.should have_selector('.total-stars', text: "0")
       end
-
-      it 'should recalculate star count asynchronously'
 
       it 'should save star count when refreshing' do
         find('[data-backbone-star]').click
