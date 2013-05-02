@@ -28,6 +28,8 @@ class Project < ActiveRecord::Base
 
   attr_accessor :updating_officer_id
 
+  self.cache_timestamp_format = :nsec
+
   is_impressionable
 
   has_many :bids
