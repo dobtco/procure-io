@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   # Check Enabled
   before_filter only: [:comments] { |c| c.check_enabled!('comments') }
+  before_filter only: [:reviewer_leaderboard] { |c| c.check_enabled!('reviewer_leaderboard') }
 
   # Load
   load_resource except: [:new, :create]
@@ -13,20 +14,13 @@ class ProjectsController < ApplicationController
   }
 
   before_filter only: [:import_csv, :post_import_csv] { |c| c.authorize! :import_bids, @project }
-
   before_filter only: [:export_csv, :post_export_csv] { |c| c.authorize! :export_bids, @project }
-
   before_filter only: [:review_mode, :post_review_mode] { |c| c.authorize! :change_review_mode, @project }
+  before_filter only: [:new, :create] { |c| c.authorize! :create, Project }
+  before_filter :authenticate_officer!, only: [:mine, :reviewer_leaderboard]
 
-  # @todo authorize wufoo
   # @todo add destroy method
 
-  before_filter only: [:new, :create] { |c| c.authorize! :create, Project }
-
-  before_filter :authenticate_officer!, only: [:mine]
-
-  # :post_wufoo is an API call, don't use CSRF
-  # protect_from_forgery except: :post_wufoo
 
   def index
     GlobalConfig.instance[:search_projects_enabled] ? index_advanced : index_basic
@@ -157,44 +151,21 @@ class ProjectsController < ApplicationController
     redirect_to review_mode_project_path(@project)
   end
 
-  # def wufoo
-  # end
-
-  # def post_wufoo
-  #   data = {}
-
-  #   params[:FieldStructure] = ActiveSupport::JSON.decode(params[:FieldStructure])
-
-  #   params[:FieldStructure]["Fields"].each do |field|
-  #     field_ids = []
-
-  #     if field["SubFields"]
-  #       field["SubFields"].each { |subfield| field_ids << subfield["ID"] }
-  #     else
-  #       field_ids << field["ID"]
-  #     end
-
-  #     val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(" ")
-
-  #     case field["Type"]
-  #     when "date"
-  #       val = "#{val[4..5]}/#{val[6..7]}/#{val[0..3]}"
-  #     when "radio", "checkbox"
-  #       val = params.values_at(*field_ids).reject{ |x| x.blank? }.join(", ")
-  #     when "file"
-  #       val = params.values_at("#{field_ids[0]}-url")
-  #     end
-
-  #     data[field["Title"].downcase] = val
-  #   end
-
-  #   label = @project.labels.where(name: "Wufoo").first_or_create(color: "CF3A19")
-  #   @project.create_bid_from_hash!(data, label)
-
-  #   render json: { status: "success" }
-  # end
-
   def response_fields
+  end
+
+  def reviewer_leaderboard
+    bid_ids = @project.bids.pluck(:id)
+
+    @leaderboard = BidReview.select("officer_id, COUNT(officer_id) as review_count").where("bid_id IN (?)", bid_ids).group("officer_id")
+
+    if @project.review_mode == Project.review_modes[:stars]
+      @leaderboard = @leaderboard.where(starred: true)
+    else # one_through_five
+      @leaderboard = @leaderboard.where("rating IS NOT NULL")
+    end
+
+    @leaderboard = @leaderboard.paginate(page: params[:page])
   end
 
   private

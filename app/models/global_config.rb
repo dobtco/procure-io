@@ -16,6 +16,7 @@
 #  search_projects_enabled      :boolean          default(TRUE)
 #  form_options                 :text
 #  passwordless_invites_enabled :boolean          default(FALSE)
+#  reviewer_leaderboard_enabled :boolean          default(FALSE)
 #
 
 require_dependency 'enum'
@@ -26,7 +27,7 @@ class GlobalConfig < ActiveRecord::Base
 
   ON_OFF_FEATURES = [:bid_review_enabled, :bid_submission_enabled, :comments_enabled, :questions_enabled,
                      :amendments_enabled, :watch_projects_enabled, :save_searches_enabled, :search_projects_enabled,
-                     :passwordless_invites_enabled]
+                     :passwordless_invites_enabled, :reviewer_leaderboard_enabled]
 
   acts_as_singleton
 

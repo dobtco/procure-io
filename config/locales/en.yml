@@ -232,6 +232,7 @@ en:
     no_data_to_display: "Sorry, no data to display."
     notifications: Notifications
     number_of_bids: '# of Bids'
+    number_of_reviews: '# of Reviews'
     officers: Officers
     'on': 'on'
     open: Open
@@ -302,6 +303,7 @@ en:
     restore_this_version: Restore this version
     review_bids: Review Bids
     review_mode: Review Mode
+    reviewer_leaderboard: Reviewer Leaderboard
     revision_from_date: "Revision from %{date}"
     revisions: Revisions
     roles: Roles

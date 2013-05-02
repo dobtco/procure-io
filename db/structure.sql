@@ -378,7 +378,8 @@ CREATE TABLE global_configs (
     save_searches_enabled boolean DEFAULT true,
     search_projects_enabled boolean DEFAULT true,
     form_options text,
-    passwordless_invites_enabled boolean DEFAULT false
+    passwordless_invites_enabled boolean DEFAULT false,
+    reviewer_leaderboard_enabled boolean DEFAULT false
 );
 
 
@@ -1712,3 +1713,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130423211340');
 INSERT INTO schema_migrations (version) VALUES ('20130426182600');
 
 INSERT INTO schema_migrations (version) VALUES ('20130501234055');
+
+INSERT INTO schema_migrations (version) VALUES ('20130502175744');

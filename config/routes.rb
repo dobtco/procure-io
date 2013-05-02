@@ -53,6 +53,7 @@ ProcureIo::Application.routes.draw do
   end
 
   resources :projects do
+    get 'reviewer_leaderboard' => 'projects#reviewer_leaderboard', on: :member
     get 'review_mode' => 'projects#review_mode', on: :member
     post 'review_mode' => 'projects#post_review_mode', on: :member
     get 'mine', on: :collection

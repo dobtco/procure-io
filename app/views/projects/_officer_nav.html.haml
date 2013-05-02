@@ -26,6 +26,11 @@
           - if @project.bids.submitted.where_open.count > 0
             %span.badge.badge-info= @project.bids.submitted.where_open.count
 
+    - if GlobalConfig.instance[:reviewer_leaderboard_enabled]
+      %li{"class" => active_page?("projects#reviewer_leaderboard")}
+        %a{"href" => reviewer_leaderboard_project_path(@project)}
+          = t('g.reviewer_leaderboard')
+
     - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
       %li{"class" => active_page?("questions#index")}
         %a{"href" => project_questions_path(@project)}

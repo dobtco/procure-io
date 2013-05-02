@@ -16,6 +16,7 @@
 #  search_projects_enabled      :boolean          default(TRUE)
 #  form_options                 :text
 #  passwordless_invites_enabled :boolean          default(FALSE)
+#  reviewer_leaderboard_enabled :boolean          default(FALSE)
 #
 
 require 'spec_helper'
