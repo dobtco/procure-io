@@ -118,8 +118,9 @@ en:
     bids: Bids
     bids_due: Bids due
     bids_due_on: Bids due on
+    bids_due_on_date: "Bids due on %{date}"
     bids_over_time: Bids over time
-    bids_were_due_on: "Bids were due on %{date}"
+    bids_were_due_on_date: "Bids were due on %{date}"
     browse_projects: Browse Projects
     "careful!": "Careful!"
     categories: Categories

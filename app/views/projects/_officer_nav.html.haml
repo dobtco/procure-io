@@ -8,7 +8,7 @@
         - if @project.featured
           %i.icon-star
         - if @project.bids_due_at
-          = t("g.#{@project.open_for_bids? ? 'bids_due_on' : 'bids_were_due_on'}", date: @project.bids_due_at.to_formatted_s(:readable))
+          = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
         - else
           = t('g.open_for_bids')
 
