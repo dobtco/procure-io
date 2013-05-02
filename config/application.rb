@@ -64,5 +64,7 @@ module ProcureIo
     config.assets.initialize_on_precompile = false
 
     config.cache_store = :dalli_store
+
+    config.exceptions_app = self.routes
   end
 end

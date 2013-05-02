@@ -24,6 +24,9 @@ en:
   errors:
     email_taken: That email address is already taken.
 
+    not_found:
+      description: "Sorry, this page can't be found."
+
   events:
     additional_text:
       you_were_added: You have automatically been subscribed to all updates on this project.
@@ -91,6 +94,7 @@ en:
     wrong_current_password: Your current password was not correct.
 
   g:
+    "404": "404"
     abstract: Abstract
     accept_invite: Accept Invite
     account: Account
