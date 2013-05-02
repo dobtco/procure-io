@@ -60,16 +60,35 @@ def have_bid_link(bid)
 end
 
 def pagination_should_be_on_page(page_number)
-  expect(page).to have_selector('.pagination')
-  page.should have_selector('li.active a', text: page_number.to_s)
+  page.find('.pagination').should have_selector('li.active a', text: Regexp.new("^#{page_number.to_s}$"))
 end
 
-def ensure_bid_is_starred
+def pagination_should_have_pages(page_numbers)
+  Array(page_numbers).each do |page_number|
+    page.find('.pagination').should have_selector('li', text: Regexp.new("^#{page_number.to_s}$"))
+  end
+end
+
+def pagination_should_not_have_pages(page_numbers)
+  Array(page_numbers).each do |page_number|
+    page.find('.pagination').should_not have_selector('li', text: Regexp.new("^#{page_number.to_s}$"))
+  end
+end
+
+def ensure_bid_page_is_starred
   expect(page).to have_selector('[data-backbone-star].icon-star')
 end
 
-def ensure_bid_is_unstarred
+def ensure_bid_page_is_unstarred
   expect(page).to have_selector('[data-backbone-star].icon-star-empty')
+end
+
+def be_starred
+  have_selector('[data-backbone-star] .icon-star')
+end
+
+def be_unstarred
+  have_selector('[data-backbone-star] .icon-star-empty')
 end
 
 def render_404

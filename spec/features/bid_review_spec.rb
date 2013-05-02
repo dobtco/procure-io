@@ -46,7 +46,16 @@ describe 'Bid Review', js: true do
         page.should have_selector('#bids-tbody tr', count: 10)
       end
 
-      it 'should render longer paginations'
+      it 'should render longer paginations' do
+        120.times { |i| FactoryGirl.create(:bid, project: projects(:one), submitted_at: Time.now + i.seconds) }
+        refresh
+        pagination_should_have_pages([1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14])
+        pagination_should_not_have_pages([10, 11, 12])
+        find('.pagination').click_link('14')
+        wait_for_load
+        pagination_should_have_pages([14, 13, 12, 11, 10, 9, 8, 7, 6, 2, 1])
+        pagination_should_not_have_pages([5, 4, 3])
+      end
 
       it 'should paginate' do
         find('.pagination').click_link('2')
@@ -97,7 +106,14 @@ describe 'Bid Review', js: true do
     end
 
     describe 'individual action' do
-      it 'should mark bids as starred'
+      it 'should mark bids as starred' do
+        first_bid = find('.bid-tr:eq(1)')
+        first_bid.should be_starred
+        first_bid.find('[data-backbone-star]').click
+        before_and_after_refresh do
+          first_bid.should be_unstarred
+        end
+      end
     end
 
     describe 'key fields' do
@@ -146,7 +162,7 @@ describe 'Bid Review', js: true do
 
     describe 'starring' do
       it 'should initially be starred' do
-        ensure_bid_is_starred
+        ensure_bid_page_is_starred
       end
 
       it 'should recalculate star count asynchronously'
@@ -154,7 +170,7 @@ describe 'Bid Review', js: true do
       it 'should save star count when refreshing' do
         find('[data-backbone-star]').click
         before_and_after_refresh do
-          ensure_bid_is_unstarred
+          ensure_bid_page_is_unstarred
         end
       end
     end
