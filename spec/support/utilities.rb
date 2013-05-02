@@ -75,6 +75,10 @@ def pagination_should_not_have_pages(page_numbers)
   end
 end
 
+def ensure_pagination_has_num_pages(num_pages)
+  page.should have_selector('.pagination li', count: num_pages + 2) # +2 for prev and next
+end
+
 def ensure_bid_page_is_starred
   expect(page).to have_selector('[data-backbone-star].icon-star')
 end
