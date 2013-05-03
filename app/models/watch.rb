@@ -19,7 +19,7 @@ class Watch < ActiveRecord::Base
   scope :where_user_is_officer, -> { joins(:user).where(users: { owner_type: "Officer" }) }
   scope :where_user_is_vendor, -> { joins(:user).where(users: { owner_type: "Vendor" }) }
 
-  scope :for, -> { |model, ids = nil|
+  scope :for, -> (model, ids = nil) {
     if model.is_a?(ActiveRecord::Base)
       where(watchable_type: model.class.name, watchable_id: model.id)
     else

@@ -22,7 +22,7 @@ class Vendor < ActiveRecord::Base
 
   has_searcher starting_query: Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
-  scope :join_response_for_response_field_id, lambda { |response_field_id|
+  scope :join_response_for_response_field_id, -> (response_field_id) {
     joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = vendor_profiles.id
                                AND responses.responsable_type = 'VendorProfile'
                                AND responses.response_field_id = ?", response_field_id]))
