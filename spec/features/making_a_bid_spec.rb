@@ -25,6 +25,7 @@ describe 'Making a Bid' do
       # Save Draft
       find("#save-draft-button").click
       page.should have_selector('#save-draft-button.disabled')
+      wait_for_ajax
       refresh
       find_field("response_fields[2]").value.should == 'This is my essay.'
 
