@@ -17,6 +17,7 @@ Procurement software for the 21st century.
 
 #### Deploying to Heroku
 1. `heroku create YOUR_APP_NAME`
+2. `heroku labs:enable user-env-compile`
 2. `git push heroku master`
 3. `heroku run rake db:migrate`
 4. `heroku run rake db:seed`
