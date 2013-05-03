@@ -60,7 +60,6 @@ group :assets do
   gem 'haml_coffee_assets'
   gem 'sass-rails', '~> 4.0.0.rc1'
   gem 'select2-rails'
-  gem 'turbo-sprockets-rails3'
   gem 'uglifier', '>= 1.0.3'
 end
 
