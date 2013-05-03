@@ -36,4 +36,4 @@ Procure.io is very early-stage alpha software, but if you're interested in getti
 4. Create a pull request
 
 #### Copyright
-Copyright (c) 2013 Department of Better Technology. See [LICENSE](https://www.github.com/dobtco/procure-io/blob/master/LICENSE.md) for details.
+Copyright (c) 2013 Department of Better Technology. Released under the GNU GPL v3 license. See [LICENSE](https://www.github.com/dobtco/procure-io/blob/master/LICENSE.md) for details.
