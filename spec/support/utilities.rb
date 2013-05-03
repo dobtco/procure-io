@@ -18,6 +18,12 @@ def wait_until
   end
 end
 
+def wait_for_ajax
+  wait_until do
+    page.evaluate_script('$.active') == 0
+  end
+end
+
 def sign_in(user)
   UserSession.stub!(:find).and_return(FakeUserSession.new(user.id))
 end
@@ -51,6 +57,7 @@ end
 
 def before_and_after_refresh(&block)
   instance_eval(&block)
+  wait_for_ajax
   refresh
   instance_eval(&block)
 end
