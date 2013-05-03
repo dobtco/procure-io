@@ -18,7 +18,7 @@ class BidReview < ActiveRecord::Base
 
   after_save :perform_calculations_on_bid!
 
-  scope :that_have_ratings, where("rating IS NOT NULL")
+  scope :that_have_ratings, -> { where("rating IS NOT NULL") }
 
   private
   def perform_calculations_on_bid!

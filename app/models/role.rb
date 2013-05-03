@@ -21,7 +21,7 @@ class Role < ActiveRecord::Base
 
   after_initialize :set_default_permissions
 
-  scope :not_god, lambda { where("role_type != ?", Role.role_types[:god]) }
+  scope :not_god, -> { where("role_type != ?", Role.role_types[:god]) }
 
   def self.role_type_name(role_type)
     I18n.t("roles.role_types.#{role_type}")

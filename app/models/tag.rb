@@ -11,7 +11,7 @@
 class Tag < ActiveRecord::Base
   has_and_belongs_to_many :projects
 
-  scope :alphabetical, order("name")
+  scope :alphabetical, -> { order("name") }
 
   def self.all_for_select2
     alphabetical.pluck(:name)

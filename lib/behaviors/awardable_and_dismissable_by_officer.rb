@@ -3,9 +3,9 @@ module Behaviors
     def self.included(base)
       base.belongs_to :dismissed_by_officer, foreign_key: "dismissed_by_officer_id"
       base.belongs_to :awarded_by_officer, foreign_key: "awarded_by_officer_id"
-      base.scope :dismissed, base.where("dismissed_at IS NOT NULL")
-      base.scope :awarded, base.where("awarded_at IS NOT NULL")
-      base.scope :where_open, base.where("dismissed_at IS NULL AND awarded_at IS NULL")
+      base.scope :dismissed, -> { base.where("dismissed_at IS NOT NULL") }
+      base.scope :awarded, -> { base.where("awarded_at IS NOT NULL") }
+      base.scope :where_open, -> { base.where("dismissed_at IS NULL AND awarded_at IS NULL") }
 
 
       base.extend(ClassMethods)

@@ -14,7 +14,7 @@ class EventFeed < ActiveRecord::Base
   belongs_to :user
   belongs_to :event
 
-  scope :unread, where(read: false)
+  scope :unread, -> { where(read: false) }
 
   after_create :send_email
 

@@ -13,5 +13,5 @@
 class ProjectRevision < ActiveRecord::Base
   belongs_to :project
   belongs_to :saved_by_officer, foreign_key: "saved_by_officer_id", class_name: "Officer"
-  default_scope include: :saved_by_officer
+  default_scope -> { include: :saved_by_officer }
 end

@@ -47,9 +47,9 @@ class Project < ActiveRecord::Base
 
   serialize :form_options, Hash
 
-  scope :featured, where(featured: true)
-  scope :open_for_bids, where("bids_due_at IS NULL OR bids_due_at > ?", Time.now)
-  scope :join_tags, joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id")
+  scope :featured, -> { where(featured: true) }
+  scope :open_for_bids, -> { where("bids_due_at IS NULL OR bids_due_at > ?", Time.now) }
+  scope :join_tags, -> { joins("LEFT JOIN projects_tags ON projects.id = projects_tags.project_id INNER JOIN tags ON tags.id = projects_tags.tag_id") }
 
   has_searcher starting_query: Project.open_for_bids.posted
 

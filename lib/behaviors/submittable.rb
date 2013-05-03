@@ -1,7 +1,7 @@
 module Behaviors
   module Submittable
     def self.included(base)
-      base.scope :submitted, base.where("submitted_at IS NOT NULL")
+      base.scope :submitted, -> { base.where("submitted_at IS NOT NULL") }
       base.extend(ClassMethods)
       base.question_alias :submitted
     end

@@ -26,7 +26,7 @@ class Comment < ActiveRecord::Base
   after_create :subscribe_officer_if_never_subscribed!
   after_create :generate_events
 
-  default_scope order("created_at")
+  default_scope -> { order("created_at") }
 
   private
   def calculate_commentable_total_comments!

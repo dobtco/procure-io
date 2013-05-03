@@ -18,7 +18,7 @@ class Label < ActiveRecord::Base
 
   before_destroy :touch_all_bids
 
-  default_scope order("name")
+  default_scope -> { order("name") }
 
   def text_color
     return "light" unless self.color

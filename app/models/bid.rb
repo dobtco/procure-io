@@ -37,27 +37,27 @@ class Bid < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
-  default_scope lambda { select('bids.*') }
+  default_scope -> { select('bids.*') }
 
   before_save :calculate_bidder_name
 
-  scope :starred, where("total_stars > 0")
-  scope :join_labels, joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id")
+  scope :starred, -> { where("total_stars > 0") }
+  scope :join_labels, -> { joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id") }
 
-  scope :join_responses_for_response_field_id, lambda { |response_field_id|
+  scope :join_responses_for_response_field_id, -> { |response_field_id|
     joins sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = bids.id
                                                    AND responses.responsable_type = 'Bid'
                                                    AND responses.response_field_id = ?", response_field_id])
   }
 
-  scope :join_my_watches, lambda { |user_id|
+  scope :join_my_watches, -> { |user_id|
     select('CASE WHEN my_watch.id IS NULL THEN false else true END as i_am_watching')
     .joins(sanitize_sql_array(["LEFT JOIN watches as my_watch ON my_watch.watchable_type = 'Bid'
                                                              AND my_watch.watchable_id = bids.id
                                                              AND my_watch.user_id = ?", user_id]))
   }
 
-  scope :join_my_bid_review, lambda { |officer_id|
+  scope :join_my_bid_review, -> { |officer_id|
     select('bid_reviews.starred as starred,
             bid_reviews.read as read,
             bid_reviews.rating as rating')

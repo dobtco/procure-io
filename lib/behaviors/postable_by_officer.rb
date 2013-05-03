@@ -2,7 +2,7 @@ module Behaviors
   module PostableByOfficer
     def self.included(base)
       base.belongs_to :posted_by_officer, foreign_key: "posted_by_officer_id", class_name: "Officer"
-      base.scope :posted, base.where("posted_at IS NOT NULL")
+      base.scope :posted, -> { base.where("posted_at IS NOT NULL") }
       base.extend(ClassMethods)
       base.dangerous_alias :post_by_officer, :unpost_by_officer
       base.question_alias :posted
