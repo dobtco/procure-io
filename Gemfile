@@ -21,7 +21,6 @@ gem 'haml'
 gem 'httparty'
 gem 'impressionist'
 gem 'i18n-js'
-gem 'jquery-rails', '~> 2.2.1'
 gem 'pg'
 gem 'pg_search'
 gem 'protected_attributes' # for legacy gem support
