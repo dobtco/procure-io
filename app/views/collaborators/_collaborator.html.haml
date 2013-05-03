@@ -6,11 +6,11 @@
     - if collaborator.owner
       %small
         %i.icon-star
-        Owner
+        = I18n.t('g.owner')
     - if !collaborator.officer.user.signed_up?
       %small
         %i.icon-envelope
-        Invited
+        = I18n.t('g.invited')
   %td
     - if can? :assign_owner, @project
       = link_to (collaborator.owner ? t('g.remove_owner') : t('g.set_owner')), owner_project_collaborator_path(@project.id, collaborator.id), method: :post, class: "btn btn-small"

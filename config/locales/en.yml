@@ -216,6 +216,7 @@ en:
     import_bids_from_csv: Import bids from CSV
     imported_from_csv: Imported from CSV
     impressions: Impressions
+    invited: Invited
     javascript_error: |
       Sorry, an error occurred. Try refreshing the page, and if the problem persists, please contact us for assistance.
     label: Label
@@ -250,6 +251,7 @@ en:
     or_sign_up:
       line_html: "or %{link}"
       link: sign up
+    owner: Owner
     post_comment: Post Comment
     posted: Posted
     posted_on: Posted on
