@@ -1,11 +1,34 @@
 require 'spec_helper'
-include ProjectAdminSpecHelper
+include ProjectBackendSpecHelper
 
-describe "Project Admin" do
+describe "Project Backend" do
 
-  describe "collaborators#index", js: true do
+  before do
+    sign_in(officers(:adam).user)
+  end
+
+  describe 'watching project' do
+    it 'should let the user watch the project' do
+      pending 'Going to change this UI soon'
+    end
+  end
+
+  describe 'projects/:num/review_mode' do
+    it 'should change the review mode' do
+      pending 'Will probably update this feature soon'
+    end
+  end
+
+  describe 'projects/:num/import_bids' do
+    it 'should import bids from a csv file'
+  end
+
+  describe 'projects/:num/export_bids' do
+    it 'should export bids to a csv file'
+  end
+
+  describe "projects/:num/collaborators", js: true do
     before do
-      sign_in(officers(:adam).user)
       visit project_collaborators_path(projects(:one))
     end
 
@@ -77,6 +100,60 @@ describe "Project Admin" do
       collaborator(officers(:adam)).should be_owner
       page.should have_text(I18n.t('flashes.cant_remove_last_owner'))
     end
+  end
+
+  describe "projects/mine" do
+    before do
+      visit mine_projects_path
+    end
+
+    it 'should render only the projects where the user is a collaborator' do
+      page.should have_text(projects(:one).title)
+      collaborators(:adamone).destroy
+      refresh
+      page.should_not have_text(projects(:one).title)
+    end
+  end
+
+  describe "projects/new" do
+    before do
+      visit new_project_path
+    end
+
+    it 'should create new projects' do
+      fill_in "project[title]", with: "Ze Title"
+      click_button I18n.t('g.next_rarr_html')
+      page.should have_selector('h3', 'Ze Title')
+    end
+  end
+
+  describe "projects/:num/edit" do
+    before do
+      visit edit_project_path(projects(:one))
+    end
+
+    it 'should update the project' do
+      page.should have_selector('form.edit_project')
+      fill_in "project[title]", with: "awesome!"
+      click_button I18n.t('g.update_project')
+      page.should have_selector('h3', 'awesome!')
+    end
+  end
+
+  describe "projects/:num/questions" do
+    before do
+      visit project_questions_path(projects(:one))
+    end
+
+    it 'should let the user update the questions with answers'
+  end
+
+  describe 'projects/:num/comments' do
+    it 'should render the comments page'
+  end
+
+  describe 'projects/:num/reports' do
+    it 'should render the reports'
   end
 
 end

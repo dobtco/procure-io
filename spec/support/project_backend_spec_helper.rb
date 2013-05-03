@@ -1,4 +1,4 @@
-module ProjectAdminSpecHelper
+module ProjectBackendSpecHelper
   def have_collaborator(officer)
     have_selector('td', text: officer.user.email)
   end
