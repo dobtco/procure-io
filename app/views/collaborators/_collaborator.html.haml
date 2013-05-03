@@ -16,4 +16,4 @@
       = link_to (collaborator.owner ? t('g.remove_owner') : t('g.set_owner')), owner_project_collaborator_path(@project.id, collaborator.id), method: :post, class: "btn btn-small"
 
     - if can? :destroy, collaborator
-      = link_to t('g.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn", confirm: t('confirmations.delete_collaborator')
+      = link_to t('g.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn", data: { confirm: t('confirmations.delete_collaborator') }

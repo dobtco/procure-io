@@ -21,7 +21,7 @@
         %div
           = t('collaborators.index.assign_role_of')
           %select{"name" => "role_id"}
-            - Role.not_god.all.each do |role|
+            - Role.not_god.each do |role|
               %option{"value" => role.id, "selected" => role.default}= role.name
 
       %small
