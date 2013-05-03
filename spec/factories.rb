@@ -123,7 +123,7 @@ FactoryGirl.define do
   end
 
   factory :question do
-    vendor { (Vendor.count > 0 ? Vendor.order"RANDOM()").first : FactoryGirl.create(:vendor)) }
+    vendor { (Vendor.count > 0 ? Vendor.order("RANDOM()").first : FactoryGirl.create(:vendor)) }
     project { (Project.count > 0 ? Project.order("RANDOM()").first : FactoryGirl.create(:project)) }
     body { ProcureFaker::Question.body }
 
