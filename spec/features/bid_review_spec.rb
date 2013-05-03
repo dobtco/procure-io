@@ -208,7 +208,8 @@ describe 'Bid Review', js: true do
     describe 'when vendor has not submitted bid' do
       it 'should render 404', js: false do
         bids(:one).update_attributes(submitted_at: nil)
-        expect { visit project_bid_path(projects(:one), bids(:one)) }.to render_404
+        visit project_bid_path(projects(:one), bids(:one))
+        ensure_404
       end
     end
 

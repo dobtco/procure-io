@@ -21,7 +21,6 @@ class ProjectsController < ApplicationController
 
   # @todo add destroy method
 
-
   def index
     GlobalConfig.instance[:search_projects_enabled] ? index_advanced : index_basic
   end
@@ -152,6 +151,7 @@ class ProjectsController < ApplicationController
   end
 
   def response_fields
+    authorize! :manage_response_fields, @project
   end
 
   def reviewer_leaderboard

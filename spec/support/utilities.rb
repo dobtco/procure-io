@@ -75,8 +75,9 @@ def ensure_pagination_has_num_pages(num_pages)
   page.should have_selector('.pagination li', count: num_pages + 2) # +2 for prev and next
 end
 
-def render_404
-  raise_error(ActionController::RoutingError)
+def ensure_404
+  page.should have_text(I18n.t('g.404'))
+  page.driver.status_code.should == 404
 end
 
 def sort_by(x)

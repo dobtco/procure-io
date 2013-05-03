@@ -30,6 +30,18 @@ describe "Logging In" do
     end
   end
 
+  describe "login from unauthorized page" do
+    it "should log in and redirect you to the same page" do
+      visit response_fields_project_path(projects(:one))
+      page.should have_text(I18n.t('g.sign_in'))
+      fill_in "Email", with: "adam@test.com"
+      fill_in "Password", with: "password"
+      click_button "Sign in"
+      current_path.should == response_fields_project_path(projects(:one))
+      page.should have_text I18n.t("flashes.valid_login")
+    end
+  end
+
   describe "Invalid login" do
     before do
       visit projects_path
