@@ -18,7 +18,7 @@ class Response < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include SimplerFormat
 
-  default_scope -> { include(:response_field).joins(:response_field).order("response_fields.sort_order") }
+  default_scope -> { includes(:response_field).joins(:response_field).order("response_fields.sort_order") }
 
   scope :without_only_visible_to_admin_fields, -> { where("response_fields.only_visible_to_admin IS NULL OR response_fields.only_visible_to_admin = ?", false) }
 

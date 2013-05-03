@@ -6,7 +6,7 @@ gem 'rails', '4.0.0.rc1'
 
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'acts_as_singleton'
-gem 'authlogic'
+gem 'authlogic', github: 'adamjacobbecker/authlogic'
 gem 'bootstrap-will_paginate'
 gem 'bootstrap-wysihtml5-rails'
 gem 'cancan'
@@ -48,7 +48,7 @@ end
 group :development, :test do
   gem 'capybara', '2.0.3'
   gem 'capybara-webkit'
-  gem 'database_cleaner'
+  gem 'database_cleaner', github: 'bmabey/database_cleaner'
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'rspec-rails'

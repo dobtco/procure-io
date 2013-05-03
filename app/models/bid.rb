@@ -37,8 +37,6 @@ class Bid < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
-  default_scope -> { select('bids.*') }
-
   before_save :calculate_bidder_name
 
   scope :starred, -> { where("total_stars > 0") }
@@ -51,14 +49,15 @@ class Bid < ActiveRecord::Base
   }
 
   scope :join_my_watches, -> (user_id) {
-    select('CASE WHEN my_watch.id IS NULL THEN false else true END as i_am_watching')
+    select('bids.*, CASE WHEN my_watch.id IS NULL THEN false else true END as i_am_watching')
     .joins(sanitize_sql_array(["LEFT JOIN watches as my_watch ON my_watch.watchable_type = 'Bid'
                                                              AND my_watch.watchable_id = bids.id
                                                              AND my_watch.user_id = ?", user_id]))
   }
 
   scope :join_my_bid_review, -> (officer_id) {
-    select('bid_reviews.starred as starred,
+    select('bids.*,
+            bid_reviews.starred as starred,
             bid_reviews.read as read,
             bid_reviews.rating as rating')
     .joins(sanitize_sql_array(["LEFT JOIN bid_reviews ON bid_reviews.bid_id = bids.id

@@ -55,7 +55,7 @@ class ProjectsController < ApplicationController
   def show
     authorize! :read, @project
     current_user.read_notifications(@project, :project_amended, :you_were_added, :question_answered) if current_user
-    @questions_json = serialized(@project.questions.all, VendorQuestionSerializer, include_vendor: true).to_json
+    @questions_json = serialized(@project.questions, VendorQuestionSerializer, include_vendor: true).to_json
     impressionist(@project) unless current_officer
   end
 

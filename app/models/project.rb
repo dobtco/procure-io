@@ -33,14 +33,15 @@ class Project < ActiveRecord::Base
   is_impressionable
 
   has_many :bids
-  has_many :collaborators, order: 'created_at', dependent: :destroy
-  has_many :officers, through: :collaborators, uniq: true, select: 'officers.*, collaborators.owner as owner',
-                      order: 'created_at'
+  has_many :collaborators, -> { order('created_at') }, dependent: :destroy
+  has_many :officers,
+           -> { select('officers.*, collaborators.owner as owner').order('created_at').uniq(true) },
+           through: :collaborators
   has_many :questions, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
-  has_many :project_revisions, dependent: :destroy, order: 'created_at DESC'
+  has_many :project_revisions, -> { order('created_at DESC') }, dependent: :destroy
   has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
 
   after_update :generate_project_revisions_if_body_changed!

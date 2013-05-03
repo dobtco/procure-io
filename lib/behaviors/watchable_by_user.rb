@@ -1,7 +1,7 @@
  module Behaviors
   module WatchableByUser
     def self.included(base)
-      base.has_many :watches, as: :watchable, include: :user
+      base.has_many :watches, -> { includes(:user) }, as: :watchable
       base.extend(ClassMethods)
     end
 

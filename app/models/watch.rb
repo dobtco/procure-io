@@ -23,6 +23,8 @@ class Watch < ActiveRecord::Base
     if model.is_a?(ActiveRecord::Base)
       where(watchable_type: model.class.name, watchable_id: model.id)
     else
+      logger.info Array(ids)
+      logger.info "fufufu"
       where(watchable_type: model.to_s.capitalize).where("watchable_id IN (?)", Array(ids))
     end
   }

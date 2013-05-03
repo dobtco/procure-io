@@ -1,4 +1,18 @@
 GIT
+  remote: git://github.com/adamjacobbecker/authlogic.git
+  revision: d55cc957f3ae8a793e17653c0ac71b9aebe41d3a
+  specs:
+    authlogic (3.3.0)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+
+GIT
+  remote: git://github.com/bmabey/database_cleaner.git
+  revision: ce1d16298960c28182568611892bfa4c386cfaf5
+  specs:
+    database_cleaner (0.9.1)
+
+GIT
   remote: git://github.com/codebrew/backbone-rails.git
   revision: a49f2ea65e1d70d206f6608bd405fb1968f6d070
   specs:
@@ -49,9 +63,6 @@ GEM
       rake
     arel (4.0.0)
     atomic (1.1.8)
-    authlogic (3.3.0)
-      activerecord (>= 3.2)
-      activesupport (>= 3.2)
     better_errors (0.8.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -89,7 +100,6 @@ GEM
     colorist (0.0.2)
     daemons (1.1.9)
     dalli (2.6.2)
-    database_cleaner (0.9.1)
     debug_inspector (0.0.2)
     delayed_job (4.0.0.beta1)
       activesupport (>= 3.0, < 4.1)
@@ -312,7 +322,7 @@ DEPENDENCIES
   active_model_serializers!
   acts_as_singleton
   annotate
-  authlogic
+  authlogic!
   better_errors
   binding_of_caller
   bootstrap-will_paginate
@@ -324,7 +334,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   colorist
   dalli
-  database_cleaner
+  database_cleaner!
   delayed_job_active_record (~> 4.0.0.beta2)
   execjs
   factory_girl_rails

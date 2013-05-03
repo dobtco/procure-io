@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   belongs_to :owner, polymorphic: true, touch: true
 
   has_many :event_feeds
-  has_many :events, through: :event_feeds, select: 'events.*, event_feeds.read as read'
+  has_many :events, -> { select('events.*, event_feeds.read as read') }, through: :event_feeds
   has_many :watches
 
   serialize :notification_preferences

@@ -1,13 +1,13 @@
 FactoryGirl.define do
   factory :bid do
-    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
+    vendor { (Vendor.count > 0 ? Vendor.where(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
+    project { (Project.count > 0 ? Project.where(order: "RANDOM()").first : FactoryGirl.create(:project)) }
     submitted_at { rand(1..8) == 1 ? nil : (Time.now - rand(0..5).days) }
 
     factory :bid_with_reviews do
       after(:create) do |b|
         rand(0..2).times do
-          review = b.bid_review_for_officer(Officer.all(order: "RANDOM()").first)
+          review = b.bid_review_for_officer(Officer.where(order: "RANDOM()").first)
           review.read = rand(0..1) == 1
           review.starred = rand(0..1) == 1
           review.save
@@ -41,8 +41,8 @@ FactoryGirl.define do
   end
 
   factory :comment do
-    commentable { (Bid.all.count > 0 ? Bid.first : FactoryGirl.create(:bid)) }
-    officer { (Officer.all.count > 0 ? Officer.first : FactoryGirl.create(:officer)) }
+    commentable { (Bid.count > 0 ? Bid.first : FactoryGirl.create(:bid)) }
+    officer { (Officer.count > 0 ? Officer.first : FactoryGirl.create(:officer)) }
     body { Faker::Lorem.paragraph }
   end
 
@@ -76,7 +76,7 @@ FactoryGirl.define do
 
     factory :project_with_bids do
       after(:create) do |p|
-        Vendor.all.each do |v|
+        Vendor.each do |v|
           FactoryGirl.create(:bid_with_reviews, vendor: v, project: p) unless rand(1..8) == 1
         end
       end
@@ -84,25 +84,25 @@ FactoryGirl.define do
 
     after(:create) do |p|
       if rand(1..2) == 1
-        p.posted_by_officer_id = Officer.all(order: "RANDOM()").first.id
+        p.posted_by_officer_id = Officer.where(order: "RANDOM()").first.id
         p.posted_at = (Time.now - rand(7..14).days)
         p.save
       end
 
-      p.officers << Officer.all
+      p.officers << Officer
       p.collaborators.first.update_attributes owner: true
       p.response_fields.create(label: "Completion Time", field_type: "text", sort_order: 0)
       p.response_fields.create(label: "Total Cost", field_type: "price", sort_order: 1, field_options: {"required" => true})
       p.response_fields.create(label: "Your Approach", field_type: "paragraph", sort_order: 2, field_options: {"size" => 'large', "required" => true, "description" => "How would you complete this project?"})
       p.response_fields.create(label: "Security", field_type: "checkboxes", sort_order: 3,
                                field_options: {"required" => true, "options" => [{"label" => "I understand all of the necessary security procedures.", "checked" => false}]})
-      p.tags << Tag.all(order: "RANDOM()").first
+      p.tags << Tag.where(order: "RANDOM()").first
 
-      Officer.all.each do |officer|
+      Officer.each do |officer|
         officer.user.watch!(p)
       end
 
-      Vendor.all.each do |vendor|
+      Vendor.each do |vendor|
         vendor.user.watch!(p) if rand(1..2) == 2
       end
 
@@ -123,14 +123,14 @@ FactoryGirl.define do
   end
 
   factory :question do
-    vendor { (Vendor.all.count > 0 ? Vendor.all(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
-    project { (Project.all.count > 0 ? Project.all(order: "RANDOM()").first : FactoryGirl.create(:project)) }
+    vendor { (Vendor.count > 0 ? Vendor.where(order: "RANDOM()").first : FactoryGirl.create(:vendor)) }
+    project { (Project.count > 0 ? Project.where(order: "RANDOM()").first : FactoryGirl.create(:project)) }
     body { ProcureFaker::Question.body }
 
     after(:build) do |q|
       if rand(1..2) == 2 && q.project.posted_at
         q.answer_body = Faker::Lorem.paragraph
-        q.officer = (Officer.all.count > 0 ? Officer.all(order: "RANDOM()").first : FactoryGirl.create(:officer))
+        q.officer = (Officer.count > 0 ? Officer.where(order: "RANDOM()").first : FactoryGirl.create(:officer))
         q.save
       end
     end
@@ -141,17 +141,17 @@ FactoryGirl.define do
   end
 
   factory :amendment do
-    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
+    project { (Project.count > 0 ? Project.first : FactoryGirl.create(:project)) }
     title "Amendment to the statement of work"
     body "The due date for new proposals is now extended by two weeks."
 
     after(:create) do |a|
-      a.post_by_officer!(Officer.all(order: "RANDOM()").first)
+      a.post_by_officer!(Officer.where(order: "RANDOM()").first)
     end
   end
 
   factory :label do
-    project { (Project.all.count > 0 ? Project.first : FactoryGirl.create(:project)) }
+    project { (Project.count > 0 ? Project.first : FactoryGirl.create(:project)) }
     name { ProcureFaker::Label.name }
     color { ProcureFaker::Label.color }
   end

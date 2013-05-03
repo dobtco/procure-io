@@ -14,7 +14,7 @@ class Officer < ActiveRecord::Base
   include SharedUserMethods
 
   has_many :collaborators
-  has_many :projects, through: :collaborators, uniq: true
+  has_many :projects, -> { uniq(true) }, through: :collaborators
   has_many :questions
   has_many :bid_reviews, dependent: :destroy
 
