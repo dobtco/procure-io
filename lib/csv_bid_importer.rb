@@ -58,6 +58,8 @@ class CSVBidImporter
         bid.labels << @options[:label]
       end
 
+      bid.touch # run callbacks now that response_fields are created
+
       @count += 1
     end
   end
