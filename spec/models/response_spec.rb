@@ -75,8 +75,8 @@ describe Response do
 
     it 'should truncate long text fields' do
       rf = ResponseField.create(field_type: "paragraph", sort_order: 0)
-      r1 = Response.new(response_field_id: rf.id, value: "f" * 256)
-      r1.calculate_sortable_value.should == "f" * 255
+      r1 = Response.new(response_field_id: rf.id, value: "f" * 100)
+      r1.calculate_sortable_value.should == "f" * 11
     end
   end
 end
