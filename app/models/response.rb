@@ -89,7 +89,7 @@ class Response < ActiveRecord::Base
     when "checkboxes"
       self.value.is_a?(Hash) ? self.value.values[0] : nil
     else
-      truncate(self.value, length: 255, omission: "")
+      self.value[0..10] # do we really need to sort more than the first 10 characters of a string?
     end
   end
 end
