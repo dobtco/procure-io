@@ -91,7 +91,7 @@ describe CSVBidImporter do
     it 'should create a bid' do
       CSV.stub(:parse).and_return([{"a" => "b"}])
       project = NoRailsTests::FakeQuery.new
-      project.should_receive(:create)
+      project.should_receive(:create).and_return(bid = NoRailsTests::FakeQuery.new)
       project.should_receive(:response_fields).and_return([])
       importer = CSVBidImporter.new(project, "contents", {})
     end
