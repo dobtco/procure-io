@@ -10,7 +10,7 @@ Procurement software for the 21st century.
 2. `bundle install`
 3. copy `config/database.yml.example` to `config/database.yml` and configure it as needed
 4. `rake db:setup`
-5. `rake db:seed:development`
+5. `rake db:seed:example`
 6. `rails server` or run with your choice of server (we like [pow](http://pow.cx/))
 
 > You'll all set to develop Procure.io. Login as an officer with `officer1@example.gov/password`, or as a vendor with `vendor1@example.com/password`.

@@ -2,7 +2,7 @@ namespace :db do
   namespace :seed do
 
     desc "seed bogus data"
-    task development: :environment do
+    task example: :environment do
 
       Delayed::Worker.delay_jobs = false
       ActionMailer::Base.perform_deliveries = false

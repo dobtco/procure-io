@@ -38,8 +38,8 @@ CREATE TABLE amendments (
     body text,
     posted_at timestamp without time zone,
     posted_by_officer_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     title text
 );
 
@@ -73,8 +73,8 @@ CREATE TABLE bid_reviews (
     read boolean,
     officer_id integer,
     bid_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     rating integer
 );
 
@@ -106,8 +106,8 @@ CREATE TABLE bids (
     id integer NOT NULL,
     vendor_id integer,
     project_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     submitted_at timestamp without time zone,
     dismissed_at timestamp without time zone,
     dismissed_by_officer_id integer,
@@ -159,8 +159,8 @@ CREATE TABLE collaborators (
     project_id integer,
     officer_id integer,
     owner boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     added_by_officer_id integer,
     added_in_bulk boolean
 );
@@ -197,8 +197,8 @@ CREATE TABLE comments (
     comment_type character varying(255),
     body text,
     data text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -236,8 +236,8 @@ CREATE TABLE delayed_jobs (
     failed_at timestamp without time zone,
     locked_by character varying(255),
     queue character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -269,8 +269,8 @@ CREATE TABLE event_feeds (
     event_id integer,
     user_id integer,
     read boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -300,8 +300,8 @@ ALTER SEQUENCE event_feeds_id_seq OWNED BY event_feeds.id;
 CREATE TABLE events (
     id integer NOT NULL,
     data text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     targetable_type character varying(255),
     targetable_id integer,
     event_type smallint
@@ -335,8 +335,8 @@ CREATE TABLE form_templates (
     id integer NOT NULL,
     name character varying(255),
     response_fields text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     form_options text
 );
 
@@ -371,8 +371,8 @@ CREATE TABLE global_configs (
     comments_enabled boolean DEFAULT true,
     questions_enabled boolean DEFAULT true,
     event_hooks text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     amendments_enabled boolean DEFAULT true,
     watch_projects_enabled boolean DEFAULT true,
     save_searches_enabled boolean DEFAULT true,
@@ -419,8 +419,8 @@ CREATE TABLE impressions (
     session_hash character varying(255),
     message text,
     referrer text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -452,8 +452,8 @@ CREATE TABLE labels (
     project_id integer,
     name character varying(255),
     color character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -485,8 +485,8 @@ CREATE TABLE officers (
     role_id integer,
     title character varying(255),
     name character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -518,8 +518,8 @@ CREATE TABLE project_revisions (
     body text,
     project_id integer,
     saved_by_officer_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -551,8 +551,8 @@ CREATE TABLE projects (
     title character varying(255),
     body text,
     bids_due_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     posted_at timestamp without time zone,
     posted_by_officer_id integer,
     total_comments integer DEFAULT 0 NOT NULL,
@@ -603,8 +603,8 @@ CREATE TABLE questions (
     officer_id integer,
     body text,
     answer_body text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -638,8 +638,8 @@ CREATE TABLE response_fields (
     label text,
     field_type character varying(255),
     field_options text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     sort_order integer NOT NULL,
     key_field boolean,
     only_visible_to_admin boolean
@@ -675,8 +675,8 @@ CREATE TABLE responses (
     responsable_type character varying(255),
     response_field_id integer,
     value text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     sortable_value character varying(255),
     upload character varying(255),
     user_id integer
@@ -711,8 +711,8 @@ CREATE TABLE roles (
     name character varying(255),
     role_type integer DEFAULT 1 NOT NULL,
     permissions text,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     undeletable boolean,
     "default" boolean
 );
@@ -747,8 +747,8 @@ CREATE TABLE saved_searches (
     search_parameters text,
     name character varying(255),
     last_emailed_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -787,8 +787,8 @@ CREATE TABLE schema_migrations (
 CREATE TABLE tags (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -824,8 +824,8 @@ CREATE TABLE users (
     notification_preferences text,
     owner_id integer,
     owner_type character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     perishable_token character varying(255) DEFAULT ''::character varying NOT NULL,
     last_login_at timestamp without time zone,
     current_login_at timestamp without time zone,
@@ -860,8 +860,8 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 CREATE TABLE vendor_profiles (
     id integer NOT NULL,
     vendor_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -891,8 +891,8 @@ ALTER SEQUENCE vendor_profiles_id_seq OWNED BY vendor_profiles.id;
 CREATE TABLE vendors (
     id integer NOT NULL,
     name character varying(255),
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -925,8 +925,8 @@ CREATE TABLE watches (
     watchable_id integer,
     watchable_type character varying(255),
     disabled boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1581,6 +1581,8 @@ ALTER TABLE ONLY vendor_profiles
 --
 -- PostgreSQL database dump complete
 --
+
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20130204183601');
 

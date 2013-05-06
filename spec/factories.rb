@@ -76,7 +76,7 @@ FactoryGirl.define do
 
     factory :project_with_bids do
       after(:create) do |p|
-        Vendor.each do |v|
+        Vendor.all.each do |v|
           FactoryGirl.create(:bid_with_reviews, vendor: v, project: p) unless rand(1..8) == 1
         end
       end
@@ -89,7 +89,7 @@ FactoryGirl.define do
         p.save
       end
 
-      p.officers << Officer
+      p.officers << Officer.all
       p.collaborators.first.update_attributes owner: true
       p.response_fields.create(label: "Completion Time", field_type: "text", sort_order: 0)
       p.response_fields.create(label: "Total Cost", field_type: "price", sort_order: 1, field_options: {"required" => true})
@@ -98,11 +98,11 @@ FactoryGirl.define do
                                field_options: {"required" => true, "options" => [{"label" => "I understand all of the necessary security procedures.", "checked" => false}]})
       p.tags << Tag.order("RANDOM()").first
 
-      Officer.each do |officer|
+      Officer.all.each do |officer|
         officer.user.watch!(p)
       end
 
-      Vendor.each do |vendor|
+      Vendor.all.each do |vendor|
         vendor.user.watch!(p) if rand(1..2) == 2
       end
 
