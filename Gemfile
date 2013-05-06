@@ -26,6 +26,7 @@ gem 'haml'
 gem 'httparty'
 gem 'impressionist'
 gem 'i18n-js'
+gem 'newrelic_rpm'
 gem 'pg'
 gem 'pg_search'
 gem 'protected_attributes' # for legacy gem support
@@ -44,7 +45,6 @@ group :development do
   gem 'immigrant'
   gem 'launchy'
   gem 'letter_opener'
-  gem 'meta_request', '0.2.1'
   gem 'terminal-notifier-guard'
 end
 

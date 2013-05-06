@@ -180,9 +180,6 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    meta_request (0.2.1)
-      rack-contrib
-      rails
     method_source (0.8.1)
     mime-types (1.23)
     minitest (4.7.4)
@@ -191,6 +188,7 @@ GEM
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-ssh (2.6.7)
+    newrelic_rpm (3.6.1.88)
     nokogiri (1.5.9)
     oauth (0.4.7)
     pg (0.15.1)
@@ -206,8 +204,6 @@ GEM
       method_source (~> 0.8)
       slop (~> 3.4)
     rack (1.5.2)
-    rack-contrib (1.1.0)
-      rack (>= 0.9.1)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.0.0.rc1)
@@ -342,7 +338,7 @@ DEPENDENCIES
   impressionist
   launchy
   letter_opener
-  meta_request (= 0.2.1)
+  newrelic_rpm
   pg
   pg_search
   protected_attributes
