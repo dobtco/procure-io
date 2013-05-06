@@ -57,14 +57,13 @@ group :development, :test do
   gem 'simplecov', require: false
 end
 
-group :assets do
-  gem 'execjs'
-  gem 'font-awesome-sass-rails'
-  gem 'haml_coffee_assets'
-  gem 'sass-rails', '~> 4.0.0.rc1'
-  gem 'select2-rails'
-  gem 'uglifier', '>= 1.0.3'
-end
+# Assets
+gem 'execjs'
+gem 'font-awesome-sass-rails'
+gem 'haml_coffee_assets'
+gem 'sass-rails', '~> 4.0.0.rc1'
+gem 'select2-rails'
+gem 'uglifier', '>= 1.0.3'
 
 # Heroku
 gem 'rails_log_stdout', github: 'heroku/rails_log_stdout'
