@@ -360,7 +360,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
 
           $(@).attr('data-original-title', newTitle).tooltip('fixTitle')
 
-          if $(@).data('tooltip').$tip.is(":visible")
+          if $(@).data('tooltip').$tip?.is(":visible")
             $(@).tooltip('show')
 
       @$el.find(".total-stars").on "mouseover", loadStarrers
