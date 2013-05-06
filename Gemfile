@@ -15,6 +15,11 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'colorist'
 gem 'dalli'
 gem 'delayed_job_active_record', '~> 4.0.0.beta2'
+
+# Temporarily in non-development group for seeding test data on deployed instances.
+gem 'factory_girl_rails'
+gem 'ffaker'
+
 gem 'fog', '~> 1.3.1'
 gem 'foreigner', '1.4.0'
 gem 'haml'
@@ -47,8 +52,6 @@ group :development, :test do
   gem 'capybara', '2.0.3'
   gem 'capybara-webkit'
   gem 'database_cleaner', '~> 1.0.0.RC1'
-  gem 'factory_girl_rails'
-  gem 'ffaker'
   gem 'rspec-rails'
   gem 'rspec-retry'
   gem 'simplecov', require: false
