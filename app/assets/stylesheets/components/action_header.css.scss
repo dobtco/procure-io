@@ -1,13 +1,15 @@
 .action-header-wrapper {
-  .header {
-    h3 {
-      float: left;
-    }
+  h3 {
+    float: left;
+  }
 
-    a {
-      float: right;
-      margin-top: 10px;
-      margin-left: 10px;
-    }
+  a {
+    float: right;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+
+  .badge {
+    margin-left: 5px;
   }
 }

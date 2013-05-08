@@ -1,0 +1,13 @@
+%small
+  - if !@project.posted_at
+    %span.badge.badge-indicator
+    Not yet posted
+  - elsif @project.bids_due_at && @project.open_for_bids?
+    %span.badge.badge-info.badge-indicator
+    = t("g.bids_due_on_date", date: @project.bids_due_at.to_formatted_s(:readable))
+  - elsif @project.bids_due_at && !@project.open_for_bids?
+    %span.badge.badge-warning.badge-indicator
+    = t("g.bids_were_due_on_date", date: @project.bids_due_at.to_formatted_s(:readable))
+  - else
+    %span.badge.badge-info.badge-indicator
+    = t('g.open_for_bids')

@@ -1,20 +1,14 @@
 - provide :page_title, @project.title
 
 .action-header-wrapper
-  .header
-    %h3
+  .row
+    %h3.span9
       = @project.title
-      %small
-        - if @project.featured
-          %i.icon-star
-        - if @project.bids_due_at
-          = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
-        - else
-          = t('g.open_for_bids')
-
-    %a.btn.btn-inverse.pull-right{"href" => correct_project_admin_path(@project)}
-      = t("g.project_admin")
-      %i.icon-share-alt
+      = render "projects/header_status"
+    .span3
+      %a.btn.btn-inverse.pull-right{"href" => correct_project_admin_path(@project)}
+        = t("g.project_admin")
+        %i.icon-share-alt
 
 .row-fluid
   .span7

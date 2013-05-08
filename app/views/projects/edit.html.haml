@@ -15,12 +15,12 @@
       .control-group
         = f.label :posted_at, t('g.live')
         .switch
-          = f.check_box :posted_at
+          = f.check_box :posted_at, checked: @project.posted_at?
 
       .control-group
         = f.label :featured
         .switch
-          = f.check_box :featured
+          = f.check_box :featured, checked: @project.featured?
 
       .control-group
         = f.required_label :title
