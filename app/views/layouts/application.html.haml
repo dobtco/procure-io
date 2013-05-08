@@ -11,12 +11,13 @@
   = render 'layouts/shim'
 
 %body{"data-controller" => params[:controller], "data-action" => params[:action]}
-  = render 'layouts/navbar'
-
-  .outer-container
-    .container
+  #wrap
+    = render 'layouts/navbar'
+    .container#main-container
       = render "layouts/flash", flash: flash
       = yield
+
+    #push
 
   %footer#footer
     .container
