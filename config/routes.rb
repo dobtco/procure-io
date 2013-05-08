@@ -4,7 +4,7 @@ ProcureIo::Application.routes.draw do
   get 'global_config/advanced' => 'global_config#advanced', as: :global_config_advanced
   get 'global_config/vendor_registration' => 'global_config#vendor_registration', as: :global_config_vendor_registration
   get 'global_config/event_hooks' => 'global_config#event_hooks', as: :global_config_event_hooks
-  put 'global_config' => 'global_config#put'
+  patch 'global_config' => 'global_config#put'
 
   get 'global_config/twitter_oauth' => 'global_config#twitter_oauth', as: :global_config_twitter_oauth
   get 'global_config/twitter_oauth/callback' => 'global_config#twitter_oauth_callback', as: :global_config_twitter_oauth_callback
