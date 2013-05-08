@@ -26,6 +26,16 @@ module ApplicationHelper
     end
   end
 
+  def correct_project_admin_path(project)
+    if (can? :read_bids, @project)
+      project_bids_path(@project)
+    elsif (can? :edit_project_details, @project)
+      edit_project_path(@project)
+    else
+      project_collaborators_path(@project)
+    end
+  end
+
   def can_view_subnav?(name)
     case name
     when "bids"
@@ -67,7 +77,7 @@ module ApplicationHelper
     end
   end
 
-  def page_header(text, opts, &block)
+  def page_header(text, opts = {}, &block)
     "<h3 class='#{opts[:class]}'>#{text}#{" " + capture(&block) if block_given?}</h3>"
   end
 

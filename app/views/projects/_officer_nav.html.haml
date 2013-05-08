@@ -47,7 +47,7 @@
 
     - if can_view_subnav?("stats")
       %li{"class" => active_subnav?("stats")}
-        %a{"href" => bids_over_time_project_reports_path(@project)}
+        %a{"href" => (can? :access_reports, @project) ? bids_over_time_project_reports_path(@project) : reviewer_leaderboard_project_path(@project)}
           %span= t('g.stats')
 
     %li{"class" => active_subnav?("admin")}

@@ -49,7 +49,7 @@ FactoryGirl.define do
   factory :officer do
     name { Faker::Name.name }
     title { Faker::Company.position }
-    role { Role.where(role_type: Role.role_types[:god]).first }
+    role { Role.where(role_type: Role.role_types[:admin]).first }
 
     after(:create) do |o|
       o.user = FactoryGirl.create(:user_officer, owner: o)
