@@ -60,8 +60,8 @@ module ApplicationHelper
     end
   end
 
-  def page_header(text, &block)
-    "<h3>#{text}#{" " + capture(&block) if block_given?}</h3>"
+  def page_header(text, opts, &block)
+    "<h3 class='#{opts[:class]}'>#{text}#{" " + capture(&block) if block_given?}</h3>"
   end
 
   def pick(obj, *keys)

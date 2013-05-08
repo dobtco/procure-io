@@ -1,13 +1,20 @@
 - provide :page_title, @project.title
 
-!= page_header @project.title do
-  %small
-    - if @project.featured
-      %i.icon-star
-    - if @project.bids_due_at
-      = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
-    - else
-      = t('g.open_for_bids')
+.action-header-wrapper
+  .header
+    %h3
+      = @project.title
+      %small
+        - if @project.featured
+          %i.icon-star
+        - if @project.bids_due_at
+          = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
+        - else
+          = t('g.open_for_bids')
+
+    %a.btn.btn-info.pull-right{"href" => project_bids_path(@project)}
+      = t("g.project_admin")
+      %i.icon-cog
 
 .row-fluid
   .span7
@@ -58,9 +65,7 @@
             %br
             = f.submit t('g.submit'), class: "btn btn-inverse"
         %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
-      - elsif officer_signed_in? && (can? :answer_questions, @project)
-        .alert.alert-success
-          = t('.click_here_to_answer_questions.line_html', link: link_to(t('.click_here_to_answer_questions.link'), project_questions_path(@project)))
+
       - elsif !officer_signed_in?
         = t('.sign_in_to_ask_question.line_html', link: link_to(t('.sign_in_to_ask_question.link'), sign_in_path))
 

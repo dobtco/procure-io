@@ -265,6 +265,7 @@ en:
     price_range: Price Range
     profile: Profile
     project: Project
+    project_admin: Project Admin
     project_description: Project Description
     project_form_confirmation_message: "Thanks, your bid has been received!"
     project_listings: Project Listings
