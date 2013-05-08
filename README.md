@@ -3,7 +3,7 @@ Procure.io [![](https://travis-ci.org/dobtco/procure-io.png)](https://travis-ci.
 
 Procurement software for the 21st century.
 
-[![procure.io screenshot](http://www.dobt.co/img/screenshot.png)](http://www.dobt.co/img/review_bids.png)
+[![procure.io screenshot](http://www.dobt.co/img/review_bids.png)](http://www.dobt.co/img/review_bids.png)
 
 #### Setting up your development environment
 1. `git clone` the repo
