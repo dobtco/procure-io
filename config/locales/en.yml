@@ -451,21 +451,15 @@ en:
       reports_available_after_post: Reports will be available after this project goes live.
 
     show:
-      click_here_to_answer_questions:
-        line_html: "%{link} to answer questions."
-        link: Click here
+      not_logged_in_alert:
+        line_html: >
+          To ask questions, subscribe to alerts, and bid on the project, either %{sign_up} or %{sign_in}.
+        sign_up: sign up
+        sign_in: sign in
 
       jump_to_amendments_html:
         one: "Jump to <a href='#amendments'>1 amendment</a>."
         other: "Jump to <a href='#amendments'>%{count} amendments</a>."
-
-      sign_in_to_ask_question:
-        line_html: "%{link} to ask a question."
-        link: Sign in
-
-      sign_in_to_bid:
-        line_html: "%{link} to bid."
-        link: Sign in
 
       you_are_collaborator:
         line_html: "You're a collaborator on this project. %{link} for the admin page."
