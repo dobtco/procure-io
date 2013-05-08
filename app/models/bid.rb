@@ -55,6 +55,10 @@ class Bid < ActiveRecord::Base
                                                              AND my_watch.user_id = ?", user_id]))
   }
 
+  scope :unread, -> {
+    where("read IS NULL or read = FALSE")
+  }
+
   scope :join_my_bid_review, -> (officer_id) {
     select('bids.*,
             bid_reviews.starred as starred,

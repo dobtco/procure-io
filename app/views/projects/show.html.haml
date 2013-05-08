@@ -1,16 +1,13 @@
 - provide :page_title, @project.title
 
-- if can? :collaborate_on, @project
-  = render "projects/officer_nav"
-- else
-  != page_header @project.title do
-    %small
-      - if @project.featured
-        %i.icon-star
-      - if @project.bids_due_at
-        = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
-      - else
-        = t('g.open_for_bids')
+!= page_header @project.title do
+  %small
+    - if @project.featured
+      %i.icon-star
+    - if @project.bids_due_at
+      = t("g.#{@project.open_for_bids? ? 'bids_due_on_date' : 'bids_were_due_on_date'}", date: @project.bids_due_at.to_formatted_s(:readable))
+    - else
+      = t('g.open_for_bids')
 
 .row-fluid
   .span7

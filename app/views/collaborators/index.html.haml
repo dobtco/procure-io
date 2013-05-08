@@ -2,32 +2,31 @@
 
 = render "projects/officer_nav"
 
-= render layout: "projects/admin_sidebar" do
-  = render "collaborators/table", collaborators: @collaborators
+= render "collaborators/table", collaborators: @collaborators
 
-  - if can? :add_and_remove_collaborators, @project
-    %h5= t('g.add_collaborator')
-    = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
+- if can? :add_and_remove_collaborators, @project
+  %h5= t('g.add_collaborator')
+  = form_tag project_collaborators_path(@project), method: :post, remote: true, id: "new_collaborator" do |f|
 
-      .email-inputs
-        .control-group
-          %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", |
-            "placeholder" => User.human_attribute_name(:email)}
+    .email-inputs
+      .control-group
+        %input.single-email{"type" => "text", "name" => "email", "autocomplete" => "off", |
+          "placeholder" => User.human_attribute_name(:email)}
 
-          %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
-            "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
+        %textarea.bulk-email.span6{"name" => "email", "disabled" => true, |
+          "placeholder" => t('collaborators.index.list_csv'), "rows" => 4}
 
-      - if user_is_admin_or_god?
-        %div
-          = t('collaborators.index.assign_role_of')
-          %select{"name" => "role_id"}
-            - Role.not_god.each do |role|
-              %option{"value" => role.id, "selected" => role.default}= role.name
+    - if user_is_admin_or_god?
+      %div
+        = t('collaborators.index.assign_role_of')
+        %select{"name" => "role_id"}
+          - Role.not_god.each do |role|
+            %option{"value" => role.id, "selected" => role.default}= role.name
 
-      %small
-        %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}
-          = t('g.add_multiple_collaborators')
+    %small
+      %a.js-toggle-single-bulk{"data-toggle-text" => t('g.add_one_collaborator')}
+        = t('g.add_multiple_collaborators')
 
-      .form-actions
-        %button.btn.btn-inverse{"data-loading-text" => t('g.adding_collaborator')}
-          = t('g.add_collaborator')
+    .form-actions
+      %button.btn.btn-inverse{"data-loading-text" => t('g.adding_collaborator')}
+        = t('g.add_collaborator')

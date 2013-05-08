@@ -2,11 +2,10 @@
 
 = render "projects/officer_nav"
 
-= render layout: "projects/admin_sidebar" do
-  = form_for @project, url: review_mode_project_path(@project), method: :post do |f|
+= form_for @project, url: review_mode_project_path(@project), method: :post do |f|
 
-    = f.label :review_mode
-    = f.select :review_mode, options_for_select(Project.review_modes, @project.review_mode)
+  = f.label :review_mode
+  = f.select :review_mode, options_for_select(Project.review_modes, @project.review_mode)
 
-    .form-actions
-      = f.submit t('g.save'), class: "btn btn-inverse"
+  .form-actions
+    = f.submit t('g.save'), class: "btn btn-inverse"

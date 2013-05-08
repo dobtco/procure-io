@@ -12,57 +12,96 @@
         - else
           = t('g.open_for_bids')
 
+    %a.btn.pull-right.view-project-button{"href" => project_path(@project)}
+      = t('g.view')
+      %i.icon-share-alt
+
     != watch_button(@project, t('tooltips.watch_project'), "bottom")
 
   .clearfix
 
   %ul.nav.nav-tabs
-    - if GlobalConfig.instance[:bid_review_enabled] && (can? :read_bids, @project)
-      %li{"class" => active_page?("bids")}
-        %a{"href" => project_bids_path(@project)}
-          %span
-            %span.visible-desktop= t('g.review_bids')
-            %span.hidden-desktop= t('g.bids')
-          - if @project.bids.submitted.where_open.count > 0
-            %span.badge.badge-info= @project.bids.submitted.where_open.count
+    %li{"class" => active_subnav?("bids")}
+      %a{"href" => project_bids_path(@project)}
+        %span= t('g.bids')
+        - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
+          %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
 
-    - if GlobalConfig.instance[:reviewer_leaderboard_enabled]
-      %li{"class" => active_page?("projects#reviewer_leaderboard")}
-        %a{"href" => reviewer_leaderboard_project_path(@project)}
-          = t('g.reviewer_leaderboard')
+    %li{"class" => active_subnav?("public_posting")}
+      %a{"href" => edit_project_path(@project)}
+        %span= t('g.public_posting')
+        - if @project.questions.unanswered.count > 0
+          %span.badge.badge-info= @project.questions.unanswered.count
 
-    - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
-      %li{"class" => active_page?("questions#index")}
-        %a{"href" => project_questions_path(@project)}
-          %span
-            %span.visible-desktop= t('g.answer_questions')
-            %span.hidden-desktop= t('g.questions')
-          - if @project.questions.unanswered.count > 0
-            %span.badge.badge-info= @project.questions.unanswered.count
-
-    - if can? :edit_project_details, @project
-      %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
-        %a{"href" => edit_project_path(@project)}
-          %span
-            %span.visible-desktop= t('g.project_description')
-            %span.hidden-desktop= t('g.description')
-
-    - if can? :manage_response_fields, @project
-      %li{"class" => active_page?("projects#response_fields")}
-        =link_to t('g.response_fields'), response_fields_project_path(@project)
 
     - if GlobalConfig.instance[:comments_enabled] && (can? :read_and_write_project_comments, @project)
       %li{"class" => active_page?("projects#comments")}
-        =link_to t('g.comments'), comments_project_path(@project)
+        =link_to t('g.discuss'), comments_project_path(@project)
 
-    - if can? :access_reports, @project
-      %li{"class" => "#{active_page?("reports")} #{if !@project.posted? then 'disabled' end}"}
-        = link_to t('g.reports'), @project.posted? ? bids_over_time_project_reports_path(@project) : '#', |
-            "data-toggle" => if !@project.posted? then "tooltip" end, |
-            "title" => if !@project.posted? then t('.reports_available_after_post') end
+    %li{"class" => active_subnav?("stats")}
+      %a{"href" => bids_over_time_project_reports_path(@project)}
+        %span= t('g.stats')
 
     %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
       =link_to t('g.admin'), project_collaborators_path(@project)
 
-    %li.pull-right{"class" => active_page?("projects#show")}
-      %a{"href" => project_path(@project)}= t('g.view')
+
+- if active_subnav?("bids")
+  .subnav.project-subnav
+    %ul.nav.nav-pills
+      %li{"class" => active_page?("bids")}
+        %a{"href" => project_bids_path(@project)}
+          = t('g.review_bids')
+          / - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
+          /   %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
+
+      - if can? :manage_response_fields, @project
+        %li{"class" => active_page?("projects#response_fields")}
+          %a{"href" => response_fields_project_path(@project)}= t('g.edit_response_fields')
+
+      %li{"class" => active_page?("projects#review_mode")}
+        %a{"href" => review_mode_project_path(@project)}= t('g.change_review_mode')
+
+- if active_subnav?("public_posting")
+  .subnav.project-subnav
+    %ul.nav.nav-pills
+      - if can? :edit_project_details, @project
+        %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
+          %a{"href" => edit_project_path(@project)}
+            = t('g.edit')
+
+      - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
+        %li{"class" => active_page?("questions#index")}
+          %a{"href" => project_questions_path(@project)}
+            = t('g.answer_questions')
+            / - if @project.questions.unanswered.count > 0
+            /   %span.badge.badge-info= @project.questions.unanswered.count
+
+- if active_subnav?("stats")
+  .subnav.project-subnav
+    %ul.nav.nav-pills
+      - if can? :access_reports, @project
+        %li{"class" => "#{active_page?("reports")} #{if !@project.posted? then 'disabled' end}"}
+          = link_to t('g.reports'), @project.posted? ? bids_over_time_project_reports_path(@project) : '#', |
+              "data-toggle" => if !@project.posted? then "tooltip" end, |
+              "title" => if !@project.posted? then t('.reports_available_after_post') end
+
+      - if GlobalConfig.instance[:reviewer_leaderboard_enabled]
+        %li{"class" => active_page?("projects#reviewer_leaderboard")}
+          %a{"href" => reviewer_leaderboard_project_path(@project)}
+            = t('g.reviewer_leaderboard')
+
+- if active_subnav?("admin")
+  .subnav.project-subnav
+    %ul.nav.nav-pills
+      %li{"class" => active_page?("collaborators#index")}
+        =link_to t('g.collaborators'), project_collaborators_path(@project)
+
+      - if can? :import_bids, @project
+        %li{"class" => active_page?("projects#import_csv")}
+          =link_to t('g.import_bids_from_csv'), import_csv_project_path(@project)
+
+      - if can? :export_bids, @project
+        %li{"class" => active_page?("projects#export_csv")}
+          =link_to t('g.export_bids'), export_csv_project_path(@project)
+

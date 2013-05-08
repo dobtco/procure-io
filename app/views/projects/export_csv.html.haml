@@ -2,8 +2,7 @@
 
 = render "projects/officer_nav"
 
-= render layout: "projects/admin_sidebar" do
-  %p= t('projects.export_csv.description', site_name: t('g.site_name'))
+%p= t('projects.export_csv.description', site_name: t('g.site_name'))
 
-  %div
-    = link_to t('projects.export_csv.link_text', count: @project.bids.submitted.count), export_csv_project_path(@project), class: "btn btn-inverse", method: :post
+%div
+  = link_to t('projects.export_csv.link_text', count: @project.bids.submitted.count), export_csv_project_path(@project), class: "btn btn-inverse", method: :post

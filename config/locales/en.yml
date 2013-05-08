@@ -131,6 +131,7 @@ en:
     "careful!": "Careful!"
     categories: Categories
     category: Category
+    change_review_mode: Change Review Mode
     characters: characters
     click_to_edit: Click to edit
     collaborators: Collaborators
@@ -165,6 +166,7 @@ en:
     did_you_forget_your_password:
       line_html: "Did you %{link}?"
       link: forget your password
+    discuss: Discuss
     dismiss: Dismiss
     dismissed: Dismissed
     dismissed_bids: Dismissed Bids
@@ -174,6 +176,7 @@ en:
     edit_amendment: Edit Amendment
     edit_description: Edit Description
     edit_labels: Edit Labels
+    edit_response_fields: Edit Response Fields
     editing: Editing
     email_address: Email Address
     email_notifications: Email Notifications
@@ -267,6 +270,7 @@ en:
     project_listings: Project Listings
     project_listings_on_site_name: "Project listings on %{site_name}."
     project_title: Project Title
+    public_posting: Public Posting
     questions: Questions
     read_more: Read more
     remove: Remove
@@ -310,6 +314,7 @@ en:
       vendor_see: Can the vendor see this attribute?
     response_fields: Response Fields
     restore_this_version: Restore this version
+    review: Review
     review_bids: Review Bids
     review_mode: Review Mode
     reviewer_leaderboard: Reviewer Leaderboard
@@ -343,6 +348,7 @@ en:
     sign_up: Sign up
     site_name: Procure.io
     starred_bids: Starred Bids
+    stats: Stats
     status: Status
     submit: Submit
     submit_bid: Submit Bid

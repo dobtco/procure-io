@@ -13,6 +13,21 @@ module ApplicationHelper
     end
   end
 
+  def active_subnav?(name)
+    case name
+    when "bids"
+      active_page?("bids") || active_page?("projects#review_mode") || active_page?("projects#response_fields")
+    when "public_posting"
+      active_page?("projects#edit") || active_page?("questions#index")
+    when "stats"
+      active_page?("reports") || active_page?("projects#reviewer_leaderboard")
+    when "admin"
+      active_page?("projects#export_csv") || active_page?("projects#import_csv") || active_page?("collaborators#index")
+    else
+      false
+    end
+  end
+
   def watch_button(watchable, tooltip_text = nil, tooltip_placement = nil)
     path = watches_path(watchable.class.name, watchable)
     name = watchable.class.name
