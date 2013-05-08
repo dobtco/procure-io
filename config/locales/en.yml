@@ -176,6 +176,7 @@ en:
     edit_amendment: Edit Amendment
     edit_description: Edit Description
     edit_labels: Edit Labels
+    edit_posting: Edit Posting
     edit_response_fields: Edit Response Fields
     editing: Editing
     email_address: Email Address
@@ -271,7 +272,7 @@ en:
     project_listings: Project Listings
     project_listings_on_site_name: "Project listings on %{site_name}."
     project_title: Project Title
-    public_posting: Public Posting
+    q_and_a: "Q&A"
     questions: Questions
     read_more: Read more
     remove: Remove
@@ -382,6 +383,7 @@ en:
     vendor_registration_form: Vendor Registration Form
     vendors: Vendors
     view: View
+    view_posting: View Posting
     view_results: View Results
     watched_projects: Watched Projects
     wufoo_integration: Wufoo Integration

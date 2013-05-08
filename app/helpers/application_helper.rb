@@ -17,14 +17,21 @@ module ApplicationHelper
     case name
     when "bids"
       active_page?("bids") || active_page?("projects#review_mode") || active_page?("projects#response_fields")
-    when "public_posting"
-      active_page?("projects#edit") || active_page?("questions#index")
     when "stats"
       active_page?("reports") || active_page?("projects#reviewer_leaderboard")
     when "admin"
       active_page?("projects#export_csv") || active_page?("projects#import_csv") || active_page?("collaborators#index")
     else
       false
+    end
+  end
+
+  def can_view_subnav?(name)
+    case name
+    when "bids"
+      (can? :read_bids, @project) || (can? :manage_response_fields, @project) || (can? :change_review_mode, @project)
+    when "stats"
+      (can? :access_reports, @project) || GlobalConfig.instance[:reviewer_leaderboard_enabled]
     end
   end
 

@@ -13,7 +13,7 @@
           = t('g.open_for_bids')
 
     %a.btn.pull-right.view-project-button{"href" => project_path(@project)}
-      = t('g.view')
+      = t('g.view_posting')
       %i.icon-share-alt
 
     != watch_button(@project, t('tooltips.watch_project'), "bottom")
@@ -21,61 +21,56 @@
   .clearfix
 
   %ul.nav.nav-tabs
-    %li{"class" => active_subnav?("bids")}
-      %a{"href" => project_bids_path(@project)}
-        %span= t('g.bids')
-        - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
-          %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
+    - if can_view_subnav?("bids")
+      %li{"class" => active_subnav?("bids")}
+        %a{"href" => project_bids_path(@project)}
+          %span= t('g.bids')
+          - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
+            %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
 
-    %li{"class" => active_subnav?("public_posting")}
-      %a{"href" => edit_project_path(@project)}
-        %span= t('g.public_posting')
-        - if @project.questions.unanswered.count > 0
-          %span.badge.badge-info= @project.questions.unanswered.count
+    - if can? :edit_project_details, @project
+      %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
+        %a{"href" => edit_project_path(@project)}
+          = t('g.edit_posting')
+
+    - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
+      %li{"class" => active_page?("questions#index")}
+        %a{"href" => project_questions_path(@project)}
+          = t('g.q_and_a')
+          - if @project.questions.unanswered.count > 0
+            %span.badge.badge-info= @project.questions.unanswered.count
 
 
     - if GlobalConfig.instance[:comments_enabled] && (can? :read_and_write_project_comments, @project)
       %li{"class" => active_page?("projects#comments")}
         =link_to t('g.discuss'), comments_project_path(@project)
 
-    %li{"class" => active_subnav?("stats")}
-      %a{"href" => bids_over_time_project_reports_path(@project)}
-        %span= t('g.stats')
+    - if can_view_subnav?("stats")
+      %li{"class" => active_subnav?("stats")}
+        %a{"href" => bids_over_time_project_reports_path(@project)}
+          %span= t('g.stats')
 
-    %li{"class" => active_page?("collaborators") || active_page?("projects#import_csv") || active_page?("projects#export_csv") || active_page?("projects#wufoo")}
+    %li{"class" => active_subnav?("admin")}
       =link_to t('g.admin'), project_collaborators_path(@project)
 
 
 - if active_subnav?("bids")
   .subnav.project-subnav
     %ul.nav.nav-pills
-      %li{"class" => active_page?("bids")}
-        %a{"href" => project_bids_path(@project)}
-          = t('g.review_bids')
-          / - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
-          /   %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
+      - if can? :read_bids, @project
+        %li{"class" => active_page?("bids")}
+          %a{"href" => project_bids_path(@project)}
+            = t('g.review_bids')
+            / - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
+            /   %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
 
       - if can? :manage_response_fields, @project
         %li{"class" => active_page?("projects#response_fields")}
           %a{"href" => response_fields_project_path(@project)}= t('g.edit_response_fields')
 
-      %li{"class" => active_page?("projects#review_mode")}
-        %a{"href" => review_mode_project_path(@project)}= t('g.change_review_mode')
-
-- if active_subnav?("public_posting")
-  .subnav.project-subnav
-    %ul.nav.nav-pills
-      - if can? :edit_project_details, @project
-        %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
-          %a{"href" => edit_project_path(@project)}
-            = t('g.edit')
-
-      - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
-        %li{"class" => active_page?("questions#index")}
-          %a{"href" => project_questions_path(@project)}
-            = t('g.answer_questions')
-            / - if @project.questions.unanswered.count > 0
-            /   %span.badge.badge-info= @project.questions.unanswered.count
+      - if can? :change_review_mode, @project
+        %li{"class" => active_page?("projects#review_mode")}
+          %a{"href" => review_mode_project_path(@project)}= t('g.change_review_mode')
 
 - if active_subnav?("stats")
   .subnav.project-subnav
