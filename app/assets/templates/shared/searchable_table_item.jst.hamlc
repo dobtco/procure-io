@@ -1,0 +1,5 @@
+- for column in @columns
+  %td= if _.isFunction(column.accessor) then column.accessor(@model) else @model.get(column.accessor)
+
+%td
+  actions

@@ -1,0 +1,20 @@
+!= JST['shared/loading_indicator']()
+
+%form#filter-form.pull-left.faded-while-loading
+  %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
+
+.pull-right.faded-while-loading
+  #pagination-wrapper.pull-right
+  #sort-wrapper.pull-right
+
+.clearfix &nbsp;
+
+%table.table.faded-while-loading
+  %thead
+    %tr
+      - for column in @columns
+        %th= column.name
+
+      %th= I18n.t('g.actions')
+
+  %tbody.searchable-table-tbody

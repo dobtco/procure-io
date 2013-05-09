@@ -7,7 +7,13 @@ class OfficersController < ApplicationController
   before_filter only: [:edit, :update] { |c| c.authorize! :update, @officer }
 
   def index
-    @officers = Officer.order("id").paginate(page: params[:page])
+    respond_to do |format|
+      format.html {}
+      format.json do
+        search_results = Officer.searcher(params)
+        render_serialized search_results[:results], meta: search_results[:meta]
+      end
+    end
   end
 
   def edit

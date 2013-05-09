@@ -18,7 +18,28 @@ class Officer < ActiveRecord::Base
   has_many :questions
   has_many :bid_reviews, dependent: :destroy
 
+  has_searcher starting_query: Officer
+
+  pg_search_scope :full_search, against: [:name, :title],
+                                associated_against: { user: [:email], role: [:name] },
+                                using: { tsearch: { prefix: true } }
+
   belongs_to :role
+
+  def self.add_params_to_query(query, params)
+    if params[:q] && !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
+
+    # @todo sort role
+    if params[:sort] == "email"
+      query = query.order("lower(users.email) #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
+    elsif params[:sort] == "name" || params[:sort].blank?
+      query = query.order("NULLIF(lower(name), '') #{params[:direction] == 'asc' ? 'asc NULLS LAST' : 'desc' }")
+    end
+
+    query
+  end
 
   def self.event_types
     types = [:collaborator_added, :you_were_added, :bulk_collaborators_added]

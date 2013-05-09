@@ -2,22 +2,27 @@
 
 = render "admin/nav"
 
-%table.table
-  %thead
-    %tr
-      %th= Officer.human_attribute_name(:name)
-      %th= User.human_attribute_name(:email)
-      %th= Officer.human_attribute_name(:role)
-      %th= t('g.actions')
-
-  %tbody
-    - @officers.each do |officer|
-      %tr
-        %td= officer.name
-        %td= officer.user.email
-        %td= officer.role.name if officer.role
-        %td
-          - if can? :update, officer
-            = link_to t('g.edit'), edit_officer_path(officer)
-
-= will_paginate @officers, class: "pagination pagination-centered"
+#searchable-table-page.search-page
+  :javascript
+    new ProcureIo.Backbone.SearchableTable({
+      collection: ProcureIo.Backbone.OfficerList,
+      columns: [
+        {
+          name: "#{Officer.human_attribute_name(:name)}",
+          accessor: 'name',
+          sortKey: 'name',
+          defaultSort: 'asc'
+        },
+        {
+          name: "#{User.human_attribute_name(:email)}",
+          accessor: 'user.email',
+          sortKey: 'email'
+        },
+        {
+          name: "#{Officer.human_attribute_name(:role)}",
+          accessor: 'role.name',
+          sortKey: 'role'
+        }
+      ],
+      actions: ["edit", "destroy"]
+    });

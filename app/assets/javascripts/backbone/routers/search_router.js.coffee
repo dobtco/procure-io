@@ -5,7 +5,21 @@ ProcureIo.Backbone.SearchRouter = Backbone.Router.extend
   initialize: (collection, defaults) ->
     @collection = collection
     @filterOptions = new Backbone.Model(_.extend(defaults, {page: 1}))
-    window.f = @filterOptions
+
+  filteredHref: (newFilters) ->
+    existingParams = @filterOptions.toJSON()
+
+    for k, v of newFilters
+      existingParams[k] = v
+
+    newParams = {}
+
+    _.each existingParams, (val, key) ->
+      newParams[key] = val if val
+
+    # newParams["page"] ||= 1
+
+    "#{Backbone.history.fragment.split('?')[0]}?#{$.param(newParams)}"
 
   main: (id, params) ->
     params = $.urlParams()
