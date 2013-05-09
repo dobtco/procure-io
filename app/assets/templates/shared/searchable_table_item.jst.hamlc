@@ -2,4 +2,12 @@
   %td= if _.isFunction(column.accessor) then column.accessor(@model) else @model.get(column.accessor)
 
 %td
-  actions
+  - if @model.get('urls')?.edit
+    %a.btn.btn-small{"href" => @model.get('urls').edit}
+      %i.icon-pencil
+      = I18n.t('g.edit')
+
+  - if @model.get('urls')?.destroy
+    %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete"}
+      %i.icon-trash
+      = I18n.t('g.destroy')

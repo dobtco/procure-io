@@ -11,7 +11,7 @@ class OfficersController < ApplicationController
       format.html {}
       format.json do
         search_results = Officer.searcher(params)
-        render_serialized search_results[:results], meta: search_results[:meta]
+        render_serialized search_results[:results], meta: search_results[:meta], detailed: true
       end
     end
   end
