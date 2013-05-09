@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+include VendorWatchingProjectsSpecHelper
+
 describe 'Vendor Watching Projects' do
 
   before do
@@ -10,19 +12,17 @@ describe 'Vendor Watching Projects' do
     visit project_path(projects(:one))
 
     # Watch
-    page.should have_text "Watch Project"
-    find('.btn', text: "Watch Project").click
+    page.should_not be_watching
+    click_watch_button
     before_and_after_refresh do
-      page.should_not have_text "Watch Project"
-      page.should have_text "Watching Project"
+      page.should be_watching
     end
 
     # Unwatch
-    page.should have_text "Watching Project"
-    find('.btn', text: "Watching Project").click
+    page.should be_watching
+    click_unwatch_button
     before_and_after_refresh do
-      page.should_not have_text "Watching Project"
-      page.should have_text "Watch Project"
+      page.should_not be_watching
     end
   end
 
