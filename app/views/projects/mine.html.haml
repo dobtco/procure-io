@@ -7,7 +7,7 @@
 %table.table
   %thead
     %tr
-      %th= t('g.type')
+      %th= t('g.status')
       %th= t('g.project_title')
       %th= t('g.number_of_bids')
       %th= t('g.bids_due')
@@ -15,7 +15,9 @@
   %tbody
     - @projects.each do |project|
       %tr
-        %td= project.tags.map(&:name).join(', ')
+        %td
+          %a{"data-toggle" => "tooltip", "title" => project.status_text}
+            %span.badge.badge-indicator{"class" => project.status_badge_class}
         %td= link_to project.title, project_path(project)
         %td= link_to project.bids.submitted.count, project_bids_path(project)
         %td
@@ -23,5 +25,6 @@
             = project.bids_due_at.to_formatted_s(:readable)
           - else
             = t('g.open_for_bids')
+
 
 = will_paginate @projects, class: "pagination pagination-centered"

@@ -123,6 +123,7 @@ en:
     bid_from: Bid from
     bid_now: Bid Now
     bids: Bids
+    bids_closed: Bids closed
     bids_due: Bids due
     bids_due_on: Bids due on
     bids_due_on_date: "Bids due on %{date}"

@@ -119,6 +119,44 @@ class Project < ActiveRecord::Base
     end
   end
 
+  def status_badge_class
+    case status
+    when 'not_yet_posted'
+      ''
+    when 'open_with_due_date', 'open_for_bids'
+      'badge-info'
+    when 'closed_with_due_date'
+      'badge-warning'
+    end
+  end
+
+  def status_text
+    case status
+    when 'not_yet_posted'
+      I18n.t('g.not_yet_posted')
+    when 'open_with_due_date'
+      I18n.t('g.open_for_bids')
+    when 'open_for_bids'
+      I18n.t('g.open_for_bids')
+    when 'closed_with_due_date'
+      I18n.t('g.bids_closed')
+    end
+  end
+
+  def long_status_text
+    case status
+    when 'not_yet_posted'
+      I18n.t('g.not_yet_posted')
+    when 'open_with_due_date'
+      I18n.t("g.bids_due_on_date", date: bids_due_at.to_formatted_s(:readable))
+    when 'open_for_bids'
+      I18n.t('g.open_for_bids')
+    when 'closed_with_due_date'
+      I18n.t("g.bids_were_due_on_date", date: bids_due_at.to_formatted_s(:readable))
+    end
+  end
+
+
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,

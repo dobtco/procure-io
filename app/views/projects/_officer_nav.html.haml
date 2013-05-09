@@ -5,8 +5,8 @@
     %h3.span8
       = @project.title
       %small
-        %span.badge.badge-indicator{"class" => project_status_badge_class(@project.status)}
-        = project_status_text(@project.status)
+        %span.badge.badge-indicator{"class" => @project.status_badge_class}
+        = @project.long_status_text
 
     .span4
       %a.btn.pull-right.view-project-button{"href" => project_path(@project)}

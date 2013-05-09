@@ -116,30 +116,6 @@ module ApplicationHelper
     object
   end
 
-  def project_status_badge_class(status)
-    case status
-    when 'not_yet_posted'
-      ''
-    when 'open_with_due_date', 'open_for_bids'
-      'badge-info'
-    when 'closed_with_due_date'
-      'badge-warning'
-    end
-  end
-
-  def project_status_text(status)
-    case status
-    when 'not_yet_posted'
-      t('g.not_yet_posted')
-    when 'open_with_due_date'
-      t("g.bids_due_on_date", date: @project.bids_due_at.to_formatted_s(:readable))
-    when 'open_for_bids'
-      t('g.open_for_bids')
-    when 'closed_with_due_date'
-      t("g.bids_were_due_on_date", date: @project.bids_due_at.to_formatted_s(:readable))
-    end
-  end
-
   def fileupload_tag(name)
     %Q{
       <div class="fileupload fileupload-new" data-provides="fileupload">
