@@ -113,4 +113,19 @@ module ApplicationHelper
       </div>
     }
   end
+
+  def watch_button(watchable, opts = {})
+    %Q{
+      <div class="watch-button-wrapper #{opts[:class]}">
+        <script>
+          new ProcureIo.Backbone.WatchButton({
+            watchable_type: '#{watchable.class.name}',
+            watchable_id: '#{watchable.id}',
+            watching: #{current_user.watches?(watchable)},
+            description: "#{opts[:tooltip] || t('tooltips.watch_' + watchable.class.name.downcase)}"
+          });
+        </script>
+      </div>
+    }
+  end
 end

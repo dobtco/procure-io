@@ -1,6 +1,7 @@
 .btn-group
-  %button.btn.dropdown-toggle{"data-toggle" => "dropdown"}
+  %button.btn.dropdown-toggle{"data-toggle" => "dropdown", "class" => if @watching then "btn-inverse"}
     - if @watching
+      %i.icon-eye-open
       = I18n.t('g.watching')
     - else
       = I18n.t('g.not_watching')

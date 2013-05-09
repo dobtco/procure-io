@@ -13,14 +13,7 @@
         = t('g.view_posting')
         %i.icon-share-alt
 
-      .watch-button-wrapper.dropdown-left.action-header-btn
-        :javascript
-          new ProcureIo.Backbone.WatchButton({
-            watchable_type: 'project',
-            watchable_id: #{@project.id},
-            watching: #{current_user.watches?(@project)},
-            description: "#{t('tooltips.watch_project')}"
-          });
+      != watch_button @project, class: "dropdown-left action-header-btn"
 
   .clearfix
 
