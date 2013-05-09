@@ -104,20 +104,20 @@ class Project < ActiveRecord::Base
   end
 
   def open_for_bids?
-    !bids_due_at || (bids_due_at > Time.now)
+    posted? && (!bids_due_at || (bids_due_at > Time.now))
   end
 
   def status
-    if bids.awarded.count > 0
-      :awards_made
-    elsif !posted_at
-      :not_yet_posted
-    elsif bids_due_at && open_for_bids?
+    if bids_due_at && open_for_bids?
       :open_with_due_date
     elsif bids_due_at && !open_for_bids?
       :closed_with_due_date
-    else
+    elsif open_for_bids?
       :open_for_bids
+    elsif bids.awarded.count > 0
+      :awards_made
+    elsif !posted_at
+      :not_yet_posted
     end
   end
 
