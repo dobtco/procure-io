@@ -18,7 +18,7 @@ class Officer < ActiveRecord::Base
   has_many :questions
   has_many :bid_reviews, dependent: :destroy
 
-  has_searcher starting_query: Officer
+  has_searcher starting_query: Officer.joins("INNER JOIN users ON users.owner_id = officers.id AND users.owner_type = 'Officer'")
 
   pg_search_scope :full_search, against: [:name, :title],
                                 associated_against: { user: [:email], role: [:name] },

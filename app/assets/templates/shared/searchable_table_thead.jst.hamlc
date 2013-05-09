@@ -1,0 +1,12 @@
+%tr
+  - for column in @columns
+    %th
+      %a{"href" => @router.filteredHref({sort: column.sortKey, direction: (if @router.filterOptions.get('sort') is column.sortKey and @router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-updatefilter" => true}
+        = column.name
+        - if @router.filterOptions.get('sort') == column.sortKey
+          - if @router.filterOptions.get('direction') != 'asc'
+            %i.icon-chevron-down
+          - else # asc
+            %i.icon-chevron-up
+
+  %th= I18n.t('g.actions')

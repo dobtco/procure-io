@@ -31,9 +31,19 @@ ProcureIo.Backbone.SearchableTablePaginationView = Backbone.View.extend
 
   render: ->
     @$el.html JST['shared/searchable_table_pagination']
-      meta: @options.collection.meta
-      pages: @getPagesArray(@options.collection.meta)
-      router: @options.router
+      meta: @options.parentView.collection.meta
+      pages: @getPagesArray(@options.parentView.collection.meta)
+      router: @options.parentView.router
+
+ProcureIo.Backbone.SearchableTableTheadView = Backbone.View.extend
+  el: ".searchable-table-thead"
+
+  render: ->
+    @$el.html JST['shared/searchable_table_thead']
+      columns: @options.parentView.columns
+      router: @options.parentView.router
+
+    return @
 
 ProcureIo.Backbone.SearchableTableItemView = Backbone.View.extend
   tagName: "tr"
@@ -61,7 +71,7 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
 
     @collection.bind 'reset', @reset, @
     @collection.bind 'reset', @removeLoadingSpinner, @
-    @collection.bind 'reset', @renderPagination, @
+    @collection.bind 'reset', @renderSubviews, @
 
     @router = new ProcureIo.Backbone.SearchRouter @collection,
       sort: defaultColumn.sortKey
@@ -88,10 +98,13 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
     @router.navigate $(e.target).attr('href'), {trigger: true}
     e.preventDefault()
 
-  renderPagination: ->
-    @subviews['pagination'] ||= ( new ProcureIo.Backbone.SearchableTablePaginationView
-      router: @router
-      collection: @collection
+  renderSubviews: ->
+    (@subviews['pagination'] ||= new ProcureIo.Backbone.SearchableTablePaginationView
+      parentView: @
+    ).render()
+
+    (@subviews['thead'] ||= new ProcureIo.Backbone.SearchableTableTheadView
+      parentView: @
     ).render()
 
   reset: ->

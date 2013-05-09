@@ -10,11 +10,5 @@
 .clearfix &nbsp;
 
 %table.table.faded-while-loading
-  %thead
-    %tr
-      - for column in @columns
-        %th= column.name
-
-      %th= I18n.t('g.actions')
-
+  %thead.searchable-table-thead
   %tbody.searchable-table-tbody
