@@ -8,7 +8,7 @@
 
     .pull-right
       - if vendor_signed_in?
-        != watch_button(@project, "Watching this project will subscribe you to alerts about amendments.", "bottom")
+        != watch_button @project, class: "dropdown-left action-header-btn", tooltip: t('tooltips.watch_project_vendor')
 
       - if can? :collaborate_on, @project
         %a.btn.pull-right{"href" => correct_project_admin_path(@project)}

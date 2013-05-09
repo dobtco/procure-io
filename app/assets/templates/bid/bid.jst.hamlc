@@ -12,7 +12,7 @@
 
   .pull-right
 
-    != JST['shared/_watch']({watchable: @bid, model_name: "Bid"})
+    != ProcureIo.Backbone.WatchButtonHelper('bid', @bid, class: "dropdown-left")
 
     - if @abilities.labelBids
       .btn-group

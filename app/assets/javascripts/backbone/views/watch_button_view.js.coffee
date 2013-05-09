@@ -1,10 +1,9 @@
 ProcureIo.Backbone.WatchButton = Backbone.View.extend
-  el: ".watch-button-wrapper"
-
   events:
     "click a": "setWatching"
 
   initialize: ->
+    @$el = $(".#{@options.watchable_type}-watch-button")
     @watching = @options.watching
     @render()
 
@@ -12,6 +11,7 @@ ProcureIo.Backbone.WatchButton = Backbone.View.extend
     @$el.html JST['shared/watch_button']
       watching: @watching
       description: @options.description
+      modelName: @options.watchable_type
 
   setWatching: (e) ->
     if $(e.target).closest("a").hasClass('js-yes') && !@watching
@@ -28,3 +28,17 @@ ProcureIo.Backbone.WatchButton = Backbone.View.extend
       method: "post"
 
     @render()
+
+ProcureIo.Backbone.WatchButtonHelper = (className, watchable, opts = {}) ->
+  """
+    <span class="#{className}-watch-button watch-button #{opts.class}">
+      <script>
+        new ProcureIo.Backbone.WatchButton({
+          watchable_type: '#{className}',
+          watchable_id: '#{watchable.id}',
+          watching: #{watchable.watching},
+          description: "#{opts.tooltip || I18n.t('tooltips.watch_' + className)}"
+        });
+      </script>
+    </span>
+  """

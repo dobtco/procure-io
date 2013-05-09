@@ -248,7 +248,7 @@ en:
     no_answer: Not yet answered
     no_data_to_display: "Sorry, no data to display."
     not_watching: Not Watching
-    not_watching_description: You won't receive any alerts about this project.
+    not_watching_description: "You won't receive any alerts about this %{modelName}."
     not_yet_posted: Not yet posted
     notifications: Notifications
     number_of_bids: '# of Bids'
@@ -513,7 +513,9 @@ en:
 
 
   tooltips:
+    watch_bid: "Receive alerts about comments on this bid."
     watch_project: "Receive alerts about comments, bids, new collaborators, etc."
+    watch_project_vendor: "Watching this project will subscribe you to alerts about amendments."
 
   users:
     accept_invite:

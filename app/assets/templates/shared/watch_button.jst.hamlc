@@ -8,10 +8,10 @@
     %span.caret
   %ul.dropdown-menu
     %li
-      %a.js-yes{"href" => "#"}
+      %a.js-yes
         %span.title= I18n.t('g.watching')
         %span.description= @description
     %li
-      %a.js-no{"href" => "#"}
+      %a.js-no
         %span.title= I18n.t('g.not_watching')
-        %span.description= I18n.t('g.not_watching_description')
+        %span.description= I18n.t('g.not_watching_description', modelName: @modelName)

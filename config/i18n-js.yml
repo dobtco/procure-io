@@ -22,4 +22,4 @@
 #
 translations:
   - file: 'app/assets/javascripts/i18n_translations/translations.js'
-    only: ["*.g.*"]
+    only: ["*.g.*", "*.tooltips.*"]
