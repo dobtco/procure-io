@@ -1,8 +1,6 @@
-- provide :page_title, t('g.my_projects')
+- provide :page_action, t('g.mine')
 
-!=page_header t('g.my_projects')
-
-%a.btn.btn-small{"href" => new_project_path}= t('g.new_project')
+= render "projects/officer_subnav"
 
 %table.table
   %thead

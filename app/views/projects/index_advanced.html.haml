@@ -1,6 +1,14 @@
-- provide :page_title, t('g.browse_projects')
+- if signed_in?
+  - provide :page_action, t('g.browse')
 
-!=page_header t('g.browse_projects')
+  - if vendor_signed_in?
+    = render "projects/vendor_subnav"
+  - else # officer_signed_in?
+    = render "projects/officer_subnav"
+
+- else
+  - provide :page_title, t('g.browse_projects')
+  !=page_header t('g.browse_projects')
 
 #project-page
   :javascript

@@ -11,47 +11,15 @@
       .nav-collapse.collapse
         %ul.nav
           %li
-            %a{"href" => projects_path}= t('g.browse_projects')
+            %a{"href" => officer_signed_in? ? mine_projects_path : projects_path}= t('g.projects')
+
+          - if vendor_signed_in? && GlobalConfig.instance[:bid_submission_enabled]
+            %li
+              =link_to t('g.my_bids'), mine_bids_path
+
 
         %ul.nav.pull-right
           - if signed_in?
-            %li.dropdown
-              %a.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
-                %img.gravatar{"src" => current_user.gravatar_url}
-                #{current_user.owner.display_name}
-                %b.caret
-
-              %ul.dropdown-menu
-                - if officer_signed_in?
-                  %li
-                    =link_to t('g.my_projects'), mine_projects_path
-
-                - elsif vendor_signed_in?
-                  - if GlobalConfig.instance[:bid_submission_enabled]
-                    %li
-                      =link_to t('g.my_bids'), mine_bids_path
-
-                  - if GlobalConfig.instance[:watch_projects_enabled]
-                    %li
-                      =link_to t('g.watched_projects'), vendor_projects_watches_path
-
-                  - if GlobalConfig.instance[:save_searches_enabled]
-                    %li
-                      =link_to t('g.saved_searches'), saved_searches_path
-
-                %li
-                  =link_to t('g.settings'), settings_profile_path
-
-                - if user_is_admin_or_god?
-                  %li
-                    = link_to raw("<strong>#{t('g.admin')}</strong>"), officers_path
-
-            - if officer_signed_in?
-              - if can? :create, Project
-                %li
-                  %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => t('g.new_project')}
-                    %i.icon-pencil
-
             %li.dropdown
               %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('g.notifications'), "data-trigger" => "manual"}
                 %i.icon-bullhorn
@@ -62,9 +30,27 @@
                 %li.loading
                   %i.icon-refresh.icon-spin
 
-            %li
-              %a.link-icon{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow", "data-toggle" => "tooltip", "title" => t('g.sign_out'), "data-placement" => "bottom"}
-                %i.icon-signout
+            - if user_is_admin_or_god?
+              %li
+                %a.link-icon{"href" => officers_path, "data-toggle" => "tooltip", "title" => t('g.admin'), "data-placement" => "bottom"}
+                  %i.icon-cog
+
+
+            %li.dropdown
+              %a.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
+                %img.gravatar{"src" => current_user.gravatar_url}
+                #{current_user.owner.display_name}
+                %b.caret
+
+              %ul.dropdown-menu
+                %li
+                  =link_to t('g.settings'), settings_profile_path
+
+                %li
+                  %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow"}
+                    = t('g.sign_out')
+
+
 
           - else
             %li.dropdown

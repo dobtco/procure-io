@@ -1,0 +1,15 @@
+- provide :page_title, t('g.projects')
+
+%h3= t('g.projects')
+
+%ul.nav.nav-tabs
+  %li{"class" => active_page?("projects#index")}
+    =link_to t('g.browse'), projects_path
+
+  - if GlobalConfig.instance[:watch_projects_enabled]
+    %li{"class" => active_page?("watches#vendor_projects")}
+      =link_to t('g.watching'), vendor_projects_watches_path
+
+  - if GlobalConfig.instance[:save_searches_enabled]
+    %li{"class" => active_page?("saved_searches#index")}
+      =link_to t('g.saved_searches'), saved_searches_path

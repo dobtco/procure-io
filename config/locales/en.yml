@@ -130,6 +130,7 @@ en:
     bids_due_on_date: "Bids due on %{date}"
     bids_over_time: Bids over time
     bids_were_due_on_date: "Bids were due on %{date}"
+    browse: Browse
     browse_projects: Browse Projects
     "careful!": "Careful!"
     categories: Categories
@@ -232,6 +233,7 @@ en:
     link: Link
     live: Live
     loading: Loading...
+    mine: Mine
     my_bid: My Bid
     my_bids: My Bids
     my_projects: My Projects
@@ -270,6 +272,7 @@ en:
     price_range: Price Range
     profile: Profile
     project: Project
+    projects: Projects
     project_admin: Project Admin
     project_description: Project Description
     project_form_confirmation_message: "Thanks, your bid has been received!"
@@ -391,6 +394,7 @@ en:
     view_posting: View Posting
     view_results: View Results
     watched_projects: Watched Projects
+    watching: Watching
     wufoo_integration: Wufoo Integration
     x_to_x: '%{first} to %{last}'
 
