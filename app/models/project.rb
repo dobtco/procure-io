@@ -108,51 +108,59 @@ class Project < ActiveRecord::Base
   end
 
   def status
-    if !posted_at
-      'not_yet_posted'
+    if bids.awarded.count > 0
+      :awards_made
+    elsif !posted_at
+      :not_yet_posted
     elsif bids_due_at && open_for_bids?
-      'open_with_due_date'
+      :open_with_due_date
     elsif bids_due_at && !open_for_bids?
-      'closed_with_due_date'
+      :closed_with_due_date
     else
-      'open_for_bids'
+      :open_for_bids
     end
   end
 
   def status_badge_class
     case status
-    when 'not_yet_posted'
+    when :not_yet_posted
       ''
-    when 'open_with_due_date', 'open_for_bids'
+    when :open_with_due_date, :open_for_bids
       'badge-info'
-    when 'closed_with_due_date'
+    when :closed_with_due_date
       'badge-warning'
+    when :awards_made
+      'badge-success'
     end
   end
 
   def status_text
     case status
-    when 'not_yet_posted'
+    when :not_yet_posted
       I18n.t('g.not_yet_posted')
-    when 'open_with_due_date'
+    when :open_with_due_date
       I18n.t('g.open_for_bids')
-    when 'open_for_bids'
+    when :open_for_bids
       I18n.t('g.open_for_bids')
-    when 'closed_with_due_date'
+    when :closed_with_due_date
       I18n.t('g.bids_closed')
+    when :awards_made
+      I18n.t('g.awards_made')
     end
   end
 
   def long_status_text
     case status
-    when 'not_yet_posted'
+    when :not_yet_posted
       I18n.t('g.not_yet_posted')
-    when 'open_with_due_date'
+    when :open_with_due_date
       I18n.t("g.bids_due_on_date", date: bids_due_at.to_formatted_s(:readable))
-    when 'open_for_bids'
+    when :open_for_bids
       I18n.t('g.open_for_bids')
-    when 'closed_with_due_date'
+    when :closed_with_due_date
       I18n.t("g.bids_were_due_on_date", date: bids_due_at.to_formatted_s(:readable))
+    when :awards_made
+      I18n.t('g.awards_made')
     end
   end
 
