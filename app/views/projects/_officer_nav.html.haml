@@ -1,54 +1,51 @@
 - provide :page_title, @project.title
 
-.action-header-wrapper
-  .row
-    %h3.span8
-      = @project.title
-      %small
-        %span.badge.badge-indicator{"class" => @project.status_badge_class}
-        = @project.long_status_text
+%h3
+  = @project.title
+  %small
+    %span.badge.badge-indicator{"class" => @project.status_badge_class}
+    = @project.long_status_text
 
-    .span4
-      %a.btn.view-project-button.action-header-btn{"href" => project_path(@project)}
-        = t('g.view_posting')
-        %i.icon-share-alt
+.button-nav
+  %ul.nav.nav-tabs
+    - if can_view_subnav?("bids")
+      %li{"class" => active_subnav?("bids")}
+        %a{"href" => project_bids_path(@project)}
+          %span= t('g.bids')
+          - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
+            %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
 
-      != watch_button @project, class: "dropdown-left action-header-btn"
+    - if can? :edit_project_details, @project
+      %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
+        %a{"href" => edit_project_path(@project)}
+          = t('g.edit_posting')
 
-  .clearfix
-
-%ul.nav.nav-tabs
-  - if can_view_subnav?("bids")
-    %li{"class" => active_subnav?("bids")}
-      %a{"href" => project_bids_path(@project)}
-        %span= t('g.bids')
-        - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
-          %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
-
-  - if can? :edit_project_details, @project
-    %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
-      %a{"href" => edit_project_path(@project)}
-        = t('g.edit_posting')
-
-  - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
-    %li{"class" => active_page?("questions#index")}
-      %a{"href" => project_questions_path(@project)}
-        = t('g.q_and_a')
-        - if @project.questions.unanswered.count > 0
-          %span.badge.badge-info= @project.questions.unanswered.count
+    - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
+      %li{"class" => active_page?("questions#index")}
+        %a{"href" => project_questions_path(@project)}
+          = t('g.q_and_a')
+          - if @project.questions.unanswered.count > 0
+            %span.badge.badge-info= @project.questions.unanswered.count
 
 
-  - if GlobalConfig.instance[:comments_enabled] && (can? :read_and_write_project_comments, @project)
-    %li{"class" => active_page?("projects#comments")}
-      =link_to t('g.discuss'), comments_project_path(@project)
+    - if GlobalConfig.instance[:comments_enabled] && (can? :read_and_write_project_comments, @project)
+      %li{"class" => active_page?("projects#comments")}
+        =link_to t('g.discuss'), comments_project_path(@project)
 
-  - if can_view_subnav?("stats")
-    %li{"class" => active_subnav?("stats")}
-      %a{"href" => (can? :access_reports, @project) ? bids_over_time_project_reports_path(@project) : reviewer_leaderboard_project_path(@project)}
-        %span= t('g.stats')
+    - if can_view_subnav?("stats")
+      %li{"class" => active_subnav?("stats")}
+        %a{"href" => (can? :access_reports, @project) ? bids_over_time_project_reports_path(@project) : reviewer_leaderboard_project_path(@project)}
+          %span= t('g.stats')
 
-  %li{"class" => active_subnav?("admin")}
-    =link_to t('g.admin'), project_collaborators_path(@project)
+    %li{"class" => active_subnav?("admin")}
+      =link_to t('g.admin'), project_collaborators_path(@project)
+
+  .button-nav-group
+    != watch_button @project, class: "dropdown-left"
+
+    %a.btn.view-project-button{"href" => project_path(@project)}
+      = t('g.view_posting')
+      %i.icon-share-alt
 
 
 - if active_subnav?("bids")
