@@ -355,6 +355,7 @@ en:
     stats: Stats
     status: Status
     submit: Submit
+    submitting: Submitting...
     submit_bid: Submit Bid
     submitted_on: Submitted on
     successfully_updated_account: You successfully updated your account.
@@ -453,6 +454,7 @@ en:
       reports_available_after_post: Reports will be available after this project goes live.
 
     show:
+      no_questions: No one has asked a question yet.
       not_logged_in_alert:
         line_html: >
           To ask questions, subscribe to alerts, and bid on the project, either %{sign_up} or %{sign_in}.

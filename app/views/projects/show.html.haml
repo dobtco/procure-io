@@ -42,15 +42,22 @@
 
 
     - if GlobalConfig.instance[:questions_enabled]
-      %h4= t('g.questions')
+      %h4
+        = t('g.questions')
+
+        - if vendor_signed_in?
+          %small
+            %a.btn.btn-small#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question"} Ask question
+
       - if vendor_signed_in?
-        %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question"} Ask question
         #ask-question.collapse
-          = form_for [@project, Question.new] do |f|
-            = f.text_area :body, cols: nil, rows: 6, class: "span12"
+          = form_for [@project, Question.new], remote: true do |f|
+            = f.text_area :body, cols: nil, rows: 4, class: "span12"
             %br
-            = f.submit t('g.submit'), class: "btn btn-inverse"
+            = f.submit t('g.submit'), class: "btn btn-inverse", "data-loading-text" => t('g.submitting')
 
       #questions-list
-        :javascript
-          new ProcureIo.Backbone.QuestionPage({bootstrapData: #{@questions_json}, projectId: #{@project.id}});
+        - if @questions.count == 0
+          #no-questions= t('.no_questions')
+        - @questions.each do |question|
+          = render "questions/question", question: question

@@ -1,0 +1,10 @@
+.question.well
+  .question-body= question.body
+
+  - if !question.answer_body.blank?
+    %div.answer-body.collapse{"id" => "answer-body-#{question.id}"}
+      %p= question.answer_body
+      %span.answered-by #{I18n.t('g.answered_by')} #{question.officer.display_name} #{I18n.t('g.on')} #{question.updated_at.to_formatted_string(:readable)}
+    %a{"data-toggle" => "collapse", "data-target" => "#answer-body-#{question.id}", "data-toggle-text" => I18n.t('g.hide_answer')}= I18n.t('g.show_answer')
+  - else
+    .no-answer-body= I18n.t('g.no_answer')

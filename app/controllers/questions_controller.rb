@@ -11,8 +11,7 @@ class QuestionsController < ApplicationController
   before_filter only: [:index, :update] { |c| c.authorize! :answer_questions, @project }
 
   def create
-    question = @project.questions.create(body: params[:body], vendor_id: current_vendor.id)
-    render_serialized(question, VendorQuestionSerializer)
+    @question = @project.questions.create(body: params[:question][:body], vendor_id: current_vendor.id)
   end
 
   def index
