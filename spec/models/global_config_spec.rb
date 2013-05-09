@@ -8,8 +8,8 @@
 #  comments_enabled             :boolean          default(TRUE)
 #  questions_enabled            :boolean          default(TRUE)
 #  event_hooks                  :text
-#  created_at                   :datetime         not null
-#  updated_at                   :datetime         not null
+#  created_at                   :datetime
+#  updated_at                   :datetime
 #  amendments_enabled           :boolean          default(TRUE)
 #  watch_projects_enabled       :boolean          default(TRUE)
 #  save_searches_enabled        :boolean          default(TRUE)

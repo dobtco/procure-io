@@ -8,7 +8,5 @@ class CreateResponses < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "responses", "response_fields", :name => "responses_response_field_id_fk"
   end
 end

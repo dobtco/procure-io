@@ -8,8 +8,8 @@
 #  officer_id  :integer
 #  body        :text
 #  answer_body :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 require 'spec_helper'

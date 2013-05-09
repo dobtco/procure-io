@@ -10,8 +10,8 @@
 #  notification_preferences :text
 #  owner_id                 :integer
 #  owner_type               :string(255)
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
+#  created_at               :datetime
+#  updated_at               :datetime
 #  perishable_token         :string(255)      default(""), not null
 #  last_login_at            :datetime
 #  current_login_at         :datetime

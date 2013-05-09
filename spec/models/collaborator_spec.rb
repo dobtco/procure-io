@@ -6,8 +6,8 @@
 #  project_id          :integer
 #  officer_id          :integer
 #  owner               :boolean
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
+#  created_at          :datetime
+#  updated_at          :datetime
 #  added_by_officer_id :integer
 #  added_in_bulk       :boolean
 #

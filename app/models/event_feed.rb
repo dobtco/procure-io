@@ -6,8 +6,8 @@
 #  event_id   :integer
 #  user_id    :integer
 #  read       :boolean          default(FALSE)
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class EventFeed < ActiveRecord::Base

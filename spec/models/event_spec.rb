@@ -4,8 +4,8 @@
 #
 #  id              :integer          not null, primary key
 #  data            :text
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  created_at      :datetime
+#  updated_at      :datetime
 #  targetable_type :string(255)
 #  targetable_id   :integer
 #  event_type      :integer

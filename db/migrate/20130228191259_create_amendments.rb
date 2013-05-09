@@ -8,8 +8,5 @@ class CreateAmendments < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "amendments", "officers", :name => "amendments_posted_by_officer_id_fk", :column => "posted_by_officer_id"
-    add_foreign_key "amendments", "projects", :name => "amendments_project_id_fk"
   end
 end

@@ -7,8 +7,8 @@
 #  search_parameters :text
 #  name              :string(255)
 #  last_emailed_at   :datetime
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  created_at        :datetime
+#  updated_at        :datetime
 #
 
 class SavedSearch < ActiveRecord::Base

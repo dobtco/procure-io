@@ -6,8 +6,5 @@ class CreateBids < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "bids", "projects", :name => "bids_project_id_fk"
-    add_foreign_key "bids", "vendors", :name => "bids_vendor_id_fk"
   end
 end

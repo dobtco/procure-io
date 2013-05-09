@@ -10,7 +10,5 @@ class CreateComments < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "comments", "officers", :name => "comments_officer_id_fk"
   end
 end

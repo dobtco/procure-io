@@ -5,7 +5,5 @@ class CreateVendorProfiles < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "vendor_profiles", "vendors", :name => "vendor_profiles_vendor_id_fk"
   end
 end

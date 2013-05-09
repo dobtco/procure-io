@@ -7,7 +7,5 @@ class CreateProjectRevisions < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "project_revisions", "projects", :name => "project_revisions_project_id_fk"
   end
 end

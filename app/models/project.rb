@@ -6,8 +6,8 @@
 #  title                :string(255)
 #  body                 :text
 #  bids_due_at          :datetime
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
+#  created_at           :datetime
+#  updated_at           :datetime
 #  posted_at            :datetime
 #  posted_by_officer_id :integer
 #  total_comments       :integer          default(0), not null

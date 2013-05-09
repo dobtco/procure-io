@@ -8,8 +8,8 @@
 #  label                   :text
 #  field_type              :string(255)
 #  field_options           :text
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
+#  created_at              :datetime
+#  updated_at              :datetime
 #  sort_order              :integer          not null
 #  key_field               :boolean
 #  only_visible_to_admin   :boolean

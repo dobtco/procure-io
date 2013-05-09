@@ -6,8 +6,8 @@
 #  name        :string(255)
 #  role_type   :integer          default(1), not null
 #  permissions :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  created_at  :datetime
+#  updated_at  :datetime
 #  undeletable :boolean
 #  default     :boolean
 #

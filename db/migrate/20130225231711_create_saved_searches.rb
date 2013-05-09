@@ -8,7 +8,5 @@ class CreateSavedSearches < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "saved_searches", "vendors", :name => "saved_searches_vendor_id_fk"
   end
 end

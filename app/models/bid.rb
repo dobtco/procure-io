@@ -5,8 +5,8 @@
 #  id                      :integer          not null, primary key
 #  vendor_id               :integer
 #  project_id              :integer
-#  created_at              :datetime         not null
-#  updated_at              :datetime         not null
+#  created_at              :datetime
+#  updated_at              :datetime
 #  submitted_at            :datetime
 #  dismissed_at            :datetime
 #  dismissed_by_officer_id :integer

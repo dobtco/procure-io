@@ -8,9 +8,5 @@ class CreateBidReviews < ActiveRecord::Migration
 
       t.timestamps
     end
-
-    add_foreign_key "bid_reviews", "bids", :name => "bid_reviews_bid_id_fk"
-    add_foreign_key "bid_reviews", "officers", :name => "bid_reviews_officer_id_fk"
-
   end
 end

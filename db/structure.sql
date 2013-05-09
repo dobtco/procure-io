@@ -1459,6 +1459,14 @@ ALTER TABLE ONLY bids
 
 
 --
+-- Name: collaborators_added_by_officer_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY collaborators
+    ADD CONSTRAINT collaborators_added_by_officer_id_fk FOREIGN KEY (added_by_officer_id) REFERENCES officers(id);
+
+
+--
 -- Name: collaborators_officer_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1491,6 +1499,14 @@ ALTER TABLE ONLY event_feeds
 
 
 --
+-- Name: event_feeds_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY event_feeds
+    ADD CONSTRAINT event_feeds_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: labels_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1499,11 +1515,27 @@ ALTER TABLE ONLY labels
 
 
 --
+-- Name: officers_role_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY officers
+    ADD CONSTRAINT officers_role_id_fk FOREIGN KEY (role_id) REFERENCES roles(id);
+
+
+--
 -- Name: project_revisions_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY project_revisions
     ADD CONSTRAINT project_revisions_project_id_fk FOREIGN KEY (project_id) REFERENCES projects(id);
+
+
+--
+-- Name: project_revisions_saved_by_officer_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY project_revisions
+    ADD CONSTRAINT project_revisions_saved_by_officer_id_fk FOREIGN KEY (saved_by_officer_id) REFERENCES officers(id);
 
 
 --
@@ -1563,6 +1595,14 @@ ALTER TABLE ONLY responses
 
 
 --
+-- Name: responses_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY responses
+    ADD CONSTRAINT responses_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: saved_searches_vendor_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1576,6 +1616,14 @@ ALTER TABLE ONLY saved_searches
 
 ALTER TABLE ONLY vendor_profiles
     ADD CONSTRAINT vendor_profiles_vendor_id_fk FOREIGN KEY (vendor_id) REFERENCES vendors(id);
+
+
+--
+-- Name: watches_user_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY watches
+    ADD CONSTRAINT watches_user_id_fk FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1717,3 +1765,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130426182600');
 INSERT INTO schema_migrations (version) VALUES ('20130501234055');
 
 INSERT INTO schema_migrations (version) VALUES ('20130502175744');
+
+INSERT INTO schema_migrations (version) VALUES ('20130509205918');

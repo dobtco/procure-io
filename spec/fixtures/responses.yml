@@ -7,8 +7,8 @@
 #  responsable_type  :string(255)
 #  response_field_id :integer
 #  value             :text
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  created_at        :datetime
+#  updated_at        :datetime
 #  sortable_value    :string(255)
 #  upload            :string(255)
 #  user_id           :integer
