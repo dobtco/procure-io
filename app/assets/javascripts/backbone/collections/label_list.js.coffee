@@ -1,5 +1,5 @@
 ProcureIo.Backbone.LabelList = Backbone.Collection.extend
-  model: ProcureIo.Backbone.Label
+  model: Backbone.Model
   existingNames: ->
     @.reject((l) -> !l.get('id')).map (l) ->
       return l.attributes.name.toLowerCase()

@@ -1,3 +1,3 @@
 ProcureIo.Backbone.NotificationList = Backbone.Collection.extend
-  model: ProcureIo.Backbone.Notification
+  model: Backbone.Model
   url: "/notifications"

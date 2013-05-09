@@ -1,5 +1,5 @@
 ProcureIo.Backbone.ResponseFieldList = Backbone.Collection.extend
-  model: ProcureIo.Backbone.ResponseField
+  model: Backbone.DeepModel
 
   nextSortOrder: ->
     biggest = @.max((r) -> r.attributes.sort_order)
