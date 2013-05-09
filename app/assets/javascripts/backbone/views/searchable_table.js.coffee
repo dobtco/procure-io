@@ -52,6 +52,8 @@ ProcureIo.Backbone.SearchableTableItemView = Backbone.View.extend
       parentView: @options.parentView
       model: @model
 
+    @$el.find("[data-toggle=tooltip]").tooltip()
+
     return @
 
 ProcureIo.Backbone.SearchableTable = Backbone.View.extend
