@@ -125,17 +125,17 @@ describe Project do
 
   describe '#open_for_bids?' do
     it 'should be true when no bids_due_at is set' do
-      p = Project.new(bids_due_at: nil)
+      p = Project.new(bids_due_at: nil, posted_at: Time.now)
       p.open_for_bids?.should == true
     end
 
     it 'should be true when bids_due_at is in the future' do
-      p = Project.new(bids_due_at: Time.now + 1.day)
+      p = Project.new(bids_due_at: Time.now + 1.day, posted_at: Time.now)
       p.open_for_bids?.should == true
     end
 
     it 'should be false when bids_due_at is in the past' do
-      p = Project.new(bids_due_at: Time.now - 1.day)
+      p = Project.new(bids_due_at: Time.now - 1.day, posted_at: Time.now)
       p.open_for_bids?.should == false
     end
   end
