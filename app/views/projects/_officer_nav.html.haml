@@ -9,11 +9,18 @@
         = @project.long_status_text
 
     .span4
-      %a.btn.pull-right.view-project-button{"href" => project_path(@project)}
+      %a.btn.view-project-button.action-header-btn{"href" => project_path(@project)}
         = t('g.view_posting')
         %i.icon-share-alt
 
-      != watch_button(@project, t('tooltips.watch_project'), "bottom")
+      .watch-button-wrapper.dropdown-left.action-header-btn
+        :javascript
+          new ProcureIo.Backbone.WatchButton({
+            watchable_type: 'project',
+            watchable_id: #{@project.id},
+            watching: #{current_user.watches?(@project)},
+            description: "#{t('tooltips.watch_project')}"
+          });
 
   .clearfix
 

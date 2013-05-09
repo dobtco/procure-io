@@ -45,26 +45,6 @@ module ApplicationHelper
     end
   end
 
-  def watch_button(watchable, tooltip_text = nil, tooltip_placement = nil)
-    path = watches_path(watchable.class.name, watchable)
-    name = watchable.class.name
-
-    "
-      <span class='watch-button-wrapper #{watchable.watched_by?(current_user) ? 'watching' : ''}'>
-        <a href='#{path}' class='btn js-toggle-watch #{watchable.watched_by?(current_user) ? 'btn-inverse' : ''}'
-           data-method='post' data-remote='true' #{tooltip_text ? 'data-toggle="tooltip" data-delay="300" title="'+tooltip_text+'"' : ''}
-           #{tooltip_placement ? 'data-placement="'+tooltip_placement+'"' : ''}>
-          <span class='watch-button-text'>
-            Watch #{name} <i class='icon-star-empty'></i>
-          </span>
-          <span class='watching-button-text'>
-            Watching #{name} <i class='icon-star'></i>
-          </span>
-        </a>
-      </span>
-    "
-  end
-
   def full_title(page_title, page_action)
     base_title = I18n.t('g.site_name')
 
@@ -110,7 +90,7 @@ module ApplicationHelper
   end
 
   def find_polymorphic(name)
-    model = params[:"#{name}_type"].constantize
+    model = params[:"#{name}_type"].capitalize.constantize
     object = model.find(params[:"#{name}_id"])
     return unless object.is_a?(ActiveRecord::Base)
     object

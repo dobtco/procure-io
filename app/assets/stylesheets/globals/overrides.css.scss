@@ -77,3 +77,15 @@ a {
     font-size: 14px;
   }
 }
+
+.dropdown-menu {
+  span.title {
+    display: block;
+    font-weight: bold;
+  }
+
+  span.description {
+    color: #666;
+    font-size: 12px;
+  }
+}

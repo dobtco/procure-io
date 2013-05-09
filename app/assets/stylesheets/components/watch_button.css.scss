@@ -1,8 +1,16 @@
 .watch-button-wrapper {
-  .watching-button-text { display: none; }
+  ul.dropdown-menu {
+    width: 450px;
 
-  &.watching {
-    .watching-button-text { display: inherit; }
-    .watch-button-text { display: none; }
+    a {
+      white-space: normal;
+    }
+  }
+
+  &.dropdown-left {
+    ul.dropdown-menu {
+      right: 0;
+      left: auto;
+    }
   }
 }

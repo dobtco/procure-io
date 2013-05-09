@@ -10,12 +10,9 @@ class WatchesController < ApplicationController
   before_filter :authenticate_vendor!, only: [:vendor_projects]
 
   def post
-    current_user.send(current_user.watches?(@watchable) ? :unwatch! : :watch!, @watchable)
-
-    respond_to do |format|
-      format.html { redirect_to :back }
-      format.json {}
-    end
+    currently_watching = current_user.watches?(@watchable)
+    current_user.send(currently_watching ? :unwatch! : :watch!, @watchable)
+    render json: { status: "success", watching: currently_watching ? false : true }
   end
 
   def vendor_projects

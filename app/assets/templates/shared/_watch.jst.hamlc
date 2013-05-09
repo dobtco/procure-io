@@ -1,7 +1,0 @@
-%a.btn{"class" => (if @watchable.watching then 'btn-inverse'), "data-backbone-watch" => true, "data-toggle" => (if @tooltip_text? then "tooltip"), "title" => (if @tooltip_text? then @tooltip_text), "data-placement" => (if @tooltip_placement? then @tooltip_placement else "bottom")}
-  - if @watchable.watching
-    Watching #{@model_name}
-    %i.icon-star
-  - else
-    Watch #{@model_name}
-    %i.icon-star-empty
