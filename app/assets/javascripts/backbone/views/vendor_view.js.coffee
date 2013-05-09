@@ -94,7 +94,10 @@ ProcureIo.Backbone.VendorsAdminPage = Backbone.View.extend
 
       "/vendors#{if format? then '.'+format else ''}?#{$.param(newParams)}"
 
-    ProcureIo.Backbone.router = new ProcureIo.Backbone.VendorRouter()
+    ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Vendors,
+      sort: "name"
+      direction: "asc"
+
     ProcureIo.Backbone.router.filterOptions.bind "change", @setKeyFields, @
 
     @render()

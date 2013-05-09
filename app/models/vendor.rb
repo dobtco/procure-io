@@ -37,6 +37,10 @@ class Vendor < ActiveRecord::Base
   end
 
   def self.add_params_to_query(query, params)
+    if params[:q] && !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
+
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
       query = query.join_response_for_response_field_id(params[:sort])
@@ -45,12 +49,8 @@ class Vendor < ActiveRecord::Base
 
     elsif params[:sort] == "email"
       query = query.order("lower(users.email) #{params[:direction] == 'asc' ? 'asc' : 'desc' }")
-    elsif params[:sort] == "name" || !params[:sort]
+    elsif params[:sort] == "name" || params[:sort].blank?
       query = query.order("NULLIF(lower(name), '') #{params[:direction] == 'asc' ? 'asc NULLS LAST' : 'desc' }")
-    end
-
-    if params[:q] && !params[:q].blank?
-      query = query.full_search(params[:q])
     end
 
     query

@@ -10,6 +10,6 @@
   - provide :page_title, t('g.browse_projects')
   !=page_header t('g.browse_projects')
 
-#project-page
+#project-page.search-page
   :javascript
     new ProcureIo.Backbone.ProjectPage({allCategories: #{Tag.all_for_select2.to_json}});

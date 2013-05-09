@@ -102,6 +102,10 @@ class Bid < ActiveRecord::Base
 
     direction = params[:direction] == 'asc' ? 'asc' : 'desc'
 
+    if !params[:q].blank?
+      query = query.full_search(params[:q])
+    end
+
     if params[:sort].to_i > 0
       cast_int = ResponseField.find(params[:sort]).field_type.in?(ResponseField::SORTABLE_VALUE_INTEGER_FIELDS)
       query = query.join_responses_for_response_field_id(params[:sort])
@@ -115,10 +119,6 @@ class Bid < ActiveRecord::Base
       query = query.order("bids.created_at #{direction}")
     elsif params[:sort] == "name" || params[:sort].blank?
       query = query.order("COALESCE(vendors.name, bids.bidder_name) #{direction}, bids.created_at #{direction}")
-    end
-
-    if !params[:q].blank?
-      query = query.full_search(params[:q])
     end
 
     query

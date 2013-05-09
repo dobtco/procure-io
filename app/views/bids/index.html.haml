@@ -2,7 +2,7 @@
 
 = render "projects/officer_nav"
 
-#bid-review-page
+#bid-review-page.search-page
   :javascript
     new ProcureIo.Backbone.BidReviewPage({
       project: #{ProjectSerializer.new(@project, root: false).to_json},

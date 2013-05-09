@@ -496,7 +496,12 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         "/projects/#{@options.projectId}/bids"
 
 
-    ProcureIo.Backbone.router = new ProcureIo.Backbone.BidReviewRouter()
+    ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Bids,
+      f1: "all"
+      f2: "open"
+      sort: "name"
+      direction: "asc"
+
     ProcureIo.Backbone.router.filterOptions.bind "change", @setKeyFields, @
     ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
 

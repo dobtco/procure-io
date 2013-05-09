@@ -73,7 +73,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
 
       "/projects#{if format? then '.'+format else ''}?#{$.param(newParams)}"
 
-    ProcureIo.Backbone.router = new ProcureIo.Backbone.ProjectRouter()
+    ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Projects,
+      sort: "posted_at"
 
     @allCategories = @options.allCategories
 
