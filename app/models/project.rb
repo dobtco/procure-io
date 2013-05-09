@@ -107,6 +107,18 @@ class Project < ActiveRecord::Base
     !bids_due_at || (bids_due_at > Time.now)
   end
 
+  def status
+    if !posted_at
+      'not_yet_posted'
+    elsif bids_due_at && open_for_bids?
+      'open_with_due_date'
+    elsif bids_due_at && !open_for_bids?
+      'closed_with_due_date'
+    else
+      'open_for_bids'
+    end
+  end
+
   private
   def after_post_by_officer(officer)
     comments.create(officer_id: officer.id,
