@@ -35,4 +35,4 @@ ProcureIo.Backbone.SearchRouter = Backbone.Router.extend
 
     $(".search-page").addClass 'loading'
 
-    @collection.fetch({data: @filterOptions.toJSON()})
+    @collection.fetch({data: _.extend(@filterOptions.toJSON(), {searcher: true})})

@@ -2,27 +2,42 @@
 
 = render "projects/officer_subnav"
 
-%table.table
-  %thead
-    %tr
-      %th= t('g.status')
-      %th= t('g.project_title')
-      %th= t('g.number_of_bids')
-      %th= t('g.bids_due')
+#searchable-table-page.search-page
+  :javascript
+    new ProcureIo.Backbone.SearchableTable({
+      collection: ProcureIo.Backbone.ProjectList,
+      columns: [
+        {
+          name: "#{t('g.status')}",
+          accessor: function(model){
+            return "<a data-toggle='tooltip' title='"+model.get('status_text')+"'>\
+              <span class='badge badge-indicator "+model.get('status_badge_class')+"'></span>\
+            </a>";
+          }
+          ,
+          sortKey: 'name',
+          defaultSort: 'asc'
+        },
+        {
+          name: "#{Project.human_attribute_name(:title)}",
+          accessor: function(model){
+            return "<a href='/projects/"+model.get('id')+"/edit'>" + model.get('title') + "</a>";
+          },
+          sortKey: 'title',
+        },
+        {
+          name: "#{t('g.number_of_bids')}",
+          accessor: 'bids_count',
+          sortKey: 'bids_count',
+        },
+        {
+          name: "#{t('g.bids_due')}",
+          accessor: 'bids_due_at',
+          sortKey: 'bids_due',
+        }
+      ],
+      actions: false
+    });
 
-  %tbody
-    - @projects.each do |project|
-      %tr
-        %td
-          %a{"data-toggle" => "tooltip", "title" => project.status_text}
-            %span.badge.badge-indicator{"class" => project.status_badge_class}
-        %td= link_to project.title, project_path(project)
-        %td= link_to project.bids.submitted.count, project_bids_path(project)
-        %td
-          - if project.bids_due_at
-            = project.bids_due_at.to_formatted_s(:readable)
-          - else
-            = t('g.open_for_bids')
 
-
-= will_paginate @projects, class: "pagination pagination-centered"
+/ = will_paginate @projects, class: "pagination pagination-centered"

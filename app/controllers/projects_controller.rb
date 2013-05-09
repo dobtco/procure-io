@@ -49,7 +49,13 @@ class ProjectsController < ApplicationController
   end
 
   def mine
-    @projects = current_officer.projects.order("title").paginate(page: params[:page])
+    respond_to do |format|
+      format.html {}
+      format.json do
+        search_results = Project.searcher(params, starting_query: current_officer.projects)
+        render_serialized(search_results[:results], MyProjectSerializer, meta: search_results[:meta])
+      end
+    end
   end
 
   def show

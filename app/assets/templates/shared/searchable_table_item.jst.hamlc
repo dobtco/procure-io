@@ -1,13 +1,14 @@
-- for column in @columns
-  %td= if _.isFunction(column.accessor) then column.accessor(@model) else @model.get(column.accessor)
+- for column in @parentView.options.columns
+  %td!= if _.isFunction(column.accessor) then column.accessor(@model) else @model.get(column.accessor)
 
-%td
-  - if @model.get('urls')?.edit
-    %a.btn.btn-small{"href" => @model.get('urls').edit}
-      %i.icon-pencil
-      = I18n.t('g.edit')
+- unless @parentView.options.actions? && @parentView.options.actions == false
+  %td
+    - if @model.get('urls')?.edit
+      %a.btn.btn-small{"href" => @model.get('urls').edit}
+        %i.icon-pencil
+        = I18n.t('g.edit')
 
-  - if @model.get('urls')?.destroy
-    %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete"}
-      %i.icon-trash
-      = I18n.t('g.destroy')
+    - if @model.get('urls')?.destroy
+      %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete"}
+        %i.icon-trash
+        = I18n.t('g.destroy')

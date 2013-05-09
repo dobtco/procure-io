@@ -40,8 +40,7 @@ ProcureIo.Backbone.SearchableTableTheadView = Backbone.View.extend
 
   render: ->
     @$el.html JST['shared/searchable_table_thead']
-      columns: @options.parentView.columns
-      router: @options.parentView.router
+      parentView: @options.parentView
 
     return @
 
@@ -50,7 +49,7 @@ ProcureIo.Backbone.SearchableTableItemView = Backbone.View.extend
 
   render: ->
     @$el.html JST['shared/searchable_table_item']
-      columns: @options.parentView.columns
+      parentView: @options.parentView
       model: @model
 
     return @
@@ -64,8 +63,7 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
 
   initialize: ->
     @subviews = {}
-    @columns = @options.columns
-    defaultColumn = _.find @columns, (c) -> c.defaultSort?
+    defaultColumn = _.find @options.columns, (c) -> c.defaultSort?
 
     @collection = new @options.collection
 
@@ -84,7 +82,7 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
 
   render: ->
     @$el.html JST['shared/searchable_table']
-      columns: @columns
+      options: @options
 
     rivets.bind @$el,
       filterOptions: @router.filterOptions
