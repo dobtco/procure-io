@@ -2,6 +2,22 @@
 
 = render "admin/nav"
 
-#vendors-admin-page.search-page
+#searchable-table-page.search-page
   :javascript
-    new ProcureIo.Backbone.VendorsAdminPage({key_fields: #{GlobalConfig.instance.key_fields.to_json}, response_fields: #{@response_fields_json}});
+    new ProcureIo.Backbone.SearchableTable({
+      collection: ProcureIo.Backbone.VendorList,
+      columns: [
+        {
+          name: "#{Vendor.human_attribute_name(:name)}",
+          accessor: 'name',
+          sortKey: 'name',
+          defaultSort: 'asc'
+        },
+        {
+          name: "#{User.human_attribute_name(:email)}",
+          accessor: 'user.email',
+          sortKey: 'email'
+        }
+      ],
+      actions: ["edit", "destroy"]
+    });
