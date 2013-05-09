@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+include LoggingInSpecHelper
+
 describe "Logging In" do
 
   subject { page }
@@ -10,9 +12,14 @@ describe "Logging In" do
       fill_in "Email", with: "adam@test.com"
       fill_in "Password", with: "password"
       click_button "Sign in"
-      page.should have_selector("i.icon-signout")
+      page.should be_logged_in
       page.should have_text I18n.t("flashes.valid_login")
       current_path.should == projects_path
+
+      # and then log out
+      click_link I18n.t('g.sign_out')
+      current_path.should == root_path
+      page.should_not be_logged_in
     end
   end
 
@@ -24,7 +31,7 @@ describe "Logging In" do
       find(".signin-page-input-email").set "adam@test.com"
       find(".signin-page-input-password").set "password"
       find(".signin-page-submit-button").click
-      page.should have_selector("i.icon-signout")
+      page.should be_logged_in
       page.should have_text I18n.t("flashes.valid_login")
       current_path.should == projects_path
     end
@@ -60,7 +67,7 @@ describe "Logging In" do
       it "should redirect to proper path" do
         find(".signin-page-input-password").set "password"
         find(".signin-page-submit-button").click
-        page.should have_selector("i.icon-signout")
+        page.should be_logged_in
         page.should have_text I18n.t("flashes.valid_login")
         current_path.should == projects_path
       end
