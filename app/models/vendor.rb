@@ -20,7 +20,7 @@ class Vendor < ActiveRecord::Base
   has_one :vendor_profile, dependent: :destroy
   has_many :responses, through: :vendor_profile
 
-  has_searcher starting_query: Vendor.joins(:user).joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
+  has_searcher starting_query: Vendor.joins("INNER JOIN users ON users.owner_id = vendors.id AND users.owner_type = 'Vendor'").joins("LEFT JOIN vendor_profiles ON vendor_profiles.vendor_id = vendors.id")
 
   scope :join_response_for_response_field_id, -> (response_field_id) {
     joins(sanitize_sql_array(["LEFT JOIN responses ON responses.responsable_id = vendor_profiles.id
