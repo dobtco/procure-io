@@ -3,17 +3,7 @@
 - if !signed_in?
   .alert.alert-info= t('.not_logged_in_alert.line_html', sign_in: link_to(t('.not_logged_in_alert.sign_in'), sign_in_path), sign_up: link_to(t('.not_logged_in_alert.sign_up'), new_vendor_path))
 
-.action-header-wrapper
-  .row
-    %h3{"class" => if (can? :collaborate_on, @project) then "span9" else "span12" end}
-      = @project.title
-      = render "projects/header_status"
-
-    - if can? :collaborate_on, @project
-      .span3
-        %a.btn.btn-inverse.pull-right{"href" => correct_project_admin_path(@project)}
-          = t("g.project_admin")
-          %i.icon-share-alt
+= render "projects/header_frontend"
 
 .row-fluid
   .span7
@@ -38,29 +28,28 @@
           %p!= amendment.body
 
   .span5
-    - if vendor_signed_in?
-      != watch_button(@project, "Watching this project will subscribe you to alerts about amendments.")
+    - if current_vendor
+      - if GlobalConfig.instance[:bid_submission_enabled]
+        %h4= t('g.bid')
+        - if (bid = current_vendor.bid_for_project(@project)) && bid.submitted
+          = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
 
-    - if GlobalConfig.instance[:bid_submission_enabled]
-      - if current_vendor && (bid = current_vendor.bid_for_project(@project)) && bid.submitted
-        = t('.you_submitted_your_bid.line_html', link: link_to(t('.you_submitted_your_bid.link'), project_bid_path(@project, bid)), date: bid.submitted_at.to_formatted_s(:readable))
-
-      - elsif vendor_signed_in? && @project.open_for_bids?
-        - if (bid = current_vendor.bid_for_project(@project))
-          =link_to t('g.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
-        - else
-          =link_to t('g.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
+        - elsif vendor_signed_in? && @project.open_for_bids?
+          - if (bid = current_vendor.bid_for_project(@project))
+            =link_to t('g.continue_writing_bid'), new_project_bid_path(@project), class: "btn btn-inverse"
+          - else
+            =link_to t('g.bid_now'), new_project_bid_path(@project), class: "btn btn-inverse"
 
 
     - if GlobalConfig.instance[:questions_enabled]
       %h4= t('g.questions')
       - if vendor_signed_in?
+        %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question"} Ask question
         #ask-question.collapse
           = form_for [@project, Question.new] do |f|
-            = f.text_area :body, cols: nil, rows: nil, class: "span8"
+            = f.text_area :body, cols: nil, rows: 6, class: "span12"
             %br
             = f.submit t('g.submit'), class: "btn btn-inverse"
-        %a#ask-question-toggle{"data-toggle" => "collapse", "data-target" => "#ask-question", "data-toggle-text" => "(hide)"} Ask question
 
       #questions-list
         :javascript

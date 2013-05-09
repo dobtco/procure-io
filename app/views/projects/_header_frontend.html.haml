@@ -1,0 +1,14 @@
+.action-header-wrapper
+  %div
+    %h3.pull-left
+      = @project.title
+      = render "projects/header_status"
+
+    .pull-right
+      - if vendor_signed_in?
+        != watch_button(@project, "Watching this project will subscribe you to alerts about amendments.", "bottom")
+
+      - if can? :collaborate_on, @project
+        %a.btn.pull-right{"href" => correct_project_admin_path(@project)}
+          = t("g.project_admin")
+          %i.icon-cog

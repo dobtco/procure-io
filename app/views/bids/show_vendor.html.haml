@@ -1,6 +1,6 @@
 - provide :page_action, t('g.my_bid')
 
-!=page_header @project.title
+= render "projects/header_frontend"
 
 .row-fluid
   .span7
@@ -8,15 +8,16 @@
     %p= simple_format @project.body
 
   .span5
-    %h4= t('g.my_bid')
+    %h4.inline-block= t('g.my_bid')
 
-    %div
-      - if @bid.dismissed?
-        %span.badge.badge-important= t('g.dismissed')
-      - elsif @bid.awarded?
-        %span.badge.badge-success= t('g.awarded')
-      - else
-        %span.badge.badge-info= t('g.open')
+    - if @bid.dismissed?
+      %span.badge.badge-important= t('g.dismissed')
+    - elsif @bid.awarded?
+      %span.badge.badge-success= t('g.awarded')
+    - else
+      %span.badge.badge-info= t('g.open')
+
+    .clearfix
 
     = link_to t('.return_to_project_html'), @project
 
