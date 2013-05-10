@@ -26,4 +26,7 @@
 
       %tbody#bids-tbody
 
+    %small.pull-left
+      %a.js-collapse-sidebar{"data-toggle-text" => "Restore sidebar &rarr;"} &larr; Collapse sidebar
+
     #bids-footer-wrapper

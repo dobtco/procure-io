@@ -439,7 +439,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       $(".bid-tr-selected").removeClass("bid-tr-selected")
       @$el.addClass 'bid-tr-selected'
 
-
 ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   el: "#bid-review-page"
@@ -452,6 +451,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-label-id]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
     "submit .bid-search-form": "submitBidSearchForm"
+    "click .js-collapse-sidebar": "toggleCollapseSidebar"
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
@@ -608,3 +608,31 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   refetch: ->
     $("#bid-review-page").addClass 'loading'
     ProcureIo.Backbone.Bids.fetch {data: ProcureIo.Backbone.router.filterOptions.toJSON()}
+
+  toggleCollapseSidebar: ->
+    $sidebar = @$el.find(".sidebar-wrapper")
+    $rightSideSpan = @$el.find(".right-side-span")
+
+    if $sidebar.hasClass 'sidebar-collapsed'
+      # restore
+      $sidebar.toggleClass 'sidebar-collapsed'
+      $sidebar.removeClass('span1').addClass('span3')
+      $rightSideSpan.removeClass('span11').addClass('span9')
+      @$el.find(".search-query").attr('placeholder', @$el.find(".search-query").data('original-placeholder'))
+
+    else
+      # collapse
+      $preHides = $sidebar.find(".badge, #new-label-form")
+      $preHides.addClass('hide')
+      @$el.find(".search-query").data('original-placeholder', @$el.find(".search-query").attr('placeholder'))
+      @$el.find(".search-query").removeAttr('placeholder')
+      $sidebar.toggleClass 'sidebar-collapsed'
+
+      $sidebar.animate
+        width: 70
+      , 300, ->
+        $sidebar.css({width: ''})
+        $sidebar.removeClass('span3').addClass('span1')
+        $rightSideSpan.removeClass('span9').addClass('span11')
+        $preHides.removeClass('hide')
+

@@ -14,4 +14,4 @@
 
     %button.btn.btn-inverse= I18n.t('g.create_label')
 
-  %a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.t('g.edit_labels')
+  %a.smaller.js-edit-labels{"data-backbone-togglelabeladmin" => "true"}= I18n.t('g.edit_labels')

@@ -1,5 +1,5 @@
 %a{"href" => (if @filterOptions.label is @name then @filteredHref({label: false, page: false}) else @filteredHref({label: @name, page: false})), "data-backbone-updatefilter" => "true"}
   %span.rectangular-color-swatch{"style" => "background-color: ##{@color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
-  #{@name}
+  %span.label-name= @name
   %span.badge= @count
   %i.icon-remove-sign.pull-right

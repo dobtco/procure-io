@@ -42,6 +42,27 @@
         margin-top: -2px;
       }
     }
+
+    .short-name {
+      display: none;
+    }
+
+    &.sidebar-collapsed {
+      .badge,  #new-label-form, #label-admin-wrapper,
+      .label-name, .js-edit-labels, h5, .long-name,
+      .icon-remove-sign {
+        display: none;
+      }
+
+      ul > li {
+        width: 36px;
+        margin: 0 auto;
+      }
+
+      .short-name {
+        display: inline;
+      }
+    }
   }
 }
 
@@ -151,5 +172,13 @@
     width: 100%;
     box-sizing: border-box;
     height: auto;
+  }
+}
+
+#new-label-form {
+  input[type=text] {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
   }
 }
