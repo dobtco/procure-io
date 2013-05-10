@@ -24,7 +24,7 @@
           = I18n.t('g.dismiss')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form
+          %form.dropdown-form{"data-backbone-dismiss-form" => true}
             %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
             %label.checkbox
               %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}

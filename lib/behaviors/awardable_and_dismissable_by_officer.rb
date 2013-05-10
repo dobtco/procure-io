@@ -20,7 +20,7 @@ module Behaviors
       return false if self.dismissed_at
       self.dismissed_at = Time.now
       self.dismissed_by_officer_id = officer.id
-      self.dismissal_message = opts[:dismissal_message] if opts.has_key?(:dismissal_message)
+      self.dismissal_message = opts[:dismissal_message] if !opts[:dismissal_message].blank?
       self.show_dismissal_message_to_vendor = opts[:show_dismissal_message_to_vendor] if opts.has_key?(:show_dismissal_message_to_vendor)
 
       after_dismiss_by_officer(officer) if self.respond_to?(:after_dismiss_by_officer, true)

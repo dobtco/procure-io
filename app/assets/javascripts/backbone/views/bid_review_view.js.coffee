@@ -430,6 +430,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click .js-toggle-response-field": "toggleResponseField"
     "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
+    "submit [data-backbone-dismiss-form]": "dismissCheckedBids"
     "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
     "click [data-backbone-label-id]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
@@ -548,12 +549,18 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.router.navigate $a.attr('href'), {trigger: true}
     e.preventDefault()
 
-  dismissCheckedBids: ->
+  dismissCheckedBids: (e) ->
+    e.preventDefault()
+
+    options =
+      dismissal_message: $(e.target).find(".js-dismissal-message").val()
+      show_dismissal_message_to_vendor: $(e.target).find(".js-show-dismissal-message-to-vendor").is(":checked")
+
     ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) ->
       b.set("set_dismissed", true)
       b.attributes.id
 
-    @sendBatchAction('dismiss', ids)
+    @sendBatchAction('dismiss', ids, options)
 
   awardCheckedBids: ->
     ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id

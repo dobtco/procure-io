@@ -32,7 +32,7 @@ ProcureIo::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'procure-io.dev' }
 
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method = false
 
   Delayed::Worker.delay_jobs = false
 end
