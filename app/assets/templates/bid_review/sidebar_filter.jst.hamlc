@@ -3,14 +3,14 @@
 %ul.nav.nav-pills.nav-stacked
   %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"}
-      = I18n.t('g.open_bids')
+      = I18n.t('g.open')
       %span.badge= @counts["open"]
   %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"}
-      = I18n.t('g.dismissed_bids')
+      = I18n.t('g.dismissed')
       %span.badge= @counts["dismissed"]
   %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"}
-      = I18n.t('g.awarded_bids')
+      = I18n.t('g.awarded')
       %span.badge= @counts["awarded"]
 

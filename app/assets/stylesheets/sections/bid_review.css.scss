@@ -32,6 +32,10 @@
   }
 
   .sidebar-wrapper {
+    h5 {
+      margin-bottom: 2px;
+    }
+
     a {
       .badge {
         float: right;
@@ -42,6 +46,8 @@
 }
 
 #bids-table {
+  margin-top: 10px;
+
   .controls-td {
     input[type=checkbox] {
       margin-right: 5px;
