@@ -1,5 +1,3 @@
-%h5 Labels
-
 %ul.nav.nav-pills.nav-stacked.filter-nav#labels-list
 
 - if @abilities.manageLabels
@@ -13,5 +11,3 @@
       %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
 
     %button.btn.btn-inverse= I18n.t('g.create_label')
-
-  %a.smaller.js-edit-labels{"data-backbone-togglelabeladmin" => "true"}= I18n.t('g.edit_labels')

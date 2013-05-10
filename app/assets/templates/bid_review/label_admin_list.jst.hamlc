@@ -1,5 +1,1 @@
-%h5= I18n.t('g.edit_labels')
-
 %ul.nav.nav-pills.nav-stacked.filter-nav#labels-admin-list
-
-%a.smaller{"data-backbone-togglelabeladmin" => "true"}= I18n.t('g.done_editing_labels')

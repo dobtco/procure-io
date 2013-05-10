@@ -6,6 +6,10 @@
 
     #sidebar-filter-wrapper
 
+    %h5
+      Labels
+      %a.smaller.regular-font.js-edit-labels{"data-backbone-togglelabeladmin" => "true", "data-toggle-text" => I18n.t('g.done_editing_labels')}= I18n.t('g.edit_labels')
+
     #label-filter-wrapper
 
     #label-admin-wrapper
