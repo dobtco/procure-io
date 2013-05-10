@@ -38,7 +38,6 @@ ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
       $.getJSON $(@).data('href'), (data) ->
         $modal.find(".js-email-target").text(data)
 
-
 ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
   el: "#actions-wrapper"
 
@@ -230,7 +229,6 @@ ProcureIo.Backbone.BidReviewLabelEditView = Backbone.View.extend
     @parentView.$el.popover 'destroy'
     @label.destroy()
 
-
 ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   tagName: "li"
 
@@ -262,39 +260,6 @@ ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
       counts: ProcureIo.Backbone.Bids.meta.counts
 
     rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
-
-ProcureIo.Backbone.BidReviewSortersView = Backbone.View.extend
-  el: "#sorters-wrapper"
-
-  events:
-    "change .js-sort-select": "updateSort"
-    "click .js-direction-select": "changeSortDirection"
-
-  initialize: ->
-    @sortOptions = [{key: "name", label: "Vendor Name"}, {key: "created_at", label: "Created at"}]
-
-    @sortOptions.push({key: "stars", label: "Stars"}) if @options.project.review_mode == "stars"
-    @sortOptions.push({key: "average_rating", label: "Average Rating"}) if @options.project.review_mode == "one_through_five"
-
-    _.each @options.project.response_fields, (rf) =>
-      @sortOptions.push {key: ""+rf.id, label: rf.label}
-
-  render: ->
-    @$el.html JST['shared/select_sorters']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.filteredHref, sortOptions: @sortOptions})
-
-  changeSortDirection: (e) ->
-    $(e.target).closest(".js-direction-select").toggleClass('sort-asc')
-
-    href = @options.filteredHref
-      direction: if ProcureIo.Backbone.router.filterOptions.get('direction') != "asc" then "asc" else "desc"
-
-    ProcureIo.Backbone.router.navigate href, {trigger: true}
-
-  updateSort: (e) ->
-    href = @options.filteredHref
-      sort: $(e.target).val()
-
-    ProcureIo.Backbone.router.navigate href, {trigger: true}
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
@@ -474,6 +439,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @options.projectId = @options.project.id
 
     @keyFieldStorageKey = "project#{@project.id}-keyfields"
+    @sidebarStorageKey = "project#{@project.id}-sidebar"
 
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
     ProcureIo.Backbone.Bids.baseUrl = "/projects/#{@options.projectId}/bids"
@@ -529,6 +495,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @render()
 
+    if store.get(@sidebarStorageKey) == 'collapsed'
+      @collapseSidebarImmediately()
+
     Backbone.history.start
       pushState: true
 
@@ -546,7 +515,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
     (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
-    # (@subviews['sorters'] ||= new ProcureIo.Backbone.BidReviewSortersView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
@@ -672,6 +640,14 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     $("#bid-review-page").addClass 'loading'
     ProcureIo.Backbone.Bids.fetch {data: ProcureIo.Backbone.router.filterOptions.toJSON()}
 
+  collapseSidebarImmediately: ->
+    $sidebar = @$el.find(".sidebar-wrapper")
+    $rightSideSpan = @$el.find(".right-side-span")
+    $sidebar.removeClass('span3').addClass('span1')
+    $rightSideSpan.removeClass('span9').addClass('span11')
+    $sidebar.toggleClass 'sidebar-collapsed'
+    @$el.find(".js-collapse-sidebar").toggleText()
+
   toggleCollapseSidebar: ->
     $sidebar = @$el.find(".sidebar-wrapper")
     $rightSideSpan = @$el.find(".right-side-span")
@@ -692,6 +668,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         $sidebar.toggleClass 'sidebar-collapsed'
       , 200
 
+      store.remove(@sidebarStorageKey)
+
     else
       # collapse
       $preHides = $sidebar.find(".badge, #new-label-form")
@@ -707,4 +685,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         $sidebar.removeClass('span3').addClass('span1')
         $rightSideSpan.removeClass('span9').addClass('span11')
         $preHides.removeClass('hide')
+
+      store.set(@sidebarStorageKey, 'collapsed')
 
