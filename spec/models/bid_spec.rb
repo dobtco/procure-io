@@ -2,21 +2,23 @@
 #
 # Table name: bids
 #
-#  id                      :integer          not null, primary key
-#  vendor_id               :integer
-#  project_id              :integer
-#  created_at              :datetime
-#  updated_at              :datetime
-#  submitted_at            :datetime
-#  dismissed_at            :datetime
-#  dismissed_by_officer_id :integer
-#  total_stars             :integer          default(0), not null
-#  total_comments          :integer          default(0), not null
-#  awarded_at              :datetime
-#  awarded_by_officer_id   :integer
-#  average_rating          :decimal(3, 2)
-#  total_ratings           :integer
-#  bidder_name             :string(255)
+#  id                               :integer          not null, primary key
+#  vendor_id                        :integer
+#  project_id                       :integer
+#  created_at                       :datetime
+#  updated_at                       :datetime
+#  submitted_at                     :datetime
+#  dismissed_at                     :datetime
+#  dismissed_by_officer_id          :integer
+#  total_stars                      :integer          default(0), not null
+#  total_comments                   :integer          default(0), not null
+#  awarded_at                       :datetime
+#  awarded_by_officer_id            :integer
+#  average_rating                   :decimal(3, 2)
+#  total_ratings                    :integer
+#  bidder_name                      :string(255)
+#  dismissal_message                :text
+#  show_dismissal_message_to_vendor :boolean          default(FALSE)
 #
 
 require 'spec_helper'

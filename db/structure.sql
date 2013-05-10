@@ -117,7 +117,9 @@ CREATE TABLE bids (
     awarded_by_officer_id integer,
     average_rating numeric(3,2),
     total_ratings integer,
-    bidder_name character varying(255)
+    bidder_name character varying(255),
+    dismissal_message text,
+    show_dismissal_message_to_vendor boolean DEFAULT false
 );
 
 
@@ -1770,3 +1772,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130502175744');
 INSERT INTO schema_migrations (version) VALUES ('20130509205918');
 
 INSERT INTO schema_migrations (version) VALUES ('20130510001053');
+
+INSERT INTO schema_migrations (version) VALUES ('20130510163158');

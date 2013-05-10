@@ -80,7 +80,7 @@ class BidsController < ApplicationController
         @bid.undismiss_by_officer!(current_officer)
       elsif !@bid.dismissed? && params[:dismissed_at] == true
         @bid.unaward_by_officer(current_officer)
-        @bid.dismiss_by_officer!(current_officer)
+        @bid.dismiss_by_officer!(current_officer, pick(params, :dismissal_message, :show_dismissal_message_to_vendor))
       end
 
       if @bid.awarded? && params[:awarded_at] == false
@@ -119,7 +119,7 @@ class BidsController < ApplicationController
         if bid.dismissed?
           bid.undismiss_by_officer!(current_officer)
         else
-          bid.dismiss_by_officer!(current_officer)
+          bid.dismiss_by_officer!(current_officer, pick(params, :dismissal_message, :show_dismissal_message_to_vendor))
         end
       end
     when "award"
