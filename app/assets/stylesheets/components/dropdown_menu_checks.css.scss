@@ -1,0 +1,27 @@
+.dropdown-menu-checks {
+  li.active > a {
+    background: none;
+    color: #333;
+  }
+
+  li {
+    position: relative;
+
+    a {
+      padding-left: 30px;
+    }
+
+    i {
+      display: none;
+      position: absolute;
+      top: 6px;
+      left: 8px;
+    }
+  }
+
+  li.active {
+    i {
+      display: block;
+    }
+  }
+}
