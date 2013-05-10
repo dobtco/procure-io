@@ -45,6 +45,7 @@
 //= require backbone_rails_sync
 //= require backbone/procure_io
 //= require select2
+//= require store
 //= require bootstrap-wysihtml5
 //= require_tree .
 

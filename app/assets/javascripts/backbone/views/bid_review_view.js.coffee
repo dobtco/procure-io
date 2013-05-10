@@ -473,6 +473,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @project = @options.project
     @options.projectId = @options.project.id
 
+    @keyFieldStorageKey = "project#{@project.id}-keyfields"
+
     ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
     ProcureIo.Backbone.Bids.baseUrl = "/projects/#{@options.projectId}/bids"
     ProcureIo.Backbone.Bids.url = "#{ProcureIo.Backbone.Bids.baseUrl}.json"
@@ -616,7 +618,15 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     _.find @project.response_fields, (rf) ->
       rf.id == id
 
+
   setKeyFields: ->
+    if (storedKeyFields = store.get(@keyFieldStorageKey))
+      @pageOptions.set 'keyFields', storedKeyFields
+    else
+      @setDefaultKeyFields()
+      @storeKeyFields()
+
+  setDefaultKeyFields: ->
     keyFields = []
 
     for responseField in @project.response_fields
@@ -626,6 +636,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     keyFields.unshift 'name'
 
     @pageOptions.set 'keyFields', keyFields
+
+  storeKeyFields: ->
+    store.set(@keyFieldStorageKey, @pageOptions.get('keyFields'))
 
   toggleResponseField: (e) ->
     id = $(e.target).data('response-field-id')
@@ -646,6 +659,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       sortedKeyFields.push(responseField.id) if _.contains(newKeyFields, responseField.id)
 
     @pageOptions.set 'keyFields', sortedKeyFields
+    @storeKeyFields()
 
     @renderSubview('fieldChooser')
     @renderSubview('bidsTableHead')
