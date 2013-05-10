@@ -172,6 +172,7 @@ en:
       link: forget your password
     discuss: Discuss
     dismiss: Dismiss
+    dismissal_reason: Dismissal reason
     dismissed: Dismissed
     dismissed_bids: Dismissed Bids
     done_editing_labels: Done Editing Labels
@@ -387,6 +388,7 @@ en:
     use: Use
     use_this_template: Use This Template
     vendor: Vendor
+    vendor_can_see: Vendor can see this message
     vendor_name: Vendor Name
     vendor_registration: Vendor Registration
     vendor_registration_form: Vendor Registration Form

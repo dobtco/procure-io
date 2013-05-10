@@ -15,11 +15,21 @@
 
 - if @abilities.awardAndDismissBids
   - unless @filterOptions.f2 is "awarded"
-    %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
-      - if @filterOptions.f2 is "dismissed"
+    - if @filterOptions.f2 is "dismissed"
+      %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
         = I18n.t('g.undismiss')
-      - else
-        = I18n.t('g.dismiss')
+    - else
+      .btn-group.dropdown
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle.js-dismiss-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
+          = I18n.t('g.dismiss')
+          %b.caret
+        .dropdown-menu
+          %form.dropdown-form
+            %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
+            %label.checkbox
+              %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}
+              = I18n.t('g.vendor_can_see')
+            %button.btn.btn-inverse= I18n.t('g.dismiss')
 
   - unless @filterOptions.f2 is "dismissed"
     %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
