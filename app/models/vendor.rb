@@ -36,7 +36,7 @@ class Vendor < ActiveRecord::Base
     bids.update_all(updated_at: Time.now)
   end
 
-  def self.add_params_to_query(query, params)
+  def self.add_params_to_query(query, params, args)
     if params[:q] && !params[:q].blank?
       query = query.full_search(params[:q])
     end

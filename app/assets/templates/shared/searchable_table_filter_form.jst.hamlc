@@ -1,0 +1,6 @@
+%form#filter-form.pull-left.faded-while-loading
+  %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "name" => "q", "value" => @parentView.router.filterOptions.get('q')}
+
+  - if @parentView.router.filterOptions.get('q')
+    %a.clear-search
+      %i.icon-remove-sign

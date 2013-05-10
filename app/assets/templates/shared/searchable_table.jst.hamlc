@@ -1,7 +1,6 @@
 != JST['shared/loading_indicator']()
 
-%form#filter-form.pull-left.faded-while-loading
-  %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
+.searchable-filter-form
 
 .pull-right.faded-while-loading
   #pagination-wrapper.pull-right

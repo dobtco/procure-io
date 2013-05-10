@@ -25,7 +25,9 @@
         },
         {
           name: "#{t('g.number_of_bids')}",
-          accessor: 'total_submitted_bids',
+          accessor: function(model){
+            return "<a href='/projects/"+model.get('id')+"/bids'>" + model.get('total_submitted_bids') + "</a>";
+          },
           sortKey: 'total_submitted_bids',
         },
         {
@@ -38,6 +40,3 @@
       ],
       actions: false
     });
-
-
-/ = will_paginate @projects, class: "pagination pagination-centered"

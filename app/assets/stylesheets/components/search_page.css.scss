@@ -7,3 +7,20 @@
     }
   }
 }
+
+#filter-form {
+  position: relative;
+
+  .clear-search {
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    color: #666;
+    font-size: 18px;
+    text-decoration: none;
+
+    &:hover {
+      color: #555;
+    }
+  }
+}

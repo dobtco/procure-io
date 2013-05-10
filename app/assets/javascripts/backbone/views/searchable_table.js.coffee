@@ -44,6 +44,28 @@ ProcureIo.Backbone.SearchableTableTheadView = Backbone.View.extend
 
     return @
 
+ProcureIo.Backbone.SearchableTableFilterFormView = Backbone.View.extend
+  el: ".searchable-filter-form"
+
+  events:
+    "click .clear-search": "clearSearchQuery"
+    "submit form": "updateFilterFromForm"
+
+  render: ->
+    @$el.html JST['shared/searchable_table_filter_form']
+      parentView: @options.parentView
+
+    return @
+
+  updateFilterFromForm: (e) ->
+    @options.parentView.router.navigate @options.parentView.router.filteredHref({q: $(e.target).find(":input").val(), page: 1}), {trigger: true}
+    e.preventDefault()
+
+  clearSearchQuery: ->
+    @options.parentView.router.navigate @options.parentView.router.filteredHref({q: false}), {trigger: true}
+
+
+
 ProcureIo.Backbone.SearchableTableItemView = Backbone.View.extend
   tagName: "tr"
 
@@ -60,7 +82,6 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
   el: "#searchable-table-page"
 
   events:
-    "submit #filter-form": "updateFilterFromForm"
     "click [data-backbone-updatefilter]": "updateFilter"
 
   initialize: ->
@@ -89,10 +110,6 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
     rivets.bind @$el,
       filterOptions: @router.filterOptions
 
-  updateFilterFromForm: (e) ->
-    @router.navigate @router.filteredHref({page: 1}), {trigger: true}
-    e.preventDefault()
-
   updateFilter: (e) ->
     return if e.metaKey
     @router.navigate $(e.target).attr('href'), {trigger: true}
@@ -104,6 +121,10 @@ ProcureIo.Backbone.SearchableTable = Backbone.View.extend
     ).render()
 
     (@subviews['thead'] ||= new ProcureIo.Backbone.SearchableTableTheadView
+      parentView: @
+    ).render()
+
+    (@subviews['filterForm'] ||= new ProcureIo.Backbone.SearchableTableFilterFormView
       parentView: @
     ).render()
 

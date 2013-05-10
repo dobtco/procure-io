@@ -84,7 +84,7 @@ class Bid < ActiveRecord::Base
   calculator :total_comments do comments end
   calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
-  def self.add_params_to_query(query, params)
+  def self.add_params_to_query(query, params, args)
     if params[:f2] == "dismissed"
       query = query.dismissed
     elsif params[:f2] == "awarded"
