@@ -559,7 +559,8 @@ CREATE TABLE projects (
     form_options text,
     abstract character varying(255),
     featured boolean,
-    review_mode integer DEFAULT 1
+    review_mode integer DEFAULT 1,
+    total_submitted_bids integer DEFAULT 0
 );
 
 
@@ -1767,3 +1768,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130501234055');
 INSERT INTO schema_migrations (version) VALUES ('20130502175744');
 
 INSERT INTO schema_migrations (version) VALUES ('20130509205918');
+
+INSERT INTO schema_migrations (version) VALUES ('20130510001053');

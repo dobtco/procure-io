@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html {}
       format.json do
-        search_results = Project.searcher(params, starting_query: current_officer.projects)
+        search_results = Project.searcher(params, starting_query: current_officer.projects, allow_additional_sort_options: true)
         render_serialized(search_results[:results], MyProjectSerializer, meta: search_results[:meta])
       end
     end

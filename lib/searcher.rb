@@ -18,7 +18,7 @@ module Searcher
         return_object[:meta][:page] = [params[:page].to_i, 1].max
         return_object[:meta][:per_page] = 10
 
-        query = self.add_params_to_query(args[:starting_query] || self.searcher_starting_query, params)
+        query = self.add_params_to_query((args[:starting_query] || self.searcher_starting_query), params, args)
         return query if args[:chainable]
         return query.count if args[:count_only]
 

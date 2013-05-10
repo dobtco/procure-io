@@ -1,13 +1,16 @@
 %tr
   - for column in @parentView.options.columns
     %th
-      %a{"href" => @parentView.router.filteredHref({sort: column.sortKey, direction: (if @parentView.router.filterOptions.get('sort') is column.sortKey and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-updatefilter" => true}
+      - if column.sortKey
+        %a{"href" => @parentView.router.filteredHref({sort: column.sortKey, direction: (if @parentView.router.filterOptions.get('sort') is column.sortKey and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-updatefilter" => true}
+          = column.name
+          - if @parentView.router.filterOptions.get('sort') == column.sortKey
+            - if @parentView.router.filterOptions.get('direction') != 'asc'
+              %i.icon-chevron-down
+            - else # asc
+              %i.icon-chevron-up
+      - else
         = column.name
-        - if @parentView.router.filterOptions.get('sort') == column.sortKey
-          - if @parentView.router.filterOptions.get('direction') != 'asc'
-            %i.icon-chevron-down
-          - else # asc
-            %i.icon-chevron-up
 
   - unless @parentView.options.actions? && @parentView.options.actions == false
     %th= I18n.t('g.actions')

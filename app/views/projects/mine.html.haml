@@ -14,9 +14,6 @@
               <span class='badge badge-indicator "+model.get('status_badge_class')+"'></span>\
             </a>";
           }
-          ,
-          sortKey: 'name',
-          defaultSort: 'asc'
         },
         {
           name: "#{Project.human_attribute_name(:title)}",
@@ -24,16 +21,17 @@
             return "<a href='/projects/"+model.get('id')+"/edit'>" + model.get('title') + "</a>";
           },
           sortKey: 'title',
+          defaultSort: 'asc'
         },
         {
           name: "#{t('g.number_of_bids')}",
-          accessor: 'bids_count',
-          sortKey: 'bids_count',
+          accessor: 'total_submitted_bids',
+          sortKey: 'total_submitted_bids',
         },
         {
           name: "#{t('g.bids_due')}",
           accessor: 'bids_due_at',
-          sortKey: 'bids_due',
+          sortKey: 'bids_due_at',
         }
       ],
       actions: false

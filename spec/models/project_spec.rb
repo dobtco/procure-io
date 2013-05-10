@@ -15,6 +15,7 @@
 #  abstract             :string(255)
 #  featured             :boolean
 #  review_mode          :integer          default(1)
+#  total_submitted_bids :integer          default(0)
 #
 
 require 'spec_helper'

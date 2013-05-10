@@ -38,6 +38,7 @@ class Bid < ActiveRecord::Base
   has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
   before_save :calculate_bidder_name
+  after_save :calculate_project_total_submitted_bids!
 
   scope :starred, -> { where("total_stars > 0") }
   scope :join_labels, -> { joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id") }
@@ -240,5 +241,10 @@ class Bid < ActiveRecord::Base
 
   def after_submit
     delay.create_events(:bid_submitted, project.active_watchers(:officer), self, project)
+  end
+
+  def calculate_project_total_submitted_bids!
+    return unless submitted_at_changed?
+    project.calculate_total_submitted_bids!
   end
 end

@@ -15,6 +15,7 @@
 #  abstract             :string(255)
 #  featured             :boolean
 #  review_mode          :integer          default(1)
+#  total_submitted_bids :integer          default(0)
 #
 
 require_dependency 'enum'
@@ -63,12 +64,15 @@ class Project < ActiveRecord::Base
                                 }
 
   calculator :total_comments do comments end
+  calculator :total_submitted_bids do
+    bids.submitted.count
+  end
 
   def self.review_modes
     @review_modes ||= Enum.new(:stars, :one_through_five)
   end
 
-  def self.add_params_to_query(query, params)
+  def self.add_params_to_query(query, params, args)
     if !params[:q].blank?
       query = query.full_search(params[:q])
     end
@@ -81,11 +85,21 @@ class Project < ActiveRecord::Base
       query = query.where(posted_at: params[:posted_after]..Time.now)
     end
 
-    if !params[:sort] || !params[:sort].in?(["posted_at", "bids_due_at"])
-      params[:sort] = "posted_at"
-    end
+    direction = params[:direction] == 'asc' ? 'asc' : 'desc'
 
-    query = query.order("#{params[:sort]} #{params[:direction] == 'asc' ? 'asc' : 'desc'}")
+    if params[:sort] == "posted_at"
+      query = query.order("posted_at #{direction}")
+
+    elsif params[:sort] == "bids_due_at" || params[:sort].blank?
+      query = query.order("bids_due_at #{direction}")
+
+    elsif params[:sort] == "title"
+      query = query.order("title #{direction}")
+
+    elsif params[:sort] == "total_submitted_bids" && args[:allow_additional_sort_options]
+      query = query.order("total_submitted_bids #{direction}")
+
+    end
 
     query
   end
