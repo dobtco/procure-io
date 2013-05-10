@@ -250,6 +250,7 @@ en:
     no_amendments: No amendments.
     no_answer: Not yet answered
     no_data_to_display: "Sorry, no data to display."
+    no_due_date: No due date
     not_watching: Not Watching
     not_watching_description: "You won't receive any alerts about this %{modelName}."
     not_yet_posted: Not yet posted

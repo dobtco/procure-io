@@ -33,7 +33,11 @@
         {
           name: "#{t('g.bids_due')}",
           accessor: function(model){
-            return moment(model.get('bids_due_at')).format(ProcureIo.READABLE);
+            if (model.get('bids_due_at')) {
+              return moment(model.get('bids_due_at')).format(ProcureIo.READABLE);
+            } else {
+              return I18n.t('g.no_due_date');
+            }
           },
           sortKey: 'bids_due_at',
         }

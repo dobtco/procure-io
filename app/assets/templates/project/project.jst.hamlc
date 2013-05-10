@@ -16,7 +16,7 @@
     - if @bids_due_at
       #{I18n.t('g.bids_due_on')} #{moment(@bids_due_at).format(ProcureIo.READABLE_DATEONLY)}
     - else
-      = I18n.t('g.open_for_bids')
+      = I18n.t('g.no_due_date')
 
   &middot;
 

@@ -19,4 +19,4 @@
         - if project.bids_due_at
           = t('g.bids_due_on_date', date: project.bids_due_at.to_formatted_s(:readable_dateonly))
         - else
-          = t('g.open_for_bids')
+          = t('g.no_due_date')
