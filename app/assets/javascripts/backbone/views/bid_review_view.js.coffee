@@ -490,6 +490,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @pageOptions = new Backbone.Model
       keyFields: @options.project.key_fields
 
+    @setKeyFields()
+
     @filteredHref = (newFilters) =>
       existingParams = ProcureIo.Backbone.router.filterOptions.toJSON()
 
@@ -516,7 +518,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       sort: "name"
       direction: "asc"
 
-    ProcureIo.Backbone.router.filterOptions.bind "change", @setKeyFields, @
     ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
 
     @subviews = {}
