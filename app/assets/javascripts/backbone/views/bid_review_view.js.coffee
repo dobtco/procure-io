@@ -11,9 +11,13 @@ ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
   el: ".field-chooser"
 
   render: ->
-    console.log @options.parentView
+    fieldSelected = (id) =>
+      _.find @options.parentView.pageOptions.get('keyFields'), (kf) ->
+        kf == id
+
     @$el.html JST['bid_review/field_chooser']
       responseFields: @options.parentView.options.project.response_fields
+      fieldSelected: fieldSelected
 
 ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
   el: "#bids-footer-wrapper"
@@ -454,6 +458,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   events:
     "click .sort-wrapper a": "updateFilter"
+    "click .js-toggle-response-field": "toggleResponseField"
     "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
     "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
@@ -620,6 +625,21 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     keyFields.unshift 'name'
 
     @pageOptions.set 'keyFields', keyFields
+
+  toggleResponseField: (e) ->
+    id = $(e.target).data('response-field-id')
+
+    if _.contains @pageOptions.get('keyFields'), id
+      @pageOptions.set 'keyFields', _.without(@pageOptions.get('keyFields'), id)
+    else
+      @pageOptions.set 'keyFields', _.union(@pageOptions.get('keyFields'), [id])
+
+    @renderSubview('fieldChooser')
+    @renderSubview('bidsTableHead')
+
+    ProcureIo.Backbone.Bids.each (b) ->
+      b.trigger 'change'
+
 
   refetch: ->
     $("#bid-review-page").addClass 'loading'

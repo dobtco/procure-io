@@ -3,5 +3,5 @@
 
 %ul.dropdown-menu
   - for responseField in @responseFields
-    %li
-      %a= responseField.label
+    %li{"class" => if @fieldSelected(responseField.id) then "active"}
+      %a.js-toggle-response-field{"data-response-field-id" => responseField.id}= responseField.label

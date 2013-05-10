@@ -7,7 +7,6 @@ class ProjectSerializer < ActiveModel::Serializer
   has_many :labels
 
   has_many :response_fields
-  has_many :key_fields
 
   def response_fields
     if scope && Ability.new(scope).can?(:view_only_visible_to_admin_fields, ResponseField)
@@ -26,6 +25,6 @@ class ProjectSerializer < ActiveModel::Serializer
   end
 
   def cache_key
-    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v3']
+    [object.cache_key, scope ? scope.cache_key : 'no-scope', 'v4']
   end
 end
