@@ -1,9 +1,14 @@
 %ul.nav.nav-pills.nav-stacked
-  %li{"class" => if @filterOptions.f1 is "all" then "active" else ""}
-    %a{"href" => @filteredHref({f1: 'all', page: false}), "data-backbone-updatefilter" => "true"}
-      = I18n.t('g.all_bids')
-      %span.badge= @counts["all"]
-  %li{"class" => if @filterOptions.f1 is "starred" then "active" else ""}
-    %a{"href" => @filteredHref({f1: 'starred', page: false}), "data-backbone-updatefilter" => "true"}
-      = I18n.t('g.starred_bids')
-      %span.badge= @counts["starred"]
+  %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"}
+      = I18n.t('g.open_bids')
+      %span.badge= @counts["open"]
+  %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"}
+      = I18n.t('g.dismissed_bids')
+      %span.badge= @counts["dismissed"]
+  %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
+    %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"}
+      = I18n.t('g.awarded_bids')
+      %span.badge= @counts["awarded"]
+

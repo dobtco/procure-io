@@ -13,11 +13,11 @@
 
     #top-filter-wrapper
 
-    #actions-wrapper.faded-while-loading
-
     #pagination-wrapper.pull-right.faded-while-loading
 
-    #sorters-wrapper
+    .clearfix
+
+    #actions-wrapper.faded-while-loading
 
     %table.table#bids-table.faded-while-loading
       %thead#bids-thead
