@@ -105,4 +105,31 @@ a {
 .dropdown-form {
   padding: 10px;
   margin: 0;
+  white-space: normal;
+
+  .control-group {
+    margin: 0;
+  }
+
+  .alert {
+    margin-bottom: 10px;
+  }
+
+  &.dropdown-form-auto {
+    white-space: nowrap;
+  }
+
+  &.dropdown-form-medium {
+    width: 340px;
+  }
+
+  &.dropdown-form-large {
+    width: 500px;
+  }
+
+  input[type=text], textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+  }
 }

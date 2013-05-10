@@ -128,7 +128,7 @@ class BidsController < ApplicationController
         if bid.awarded?
           bid.unaward_by_officer!(current_officer)
         else
-          bid.award_by_officer!(current_officer)
+          bid.award_by_officer!(current_officer, pick(params[:options], :award_message))
         end
       end
     when "label"

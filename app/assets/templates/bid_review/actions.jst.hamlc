@@ -20,11 +20,11 @@
         = I18n.t('g.undismiss')
     - else
       .btn-group.dropdown
-        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle.js-dismiss-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
           = I18n.t('g.dismiss')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form{"data-backbone-dismiss-form" => true}
+          %form.dropdown-form.dropdown-form-auto{"data-backbone-dismiss-form" => true}
             %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
             %label.checkbox
               %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}
@@ -32,8 +32,17 @@
             %button.btn.btn-inverse= I18n.t('g.dismiss')
 
   - unless @filterOptions.f2 is "dismissed"
-    %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
-      - if @filterOptions.f2 is "awarded"
+    - if @filterOptions.f2 is "awarded"
+      %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
         = I18n.t('g.unaward')
-      - else
-        = I18n.t('g.award')
+    - else
+      .btn-group.dropdown
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
+          = I18n.t('g.award')
+          %b.caret
+        .dropdown-menu
+          %form.dropdown-form.dropdown-form-large{"data-backbone-award-form" => true}
+            .alert.alert-error= I18n.t('g.careful_awarding')
+            .control-group
+              %textarea.js-award-message{"placeholder" => I18n.t('g.award_message'), "rows" => 5}
+            %button.btn.btn-inverse= I18n.t('g.award')

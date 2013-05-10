@@ -19,6 +19,7 @@
 #  bidder_name                      :string(255)
 #  dismissal_message                :text
 #  show_dismissal_message_to_vendor :boolean          default(FALSE)
+#  award_message                    :text
 #
 
 require 'spec_helper'

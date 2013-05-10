@@ -119,7 +119,8 @@ CREATE TABLE bids (
     total_ratings integer,
     bidder_name character varying(255),
     dismissal_message text,
-    show_dismissal_message_to_vendor boolean DEFAULT false
+    show_dismissal_message_to_vendor boolean DEFAULT false,
+    award_message text
 );
 
 
@@ -1774,3 +1775,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130509205918');
 INSERT INTO schema_migrations (version) VALUES ('20130510001053');
 
 INSERT INTO schema_migrations (version) VALUES ('20130510163158');
+
+INSERT INTO schema_migrations (version) VALUES ('20130510180754');

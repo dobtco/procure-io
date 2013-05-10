@@ -116,6 +116,7 @@ en:
     answered_by: Answered by
     avg_rating: Avg Rating
     award: Accept
+    award_message: "Add an (optional) short message to the vendor, letting them know what the next steps are."
     awarded: Accepted
     awarded_bids: Accepted Bids
     awards_made: Awards made
@@ -133,6 +134,7 @@ en:
     browse: Browse
     browse_projects: Browse Projects
     "careful!": "Careful!"
+    careful_awarding: "Are you sure? When you click \"Accept\", the vendor and other collaborators will be notified of your acceptance."
     categories: Categories
     category: Category
     change_review_mode: Change Review Mode

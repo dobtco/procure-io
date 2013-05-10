@@ -26,10 +26,11 @@ module Behaviors
       after_dismiss_by_officer(officer) if self.respond_to?(:after_dismiss_by_officer, true)
     end
 
-    def award_by_officer(officer)
+    def award_by_officer(officer, opts = {})
       return false if self.awarded_at
       self.awarded_at = Time.now
       self.awarded_by_officer_id = officer.id
+      self.award_message = opts[:award_message] if !opts[:award_message].blank?
       after_award_by_officer(officer) if self.respond_to?(:after_award_by_officer, true)
     end
 
