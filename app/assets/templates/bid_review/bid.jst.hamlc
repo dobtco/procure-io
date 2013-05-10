@@ -26,4 +26,4 @@
         %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
 
     - else
-      = @getValue(keyField)
+      != @getValue(keyField)
