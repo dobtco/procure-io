@@ -130,7 +130,6 @@ class Bid < ActiveRecord::Base
 
     counts = {
       all: self.searcher(params.merge(f1: "open"), new_args),
-      starred: self.searcher(params.merge({f1: "starred"}), new_args),
       open: self.searcher(params.merge({f2: "open"}), new_args),
       dismissed: self.searcher(params.merge({f2: "dismissed"}), new_args),
       awarded: self.searcher(params.merge({f2: "awarded"}), new_args)

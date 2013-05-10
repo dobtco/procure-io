@@ -1,18 +1,3 @@
-- if @abilities.awardAndDismissBids
-  - unless @filterOptions.f2 is "awarded"
-    %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
-      - if @filterOptions.f2 is "dismissed"
-        = I18n.t('g.undismiss')
-      - else
-        = I18n.t('g.dismiss')
-
-  - unless @filterOptions.f2 is "dismissed"
-    %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
-      - if @filterOptions.f2 is "awarded"
-        = I18n.t('g.unaward')
-      - else
-        = I18n.t('g.award')
-
 - if @abilities.labelBids
   .btn-group
     %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
@@ -27,3 +12,18 @@
           %a{"data-backbone-label-id" => label.get('id')}
             %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
             #{label.get('name')}
+
+- if @abilities.awardAndDismissBids
+  - unless @filterOptions.f2 is "awarded"
+    %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+      - if @filterOptions.f2 is "dismissed"
+        = I18n.t('g.undismiss')
+      - else
+        = I18n.t('g.dismiss')
+
+  - unless @filterOptions.f2 is "dismissed"
+    %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
+      - if @filterOptions.f2 is "awarded"
+        = I18n.t('g.unaward')
+      - else
+        = I18n.t('g.award')

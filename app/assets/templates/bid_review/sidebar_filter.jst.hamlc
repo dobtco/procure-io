@@ -1,3 +1,5 @@
+%h5= I18n.t('g.status')
+
 %ul.nav.nav-pills.nav-stacked
   %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
     %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"}

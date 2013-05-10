@@ -1,5 +1,9 @@
 .row-fluid
   .span3.sidebar-wrapper
+    #top-filter-wrapper
+
+    .clearfix
+
     #sidebar-filter-wrapper
 
     #label-filter-wrapper
@@ -11,13 +15,11 @@
 
     != JST['shared/loading_indicator']()
 
-    #top-filter-wrapper
+    #actions-wrapper.faded-while-loading
 
     #pagination-wrapper.pull-right.faded-while-loading
 
     .clearfix
-
-    #actions-wrapper.faded-while-loading
 
     %table.table#bids-table.faded-while-loading
       %thead#bids-thead
