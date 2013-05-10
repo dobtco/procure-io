@@ -611,7 +611,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       rf.id == id
 
   setKeyFields: ->
-    keyFields = ['name', 1]
+    keyFields = []
+
+    for responseField in @project.response_fields
+      keyFields.push responseField.id
+      break if keyFields.length == 2
+
+    keyFields.unshift 'name'
 
     @pageOptions.set 'keyFields', keyFields
 
