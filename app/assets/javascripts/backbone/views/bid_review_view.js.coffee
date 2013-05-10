@@ -586,10 +586,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     _.find @project.response_fields, (rf) ->
       rf.id == id
 
-
   setKeyFields: ->
     if (storedKeyFields = store.get(@keyFieldStorageKey))
-      @pageOptions.set 'keyFields', storedKeyFields
+      @pageOptions.set 'keyFields', @sortedKeyFields(storedKeyFields)
     else
       @setDefaultKeyFields()
       @storeKeyFields()
@@ -608,6 +607,19 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   storeKeyFields: ->
     store.set(@keyFieldStorageKey, @pageOptions.get('keyFields'))
 
+  sortedKeyFields: (keyFields) ->
+    sortedKeyFields = []
+
+    # sort name first
+    if _.contains keyFields, 'name'
+      sortedKeyFields.push 'name'
+
+    # sort other fields in the order they came in
+    for responseField in @project.response_fields
+      sortedKeyFields.push(responseField.id) if _.contains(keyFields, responseField.id)
+
+    sortedKeyFields
+
   toggleResponseField: (e) ->
     id = $(e.target).data('response-field-id')
 
@@ -616,17 +628,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     else
       newKeyFields = _.union(@pageOptions.get('keyFields'), [id])
 
-    sortedKeyFields = []
-
-    # sort name first
-    if _.contains newKeyFields, 'name'
-      sortedKeyFields.push 'name'
-
-    # sort other fields in the order they came in
-    for responseField in @project.response_fields
-      sortedKeyFields.push(responseField.id) if _.contains(newKeyFields, responseField.id)
-
-    @pageOptions.set 'keyFields', sortedKeyFields
+    @pageOptions.set 'keyFields', @sortedKeyFields(newKeyFields)
     @storeKeyFields()
 
     @renderSubview('fieldChooser')
