@@ -1,11 +1,17 @@
 %tr
   %th &nbsp;
-  - if @project.review_mode == "one_through_five"
-    %th= I18n.t('g.avg_rating')
 
-  - for keyField in @pageOptions.keyFields
-    - if keyField == 'name'
-      %th= I18n.t('g.vendor_name')
+  - for keyField in @pageOptions.get('keyFields')
+    %th
+      %a{"href" => @filteredHref({sort: keyField, direction: (if @filterOptions.get('sort') is "#{keyField}" and @filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-updatefilter" => true}
+        - if keyField == 'name'
+          = I18n.t('g.vendor_name')
 
-    - else
-      %th= @getResponseField(keyField).label
+        - else
+          = @parentView.getResponseField(keyField).label
+
+        - if @filterOptions.get('sort') == "#{keyField}"
+          - if @filterOptions.get('direction') != 'asc'
+            %i.icon-chevron-down
+          - else # asc
+            %i.icon-chevron-up

@@ -3,9 +3,10 @@ ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/thead']
-      project: @options.project
-      pageOptions: @options.pageOptions.toJSON()
-      getResponseField: @options.getResponseField
+      pageOptions: @options.parentView.pageOptions
+      parentView: @options.parentView
+      filteredHref: @options.parentView.filteredHref
+      filterOptions: ProcureIo.Backbone.router.filterOptions
 
 ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
   el: ".field-chooser"
@@ -520,7 +521,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
-    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({project: @options.project, pageOptions: @pageOptions, getResponseField: @getResponseField})).render()
+    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
     (@subviews['fieldChooser'] ||= new ProcureIo.Backbone.BidsFieldChooserView({parentView: @})).render()
 
   renderExistingSubviews: ->
