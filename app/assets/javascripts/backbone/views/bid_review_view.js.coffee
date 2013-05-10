@@ -55,6 +55,9 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
       filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
       abilities: @options.parentView.options.abilities
 
+    @$el.find(".dropdown-form").submit ->
+      $(@).closest(".dropdown").dropdown('toggle')
+
 ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
 
