@@ -8,7 +8,7 @@ class UserSessionsController < ApplicationController
   end
 
   def create
-    @user_session = UserSession.new(user_session_params)
+    @user_session = UserSession.new(user_session_params.merge(remember_me: true))
 
     if @user_session.save
       flash[:success] = t('flashes.valid_login')
