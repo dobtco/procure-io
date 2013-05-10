@@ -8,17 +8,12 @@
 
 .button-nav
   %ul.nav.nav-tabs
-    - if can_view_subnav?("bids")
-      %li{"class" => active_subnav?("bids")}
+    - if can? :read_bids, @project
+      %li{"class" => active_page?("bids")}
         %a{"href" => project_bids_path(@project)}
-          %span= t('g.bids')
+          = t('g.review_bids')
           - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
             %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
-
-    - if can? :edit_project_details, @project
-      %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
-        %a{"href" => edit_project_path(@project)}
-          = t('g.edit_posting')
 
     - if GlobalConfig.instance[:questions_enabled] && (can? :answer_questions, @project)
       %li{"class" => active_page?("questions#index")}
@@ -47,25 +42,6 @@
       = t('g.view_posting')
       %i.icon-share-alt
 
-
-- if active_subnav?("bids")
-  .subnav.project-subnav
-    %ul.nav.nav-pills
-      - if can? :read_bids, @project
-        %li{"class" => active_page?("bids")}
-          %a{"href" => project_bids_path(@project)}
-            = t('g.review_bids')
-            / - if @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count > 0
-            /   %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_officer.id).unread.count
-
-      - if can? :manage_response_fields, @project
-        %li{"class" => active_page?("projects#response_fields")}
-          %a{"href" => response_fields_project_path(@project)}= t('g.edit_response_fields')
-
-      - if can? :change_review_mode, @project
-        %li{"class" => active_page?("projects#review_mode")}
-          %a{"href" => review_mode_project_path(@project)}= t('g.change_review_mode')
-
 - if active_subnav?("stats")
   .subnav.project-subnav
     %ul.nav.nav-pills
@@ -83,6 +59,19 @@
 - if active_subnav?("admin")
   .subnav.project-subnav
     %ul.nav.nav-pills
+      - if can? :edit_project_details, @project
+        %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
+          %a{"href" => edit_project_path(@project)}
+            = t('g.edit_posting')
+
+      - if can? :manage_response_fields, @project
+        %li{"class" => active_page?("projects#response_fields")}
+          %a{"href" => response_fields_project_path(@project)}= t('g.edit_response_fields')
+
+      - if can? :change_review_mode, @project
+        %li{"class" => active_page?("projects#review_mode")}
+          %a{"href" => review_mode_project_path(@project)}= t('g.change_review_mode')
+
       %li{"class" => active_page?("collaborators#index")}
         =link_to t('g.collaborators'), project_collaborators_path(@project)
 
