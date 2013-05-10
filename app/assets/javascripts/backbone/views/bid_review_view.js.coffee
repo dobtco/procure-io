@@ -615,10 +615,19 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     if $sidebar.hasClass 'sidebar-collapsed'
       # restore
-      $sidebar.toggleClass 'sidebar-collapsed'
+      $sidebar.css({width: 70})
+
       $sidebar.removeClass('span1').addClass('span3')
       $rightSideSpan.removeClass('span11').addClass('span9')
       @$el.find(".search-query").attr('placeholder', @$el.find(".search-query").data('original-placeholder'))
+
+      $sidebar.animate
+        width: 270
+      , 300
+
+      setTimeout ->
+        $sidebar.toggleClass 'sidebar-collapsed'
+      , 200
 
     else
       # collapse
