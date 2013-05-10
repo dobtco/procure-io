@@ -15,9 +15,8 @@
     - if @bid.total_ratings
       %span.total_ratings= @bid.total_ratings
 
-%td
-
-  - for keyField in @pageOptions.attributes.keyFields
+- for keyField in @pageOptions.attributes.keyFields
+  %td
     - if keyField == 'name'
 
       %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.bidder_name
@@ -27,4 +26,4 @@
         %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
 
     - else
-      %td!= @getValue(keyField)
+      = @getValue(keyField)

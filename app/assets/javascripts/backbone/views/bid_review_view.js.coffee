@@ -631,9 +631,21 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     id = $(e.target).data('response-field-id')
 
     if _.contains @pageOptions.get('keyFields'), id
-      @pageOptions.set 'keyFields', _.without(@pageOptions.get('keyFields'), id)
+      newKeyFields = _.without(@pageOptions.get('keyFields'), id)
     else
-      @pageOptions.set 'keyFields', _.union(@pageOptions.get('keyFields'), [id])
+      newKeyFields = _.union(@pageOptions.get('keyFields'), [id])
+
+    sortedKeyFields = []
+
+    # sort name first
+    if _.contains newKeyFields, 'name'
+      sortedKeyFields.push 'name'
+
+    # sort other fields in the order they came in
+    for responseField in @project.response_fields
+      sortedKeyFields.push(responseField.id) if _.contains(newKeyFields, responseField.id)
+
+    @pageOptions.set 'keyFields', sortedKeyFields
 
     @renderSubview('fieldChooser')
     @renderSubview('bidsTableHead')

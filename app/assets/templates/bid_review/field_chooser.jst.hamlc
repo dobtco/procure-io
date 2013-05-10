@@ -2,6 +2,9 @@
   %b.caret
 
 %ul.dropdown-menu
+  %li{"class" => if @fieldSelected('name') then "active"}
+    %a.js-toggle-response-field{"data-response-field-id" => 'name'}= I18n.t('g.vendor_name')
+
   - for responseField in @responseFields
     %li{"class" => if @fieldSelected(responseField.id) then "active"}
       %a.js-toggle-response-field{"data-response-field-id" => responseField.id}= responseField.label
