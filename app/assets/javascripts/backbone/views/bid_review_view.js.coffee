@@ -254,16 +254,26 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   clear: ->
     @model.destroy()
 
-ProcureIo.Backbone.BidReviewTopFilterView = Backbone.View.extend
-  el: "#top-filter-wrapper"
+ProcureIo.Backbone.BidReviewSearchForm = Backbone.View.extend
+  el: ".js-subview-search-form"
+
+  events:
+    "submit form": "submit"
+    "click .clear-search": "clearSearch"
 
   render: ->
-    @$el.html JST['bid_review/top_filter']
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
-      filteredHref: @options.filteredHref
-      counts: ProcureIo.Backbone.Bids.meta.counts
+    @$el.html JST['bid_review/search_form']()
+    rivets.bind @$el,
+      filterOptions: @options.parentView.router.filterOptions
+      pageOptions: @options.parentView.pageOptions
 
-    rivets.bind(@$el, {filterOptions: ProcureIo.Backbone.router.filterOptions})
+  submit: (e) ->
+    e.preventDefault()
+    @options.parentView.router.navigate @options.parentView.filteredHref({page: 1}), {trigger: true}
+
+  clearSearch: (e) ->
+    e.preventDefault()
+    @options.parentView.router.navigate @options.parentView.filteredHref({page: false, q: false}), {trigger: true}
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
@@ -435,7 +445,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
     "click [data-backbone-label-id]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
-    "submit .bid-search-form": "submitBidSearchForm"
     "click .js-collapse-sidebar": "toggleCollapseSidebar"
 
   initialize: ->
@@ -486,7 +495,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         "/projects/#{@options.projectId}/bids"
 
 
-    ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Bids,
+    @router = ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Bids,
       f1: "all"
       f2: "open"
       sort: "name"
@@ -520,7 +529,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
-    (@subviews['topFilter'] ||= new ProcureIo.Backbone.BidReviewTopFilterView({project: @options.project, filteredHref: @filteredHref})).render()
+    (@subviews['searchForm'] ||= new ProcureIo.Backbone.BidReviewSearchForm({parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
@@ -577,10 +586,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   toggleLabelAdmin: ->
     @$el.toggleClass 'editing-labels'
-
-  submitBidSearchForm: (e) ->
-    ProcureIo.Backbone.router.navigate @filteredHref({q: $(e.target).find("input").val(), page: 1}), {trigger: true}
-    e.preventDefault()
 
   sendBatchAction: (action, ids, options = {}) ->
     $("#bid-review-page").addClass 'loading'
@@ -665,6 +670,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     $rightSideSpan.removeClass('span9').addClass('span11')
     $sidebar.toggleClass 'sidebar-collapsed'
     @$el.find(".js-collapse-sidebar").toggleText()
+    @pageOptions.set('sidebarCollapsed', true)
 
   toggleCollapseSidebar: ->
     $sidebar = @$el.find(".sidebar-wrapper")
@@ -687,6 +693,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       , 200
 
       store.remove(@sidebarStorageKey)
+      @pageOptions.unset('sidebarCollapsed')
 
     else
       # collapse
@@ -705,4 +712,5 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         $preHides.removeClass('hide')
 
       store.set(@sidebarStorageKey, 'collapsed')
+      @pageOptions.set('sidebarCollapsed', true)
 

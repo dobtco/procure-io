@@ -414,6 +414,9 @@ rivets.formatters.not = (value) ->
 rivets.formatters.call = (value, arg) ->
   console.log value, arg
 
+rivets.formatters.then = (value, arg) ->
+  if value then arg
+
 rivets.configure
   prefix: "rv"
   adapter:

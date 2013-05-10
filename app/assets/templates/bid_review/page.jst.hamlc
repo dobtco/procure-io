@@ -1,6 +1,6 @@
 .row-fluid
   .span3.sidebar-wrapper
-    #top-filter-wrapper
+    .js-subview-search-form
 
     .clearfix
 
