@@ -1,0 +1,7 @@
+%button.btn.btn-mini.dropdown-toggle{"data-toggle" => "dropdown"}
+  %b.caret
+
+%ul.dropdown-menu
+  - for responseField in @responseFields
+    %li
+      %a= responseField.label

@@ -5,6 +5,15 @@ ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
     @$el.html JST['bid_review/thead']
       project: @options.project
       pageOptions: @options.pageOptions.toJSON()
+      getResponseField: @options.getResponseField
+
+ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
+  el: ".field-chooser"
+
+  render: ->
+    console.log @options.parentView
+    @$el.html JST['bid_review/field_chooser']
+      responseFields: @options.parentView.options.project.response_fields
 
 ProcureIo.Backbone.BidsFooterView = Backbone.View.extend
   el: "#bids-footer-wrapper"
@@ -535,7 +544,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
-    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({project: @options.project, pageOptions: @pageOptions})).render()
+    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({project: @options.project, pageOptions: @pageOptions, getResponseField: @getResponseField})).render()
+    (@subviews['fieldChooser'] ||= new ProcureIo.Backbone.BidsFieldChooserView({parentView: @})).render()
 
   renderExistingSubviews: ->
     for subview in @subviews
@@ -596,12 +606,12 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   removeLoadingSpinner: ->
     $("#bid-review-page").removeClass 'loading'
 
-  setKeyFields: ->
-    keyFields = @options.project.key_fields.slice(0)
+  getResponseField: (id) ->
+    _.find @project.response_fields, (rf) ->
+      rf.id == id
 
-    if (responseFieldId = parseInt(ProcureIo.Backbone.router.filterOptions.get('sort'), 10)) > 0
-      responseField = _.find @options.project.response_fields, ( (rf) -> rf.id == responseFieldId )
-      keyFields.push(responseField) if responseField && !(_.find keyFields, ( (kf) -> kf.id == responseField.id ))
+  setKeyFields: ->
+    keyFields = ['name', 1]
 
     @pageOptions.set 'keyFields', keyFields
 

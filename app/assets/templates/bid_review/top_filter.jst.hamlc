@@ -1,5 +1,3 @@
-%h5= I18n.t('g.search')
-
 %form.bid-search-form#filter-form
   %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "value" => @filterOptions.q}
   %a.clear-search{"href" => @filteredHref({q: false, page: false}), "data-backbone-updatefilter" => "true", "data-rv-show" => "filterOptions.q"}

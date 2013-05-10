@@ -67,6 +67,16 @@
   }
 }
 
+.bids-table-wrapper {
+  position: relative;
+
+  .field-chooser {
+    position: absolute;
+    top: 10px;
+    right: 0;
+  }
+}
+
 #bids-table {
   margin-top: 10px;
 

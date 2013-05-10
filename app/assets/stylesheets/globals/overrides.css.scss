@@ -94,3 +94,10 @@ a {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: normal;
 }
+
+.dropdown-left {
+  ul.dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+}

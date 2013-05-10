@@ -16,19 +16,15 @@
       %span.total_ratings= @bid.total_ratings
 
 %td
-  %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.bidder_name
 
-  - for label_id in @bid.labels
-    - label = @getLabel(label_id)
-    %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
+  - for keyField in @pageOptions.attributes.keyFields
+    - if keyField == 'name'
 
-- for index, keyField of @pageOptions.attributes.keyFields
-  %td!= @getValue(keyField.id)
+      %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.bidder_name
 
-%td
-  - if @bid.dismissed_at
-    %span.badge.badge-important= I18n.t('g.dismissed')
-  - else if @bid.awarded_at
-    %span.badge.badge-success= I18n.t('g.awarded')
-  - else
-    %span.badge= I18n.t('g.open')
+      - for label_id in @bid.labels
+        - label = @getLabel(label_id)
+        %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
+
+    - else
+      %td!= @getValue(keyField)

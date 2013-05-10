@@ -25,10 +25,13 @@
 
     .clearfix
 
-    %table.table#bids-table.faded-while-loading
-      %thead#bids-thead
+    .bids-table-wrapper
+      .field-chooser.btn-group.dropdown-left
 
-      %tbody#bids-tbody
+      %table.table#bids-table.faded-while-loading
+        %thead#bids-thead
+
+        %tbody#bids-tbody
 
     %small.pull-left
       %a.js-collapse-sidebar{"data-toggle-text" => "Restore sidebar &rarr;"} &larr; Collapse sidebar

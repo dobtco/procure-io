@@ -2,7 +2,10 @@
   %th &nbsp;
   - if @project.review_mode == "one_through_five"
     %th= I18n.t('g.avg_rating')
-  %th= I18n.t('g.vendor_name')
-  - for index, keyField of @pageOptions.keyFields
-    %th= keyField.label
-  %th= I18n.t('g.status')
+
+  - for keyField in @pageOptions.keyFields
+    - if keyField == 'name'
+      %th= I18n.t('g.vendor_name')
+
+    - else
+      %th= @getResponseField(keyField).label
