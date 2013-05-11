@@ -47,16 +47,13 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
     @listenTo ProcureIo.Backbone.Labels, "remove", @render
 
   render: ->
-    bidsChecked = ProcureIo.Backbone.Bids.find (b) -> b.attributes.checked
     @$el.html JST['bid_review/actions']
-      project: @options.project
       labels: ProcureIo.Backbone.Labels
-      bidsChecked: bidsChecked
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
       abilities: @options.parentView.options.abilities
 
-    @$el.find(".dropdown-form").submit ->
-      $(@).closest(".dropdown").dropdown('toggle')
+    rivets.bind @$el,
+      pageOptions: @options.parentView.pageOptions
+      filterOptions: @options.parentView.router.filterOptions
 
 ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
   el: "#sidebar-filter-wrapper"
@@ -491,6 +488,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       ProcureIo.Backbone.Labels.find((label) -> label.get('id') == label_id).toJSON()
 
     @render()
+    @preRenderSubviews()
 
     if store.get(@sidebarStorageKey) == 'collapsed'
       @collapseSidebarImmediately()
@@ -511,18 +509,20 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       filterOptions: ProcureIo.Backbone.router.filterOptions
     return @
 
+  preRenderSubviews: ->
+    new ProcureIo.Backbone.BidReviewActionsView({parentView: @}).render()
+
   renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
-    (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsFooter'] ||= new ProcureIo.Backbone.BidsFooterView()).render()
     (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
     (@subviews['fieldChooser'] ||= new ProcureIo.Backbone.BidsFieldChooserView({parentView: @})).render()
 
   renderExistingSubviews: ->
-    for subview in @subviews
+    for k, subview of @subviews
       subview.render()
 
   renderSubview: (name) ->
@@ -530,8 +530,14 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
-    @listenTo bid, "change:checked", ( => @renderSubview('actions') )
+    @listenTo bid, "change:checked", ( => @seeIfBidsChecked() )
     $("#bids-tbody").append(view.render().el)
+
+  seeIfBidsChecked: ->
+    if ProcureIo.Backbone.Bids.find ((b) -> b.get('checked') == true)
+      @pageOptions.set('bidsChecked', true)
+    else
+      @pageOptions.unset('bidsChecked')
 
   addAll: ->
     ProcureIo.Backbone.Bids.each @addOne, @
@@ -665,7 +671,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
       $sidebar.removeClass('span1').addClass('span3')
       $rightSideSpan.removeClass('span11').addClass('span9')
-      @$el.find(".search-query").attr('placeholder', @$el.find(".search-query").data('original-placeholder'))
 
       $sidebar.animate
         width: 270
@@ -682,8 +687,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       # collapse
       $preHides = $sidebar.find(".badge, #new-label-form")
       $preHides.addClass('hide')
-      @$el.find(".search-query").data('original-placeholder', @$el.find(".search-query").attr('placeholder'))
-      @$el.find(".search-query").removeAttr('placeholder')
       $sidebar.toggleClass 'sidebar-collapsed'
 
       $sidebar.animate

@@ -1,6 +1,6 @@
 - if @abilities.labelBids
   .btn-group
-    %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "class" => if !@bidsChecked then "disabled"}
+    %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
       = I18n.t('g.label')
       %b.caret
     %ul.dropdown-menu
@@ -14,13 +14,13 @@
             #{label.get('name')}
 
 - if @abilities.awardAndDismissBids
-  - unless @filterOptions.f2 is "awarded"
-    - if @filterOptions.f2 is "dismissed"
-      %button.btn.btn-small{"data-backbone-dismiss" => "true", "class" => if !@bidsChecked then "disabled"}
+  %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
+    %span{"data-rv-show" => "filterOptions.f2 | eq dismissed"}
+      %button.btn.btn-small{"data-backbone-dismiss" => "true", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.undismiss')
-    - else
+    %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
       .btn-group.dropdown
-        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
           = I18n.t('g.dismiss')
           %b.caret
         .dropdown-menu
@@ -31,13 +31,13 @@
               = I18n.t('g.vendor_can_see')
             %button.btn.btn-inverse= I18n.t('g.dismiss')
 
-  - unless @filterOptions.f2 is "dismissed"
-    - if @filterOptions.f2 is "awarded"
-      %button.btn.btn-small{"data-backbone-award" => "true", "class" => if !@bidsChecked then "disabled"}
+  %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
+    %span{"data-rv-show" => "filterOptions.f2 | eq awarded"}
+      %button.btn.btn-small{"data-backbone-award" => "true", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.unaward')
-    - else
+    %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
       .btn-group.dropdown
-        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"class" => if !@bidsChecked then "disabled", "data-toggle" => "dropdown"}
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
           = I18n.t('g.award')
           %b.caret
         .dropdown-menu
