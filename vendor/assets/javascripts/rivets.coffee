@@ -35,7 +35,8 @@ class Rivets.Binding
   # formatted value.
   formattedValue: (value) =>
     for formatter in @formatters
-      args = formatter.split /\s+/
+      args = _.map (formatter.match /\w+|"[^"]+"/g), (arg) -> arg.replace(/"/g, '')
+
       id = args.shift()
 
       formatter = if @model[id] instanceof Function
