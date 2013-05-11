@@ -132,7 +132,10 @@ ProcureIo.Backbone.BidReviewLabelAdminListView = Backbone.View.extend
     @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
 
   render: ->
-    @$el.html JST['bid_review/label_admin_list']({filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON(), filteredHref: @options.project.filteredHref})
+    @$el.html JST['bid_review/label_admin_list']
+      filterOptions: @options.parentView.router.filterOptions.toJSON()
+      filteredHref: @options.parentView.filteredHref
+
     @resetLabels()
 
   resetLabels: ->
@@ -143,7 +146,10 @@ ProcureIo.Backbone.BidReviewLabelAdminListView = Backbone.View.extend
     ProcureIo.Backbone.Labels.each @addOneLabel, @
 
   addOneLabel: (label) ->
-    view = new ProcureIo.Backbone.BidReviewLabelAdminView({model: label, parentView: @, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()})
+    view = new ProcureIo.Backbone.BidReviewLabelAdminView
+      model: label
+      parentView: @
+
     $("#labels-admin-list").append(view.render().el)
 
 ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
@@ -157,7 +163,6 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
     @listenTo @model, "change", @render
 
   showEditPane: ->
-
     @$el.siblings().popover 'destroy'
 
     if !@$el.data('popover')?.$el?
@@ -174,8 +179,8 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/label_admin'] _.extend @model.toJSON(),
-      filteredHref: @options.parentView.options.filteredHref
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      filteredHref: @options.parentView.options.parentView.filteredHref
+      filterOptions: @options.parentView.options.parentView.router.filterOptions.toJSON()
 
     return @
 
@@ -519,9 +524,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @}).render()
     new ProcureIo.Backbone.BidsFieldChooserView({parentView: @}).render()
     new ProcureIo.Backbone.BidReviewLabelFilterView({parentView: @}).render()
+    new ProcureIo.Backbone.BidReviewLabelAdminListView({parentView: @}).render()
 
   renderAllSubviews: ->
-    (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
 
