@@ -60,9 +60,13 @@ ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/sidebar_filter']
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
+      filterOptions: @options.parentView.router.filterOptions.toJSON()
       filteredHref: @options.parentView.filteredHref
-      counts: ProcureIo.Backbone.Bids.meta.counts
+
+    rivets.bind @$el,
+      pageOptions: @options.parentView.pageOptions
+      filterOptions: @options.parentView.router.filterOptions
+      counts: @options.parentView.counts
 
 ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
   el: "#label-filter-wrapper"
@@ -241,7 +245,7 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
     @$el.html JST['bid_review/label'] _.extend @model.toJSON(),
       filteredHref: @options.parentView.options.filteredHref
       filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
-      count: ProcureIo.Backbone.Bids.meta.counts[@model.get('id')]
+      count: 0#ProcureIo.Backbone.Bids.meta.counts[@model.get('id')]
 
     if @model.get('name') is ProcureIo.Backbone.router.filterOptions.toJSON().label
       @$el.addClass('active')
@@ -425,7 +429,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "submit #filter-form": "submitSearch"
     "click .clear-search": "clearSearch"
 
-
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
 
@@ -442,12 +445,14 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
     ProcureIo.Backbone.Bids.bind 'reset', @removeLoadingSpinner, @
-
     ProcureIo.Backbone.Bids.bind 'reset', @renderAllSubviews, @
+    ProcureIo.Backbone.Bids.bind 'reset', @setCounts, @
 
     ProcureIo.Backbone.Labels = new ProcureIo.Backbone.LabelList()
     ProcureIo.Backbone.Labels.url = "/projects/#{@options.project.id}/labels"
     ProcureIo.Backbone.Labels.reset(@options.project.labels)
+
+    @counts = new Backbone.Model
 
     @pageOptions = new Backbone.Model
       keyFields: @options.project.key_fields
@@ -511,9 +516,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   preRenderSubviews: ->
     new ProcureIo.Backbone.BidReviewActionsView({parentView: @}).render()
+    new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @}).render()
 
   renderAllSubviews: ->
-    (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
@@ -707,4 +712,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   clearSearch: (e) ->
     e.preventDefault()
     @router.navigate @filteredHref({page: false, q: false}), {trigger: true}
+
+  setCounts: ->
+    for k, v of ProcureIo.Backbone.Bids.meta.counts
+      @counts.set(k, v)
 

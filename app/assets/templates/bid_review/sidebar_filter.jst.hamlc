@@ -1,19 +1,22 @@
 %h5= I18n.t('g.status')
 
 %ul.nav.nav-pills.nav-stacked
-  %li{"class" => if @filterOptions.f2 is "open" then "active" else ""}
-    %a{"href" => @filteredHref({f2: 'open', page: false}), "data-backbone-updatefilter" => "true"}
+
+  %li{"data-rv-class-active" => "filterOptions.f2 | eq open"}
+    %a
       %span.long-name= I18n.t('g.open')
       %span.short-name= I18n.t('g.open')[0]
-      %span.badge= @counts["open"]
-  %li{"class" => if @filterOptions.f2 is "dismissed" then "active" else ""}
-    %a{"href" => @filteredHref({f2: 'dismissed', page: false}), "data-backbone-updatefilter" => "true"}
+      %span.badge{"data-rv-text" => "counts.open"}
+
+  %li{"data-rv-class-active" => "filterOptions.f2 | eq dismissed"}
+    %a
       %span.long-name= I18n.t('g.dismissed')
       %span.short-name= I18n.t('g.dismissed')[0]
-      %span.badge= @counts["dismissed"]
-  %li{"class" => if @filterOptions.f2 is "awarded" then "active" else ""}
-    %a{"href" => @filteredHref({f2: 'awarded', page: false}), "data-backbone-updatefilter" => "true"}
+      %span.badge{"data-rv-text" => "counts.dismissed"}
+
+  %li{"data-rv-class-active" => "filterOptions.f2 | eq awarded"}
+    %a
       %span.long-name= I18n.t('g.awarded')
       %span.short-name= I18n.t('g.awarded')[0]
-      %span.badge= @counts["awarded"]
+      %span.badge{"data-rv-text" => "counts.awarded"}
 
