@@ -11,6 +11,9 @@ ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
 ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
   el: ".field-chooser"
 
+  initialize: ->
+    @listenTo @options.parentView.pageOptions, "change:keyFields", @render
+
   render: ->
     fieldSelected = (id) =>
       _.find @options.parentView.pageOptions.get('keyFields'), (kf) ->
@@ -498,13 +501,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   preRenderSubviews: ->
     new ProcureIo.Backbone.BidReviewActionsView({parentView: @}).render()
     new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @}).render()
+    new ProcureIo.Backbone.BidsFieldChooserView({parentView: @}).render()
 
   renderAllSubviews: ->
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
-    (@subviews['fieldChooser'] ||= new ProcureIo.Backbone.BidsFieldChooserView({parentView: @})).render()
 
   renderExistingSubviews: ->
     for k, subview of @subviews
