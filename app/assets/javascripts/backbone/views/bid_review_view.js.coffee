@@ -1,6 +1,9 @@
 ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
   el: "#bids-thead"
 
+  initialize: ->
+    @listenTo @options.parentView.pageOptions, 'change:keyFields', @render
+
   render: ->
     @$el.html JST['bid_review/thead']
       pageOptions: @options.parentView.pageOptions
@@ -525,10 +528,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     new ProcureIo.Backbone.BidsFieldChooserView({parentView: @}).render()
     new ProcureIo.Backbone.BidReviewLabelFilterView({parentView: @}).render()
     new ProcureIo.Backbone.BidReviewLabelAdminListView({parentView: @}).render()
+    new ProcureIo.Backbone.BidsTableHeadView({parentView: @}).render()
 
   renderAllSubviews: ->
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
-    (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
 
   renderExistingSubviews: ->
     for k, subview of @subviews
