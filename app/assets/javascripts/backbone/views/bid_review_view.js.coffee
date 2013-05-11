@@ -453,7 +453,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.bind 'add', @addOne, @
     ProcureIo.Backbone.Bids.bind 'reset', @reset, @
     ProcureIo.Backbone.Bids.bind 'reset', @removeLoadingSpinner, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderAllSubviews, @
+    ProcureIo.Backbone.Bids.bind 'reset', @renderPagination, @
     ProcureIo.Backbone.Bids.bind 'reset', @setCounts, @
 
     ProcureIo.Backbone.Labels = new ProcureIo.Backbone.LabelList()
@@ -493,8 +493,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       sort: "name"
       direction: "asc"
 
-    ProcureIo.Backbone.router.filterOptions.bind "change", @renderExistingSubviews, @
-
     @subviews = {}
 
     @getLabel = (label_id) ->
@@ -530,15 +528,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     new ProcureIo.Backbone.BidReviewLabelAdminListView({parentView: @}).render()
     new ProcureIo.Backbone.BidsTableHeadView({parentView: @}).render()
 
-  renderAllSubviews: ->
-    (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
-
-  renderExistingSubviews: ->
-    for k, subview of @subviews
-      subview.render()
-
-  renderSubview: (name) ->
-    @subviews[name]?.render()
+  renderPagination: ->
+    (@paginationSubview ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
@@ -667,9 +658,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @pageOptions.set 'keyFields', @sortedKeyFields(newKeyFields)
     @storeKeyFields()
-
-    @renderSubview('fieldChooser')
-    @renderSubview('bidsTableHead')
 
     ProcureIo.Backbone.Bids.each (b) ->
       b.trigger 'change'
