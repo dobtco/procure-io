@@ -1,4 +1,6 @@
-ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews = []
+
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: "#bids-thead"
 
   initialize: ->
@@ -11,7 +13,7 @@ ProcureIo.Backbone.BidsTableHeadView = Backbone.View.extend
       filteredHref: @options.parentView.filteredHref
       filterOptions: ProcureIo.Backbone.router.filterOptions
 
-ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: ".field-chooser"
 
   initialize: ->
@@ -26,7 +28,7 @@ ProcureIo.Backbone.BidsFieldChooserView = Backbone.View.extend
       responseFields: @options.parentView.options.project.response_fields
       fieldSelected: fieldSelected
 
-ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: "#actions-wrapper"
 
   initialize: ->
@@ -42,7 +44,7 @@ ProcureIo.Backbone.BidReviewActionsView = Backbone.View.extend
       pageOptions: @options.parentView.pageOptions
       filterOptions: @options.parentView.router.filterOptions
 
-ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: "#sidebar-filter-wrapper"
 
   render: ->
@@ -55,7 +57,7 @@ ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
       filterOptions: @options.parentView.router.filterOptions
       counts: @options.parentView.counts
 
-ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: "#label-filter-wrapper"
 
   events:
@@ -128,7 +130,7 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
       pageOptions: @options.parentView.pageOptions
       filterOptions: @options.parentView.router.filterOptions
 
-ProcureIo.Backbone.BidReviewLabelAdminListView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: "#label-admin-wrapper"
 
   initialize: ->
@@ -521,12 +523,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     return @
 
   preRenderSubviews: ->
-    new ProcureIo.Backbone.BidReviewActionsView({parentView: @}).render()
-    new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @}).render()
-    new ProcureIo.Backbone.BidsFieldChooserView({parentView: @}).render()
-    new ProcureIo.Backbone.BidReviewLabelFilterView({parentView: @}).render()
-    new ProcureIo.Backbone.BidReviewLabelAdminListView({parentView: @}).render()
-    new ProcureIo.Backbone.BidsTableHeadView({parentView: @}).render()
+    for subview in ProcureIo.Backbone.BidReviewSubviews
+      new subview({parentView: @}).render()
 
   renderPagination: ->
     (@paginationSubview ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
