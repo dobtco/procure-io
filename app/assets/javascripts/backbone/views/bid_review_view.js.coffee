@@ -55,51 +55,55 @@ ProcureIo.Backbone.BidReviewSidebarFilterView = Backbone.View.extend
 ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
   el: "#label-filter-wrapper"
 
+  events:
+    "submit #new-label-form": "createLabel"
+    "focus #new-label-form input": "showColors"
+    "click .color-swatches .swatch": "selectSwatch"
+    "input .custom-color-input": "typingCustomColor"
+
   initialize: ->
     @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
 
+  createLabel: (e) ->
+    e.preventDefault()
+
+    labelName = $(@).find('input[name="label[name]"]').val()
+    labelColor = $(@).find('input[name="label[color]"]').val().replace(/^\#/, '') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
+    labelExists = ProcureIo.Backbone.Labels.existingNames().indexOf(labelName.toLowerCase()) != -1
+
+    $(@).resetForm()
+
+    $(".color-swatches .swatch.selected").removeClass 'selected'
+    $(".color-swatches .swatch:eq(0)").addClass 'selected'
+    $(".color-wrapper, .custom-color-input").addClass 'hide'
+
+    return if !labelName or labelExists
+
+    ProcureIo.Backbone.Labels.create
+      name: labelName
+      color: labelColor
+    ,
+      error: (obj, err) ->
+        obj.destroy()
+
+  showColors: ->
+    $(".color-wrapper").removeClass 'hide'
+
+  selectSwatch: (e) ->
+    $swatch = $(e.target).closest('swatch')
+    return if $swatch.hasClass 'selected'
+    $swatch.siblings().removeClass 'selected'
+    $swatch.addClass 'selected'
+    $("#new-label-form .custom-color-input").val('')
+    $("#new-label-form .hidden-color-input").val($swatch.data('color'))
+
+  typingCustomColor: (e) ->
+    @$el.find(".color-swatches .swatch.selected").removeClass 'selected'
+    $("#new-label-form .hidden-color-input").val($(e.target).val())
+
   render: ->
     @$el.html JST['bid_review/label_filter']
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
-      filteredHref: @options.project.filteredHref
       abilities: @options.parentView.options.abilities
-
-    @$el.find("#new-label-form").on "submit", (e) ->
-      e.preventDefault()
-
-      labelName = $(@).find('input[name="label[name]"]').val()
-      labelColor = $(@).find('input[name="label[color]"]').val().replace(/^\#/, '') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
-      labelExists = ProcureIo.Backbone.Labels.existingNames().indexOf(labelName.toLowerCase()) != -1
-
-      $(@).resetForm()
-
-      $(".color-swatches .swatch.selected").removeClass 'selected'
-      $(".color-swatches .swatch:eq(0)").addClass 'selected'
-      $(".color-wrapper, .custom-color-input").addClass 'hide'
-
-      return if !labelName or labelExists
-
-      ProcureIo.Backbone.Labels.create
-        name: labelName
-        color: labelColor
-      ,
-        error: (obj, err) ->
-          obj.destroy()
-
-    @$el.find("#new-label-form input").on "focus", ->
-      $(".color-wrapper").removeClass 'hide'
-
-    @$el.find(".color-swatches .swatch").on "click", ->
-      if !$(@).hasClass 'selected'
-        $(@).siblings().removeClass 'selected'
-        $(@).addClass 'selected'
-        $("#new-label-form .custom-color-input").val('')
-        $("#new-label-form .hidden-color-input").val($(@).data('color'))
-
-    @$el.find(".custom-color-input").on "input", ->
-      @$el.find(".color-swatches .swatch.selected").removeClass 'selected'
-      $("#new-label-form .hidden-color-input").val($(@).val())
-
 
     @resetLabels()
 
@@ -111,8 +115,15 @@ ProcureIo.Backbone.BidReviewLabelFilterView = Backbone.View.extend
     ProcureIo.Backbone.Labels.each @addOneLabel, @
 
   addOneLabel: (label) ->
-    view = new ProcureIo.Backbone.BidReviewLabelView({model: label, parentView: @, filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()})
-    $("#labels-list").append(view.render().el)
+    view = new ProcureIo.Backbone.BidReviewLabelView
+      model: label
+      parentView: @
+
+    el = view.render().el
+    $("#labels-list").append(el)
+    rivets.bind el,
+      pageOptions: @options.parentView.pageOptions
+      filterOptions: @options.parentView.router.filterOptions
 
 ProcureIo.Backbone.BidReviewLabelAdminListView = Backbone.View.extend
   el: "#label-admin-wrapper"
@@ -224,20 +235,25 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   initialize: ->
     @listenTo @model, "destroy", @remove
     @listenTo @model, "change", @render
+    @listenTo @options.parentView.options.parentView.router.filterOptions, "change:label", @addOrRemoveActiveClass
 
   render: ->
-    @$el.html JST['bid_review/label'] _.extend @model.toJSON(),
-      filteredHref: @options.parentView.options.filteredHref
-      filterOptions: ProcureIo.Backbone.router.filterOptions.toJSON()
-      count: 0#ProcureIo.Backbone.Bids.meta.counts[@model.get('id')]
+    @$el.html JST['bid_review/label']
+      label: @model
 
-    if @model.get('name') is ProcureIo.Backbone.router.filterOptions.toJSON().label
-      @$el.addClass('active')
+    rivets.bind @$el,
+      counts: @options.parentView.options.parentView.counts
 
     return @
 
   clear: ->
     @model.destroy()
+
+  addOrRemoveActiveClass: ->
+    if @options.parentView.options.parentView.router.filterOptions.get('label') == @model.get('name')
+      @$el.addClass('active')
+    else
+      @$el.removeClass('active')
 
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
@@ -502,9 +518,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     new ProcureIo.Backbone.BidReviewActionsView({parentView: @}).render()
     new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @}).render()
     new ProcureIo.Backbone.BidsFieldChooserView({parentView: @}).render()
+    new ProcureIo.Backbone.BidReviewLabelFilterView({parentView: @}).render()
 
   renderAllSubviews: ->
-    (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['pagination'] ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
     (@subviews['bidsTableHead'] ||= new ProcureIo.Backbone.BidsTableHeadView({parentView: @})).render()
@@ -531,15 +547,25 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     ProcureIo.Backbone.Bids.each @addOne, @
 
   updateFilter: (e) ->
-    $a = if $(e.target).is("a") then $(e.target) else $(e.target).closest("a")
+    $a = $(e.target).closest("a")
+    willRemoveHref = false
 
     if !$a.attr('href')
-      # if no href, attempt to construct from parameters
-      $a.attr 'href', @filteredHref($a.data('backbone-updatefilter'))
+      willRemoveHref = true
+      if (labelName = $a.data('label-name'))
+        $a.attr 'href', (@filteredHref
+          label: if (@router.filterOptions.get('label') == labelName) then false else labelName
+          page: false
+        )
+
+      else
+        # if no href, attempt to construct from parameters
+        $a.attr 'href', @filteredHref($a.data('backbone-updatefilter'))
 
     return if e.metaKey
     ProcureIo.Backbone.router.navigate $a.attr('href'), {trigger: true}
     e.preventDefault()
+    $a.removeAttr('href') if willRemoveHref
 
   dismissCheckedBids: (e) ->
     e.preventDefault()
@@ -639,7 +665,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     ProcureIo.Backbone.Bids.each (b) ->
       b.trigger 'change'
-
 
   refetch: ->
     $("#bid-review-page").addClass 'loading'
