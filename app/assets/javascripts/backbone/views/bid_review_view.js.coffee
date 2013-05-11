@@ -254,27 +254,6 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   clear: ->
     @model.destroy()
 
-ProcureIo.Backbone.BidReviewSearchForm = Backbone.View.extend
-  el: ".js-subview-search-form"
-
-  events:
-    "submit form": "submit"
-    "click .clear-search": "clearSearch"
-
-  render: ->
-    @$el.html JST['bid_review/search_form']()
-    rivets.bind @$el,
-      filterOptions: @options.parentView.router.filterOptions
-      pageOptions: @options.parentView.pageOptions
-
-  submit: (e) ->
-    e.preventDefault()
-    @options.parentView.router.navigate @options.parentView.filteredHref({page: 1}), {trigger: true}
-
-  clearSearch: (e) ->
-    e.preventDefault()
-    @options.parentView.router.navigate @options.parentView.filteredHref({page: false, q: false}), {trigger: true}
-
 ProcureIo.Backbone.BidReviewView = Backbone.View.extend
   tagName: "tr"
   className: "bid-tr"
@@ -446,6 +425,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-label-id]": "labelCheckedBids"
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
     "click .js-collapse-sidebar": "toggleCollapseSidebar"
+    "submit #filter-form": "submitSearch"
+    "click .clear-search": "clearSearch"
+
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
@@ -524,12 +506,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @$el.html JST['bid_review/page']
       pageOptions: @pageOptions.toJSON()
       project: @project
-    rivets.bind(@$el, {pageOptions: @pageOptions, filterOptions: ProcureIo.Backbone.router.filterOptions})
+    rivets.bind @$el,
+      pageOptions: @pageOptions
+      filterOptions: ProcureIo.Backbone.router.filterOptions
     return @
 
   renderAllSubviews: ->
     (@subviews['sidebarFilter'] ||= new ProcureIo.Backbone.BidReviewSidebarFilterView({parentView: @})).render()
-    (@subviews['searchForm'] ||= new ProcureIo.Backbone.BidReviewSearchForm({parentView: @})).render()
     (@subviews['labelFilter'] ||= new ProcureIo.Backbone.BidReviewLabelFilterView({project: @options.project, filteredHref: @filteredHref, parentView: @})).render()
     (@subviews['labelAdmin'] ||= new ProcureIo.Backbone.BidReviewLabelAdminListView({project: @options.project, filteredHref: @filteredHref})).render()
     (@subviews['actions'] ||= new ProcureIo.Backbone.BidReviewActionsView({project: @project, parentView: @})).render()
@@ -713,4 +696,12 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
       store.set(@sidebarStorageKey, 'collapsed')
       @pageOptions.set('sidebarCollapsed', true)
+
+  submitSearch: (e) ->
+    e.preventDefault()
+    @router.navigate @filteredHref({page: 1}), {trigger: true}
+
+  clearSearch: (e) ->
+    e.preventDefault()
+    @router.navigate @filteredHref({page: false, q: false}), {trigger: true}
 

@@ -1,6 +1,10 @@
 .row-fluid
   .span3.sidebar-wrapper
-    .js-subview-search-form
+    %form.bid-search-form#filter-form
+      %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", |
+                          "data-rv-value" => "filterOptions.q"}
+      %a.clear-search{"data-rv-show" => "filterOptions.q"}
+        %i.icon-remove-sign
 
     .clearfix
 
