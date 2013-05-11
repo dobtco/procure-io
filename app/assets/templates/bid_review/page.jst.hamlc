@@ -3,7 +3,7 @@
     %form.bid-search-form#filter-form
       %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", |
                           "data-rv-value" => "filterOptions.q"}
-      %a.clear-search{"data-rv-show" => "filterOptions.q"}
+      %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-updatefilter" => JSON.stringify({q: false, page: false})}
         %i.icon-remove-sign
 
     .clearfix

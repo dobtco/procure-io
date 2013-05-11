@@ -427,7 +427,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
     "click .js-collapse-sidebar": "toggleCollapseSidebar"
     "submit #filter-form": "submitSearch"
-    "click .clear-search": "clearSearch"
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
@@ -713,10 +712,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   submitSearch: (e) ->
     e.preventDefault()
     @router.navigate @filteredHref({page: 1}), {trigger: true}
-
-  clearSearch: (e) ->
-    e.preventDefault()
-    @router.navigate @filteredHref({page: false, q: false}), {trigger: true}
 
   setCounts: ->
     for k, v of ProcureIo.Backbone.Bids.meta.counts
