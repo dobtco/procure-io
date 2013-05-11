@@ -40,4 +40,6 @@
     %small.pull-left
       %a.js-collapse-sidebar{"data-toggle-text" => "Restore sidebar &rarr;"} &larr; Collapse sidebar
 
-    #bids-footer-wrapper
+    %small.pull-right
+      %a.js-view-filtered-emails Get emails for filtered vendors
+
