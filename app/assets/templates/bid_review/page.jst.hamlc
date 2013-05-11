@@ -19,7 +19,6 @@
     #label-admin-wrapper
 
   .span9.right-side-span
-    / %p No active filters.
 
     != JST['shared/loading_indicator']()
 
