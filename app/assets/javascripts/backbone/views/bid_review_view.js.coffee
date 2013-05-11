@@ -549,6 +549,11 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   updateFilter: (e) ->
     $a = if $(e.target).is("a") then $(e.target) else $(e.target).closest("a")
+
+    if !$a.attr('href')
+      # if no href, attempt to construct from parameters
+      $a.attr 'href', @filteredHref($a.data('backbone-updatefilter'))
+
     return if e.metaKey
     ProcureIo.Backbone.router.navigate $a.attr('href'), {trigger: true}
     e.preventDefault()

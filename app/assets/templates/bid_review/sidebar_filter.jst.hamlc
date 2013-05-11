@@ -3,19 +3,19 @@
 %ul.nav.nav-pills.nav-stacked
 
   %li{"data-rv-class-active" => "filterOptions.f2 | eq open"}
-    %a
+    %a{"data-backbone-updatefilter" => JSON.stringify({f2: 'open'})}
       %span.long-name= I18n.t('g.open')
       %span.short-name= I18n.t('g.open')[0]
       %span.badge{"data-rv-text" => "counts.open"}
 
   %li{"data-rv-class-active" => "filterOptions.f2 | eq dismissed"}
-    %a
+    %a{"data-backbone-updatefilter" => JSON.stringify({f2: 'dismissed'})}
       %span.long-name= I18n.t('g.dismissed')
       %span.short-name= I18n.t('g.dismissed')[0]
       %span.badge{"data-rv-text" => "counts.dismissed"}
 
   %li{"data-rv-class-active" => "filterOptions.f2 | eq awarded"}
-    %a
+    %a{"data-backbone-updatefilter" => JSON.stringify({f2: 'awarded'})}
       %span.long-name= I18n.t('g.awarded')
       %span.short-name= I18n.t('g.awarded')[0]
       %span.badge{"data-rv-text" => "counts.awarded"}
