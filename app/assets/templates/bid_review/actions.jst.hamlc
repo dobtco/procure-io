@@ -9,14 +9,14 @@
           %a No labels
       - @labels.each (label) ->
         %li
-          %a{"data-backbone-label-id" => label.get('id')}
+          %a{"data-backbone-click" => "labelCheckedBids", "data-backbone-params" => label.get('id')}
             %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
             #{label.get('name')}
 
 - if @abilities.awardAndDismissBids
   %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
     %span{"data-rv-show" => "filterOptions.f2 | eq dismissed"}
-      %button.btn.btn-small{"data-backbone-dismiss" => "true", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
+      %button.btn.btn-small{"data-backbone-click" => "dismissCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.undismiss')
     %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
       .btn-group.dropdown
@@ -24,7 +24,7 @@
           = I18n.t('g.dismiss')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form.dropdown-form-auto{"data-backbone-dismiss-form" => true}
+          %form.dropdown-form.dropdown-form-auto{"data-backbone-submit" => "dismissCheckedBids"}
             %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
             %label.checkbox
               %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}
@@ -33,7 +33,7 @@
 
   %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
     %span{"data-rv-show" => "filterOptions.f2 | eq awarded"}
-      %button.btn.btn-small{"data-backbone-award" => "true", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
+      %button.btn.btn-small{"data-backbone-click" => "awardCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.unaward')
     %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
       .btn-group.dropdown
@@ -41,7 +41,7 @@
           = I18n.t('g.award')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form.dropdown-form-large{"data-backbone-award-form" => true}
+          %form.dropdown-form.dropdown-form-large{"data-backbone-submit" => "awardCheckedBids"}
             .alert.alert-error= I18n.t('g.careful_awarding')
             .control-group
               %textarea.js-award-message{"placeholder" => I18n.t('g.award_message'), "rows" => 5}

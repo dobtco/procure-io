@@ -1,6 +1,6 @@
 .row-fluid
   .span3.sidebar-wrapper
-    %form.bid-search-form#filter-form
+    %form.bid-search-form#filter-form{"data-backbone-submit" => "submitSearch"}
       %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", |
                           "data-rv-value" => "filterOptions.q"}
       %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({q: false, page: false})}
@@ -12,7 +12,7 @@
 
     %h5
       Labels
-      %a.smaller.regular-font.js-edit-labels{"data-backbone-togglelabeladmin" => "true", "data-toggle-text" => I18n.t('g.done_editing_labels')}= I18n.t('g.edit_labels')
+      %a.smaller.regular-font{"data-backbone-click" => "toggleLabelAdmin", "data-toggle-text" => I18n.t('g.done_editing_labels')}= I18n.t('g.edit_labels')
 
     #label-filter-wrapper
 
@@ -37,8 +37,8 @@
         %tbody#bids-tbody
 
     %small.pull-left
-      %a.js-collapse-sidebar{"data-toggle-text" => "Restore sidebar &rarr;"} &larr; Collapse sidebar
+      %a{"data-toggle-text" => "Restore sidebar &rarr;", "data-backbone-click" => "toggleCollapseSidebar"} &larr; Collapse sidebar
 
     %small.pull-right
-      %a.js-view-filtered-emails Get emails for filtered vendors
+      %a{"data-backbone-click" => "viewFilteredEmails"} Get emails for filtered vendors
 

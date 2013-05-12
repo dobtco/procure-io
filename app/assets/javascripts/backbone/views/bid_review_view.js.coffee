@@ -426,19 +426,15 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   el: "#bid-review-page"
 
   events:
-    "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
-    "submit [data-backbone-dismiss-form]": "dismissCheckedBids"
-    "submit [data-backbone-award-form]": "awardCheckedBids"
-    "click [data-backbone-award]:not(.disabled)": "awardCheckedBids"
-    "click [data-backbone-label-id]": "labelCheckedBids"
-    "click [data-backbone-togglelabeladmin]": "toggleLabelAdmin"
-    "click .js-collapse-sidebar": "toggleCollapseSidebar"
-    "click .js-view-filtered-emails": "viewFilteredEmails"
-    "submit #filter-form": "submitSearch"
     "click [data-backbone-click]": "onClick"
+    "submit [data-backbone-submit]": "onSubmit"
 
   onClick: (e) ->
+    return if $(e.currentTarget).hasClass 'disabled'
     @[$(e.currentTarget).data('backbone-click')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
+
+  onSubmit: (e) ->
+    @[$(e.currentTarget).data('backbone-submit')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
@@ -585,9 +581,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     @sendBatchAction('award', ids, options)
 
-  labelCheckedBids: (e) ->
+  labelCheckedBids: (e, $el, labelId) ->
     ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
-    @sendBatchAction('label', ids, {label_id: $(e.target).data('backbone-label-id')})
+    @sendBatchAction('label', ids, {label_id: labelId})
 
   toggleLabelAdmin: ->
     @$el.toggleClass 'editing-labels'
