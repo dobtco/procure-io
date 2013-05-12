@@ -28,7 +28,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 - `git push heroku master`
 - `heroku run rake db:migrate`
 - `heroku run rake db:seed`
-- Create your first officer with admin permissions: `heroku run rake create_admin[email@example.com,password]`
+- Create your first officer with admin permissions: `heroku run rake 'create_admin[email@example.com,password]'`
 
 ##### A couple notes:
 - Procure.io uses delayed_job to run tasks asynchronously. Running a worker dyno costs $34.50/month, so if you want to avoid this charge, you'll have to disable the worker in the `Procfile`, and configure delayed_job with `Delayed::Worker.delay_jobs = false`.
