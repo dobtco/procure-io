@@ -1,4 +1,4 @@
-%a{"data-backbone-updatefilter" => true, "data-label-name" => @label.get('name')}
+%a{"data-backbone-click" => "updateFilter", "data-label-name" => @label.get('name')}
   %span.rectangular-color-swatch{"style" => "background-color: ##{@label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
   %span.label-name= @label.get('name')
   %span.badge{"data-rv-text" => "counts.#{@label.get('id')}"}

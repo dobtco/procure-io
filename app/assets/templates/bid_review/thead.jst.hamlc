@@ -3,7 +3,7 @@
 
   - for keyField in @pageOptions.get('keyFields')
     %th
-      %a{"href" => @filteredHref({sort: keyField, direction: (if @filterOptions.get('sort') is "#{keyField}" and @filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-updatefilter" => true}
+      %a{"href" => @filteredHref({sort: keyField, direction: (if @filterOptions.get('sort') is "#{keyField}" and @filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-click" => "updateFilter"}
         - if keyField == 'name'
           = I18n.t('g.vendor_name')
 

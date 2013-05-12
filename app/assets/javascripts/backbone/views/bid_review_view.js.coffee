@@ -426,9 +426,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   el: "#bid-review-page"
 
   events:
-    "click .sort-wrapper a": "updateFilter"
-    "click .js-toggle-response-field": "toggleResponseField"
-    "click [data-backbone-updatefilter]": "updateFilter"
     "click [data-backbone-dismiss]:not(.disabled)": "dismissCheckedBids"
     "submit [data-backbone-dismiss-form]": "dismissCheckedBids"
     "submit [data-backbone-award-form]": "awardCheckedBids"
@@ -438,6 +435,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     "click .js-collapse-sidebar": "toggleCollapseSidebar"
     "click .js-view-filtered-emails": "viewFilteredEmails"
     "submit #filter-form": "submitSearch"
+    "click [data-backbone-click]": "onClick"
+
+  onClick: (e) ->
+    @[$(e.currentTarget).data('backbone-click')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
@@ -543,26 +544,25 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   addAll: ->
     ProcureIo.Backbone.Bids.each @addOne, @
 
-  updateFilter: (e) ->
-    $a = $(e.target).closest("a")
+  updateFilter: (e, $el, params) ->
     willRemoveHref = false
 
-    if !$a.attr('href')
+    if !$el.attr('href')
       willRemoveHref = true
-      if (labelName = $a.data('label-name'))
-        $a.attr 'href', (@filteredHref
+      if (labelName = $el.data('label-name'))
+        $el.attr 'href', (@filteredHref
           label: if (@router.filterOptions.get('label') == labelName) then false else labelName
           page: false
         )
 
       else
         # if no href, attempt to construct from parameters
-        $a.attr 'href', @filteredHref($a.data('backbone-updatefilter'))
+        $el.attr 'href', @filteredHref(params)
 
     return if e.metaKey
-    ProcureIo.Backbone.router.navigate $a.attr('href'), {trigger: true}
+    ProcureIo.Backbone.router.navigate $el.attr('href'), {trigger: true}
     e.preventDefault()
-    $a.removeAttr('href') if willRemoveHref
+    $el.removeAttr('href') if willRemoveHref
 
   dismissCheckedBids: (e) ->
     e.preventDefault()

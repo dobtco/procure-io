@@ -4,9 +4,9 @@
 %ul.dropdown-menu.dropdown-menu-checks
   %li{"class" => if @fieldSelected('name') then "active"}
     %i.icon-ok
-    %a.js-toggle-response-field{"data-response-field-id" => 'name'}= I18n.t('g.vendor_name')
+    %a{"data-backbone-click" => "toggleResponseField", "data-response-field-id" => 'name'}= I18n.t('g.vendor_name')
 
   - for responseField in @responseFields
     %li{"class" => if @fieldSelected(responseField.id) then "active"}
       %i.icon-ok
-      %a.js-toggle-response-field{"data-response-field-id" => responseField.id}= responseField.label
+      %a{"data-backbone-click" => "toggleResponseField", "data-response-field-id" => responseField.id}= responseField.label
