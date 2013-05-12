@@ -23,7 +23,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 - `heroku labs:enable user-env-compile`
 - `heroku addons:add heroku-postgresql`
 - Add an additional environment variable with the database URL
-  - `heroku config` to see it the existing database URL
+  - `heroku config` to see the existing database URL
   - `heroku config:set DATABASE_URL="YOURDATABASEURLHERE"`
 - `git push heroku master`
 - `heroku run rake db:migrate`
