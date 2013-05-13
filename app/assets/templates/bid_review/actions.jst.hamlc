@@ -14,11 +14,11 @@
             #{label.get('name')}
 
 - if @abilities.awardAndDismissBids
-  %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
-    %span{"data-rv-show" => "filterOptions.f2 | eq dismissed"}
+  %span{"data-rv-show" => "filterOptions.status | eq awarded | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq dismissed"}
       %button.btn.btn-small{"data-backbone-click" => "dismissCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.undismiss')
-    %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq dismissed | not"}
       .btn-group.dropdown
         %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
           = I18n.t('g.dismiss')
@@ -31,11 +31,11 @@
               = I18n.t('g.vendor_can_see')
             %button.btn.btn-inverse= I18n.t('g.dismiss')
 
-  %span{"data-rv-show" => "filterOptions.f2 | eq dismissed | not"}
-    %span{"data-rv-show" => "filterOptions.f2 | eq awarded"}
+  %span{"data-rv-show" => "filterOptions.status | eq dismissed | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq awarded"}
       %button.btn.btn-small{"data-backbone-click" => "awardCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
         = I18n.t('g.unaward')
-    %span{"data-rv-show" => "filterOptions.f2 | eq awarded | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq awarded | not"}
       .btn-group.dropdown
         %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
           = I18n.t('g.award')

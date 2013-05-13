@@ -4,44 +4,27 @@
   min-height: 300px;
   padding-bottom: 20px;
 
-  #label-admin-wrapper {
+  .subview-label-admin {
     display: none;
   }
 
   &.editing-labels {
-    #label-admin-wrapper {
+    .subview-label-admin {
       display: block;
     }
 
-    #label-filter-wrapper {
+    .subview-label-filter {
       display: none;
     }
-  }
-
-  #actions-wrapper {
-    display: inline-block;
   }
 
   .right-side-span {
     position: relative;
   }
 
-  #sorters-wrapper {
-    text-align: right;
-    clear: both;
-    margin: 10px 0;
-  }
-
   .sidebar-wrapper {
     h5 {
       margin-bottom: 2px;
-    }
-
-    a {
-      .badge {
-        float: right;
-        margin-top: -2px;
-      }
     }
 
     .short-name {
@@ -70,7 +53,7 @@
 .bids-table-wrapper {
   position: relative;
 
-  .field-chooser {
+  .subview-field-chooser {
     position: absolute;
     top: 5px;
     right: 0;
@@ -110,10 +93,6 @@
     }
   }
 
-  .read-marker {
-    font-size: 10px;
-  }
-
   .vendor-name {
     font-weight: 400;
   }
@@ -138,7 +117,7 @@
     display: none;
     color: #fff;
     text-shadow: none;
-    margin: 2px 4px 0 0;
+    margin: 1px 2px 0 0;
   }
 
   li.active {

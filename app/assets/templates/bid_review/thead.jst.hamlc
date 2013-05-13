@@ -1,17 +1,17 @@
 %tr
   %th &nbsp;
 
-  - for keyField in @pageOptions.get('keyFields')
+  - for keyField in @parentView.pageOptions.get('keyFields')
     %th
-      %a{"href" => @filteredHref({sort: keyField, direction: (if @filterOptions.get('sort') is "#{keyField}" and @filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false}), "data-backbone-click" => "updateFilter"}
+      %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({sort: keyField, direction: (if @parentView.router.filterOptions.get('sort') is "#{keyField}" and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false})}
         - if keyField == 'name'
           = I18n.t('g.vendor_name')
 
         - else
           = @parentView.getResponseField(keyField).label
 
-        - if @filterOptions.get('sort') == "#{keyField}"
-          - if @filterOptions.get('direction') != 'asc'
+        - if @parentView.router.filterOptions.get('sort') == "#{keyField}"
+          - if @parentView.router.filterOptions.get('direction') != 'asc'
             %i.icon-chevron-down
           - else # asc
             %i.icon-chevron-up

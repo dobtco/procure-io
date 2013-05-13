@@ -2,28 +2,29 @@
   %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
 
   - if @project.review_mode == "stars"
-    %span.total-stars{"data-backbone-star" => "true"}
-      %i{"class" => (if @bid.starred then "icon-star" else "icon-star-empty")}
-      %span= @bid.total_stars
+    %span.total-stars{"data-backbone-click" => "toggleStarred"}
+      %i{"class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+      %span= @bid.get('total_stars')
 
   - if @project.review_mode == "one_through_five"
-    .rating-select{"data-score" => @bid.rating}
+    .rating-select{"data-score" => @bid.get('rating')}
 
 - if @project.review_mode == "one_through_five"
   %td
-    %span= @bid.average_rating
-    - if @bid.total_ratings
-      %span.total_ratings= @bid.total_ratings
+    %span= @bid.get('average_rating')
+    - if @bid.get('total_ratings')
+      %span.total_ratings= @bid.get('total_ratings')
 
 - for keyField in @pageOptions.attributes.keyFields
   %td
     - if keyField == 'name'
 
-      %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.id}"}= @bid.bidder_name
+      %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}
+        = @bid.get('bidder_name')
 
-      - for label_id in @bid.labels
+      - for label_id in @bid.get('labels')
         - label = @getLabel(label_id)
-        %span.badge{"class" => "label-text-#{label.text_color}", "style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.name
+        %span.badge{"class" => "label-text-#{label.get('text_color')}", "style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.get('name')
 
     - else
       != @getValue(keyField)

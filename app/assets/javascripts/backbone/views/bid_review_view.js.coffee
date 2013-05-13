@@ -1,20 +1,19 @@
 ProcureIo.Backbone.BidReviewSubviews = []
 
+# Bids <thead>
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: "#bids-thead"
+  el: ".subview-bids-thead"
 
   initialize: ->
     @listenTo @options.parentView.pageOptions, 'change:keyFields', @render
+    @listenTo @options.parentView.router.filterOptions, 'change', @render
 
   render: ->
-    @$el.html JST['bid_review/thead']
-      pageOptions: @options.parentView.pageOptions
-      parentView: @options.parentView
-      filteredHref: @options.parentView.filteredHref
-      filterOptions: ProcureIo.Backbone.router.filterOptions
+    @$el.html JST['bid_review/thead']({parentView: @options.parentView})
 
+# Field chooser
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: ".field-chooser"
+  el: ".subview-field-chooser"
 
   initialize: ->
     @listenTo @options.parentView.pageOptions, "change:keyFields", @render
@@ -28,8 +27,9 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
       responseFields: @options.parentView.options.project.response_fields
       fieldSelected: fieldSelected
 
+# Actions (label, dismiss, award)
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: "#actions-wrapper"
+  el: ".subview-actions-wrapper"
 
   initialize: ->
     @listenTo ProcureIo.Backbone.Labels, "add", @render
@@ -37,59 +37,44 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/actions']
-      labels: ProcureIo.Backbone.Labels
-      abilities: @options.parentView.options.abilities
+      labels: @options.parentView.labels
+      abilities: @options.parentView.abilities
 
     rivets.bind @$el,
       pageOptions: @options.parentView.pageOptions
       filterOptions: @options.parentView.router.filterOptions
 
+# Sidebar filters (open, dismissed, awarded)
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: "#sidebar-filter-wrapper"
+  el: ".subview-sidebar-filter"
 
   render: ->
-    @$el.html JST['bid_review/sidebar_filter']
-      filterOptions: @options.parentView.router.filterOptions.toJSON()
-      filteredHref: @options.parentView.filteredHref
+    @$el.html JST['bid_review/sidebar_filter']()
 
     rivets.bind @$el,
       pageOptions: @options.parentView.pageOptions
       filterOptions: @options.parentView.router.filterOptions
       counts: @options.parentView.counts
 
+# Label filters
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: "#label-filter-wrapper"
-
-  events:
-    "submit #new-label-form": "createLabel"
-    "focus #new-label-form input": "showColors"
-    "click .color-swatches .swatch": "selectSwatch"
-    "input .custom-color-input": "typingCustomColor"
+  el: ".subview-label-filter"
 
   initialize: ->
-    @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
+    @listenTo @options.parentView.labels, "add", @addOneLabel
 
-  createLabel: (e) ->
-    e.preventDefault()
-
-    labelName = $(@).find('input[name="label[name]"]').val()
-    labelColor = $(@).find('input[name="label[color]"]').val().replace(/^\#/, '') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
-    labelExists = ProcureIo.Backbone.Labels.existingNames().indexOf(labelName.toLowerCase()) != -1
-
-    $(@).resetForm()
-
-    $(".color-swatches .swatch.selected").removeClass 'selected'
-    $(".color-swatches .swatch:eq(0)").addClass 'selected'
-    $(".color-wrapper, .custom-color-input").addClass 'hide'
+  createLabel: (e, $el) ->
+    labelName = $el.find('input[name="label[name]"]').val()
+    labelColor = $el.find('input[name="label[color]"]').val().replace(/^\#/, '') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR
+    labelExists = @options.parentView.labels.existingNames().indexOf(labelName.toLowerCase()) != -1
 
     return if !labelName or labelExists
 
-    ProcureIo.Backbone.Labels.create
+    @options.parentView.labels.create
       name: labelName
       color: labelColor
-    ,
-      error: (obj, err) ->
-        obj.destroy()
+
+    @render() # resets everything
 
   showColors: ->
     $(".color-wrapper").removeClass 'hide'
@@ -117,7 +102,7 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
     @addAllLabels()
 
   addAllLabels: ->
-    ProcureIo.Backbone.Labels.each @addOneLabel, @
+    @options.parentView.labels.each @addOneLabel, @
 
   addOneLabel: (label) ->
     view = new ProcureIo.Backbone.BidReviewLabelView
@@ -125,22 +110,20 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
       parentView: @
 
     el = view.render().el
-    $("#labels-list").append(el)
+    @$el.find("#labels-list").append(el)
     rivets.bind el,
       pageOptions: @options.parentView.pageOptions
       filterOptions: @options.parentView.router.filterOptions
 
+# Label admin
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
-  el: "#label-admin-wrapper"
+  el: ".subview-label-admin"
 
   initialize: ->
     @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
 
   render: ->
-    @$el.html JST['bid_review/label_admin_list']
-      filterOptions: @options.parentView.router.filterOptions.toJSON()
-      filteredHref: @options.parentView.filteredHref
-
+    @$el.html JST['bid_review/label_admin_list']()
     @resetLabels()
 
   resetLabels: ->
@@ -148,20 +131,17 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
     @addAllLabels()
 
   addAllLabels: ->
-    ProcureIo.Backbone.Labels.each @addOneLabel, @
+    @options.parentView.labels.each @addOneLabel, @
 
   addOneLabel: (label) ->
     view = new ProcureIo.Backbone.BidReviewLabelAdminView
       model: label
       parentView: @
 
-    $("#labels-admin-list").append(view.render().el)
+    @$el.find("#labels-admin-list").append(view.render().el)
 
 ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
   tagName: "li"
-
-  events:
-    "click a": "showEditPane"
 
   initialize: ->
     @listenTo @model, "destroy", @remove
@@ -183,9 +163,8 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
       @$el.popover 'show'
 
   render: ->
-    @$el.html JST['bid_review/label_admin'] _.extend @model.toJSON(),
-      filteredHref: @options.parentView.options.parentView.filteredHref
-      filterOptions: @options.parentView.options.parentView.router.filterOptions.toJSON()
+    @$el.html JST['bid_review/label_admin']
+      model: @model
 
     return @
 
@@ -193,10 +172,6 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
     @model.destroy()
 
 ProcureIo.Backbone.BidReviewLabelEditView = Backbone.View.extend
-  events:
-    "submit #edit-label-form": "save"
-    "click [data-backbone-destroy-label]": "clear"
-
   initialize: ->
     @label = @options.label
     @parentView = @options.parentView
@@ -230,14 +205,16 @@ ProcureIo.Backbone.BidReviewLabelEditView = Backbone.View.extend
 
     return @
 
-  save: (e) ->
-    e.preventDefault()
+  saveLabel: (e) ->
     @label.save()
-    @parentView.$el.popover 'destroy'
+    @removePopover()
 
-  clear: ->
-    @parentView.$el.popover 'destroy'
+  removeLabel: ->
     @label.destroy()
+    @removePopover()
+
+  removePopover: ->
+    @parentView.$el.popover 'destroy'
 
 ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
   tagName: "li"
@@ -265,14 +242,11 @@ ProcureIo.Backbone.BidReviewLabelView = Backbone.View.extend
     else
       @$el.removeClass('active')
 
-ProcureIo.Backbone.BidReviewView = Backbone.View.extend
+ProcureIo.Backbone.BidReviewBidView = Backbone.View.extend
   tagName: "tr"
   className: "bid-tr"
 
   events:
-    "click .vendor-name": "openBid"
-    "click [data-backbone-star]": "toggleStarred"
-    "click [data-backbone-read]": "toggleRead"
     "mouseenter": "selectBid"
 
   initialize: ->
@@ -282,28 +256,28 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
     @listenTo @model, "sync", @checkForRefetch
 
   checkForRefetch: ->
-    if (ProcureIo.Backbone.router.filterOptions.get("f1") == "starred" && @model.get("total_stars") < 1) ||
-       (ProcureIo.Backbone.router.filterOptions.get("f2") == "open" && (@model.get("dismissed_at") || @model.get("awarded_at"))) ||
-       (ProcureIo.Backbone.router.filterOptions.get("f2") == "dismissed" && !@model.get("dismissed_at")) ||
-       (ProcureIo.Backbone.router.filterOptions.get("f2") == "awarded" && !@model.get("awarded_at"))
+    if (@parentView.router.filterOptions.get("status") == "open" && (@model.get("dismissed_at") || @model.get("awarded_at"))) ||
+       (@parentView.router.filterOptions.get("status") == "dismissed" && !@model.get("dismissed_at")) ||
+       (@parentView.router.filterOptions.get("status") == "awarded" && !@model.get("awarded_at"))
 
       @parentView.refetch()
 
+  getValue: (id) ->
+    response = _.find @model.get('responses'), (response) ->
+      response.response_field_id is id
+
+    if response then response.display_value else ""
+
   render: ->
-    getValue = (id) =>
-      response = _.find @model.get('responses'), (response) ->
-        response.response_field_id is id
-
-      if response then response.display_value else ""
-
     @$el.html JST['bid_review/bid']
-      bid: @model.toJSON()
+      bid: @model
       pageOptions: @parentView.pageOptions
-      getValue: getValue
+      getValue: @getValue
       project: @parentView.project
       getLabel: @parentView.getLabel
 
-    rivets.bind(@$el, {bid: @model})
+    rivets.bind @$el,
+      bid: @model
 
     @$el[if !@model.get("read") then "addClass" else "removeClass"]('bid-tr-unread')
     @$el[if @model.get("checked") then "addClass" else "removeClass"]('bid-tr-checked')
@@ -314,41 +288,6 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       click: (score) =>
         @model.set('rating', score)
         @model.save()
-
-    if @parentView.options.abilities.seeAllBidReviews
-      @$el.find(".total-stars").tooltip
-        title: "Loading..."
-        animation: false
-        delay:
-          show: 1000
-          hide: 100
-
-      @starrersLoaded = false
-      self = @
-
-      loadStarrers = ->
-        return if self.starrersLoaded
-
-        if !$(@).data('tooltip')?.$tip?
-          return setTimeout (=> loadStarrers.call(@)), 1000
-
-        self.starrersLoaded = true
-
-        $.getJSON "#{ProcureIo.Backbone.Bids.baseUrl}/#{self.model.get('id')}/reviews.json", (data) =>
-          starrers = _.map data, (bid) ->
-            if bid.officer.me then "You" else bid.officer.display_name
-
-          newTitle = if starrers.length > 0 then starrers.join(", ") else "No stars yet."
-
-          $(@).attr('data-original-title', newTitle).tooltip('fixTitle')
-
-          if $(@).data('tooltip').$tip?.is(":visible")
-            $(@).tooltip('show')
-
-      @$el.find(".total-stars").on "mouseover", loadStarrers
-
-      @$el.find(".rating-select").on "change", =>
-        @save()
 
     return @
 
@@ -382,15 +321,15 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       bid: @model
       project: @parentView.project
       el: @$modal.find(".modal-bid-view-wrapper")
-      abilities: @parentView.options.abilities
+      abilities: @parentView.abilities
 
-    if ProcureIo.GlobalConfig.comments_enabled && @parentView.options.abilities.readAndWriteBidComments
+    if ProcureIo.GlobalConfig.comments_enabled && @parentView.abilities.readAndWriteBidComments
       @modalCommentsView = new ProcureIo.Backbone.CommentPageView
         commentableType: "Bid"
         commentableId: @model.id
         el: @$modal.find(".modal-comments-view-wrapper")
 
-    if @parentView.options.abilities.seeAllBidReviews
+    if @parentView.abilities.seeAllBidReviews
       @modalReviewsView = new ProcureIo.Backbone.BidPageReviewsView
         project_id: @parentView.project.id
         bid_id: @model.id
@@ -425,68 +364,48 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   el: "#bid-review-page"
 
   initialize: ->
+    # Hack for hotkey selection
     ProcureIo.BidsOnMouseoverSelect = true
 
     @project = @options.project
-    @options.projectId = @options.project.id
+    @abilities = @options.abilities
 
     @keyFieldStorageKey = "project#{@project.id}-keyfields"
     @sidebarStorageKey = "project#{@project.id}-sidebar"
 
-    ProcureIo.Backbone.Bids = new ProcureIo.Backbone.BidList()
-    ProcureIo.Backbone.Bids.baseUrl = "/projects/#{@options.projectId}/bids"
-    ProcureIo.Backbone.Bids.url = "#{ProcureIo.Backbone.Bids.baseUrl}.json"
+    @bids = new ProcureIo.Backbone.BidList()
+    # @todo investigate
+    @bids.baseUrl = "/projects/#{@project.id}/bids"
+    @bids.url = "#{@bids.baseUrl}.json"
 
-    ProcureIo.Backbone.Bids.bind 'add', @addOne, @
-    ProcureIo.Backbone.Bids.bind 'reset', @reset, @
-    ProcureIo.Backbone.Bids.bind 'reset', @removeLoadingSpinner, @
-    ProcureIo.Backbone.Bids.bind 'reset', @renderPagination, @
-    ProcureIo.Backbone.Bids.bind 'reset', @setCounts, @
+    @bids.bind 'add', @addOne, @
+    @bids.bind 'reset', @reset, @
+    @bids.bind 'reset', @doneLoading, @
+    @bids.bind 'reset', @renderPagination, @
+    @bids.bind 'reset', @setCounts, @
 
-    ProcureIo.Backbone.Labels = new ProcureIo.Backbone.LabelList()
-    ProcureIo.Backbone.Labels.url = "/projects/#{@options.project.id}/labels"
-    ProcureIo.Backbone.Labels.reset(@options.project.labels)
+    @labels = new ProcureIo.Backbone.LabelList()
+    @labels.url = "/projects/#{@options.project.id}/labels"
+    @labels.reset(@project.labels)
 
     @counts = new Backbone.Model
 
     @pageOptions = new Backbone.Model
-      keyFields: @options.project.key_fields
+      keyFields: @project.key_fields
 
     @setKeyFields()
 
-    @filteredHref = (newFilters) =>
-      existingParams = ProcureIo.Backbone.router.filterOptions.toJSON()
-
-      for k, v of newFilters
-        existingParams[k] = v
-
-      newParams = {}
-      hasParams = false
-
-      _.each existingParams, (val, key) ->
-        if val
-          hasParams = true
-          newParams[key] = val
-
-      if hasParams
-        "/projects/#{@options.projectId}/bids?#{$.param(newParams)}"
-      else
-        "/projects/#{@options.projectId}/bids"
-
-
-    @router = ProcureIo.Backbone.router = new ProcureIo.Backbone.SearchRouter ProcureIo.Backbone.Bids,
-      f1: "all"
-      f2: "open"
+    @router = new ProcureIo.Backbone.SearchRouter @bids,
+      status: "open"
       sort: "name"
       direction: "asc"
 
     @subviews = {}
 
-    @getLabel = (label_id) ->
-      ProcureIo.Backbone.Labels.find((label) -> label.get('id') == label_id).toJSON()
-
     @render()
-    @preRenderSubviews()
+
+    for subview in ProcureIo.Backbone.BidReviewSubviews
+      new subview({parentView: @}).render()
 
     if store.get(@sidebarStorageKey) == 'collapsed'
       @collapseSidebarImmediately()
@@ -494,39 +413,37 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     Backbone.history.start
       pushState: true
 
+  getLabel: (label_id) ->
+    @labels.find ( (label) -> label.get('id') == label_id )
+
   reset: ->
     $("#bids-tbody").html('')
     @addAll()
 
   render: ->
-    @$el.html JST['bid_review/page']
-      pageOptions: @pageOptions.toJSON()
-      project: @project
+    @$el.html JST['bid_review/page']()
+
     rivets.bind @$el,
       pageOptions: @pageOptions
-      filterOptions: ProcureIo.Backbone.router.filterOptions
-    return @
-
-  preRenderSubviews: ->
-    for subview in ProcureIo.Backbone.BidReviewSubviews
-      new subview({parentView: @}).render()
+      filterOptions: @router.filterOptions
 
   renderPagination: ->
+    # @todo unify paginations and render this with the rest of the subviews
     (@paginationSubview ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
 
   addOne: (bid) ->
-    view = new ProcureIo.Backbone.BidReviewView({model: bid, parentView: @})
+    view = new ProcureIo.Backbone.BidReviewBidView({model: bid, parentView: @})
     @listenTo bid, "change:checked", ( => @seeIfBidsChecked() )
-    $("#bids-tbody").append(view.render().el)
+    @$el.find("#bids-tbody").append(view.render().el)
 
   seeIfBidsChecked: ->
-    if ProcureIo.Backbone.Bids.find ((b) -> b.get('checked') == true)
+    if @bids.find ((b) -> b.get('checked') == true)
       @pageOptions.set('bidsChecked', true)
     else
       @pageOptions.unset('bidsChecked')
 
   addAll: ->
-    ProcureIo.Backbone.Bids.each @addOne, @
+    @bids.each @addOne, @
 
   updateFilter: (e, $el, params) ->
     willRemoveHref = false
@@ -544,20 +461,22 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
         $el.attr 'href', @filteredHref(params)
 
     return if e.metaKey
-    ProcureIo.Backbone.router.navigate $el.attr('href'), {trigger: true}
+    @router.navigate $el.attr('href'), {trigger: true}
     e.preventDefault()
     $el.removeAttr('href') if willRemoveHref
 
+  checkedBidIds: (e) ->
+    _.map @bids.where({checked:true}), (b) -> b.attributes.id
+
   dismissCheckedBids: (e) ->
+    # @todo remove this?
     e.preventDefault()
 
     options =
       dismissal_message: $(e.target).find(".js-dismissal-message").val()
       show_dismissal_message_to_vendor: $(e.target).find(".js-show-dismissal-message-to-vendor").is(":checked")
 
-    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
-
-    @sendBatchAction('dismiss', ids, options)
+    @sendBatchAction('dismiss', @checkedBidIds(), options)
 
   awardCheckedBids: (e) ->
     e.preventDefault()
@@ -565,13 +484,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     options =
       award_message: $(e.target).find(".js-award-message").val()
 
-    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
-
-    @sendBatchAction('award', ids, options)
+    @sendBatchAction('award', @checkedBidIds(), options)
 
   labelCheckedBids: (e, $el, labelId) ->
-    ids = _.map ProcureIo.Backbone.Bids.where({checked:true}), (b) -> b.attributes.id
-    @sendBatchAction('label', ids, {label_id: labelId})
+    @sendBatchAction('label', @checkedBidIds(), {label_id: labelId})
 
   toggleLabelAdmin: ->
     @$el.toggleClass 'editing-labels'
@@ -589,7 +505,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       success: =>
         @refetch()
 
-  removeLoadingSpinner: ->
+  doneLoading: ->
     $("#bid-review-page").removeClass 'loading'
 
   getResponseField: (id) ->
@@ -630,7 +546,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     sortedKeyFields
 
-  toggleResponseField: (e) ->
+  toggleKeyField: (e) ->
     id = $(e.target).data('response-field-id')
 
     if _.contains @pageOptions.get('keyFields'), id
@@ -645,8 +561,9 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       b.trigger 'change'
 
   refetch: ->
-    $("#bid-review-page").addClass 'loading'
-    ProcureIo.Backbone.Bids.fetch {data: ProcureIo.Backbone.router.filterOptions.toJSON()}
+    @$el.find("#bid-review-page").addClass 'loading'
+    @bids.fetch
+      data: @router.filterOptions.toJSON()
 
   collapseSidebarImmediately: ->
     $sidebar = @$el.find(".sidebar-wrapper")
@@ -698,10 +615,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   submitSearch: (e) ->
     e.preventDefault()
-    @router.navigate @filteredHref({page: 1}), {trigger: true}
+    @router.navigate @router.filteredHref({page: 1}), {trigger: true}
 
   setCounts: ->
-    for k, v of ProcureIo.Backbone.Bids.meta.counts
+    for k, v of @bids.meta.counts
       @counts.set(k, v)
 
   viewFilteredEmails: (e) ->
@@ -713,5 +630,5 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       </div>
     """).appendTo("body").modal('show')
 
-    $.getJSON "/projects/#{@options.projectId}/bids/emails?#{$.param(ProcureIo.Backbone.router.filterOptions.toJSON())}", (data) ->
+    $.getJSON "/projects/#{@project.id}/bids/emails?#{$.param(@router.filterOptions.toJSON())}", (data) ->
       $modal.find(".js-email-target").text(data)

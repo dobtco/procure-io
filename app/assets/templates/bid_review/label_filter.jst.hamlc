@@ -1,13 +1,13 @@
 %ul.nav.nav-pills.nav-stacked.filter-nav#labels-list
 
 - if @abilities.manageLabels
-  %form#new-label-form
+  %form#new-label-form{"data-backbone-submit" => "createLabel"}
     %input.hidden-color-input{"type" => "hidden", "name" => "label[color]", "value" => "#898989"}
-    %input{"type" => "text", "name" => "label[name]", "placeholder" => I18n.t('g.new_label_name')}
+    %input{"type" => "text", "name" => "label[name]", "placeholder" => I18n.t('g.new_label_name'), "data-backbone-focus" => "showColors"}
     .color-wrapper.hide
       != JST['bid_review/_color_swatches']()
 
       %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.t('g.custom_color')
-      %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
+      %input.hide{"type" => "text", "placeholder" => "FFFFFF", "data-backbone-input" => "typingCustomColor"}
 
     %button.btn.btn-inverse= I18n.t('g.create_label')

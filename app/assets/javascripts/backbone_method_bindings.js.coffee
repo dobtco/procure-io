@@ -6,10 +6,15 @@ _.extend Backbone.View.prototype,
   onSubmit: (e) ->
     @callMethodIfExists $(e.currentTarget).data('backbone-submit'), e
 
+  onFocus: (e) ->
+    @callMethodIfExists $(e.currentTarget).data('backbone-focus'), e
+
+  onInput: (e) ->
+    @callMethodIfExists $(e.currentTarget).data('backbone-input'), e
+
   callMethodIfExists: (methodName, e) ->
-    if @[methodName]?
-      @[methodName](e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
-      e.stopPropagation()
+    e.preventDefault()
+    @[methodName]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
 
   delegateEvents: (events) ->
     delegateEventSplitter = /^(\S+)\s*(.*)$/
@@ -19,6 +24,8 @@ _.extend Backbone.View.prototype,
     _.extend events,
       "click [data-backbone-click]": "onClick"
       "submit [data-backbone-submit]": "onSubmit"
+      "focus [data-backbone-focus]": "onFocus"
+      "input [data-backbone-input]": "onInput"
 
     @undelegateEvents()
 

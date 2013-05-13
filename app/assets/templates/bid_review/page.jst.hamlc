@@ -1,38 +1,37 @@
 .row-fluid
   .span3.sidebar-wrapper
     %form.bid-search-form#filter-form{"data-backbone-submit" => "submitSearch"}
-      %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", |
-                          "data-rv-value" => "filterOptions.q"}
+      %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", "data-rv-value" => "filterOptions.q"}
       %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({q: false, page: false})}
         %i.icon-remove-sign
 
     .clearfix
 
-    #sidebar-filter-wrapper
+    .subview-sidebar-filter
 
     %h5
       Labels
       %a.smaller.regular-font{"data-backbone-click" => "toggleLabelAdmin", "data-toggle-text" => I18n.t('g.done_editing_labels')}= I18n.t('g.edit_labels')
 
-    #label-filter-wrapper
+    .subview-label-filter
 
-    #label-admin-wrapper
+    .subview-label-admin
 
   .span9.right-side-span
 
     != JST['shared/loading_indicator']()
 
-    #actions-wrapper.faded-while-loading
+    .subview-actions-wrapper.pull-left
 
-    #pagination-wrapper.pull-right.faded-while-loading
+    #pagination-wrapper.pull-right
 
     .clearfix
 
     .bids-table-wrapper
-      .field-chooser.btn-group.dropdown-left
+      .subview-field-chooser.btn-group.dropdown-left
 
       %table.table#bids-table.faded-while-loading
-        %thead#bids-thead
+        %thead.subview-bids-thead
 
         %tbody#bids-tbody
 

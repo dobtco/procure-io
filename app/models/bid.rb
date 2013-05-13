@@ -88,16 +88,12 @@ class Bid < ActiveRecord::Base
   calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def self.add_params_to_query(query, params, args)
-    if params[:f2] == "dismissed"
+    if params[:sort] == "dismissed"
       query = query.dismissed
-    elsif params[:f2] == "awarded"
+    elsif params[:sort] == "awarded"
       query = query.awarded
     else
       query = query.where_open
-    end
-
-    if params[:f1] == "starred"
-      query = query.starred
     end
 
     if !params[:label].blank?

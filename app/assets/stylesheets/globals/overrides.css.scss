@@ -133,3 +133,15 @@ a {
     height: auto;
   }
 }
+
+// badges in sidebar nav
+ul.nav-stacked {
+  li {
+    a {
+      .badge {
+        float: right;
+        margin-top: -2px;
+      }
+    }
+  }
+}
