@@ -58,6 +58,9 @@ $(document).on "click", ".js-dropdown-form-toggle", (e) ->
       $(document).off ".closedropdownform"
       $(@).closest(".dropdown.open").removeClass('open')
 
+$(document).on "submit", ".dropdown-form", (e) ->
+  $(@).closest(".dropdown.open").removeClass 'open'
+
 $(document).on "mouseenter", ".js-notification-dropdown-toggle", ->
   $(@).tooltip('show') unless $(@).parent().hasClass('open')
 
