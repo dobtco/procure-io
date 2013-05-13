@@ -1,12 +1,9 @@
-%h4= I18n.t('g.comments')
+.loading-comments
+  %i.icon-refresh.icon-spin
+  = I18n.t('g.loading')
+#comments-wrapper
 
-.readable-width-large
-  .loading-comments
-    %i.icon-refresh.icon-spin
-    = I18n.t('g.loading')
-  #comments-wrapper
-
-  %form#new-comment-form{"data-validate" => "parsley"}
-    .control-group
-      %textarea{"data-required" => true}
-    %button.btn.btn-inverse.pull-right= I18n.t('g.post_comment')
+%form#new-comment-form{"data-validate" => "parsley"}
+  .control-group
+    %textarea{"data-required" => true, "placeholder" => I18n.t('g.add_your_comments')}
+  %button.btn.btn-inverse.pull-right= I18n.t('g.post_comment')

@@ -105,6 +105,7 @@ en:
     add_collaborator: Add Collaborator
     add_multiple_collaborators: Add multiple collaborators
     add_one_collaborator: Add one collaborator
+    add_your_comments: Add your comments
     adding_collaborator: Adding Collaborator...
     admin: Admin
     advanced: Advanced
@@ -237,6 +238,7 @@ en:
     live: Live
     loading: Loading...
     mine: Mine
+    more: More
     my_bid: My Bid
     my_bids: My Bids
     my_projects: My Projects

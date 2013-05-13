@@ -145,3 +145,23 @@ ul.nav-stacked {
     }
   }
 }
+
+dl {
+  margin-top: 0;
+
+  dt {
+    margin-bottom: 2px;
+  }
+
+  &.medium-spacing {
+    dd {
+      margin-bottom: 6px;
+    }
+  }
+
+  &.large-spacing {
+    dd {
+      margin-bottom: 10px;
+    }
+  }
+}

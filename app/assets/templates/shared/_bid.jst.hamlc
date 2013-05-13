@@ -1,4 +1,4 @@
-%dl.bid-content-dl
+%dl.bid-content-dl.large-spacing
   - for response in @bid.get('responses')
     %dt= @getResponseField(response.response_field_id).label
     %dd!= response.display_value

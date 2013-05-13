@@ -5,89 +5,100 @@
     - else
       = @bid.get('bidder_name')
 
-    - if ProcureIo.CurrentOfficer.is_admin_or_god
-      %small
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}/edit"}= I18n.t('g.edit')
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
+    %span.regular-font
+      != @bid.badgedTextStatus()
 
   .pull-right
-
-    != ProcureIo.Backbone.WatchButtonHelper('bid', @bid, class: "dropdown-left")
-
-    - if @abilities.labelBids
-      .btn-group
-        %a.btn.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown"}
-          = I18n.t('g.label')
-          %b.caret
-        %ul.dropdown-menu
-          - if @projectLabels.length == 0
-            %li.disabled
-              %a No labels
-          - for label in @projectLabels
-            %li{"class" => if @bid.get('labels').indexOf(label.id) != -1 then "active"}
-              %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}
-                %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
-                #{label.name}
-
     - if @abilities.awardAndDismissBids
-      %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
+      %button.btn{"data-backbone-dismiss" => "true"}
         - if @bid.get('dismissed_at')
           = I18n.t('g.undismiss')
         - else
           = I18n.t('g.dismiss')
+        %b.caret
 
-      %button.btn.btn-success{"data-backbone-award" => "true"}
-        - if @bid.get('awarded_at')
-          = I18n.t('g.unaward')
-        - else
-          = I18n.t('g.award')
+      %button.btn
+        = I18n.t('g.award')
+        %b.caret
 
-    &nbsp;
-    %i{"data-backbone-read" => "true", "class" => (if @bid.get('read') then "icon-circle-blank" else "icon-circle")}
+      %button.btn
+        More
+        %b.caret
 
-    - if @project.review_mode == "stars"
-      %i{"data-backbone-star" => "true", "class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
-      %span.total-stars= @bid.get('total_stars')
-
-    - if @project.review_mode == "one_through_five"
-      .rating-select{"data-score" => @bid.get('rating')}
-
-      %span= @bid.get('average_rating')
-      - if @bid.get('total_ratings')
-        %span.total_ratings= @bid.get('total_ratings')
+      - if ProcureIo.CurrentOfficer.is_admin_or_god
+        / %small
+        /   %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}/edit"}= I18n.t('g.edit')
+        /   %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
 
 
 
   %hr
 
 .row-fluid
-  .span3.well
-    %p
-      - for label_id in @bid.get('labels')
-        - label = @getLabel(label_id)
-        %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
-
-    != @bid.badgedTextStatus()
-
-    %p
-      %span #{I18n.t('g.submitted_on')} #{moment(@bid.get('submitted_at')).format(ProcureIo.READABLE)}
-
-    - if @abilities.readAndWriteBidComments
-      %p
-        %a{"href" => "#comment-page"}
-          = @bid.get('total_comments')
-          = if @bid.get('total_comments') is 1 then "comment" else "comments"
-
-    - if @bid.get('vendor')
-      %dl
-        %dt= I18n.t('g.contact_name')
-        %dd= @bid.get('vendor.display_name')
-        %dt= I18n.t('g.email_address')
-        %dd= @bid.get('vendor.user.email')
-
-        - for response in (@bid.get('vendor').vendor_profile?.responses || [])
-          %dt= response.response_field.label
-          %dd= response.display_value
-
-  .span9
+  .span8
     != JST['shared/_bid']({bid: @bid, getResponseField: @getResponseField})
+
+  .span4
+    .well
+      %dl.medium-spacing
+        %dt Your Rating
+        %dd
+          - if @project.review_mode == "stars"
+            %i{"data-backbone-star" => "true", "class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+            %span.total-stars= @bid.get('total_stars')
+
+          - if @project.review_mode == "one_through_five"
+            .rating-select{"data-score" => @bid.get('rating')}
+
+            %span= @bid.get('average_rating')
+            - if @bid.get('total_ratings')
+              %span.total_ratings= @bid.get('total_ratings')
+
+
+
+
+
+        %dt
+          Labels
+          - if @abilities.labelBids
+            .btn-group
+              %a.btn.dropdown-toggle.btn-mini{"href" => "#", "data-toggle" => "dropdown"}
+                %b.caret
+              %ul.dropdown-menu
+                - if @projectLabels.length == 0
+                  %li.disabled
+                    %a No labels
+                - for label in @projectLabels
+                  %li{"class" => if @bid.get('labels').indexOf(label.id) != -1 then "active"}
+                    %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}
+                      %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+                      #{label.name}
+
+
+
+        %dd
+          - for label_id in @bid.get('labels')
+            - label = @getLabel(label_id)
+            %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
+
+
+        %dt Submitted
+        %dd= moment(@bid.get('submitted_at')).format(ProcureIo.READABLE)
+
+
+        - if @abilities.readAndWriteBidComments
+          %dt Comments
+          %dd
+            %a{"href" => "#comment-page"}
+              = @bid.get('total_comments')
+              = if @bid.get('total_comments') is 1 then "comment" else "comments"
+
+        - if @bid.get('vendor')
+          %dt= I18n.t('g.contact_name')
+          %dd= @bid.get('vendor.display_name')
+          %dt= I18n.t('g.email_address')
+          %dd= @bid.get('vendor.user.email')
+
+          - for response in (@bid.get('vendor').vendor_profile?.responses || [])
+            %dt= response.response_field.label
+            %dd= response.display_value
