@@ -145,25 +145,24 @@ ProcureIo.Backbone.BidReviewLabelAdminView = Backbone.View.extend
     @listenTo @model, "destroy", @remove
     @listenTo @model, "change", @render
 
-  showEditPane: (e, $el) ->
-    if $el.data('popover')?.$element?
-      # @todo
-      $el.popover('toggle')
+  showEditPane: (e) ->
+    if @$el.data('popover')
+      return @$el.popover 'toggle'
 
-    else
-      console.log 'd'
-      $el.siblings().popover 'destroy'
+    @$el.siblings().popover 'destroy'
 
-      $el.popover
-        content: (new ProcureIo.Backbone.BidReviewLabelEditView({label: @model, parentView: @})).render().el
-        html: true
-        animation: false
-        trigger: "click"
-        template: """
-          <div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"></div></div></div
-        """
+    @$el.popover
+      content: (new ProcureIo.Backbone.BidReviewLabelEditView({label: @model, parentView: @})).render().el
+      html: true
+      animation: false
+      trigger: "manual"
+      template: """
+        <div class="popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"></div></div></div
+      """
 
-      $el.popover 'show'
+    @$el.popover 'show'
+
+    e.preventDefault()
 
   render: ->
     @$el.html JST['bid_review/label_admin']
