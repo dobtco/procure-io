@@ -72,7 +72,7 @@ class Project < ActiveRecord::Base
     @review_modes ||= Enum.new(:stars, :one_through_five)
   end
 
-  def self.add_params_to_query(query, params, args)
+  def self.add_params_to_query(query, params, args = {})
     if !params[:q].blank?
       query = query.full_search(params[:q])
     end

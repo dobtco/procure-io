@@ -31,27 +31,20 @@ describe Bid do
   describe 'Bid#add_params_to_query' do
     before { @query = NoRailsTests::FakeQuery.new }
 
-    describe 'the f2 query parameter' do
+    describe 'the status query parameter' do
       it 'should filter for dismissed' do
         @query.should_receive(:dismissed).and_return(@query)
-        Bid.add_params_to_query(@query, f2: 'dismissed')
+        Bid.add_params_to_query(@query, status: 'dismissed')
       end
 
       it 'should filter for awarded' do
         @query.should_receive(:awarded).and_return(@query)
-        Bid.add_params_to_query(@query, f2: 'awarded')
+        Bid.add_params_to_query(@query, status: 'awarded')
       end
 
       it 'should default to filtering for open bids' do
         @query.should_receive(:where_open).and_return(@query)
         Bid.add_params_to_query(@query, {})
-      end
-    end
-
-    describe 'the f1 query parameter' do
-      it 'should filter for starred' do
-        @query.should_receive(:starred).and_return(@query)
-        Bid.add_params_to_query(@query, f1: 'starred')
       end
     end
 
@@ -90,11 +83,9 @@ describe Bid do
   describe 'Bid#search_meta_info' do
     it 'should calculate counts for other searches' do
       expected_new_hash = hash_including(count_only: true, starting_query: 'Foo')
-      Bid.should_receive(:searcher).with(hash_including(f1: 'open'), expected_new_hash)
-      Bid.should_receive(:searcher).with(hash_including(f1: 'starred'), expected_new_hash)
-      Bid.should_receive(:searcher).with(hash_including(f2: 'open'), expected_new_hash)
-      Bid.should_receive(:searcher).with(hash_including(f2: 'dismissed'), expected_new_hash)
-      Bid.should_receive(:searcher).with(hash_including(f2: 'awarded'), expected_new_hash)
+      Bid.should_receive(:searcher).with(hash_including(status: 'open'), expected_new_hash)
+      Bid.should_receive(:searcher).with(hash_including(status: 'dismissed'), expected_new_hash)
+      Bid.should_receive(:searcher).with(hash_including(status: 'awarded'), expected_new_hash)
       Bid.should_receive(:searcher).with(hash_including(label: 'bar'), expected_new_hash)
 
       Bid.search_meta_info({}, { simpler_query: 'Foo', project: mock(labels: [mock(id: 0, name: 'bar')]) })

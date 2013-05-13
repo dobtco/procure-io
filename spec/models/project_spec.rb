@@ -35,16 +35,6 @@ describe Project do
     end
 
     describe 'the sort parameter' do
-      it 'should sort by posted_at if blank' do
-        @query.should_receive(:order).with(/posted_at/).and_return(@query)
-        Project.add_params_to_query(@query, sort: '')
-      end
-
-      it 'should sort by posted_at if not a valid option' do
-        @query.should_receive(:order).with(/posted_at/).and_return(@query)
-        Project.add_params_to_query(@query, sort: 'asdf')
-      end
-
       it 'should sort appropriately if passed a proper option' do
         @query.should_receive(:order).with("bids_due_at asc").and_return(@query)
         Project.add_params_to_query(@query, sort: 'bids_due_at', direction: 'asc')

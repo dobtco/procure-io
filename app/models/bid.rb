@@ -41,7 +41,8 @@ class Bid < ActiveRecord::Base
   has_and_belongs_to_many :labels, after_add: :touch_self, after_remove: :touch_self
 
   before_save :calculate_bidder_name
-  after_save :calculate_project_total_submitted_bids!
+  after_save :calculate_project_total_submitted_bids_if_submitted_at_changed!
+  after_destroy :calculate_project_total_submitted_bids!
 
   scope :starred, -> { where("total_stars > 0") }
   scope :join_labels, -> { joins("LEFT JOIN bids_labels ON bids.id = bids_labels.bid_id LEFT JOIN labels ON labels.id = bids_labels.label_id") }
@@ -87,7 +88,7 @@ class Bid < ActiveRecord::Base
   calculator :total_comments do comments end
   calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
-  def self.add_params_to_query(query, params, args)
+  def self.add_params_to_query(query, params, args = {})
     if params[:status] == "dismissed"
       query = query.dismissed
     elsif params[:status] == "awarded"
@@ -242,8 +243,12 @@ class Bid < ActiveRecord::Base
     delay.create_events(:bid_submitted, project.active_watchers(:officer), self, project)
   end
 
-  def calculate_project_total_submitted_bids!
+  def calculate_project_total_submitted_bids_if_submitted_at_changed!
     return unless submitted_at_changed?
+    calculate_project_total_submitted_bids!
+  end
+
+  def calculate_project_total_submitted_bids!
     project.calculate_total_submitted_bids!
   end
 end
