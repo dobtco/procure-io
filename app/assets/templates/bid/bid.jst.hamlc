@@ -1,14 +1,14 @@
 .action-header
   %h4.pull-left
-    - if @bid.vendor
-      #{I18n.t('g.bid_from')} #{@bid.vendor.display_name}
+    - if @bid.get('vendor')
+      #{I18n.t('g.bid_from')} #{@bid.get('vendor.display_name')}
     - else
-      = @bid.bidder_name
+      = @bid.get('bidder_name')
 
     - if ProcureIo.CurrentOfficer.is_admin_or_god
       %small
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}/edit"}= I18n.t('g.edit')
-        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.id}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}/edit"}= I18n.t('g.edit')
+        %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
 
   .pull-right
 
@@ -24,37 +24,37 @@
             %li.disabled
               %a No labels
           - for label in @projectLabels
-            %li{"class" => if @bid.labels.indexOf(label.id) != -1 then "active"}
+            %li{"class" => if @bid.get('labels').indexOf(label.id) != -1 then "active"}
               %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}
                 %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
                 #{label.name}
 
     - if @abilities.awardAndDismissBids
       %button.btn.btn-danger{"data-backbone-dismiss" => "true"}
-        - if @bid.dismissed_at
+        - if @bid.get('dismissed_at')
           = I18n.t('g.undismiss')
         - else
           = I18n.t('g.dismiss')
 
       %button.btn.btn-success{"data-backbone-award" => "true"}
-        - if @bid.awarded_at
+        - if @bid.get('awarded_at')
           = I18n.t('g.unaward')
         - else
           = I18n.t('g.award')
 
     &nbsp;
-    %i{"data-backbone-read" => "true", "class" => (if @bid.read then "icon-circle-blank" else "icon-circle")}
+    %i{"data-backbone-read" => "true", "class" => (if @bid.get('read') then "icon-circle-blank" else "icon-circle")}
 
     - if @project.review_mode == "stars"
-      %i{"data-backbone-star" => "true", "class" => (if @bid.starred then "icon-star" else "icon-star-empty")}
-      %span.total-stars= @bid.total_stars
+      %i{"data-backbone-star" => "true", "class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+      %span.total-stars= @bid.get('total_stars')
 
     - if @project.review_mode == "one_through_five"
-      .rating-select{"data-score" => @bid.rating}
+      .rating-select{"data-score" => @bid.get('rating')}
 
-      %span= @bid.average_rating
-      - if @bid.total_ratings
-        %span.total_ratings= @bid.total_ratings
+      %span= @bid.get('average_rating')
+      - if @bid.get('total_ratings')
+        %span.total_ratings= @bid.get('total_ratings')
 
 
 
@@ -63,34 +63,29 @@
 .row-fluid
   .span3.well
     %p
-      - for label_id in @bid.labels
+      - for label_id in @bid.get('labels')
         - label = @getLabel(label_id)
         %span.badge{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};", "class" => "label-text-#{label.text_color}"}= label.name
 
-      - if @bid.dismissed_at
-        %span.badge.badge-important= I18n.t('g.dismissed')
-      - else if @bid.awarded_at
-        %span.badge.badge-success= I18n.t('g.awarded')
-      - else
-        %span.badge.badge-info= I18n.t('g.open')
+    != @bid.badgedTextStatus()
 
     %p
-      %span #{I18n.t('g.submitted_on')} #{moment(@bid.submitted_at).format(ProcureIo.READABLE)}
+      %span #{I18n.t('g.submitted_on')} #{moment(@bid.get('submitted_at')).format(ProcureIo.READABLE)}
 
     - if @abilities.readAndWriteBidComments
       %p
         %a{"href" => "#comment-page"}
-          = @bid.total_comments
-          = if @bid.total_comments is 1 then "comment" else "comments"
+          = @bid.get('total_comments')
+          = if @bid.get('total_comments') is 1 then "comment" else "comments"
 
-    - if @bid.vendor
+    - if @bid.get('vendor')
       %dl
         %dt= I18n.t('g.contact_name')
-        %dd= @bid.vendor.display_name
+        %dd= @bid.get('vendor.display_name')
         %dt= I18n.t('g.email_address')
-        %dd= @bid.vendor.user.email
+        %dd= @bid.get('vendor.user.email')
 
-        - for response in (@bid.vendor.vendor_profile?.responses || [])
+        - for response in (@bid.get('vendor').vendor_profile?.responses || [])
           %dt= response.response_field.label
           %dd= response.display_value
 

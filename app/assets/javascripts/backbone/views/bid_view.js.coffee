@@ -12,7 +12,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
 
   initialize: ->
     @$el = @options.el if @options.el?
-    @bid = @options.bid || new Backbone.DeepModel(@options.bootstrapData)
+    @bid = @options.bid || new ProcureIo.Backbone.Bid(@options.bootstrapData)
     @bid.url = "/projects/#{@options.project.id}/bids/#{@bid.id}.json"
 
     @getResponseField = (response_field_id) =>
@@ -29,7 +29,7 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
   render: ->
     @$el.html JST['bid/bid']
       project: @options.project
-      bid: @bid.toJSON()
+      bid: @bid
       projectLabels: @options.project.labels
       getResponseField: @getResponseField
       getLabel: @getLabel

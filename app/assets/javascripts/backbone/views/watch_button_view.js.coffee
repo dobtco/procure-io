@@ -35,8 +35,8 @@ ProcureIo.Backbone.WatchButtonHelper = (className, watchable, opts = {}) ->
       <script>
         new ProcureIo.Backbone.WatchButton({
           watchable_type: '#{className}',
-          watchable_id: '#{watchable.id}',
-          watching: #{watchable.watching},
+          watchable_id: "#{watchable.get('id')}",
+          watching: #{watchable.get('watching')},
           description: "#{opts.tooltip || I18n.t('tooltips.watch_' + className)}"
         });
       </script>
