@@ -88,9 +88,9 @@ class Bid < ActiveRecord::Base
   calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def self.add_params_to_query(query, params, args)
-    if params[:sort] == "dismissed"
+    if params[:status] == "dismissed"
       query = query.dismissed
-    elsif params[:sort] == "awarded"
+    elsif params[:status] == "awarded"
       query = query.awarded
     else
       query = query.where_open
@@ -128,10 +128,9 @@ class Bid < ActiveRecord::Base
     new_args = args.merge(count_only: true, starting_query: args[:simpler_query])
 
     counts = {
-      all: self.searcher(params.merge(f1: "open"), new_args),
-      open: self.searcher(params.merge({f2: "open"}), new_args),
-      dismissed: self.searcher(params.merge({f2: "dismissed"}), new_args),
-      awarded: self.searcher(params.merge({f2: "awarded"}), new_args)
+      open: self.searcher(params.merge({status: "open"}), new_args),
+      dismissed: self.searcher(params.merge({status: "dismissed"}), new_args),
+      awarded: self.searcher(params.merge({status: "awarded"}), new_args)
     }
 
     args[:project].labels.each do |label|

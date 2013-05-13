@@ -32,8 +32,8 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: ".subview-actions-wrapper"
 
   initialize: ->
-    @listenTo ProcureIo.Backbone.Labels, "add", @render
-    @listenTo ProcureIo.Backbone.Labels, "remove", @render
+    @listenTo @options.parentView.labels, "add", @render
+    @listenTo @options.parentView.labels, "remove", @render
 
   render: ->
     @$el.html JST['bid_review/actions']
@@ -79,17 +79,15 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   showColors: ->
     $(".color-wrapper").removeClass 'hide'
 
-  selectSwatch: (e) ->
-    $swatch = $(e.target).closest('swatch')
-    return if $swatch.hasClass 'selected'
-    $swatch.siblings().removeClass 'selected'
-    $swatch.addClass 'selected'
-    $("#new-label-form .custom-color-input").val('')
-    $("#new-label-form .hidden-color-input").val($swatch.data('color'))
+  selectSwatch: (e, $el) ->
+    return if $el.hasClass 'selected'
+    $el.siblings().removeClass 'selected'
+    $el.addClass 'selected'
+    @$el.find("#new-label-form .custom-color-input").val($el.data('color'))
 
   typingCustomColor: (e) ->
     @$el.find(".color-swatches .swatch.selected").removeClass 'selected'
-    $("#new-label-form .hidden-color-input").val($(e.target).val())
+    $("#new-label-form .custom-color-input").val($(e.target).val())
 
   render: ->
     @$el.html JST['bid_review/label_filter']
@@ -120,7 +118,7 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
   el: ".subview-label-admin"
 
   initialize: ->
-    @listenTo ProcureIo.Backbone.Labels, "add", @addOneLabel
+    @listenTo @options.parentView.labels, "add", @addOneLabel
 
   render: ->
     @$el.html JST['bid_review/label_admin_list']()
@@ -262,19 +260,10 @@ ProcureIo.Backbone.BidReviewBidView = Backbone.View.extend
 
       @parentView.refetch()
 
-  getValue: (id) ->
-    response = _.find @model.get('responses'), (response) ->
-      response.response_field_id is id
-
-    if response then response.display_value else ""
-
   render: ->
     @$el.html JST['bid_review/bid']
       bid: @model
-      pageOptions: @parentView.pageOptions
-      getValue: @getValue
-      project: @parentView.project
-      getLabel: @parentView.getLabel
+      parentView: @parentView
 
     rivets.bind @$el,
       bid: @model
@@ -428,7 +417,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
   renderPagination: ->
     # @todo unify paginations and render this with the rest of the subviews
-    (@paginationSubview ||= new ProcureIo.Backbone.PaginationView({filteredHref: @filteredHref, collection: ProcureIo.Backbone.Bids})).render()
+    (@paginationSubview ||= new ProcureIo.Backbone.PaginationView({filteredHref: @router.filteredHref, collection: @bids})).render()
 
   addOne: (bid) ->
     view = new ProcureIo.Backbone.BidReviewBidView({model: bid, parentView: @})
@@ -450,14 +439,14 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     if !$el.attr('href')
       willRemoveHref = true
       if (labelName = $el.data('label-name'))
-        $el.attr 'href', (@filteredHref
+        $el.attr 'href', (@router.filteredHref
           label: if (@router.filterOptions.get('label') == labelName) then false else labelName
           page: false
         )
 
       else
         # if no href, attempt to construct from parameters
-        $el.attr 'href', @filteredHref(params)
+        $el.attr 'href', @router.filteredHref(params)
 
     return if e.metaKey
     @router.navigate $el.attr('href'), {trigger: true}
@@ -489,7 +478,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     $("#bid-review-page").addClass 'loading'
 
     $.ajax
-      url: "#{ProcureIo.Backbone.Bids.baseUrl}/batch"
+      url: "#{@bids.baseUrl}/batch"
       type: "PUT"
       data:
         ids: ids
@@ -550,7 +539,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @pageOptions.set 'keyFields', @sortedKeyFields(newKeyFields)
     @storeKeyFields()
 
-    ProcureIo.Backbone.Bids.each (b) ->
+    @bids.each (b) ->
       b.trigger 'change'
 
   refetch: ->
@@ -564,7 +553,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     $sidebar.removeClass('span3').addClass('span1')
     $rightSideSpan.removeClass('span9').addClass('span11')
     $sidebar.toggleClass 'sidebar-collapsed'
-    @$el.find(".js-collapse-sidebar").toggleText()
+    @$el.find("[data-backbone-click=toggleCollapseSidebar]").toggleText()
     @pageOptions.set('sidebarCollapsed', true)
 
   toggleCollapseSidebar: ->

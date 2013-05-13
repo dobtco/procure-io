@@ -5,9 +5,7 @@
   != JST['bid_review/_color_swatches']()
 
   %a.smaller{"data-toggle" => "showhide", "data-target" => ".custom-color-input"}= I18n.t('g.custom_color')
-  %input.custom-color-input.hide{"type" => "text", "placeholder" => "FFFFFF"}
-
-  %input{"type" => "hidden", "data-rv-value" => "label.color"}
+  %input.custom-color-input.hide{"type" => "text", "data-rv-value" => "label.color"}
 
   .clearfix &nbsp;
 

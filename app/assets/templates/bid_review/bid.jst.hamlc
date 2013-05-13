@@ -1,30 +1,30 @@
 %td.controls-td
   %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
 
-  - if @project.review_mode == "stars"
+  - if @parentView.project.review_mode == "stars"
     %span.total-stars{"data-backbone-click" => "toggleStarred"}
       %i{"class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
       %span= @bid.get('total_stars')
 
-  - if @project.review_mode == "one_through_five"
+  - if @parentView.project.review_mode == "one_through_five"
     .rating-select{"data-score" => @bid.get('rating')}
 
-- if @project.review_mode == "one_through_five"
+- if @parentView.project.review_mode == "one_through_five"
   %td
     %span= @bid.get('average_rating')
     - if @bid.get('total_ratings')
       %span.total_ratings= @bid.get('total_ratings')
 
-- for keyField in @pageOptions.attributes.keyFields
+- for keyField in @parentView.pageOptions.attributes.keyFields
   %td
     - if keyField == 'name'
 
-      %a.vendor-name{href: "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}
+      %a.vendor-name{href: "/projects/#{@parentView.project.id}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}
         = @bid.get('bidder_name')
 
       - for label_id in @bid.get('labels')
-        - label = @getLabel(label_id)
+        - label = @parentView.getLabel(label_id)
         %span.badge{"class" => "label-text-#{label.get('text_color')}", "style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.get('name')
 
     - else
-      != @getValue(keyField)
+      != @bid.getValue(keyField)

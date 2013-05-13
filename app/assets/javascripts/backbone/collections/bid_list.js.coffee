@@ -1,2 +1,2 @@
 ProcureIo.Backbone.BidList = Backbone.Collection.extend
-  model: Backbone.DeepModel
+  model: ProcureIo.Backbone.Bid

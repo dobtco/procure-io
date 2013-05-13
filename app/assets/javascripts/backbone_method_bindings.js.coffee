@@ -4,6 +4,7 @@ _.extend Backbone.View.prototype,
     @callMethodIfExists $(e.currentTarget).data('backbone-click'), e
 
   onSubmit: (e) ->
+    e.preventDefault()
     @callMethodIfExists $(e.currentTarget).data('backbone-submit'), e
 
   onFocus: (e) ->
@@ -13,7 +14,6 @@ _.extend Backbone.View.prototype,
     @callMethodIfExists $(e.currentTarget).data('backbone-input'), e
 
   callMethodIfExists: (methodName, e) ->
-    e.preventDefault()
     @[methodName]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
 
   delegateEvents: (events) ->
