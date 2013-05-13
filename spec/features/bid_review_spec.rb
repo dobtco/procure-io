@@ -17,28 +17,9 @@ describe 'Bid Review', js: true do
         ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
       end
 
-      it 'should sort by created at' do
-        first_bid = projects(:one).bids.joins(:vendor).order("created_at ASC").first
-        sort_by('created_at')
-        ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
-      end
+      it 'should sort by rating'
 
-      it 'by response field' do
-        first_bid = projects(:one)
-                    .bids
-                    .join_responses_for_response_field_id(response_fields(:three).id)
-                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
-                            responses.sortable_value::numeric ASC")
-                    .first
-
-        sort_by(response_fields(:three).id)
-
-        # When we sort by a response field, we should see it in the table.
-        page.should have_selector('th', text: response_fields(:three).label)
-        page.should have_selector('td', text: first_bid.responses.where(response_field_id: response_fields(:three).id).first.display_value)
-
-        ensure_bid_is_first_then_reverse_and_ensure_last(first_bid)
-      end
+      it 'should sort by response field'
     end
 
     describe 'pagination' do
@@ -52,43 +33,31 @@ describe 'Bid Review', js: true do
         refresh
         pagination_should_have_pages([1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 14])
         pagination_should_not_have_pages([10, 11, 12])
-        find('.pagination').click_link('14')
+        find('.pagination').find('a', text: '14').click
         wait_for_load
         pagination_should_have_pages([14, 13, 12, 11, 10, 9, 8, 7, 6, 2, 1])
         pagination_should_not_have_pages([5, 4, 3])
       end
 
       it 'should paginate' do
-        find('.pagination').click_link('2')
+        find('.pagination').find('a', text: '2').click
         wait_for_load
         pagination_should_be_on_page(2)
         page.should_not have_bid_link(projects(:one).bids.first)
         page.should have_bid_link(projects(:one).bids.last)
-      end
 
-      it 'should remove pagination when clicking on another filter' do
-        find('.pagination').click_link('2')
-        wait_for_load
-        pagination_should_be_on_page(2)
-        find_link('Dismissed Bids')[:href].should_not match('page=')
+        # it should remove pagination when clicking on another filter/sorter
+        find('.subview-bids-thead a', text: response_fields((:two)).label).click
+        pagination_should_be_on_page(1)
       end
     end
 
     describe 'filters' do
-      describe 'starring' do
-        it 'should only show starred bids' do
-          click_link 'Starred Bids'
-          page.should have_bid_link(bids(:one))
-          page.should_not have_bid_link(projects(:one).bids.where(total_stars: 0).first)
-          page.should_not have_bid_link(projects(:one).bids.where(total_stars: 0).last)
-        end
-      end
-
       describe 'dismissed' do
         before { bids(:one).dismiss_by_officer!(officers(:adam)) }
 
         it 'should only show dismissed bids' do
-          click_link 'Dismissed Bids'
+          find('a', text: I18n.t('g.dismissed')).click
           page.should have_bid_link(projects(:one).bids.dismissed.first)
           page.should_not have_bid_link(projects(:one).bids.where_open.first)
         end
@@ -110,7 +79,7 @@ describe 'Bid Review', js: true do
       it 'should mark bids as starred' do
         first_bid = find('.bid-tr:eq(1)')
         first_bid.should be_starred
-        first_bid.find('[data-backbone-star]').click
+        first_bid.find('[data-backbone-click=toggleStarred]').click
         before_and_after_refresh do
           first_bid.should be_unstarred
         end
@@ -118,27 +87,19 @@ describe 'Bid Review', js: true do
     end
 
     describe 'key fields' do
-      it 'should show key fields in table' do
-        page.should have_selector('th', text: response_fields(:one).label)
-        page.should have_selector('td', text: bids(:one).responses.where(response_field_id: response_fields(:one).id).first.display_value)
-        page.should_not have_selector('th', text: response_fields(:two).label)
-        response_fields(:two).update_attributes(key_field: true)
-        refresh
-        page.should have_selector('th', text: response_fields(:two).label)
-        page.should have_selector('td', text: bids(:one).responses.where(response_field_id: response_fields(:two).id).first.display_value)
-      end
+      it 'should show key fields in table'
     end
 
     describe 'labels' do
       it 'should sort by label' do
-        @new_label = projects(:one).labels.create(name: 'Foo')
+        @new_label = projects(:one).labels.create(name: 'Baz')
         bids(:one).labels << @new_label
         refresh
         page.should have_num_bids(10)
-        click_link @new_label.name
+        find(".subview-label-filter a", text: @new_label.name).click
         page.should have_num_bids(1)
-        page.should have_bid_link(responses(:one).responsable)
-        click_link @new_label.name # deselect label
+        page.should have_bid_link(bids(:one))
+        find(".subview-label-filter a", text: @new_label.name).click
         page.should have_num_bids(10)
       end
 
@@ -157,16 +118,16 @@ describe 'Bid Review', js: true do
         end
 
         # Edit
-        find("[data-backbone-togglelabeladmin]", visible: true).click
+        find("[data-backbone-click=toggleLabelAdmin]", visible: true).click
         find("#labels-admin-list a", text: "Phooey").click
 
-        within "#edit-label-form" do
+        within "[data-backbone-submit=saveLabel]" do
           find("[data-rv-value=\"label.name\"]").set('Blooey')
           find("[data-rv-value=\"label.name\"]").trigger('change')
           click_button I18n.t('g.save_changes')
         end
 
-        find("[data-backbone-togglelabeladmin]", visible: true).click
+        find("[data-backbone-click=toggleLabelAdmin]", visible: true).click
 
         before_and_after_refresh do
           page.should have_selector("#labels-admin-list a", text: "Blooey")
@@ -175,9 +136,9 @@ describe 'Bid Review', js: true do
         page.should have_num_labels(2)
 
         # Destroy
-        find("[data-backbone-togglelabeladmin]", visible: true).click
+        find("[data-backbone-click=toggleLabelAdmin]", visible: true).click
         find("#labels-admin-list a", text: "Blooey").click
-        find("[data-backbone-destroy-label]").click
+        find("[data-backbone-click=removeLabel]").click
 
         before_and_after_refresh do
           page.should have_num_labels(1)
@@ -190,9 +151,11 @@ describe 'Bid Review', js: true do
         page.should have_num_bids(10)
 
         within ".bid-search-form" do
-          fill_in I18n.t('g.search_bids'), with: responses(:one).value
-          click_button I18n.t('g.search')
+          fill_in I18n.t('g.searches_all_fields'), with: responses(:one).value
         end
+
+        find("#filter-form").trigger(:submit)
+        wait_for_ajax
 
         page.should have_num_bids(1)
         page.should have_bid_link(bids(:one))

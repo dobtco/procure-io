@@ -9,11 +9,11 @@ module BidReviewSpecHelper
   end
 
   def be_starred
-    have_selector('[data-backbone-star] .icon-star')
+    have_selector('.icon-star')
   end
 
   def be_unstarred
-    have_selector('[data-backbone-star] .icon-star-empty')
+    have_selector('.icon-star-empty')
   end
 
   def have_bid_link(bid)
@@ -22,7 +22,7 @@ module BidReviewSpecHelper
 
   def ensure_bid_is_first_then_reverse_and_ensure_last(bid)
     page.should have_bid_link(bid)
-    find(".js-direction-select").click
+    find(".subview-bids-thead").find("i.icon-chevron-down, i.icon-chevron-up").click
     wait_for_load
     page.should_not have_bid_link(bid)
   end

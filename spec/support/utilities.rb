@@ -87,8 +87,7 @@ def ensure_404
   page.driver.status_code.should == 404
 end
 
-def sort_by(x)
-  find(".js-sort-select").set(x)
-  find(".js-sort-select").trigger('change')
+def sort_by(field_name)
+  find("thead a", text: field_name).click
   wait_for_load
 end

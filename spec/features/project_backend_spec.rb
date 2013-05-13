@@ -102,7 +102,7 @@ describe "Project Backend" do
     end
   end
 
-  describe "projects/mine" do
+  describe "projects/mine", js: true do
     before do
       visit mine_projects_path
     end
