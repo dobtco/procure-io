@@ -1,10 +1,15 @@
 _.extend Backbone.View.prototype,
   onClick: (e) ->
     return if $(e.currentTarget).hasClass 'disabled'
-    @[$(e.currentTarget).data('backbone-click')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
+    @callMethodIfExists $(e.currentTarget).data('backbone-click'), e
 
   onSubmit: (e) ->
-    @[$(e.currentTarget).data('backbone-submit')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
+    @callMethodIfExists $(e.currentTarget).data('backbone-submit'), e
+
+  callMethodIfExists: (methodName, e) ->
+    if @[methodName]?
+      @[methodName](e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
+      e.stopPropagation()
 
   delegateEvents: (events) ->
     delegateEventSplitter = /^(\S+)\s*(.*)$/
