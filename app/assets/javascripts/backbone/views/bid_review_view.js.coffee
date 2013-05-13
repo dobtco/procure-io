@@ -297,7 +297,6 @@ ProcureIo.Backbone.BidReviewBidView = Backbone.View.extend
   openBid: (e) ->
     return if e.metaKey
     return @$modal.modal('show') if @$modal?
-    e.preventDefault()
 
     if !@bidOpened
       @bidOpened = true
@@ -462,16 +461,12 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
 
     return if e.metaKey
     @router.navigate $el.attr('href'), {trigger: true}
-    e.preventDefault()
     $el.removeAttr('href') if willRemoveHref
 
   checkedBidIds: (e) ->
     _.map @bids.where({checked:true}), (b) -> b.attributes.id
 
   dismissCheckedBids: (e) ->
-    # @todo remove this?
-    e.preventDefault()
-
     options =
       dismissal_message: $(e.target).find(".js-dismissal-message").val()
       show_dismissal_message_to_vendor: $(e.target).find(".js-show-dismissal-message-to-vendor").is(":checked")
@@ -479,8 +474,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     @sendBatchAction('dismiss', @checkedBidIds(), options)
 
   awardCheckedBids: (e) ->
-    e.preventDefault()
-
     options =
       award_message: $(e.target).find(".js-award-message").val()
 
@@ -614,7 +607,6 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       @pageOptions.set('sidebarCollapsed', true)
 
   submitSearch: (e) ->
-    e.preventDefault()
     @router.navigate @router.filteredHref({page: 1}), {trigger: true}
 
   setCounts: ->
