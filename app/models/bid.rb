@@ -111,10 +111,12 @@ class Bid < ActiveRecord::Base
       query = query.join_responses_for_response_field_id(params[:sort])
                    .order("CASE WHEN responses.response_field_id IS NULL then 1 else 0 end,
                            responses.sortable_value#{cast_int ? '::numeric' : ''} #{direction}")
-    elsif params[:sort] == "stars"
-      query = query.order("total_stars #{direction}")
-    elsif params[:sort] == "average_rating"
-      query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{direction}")
+    elsif params[:sort] == "rating"
+      if args[:project].review_mode == Project.review_modes[:stars]
+        query = query.order("total_stars #{direction}")
+      else # one_through_five
+        query = query.order("case when average_rating is null then 1 else 0 end, average_rating #{direction}")
+      end
     elsif params[:sort] == "created_at"
       query = query.order("bids.created_at #{direction}")
     elsif params[:sort] == "name" || params[:sort].blank?

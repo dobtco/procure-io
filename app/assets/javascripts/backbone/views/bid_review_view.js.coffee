@@ -286,6 +286,7 @@ ProcureIo.Backbone.BidReviewBidView = Backbone.View.extend
   openBid: (e) ->
     return if e.metaKey
     return @$modal.modal('show') if @$modal?
+    e.preventDefault()
 
     if !@bidOpened
       @bidOpened = true
@@ -508,7 +509,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       keyFields.push responseField.id
       break if keyFields.length == 2
 
-    keyFields.unshift 'name'
+    keyFields.unshift 'rating', 'name'
 
     @pageOptions.set 'keyFields', keyFields
 
@@ -518,9 +519,10 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   sortedKeyFields: (keyFields) ->
     sortedKeyFields = []
 
-    # sort name first
-    if _.contains keyFields, 'name'
-      sortedKeyFields.push 'name'
+    # sort name & rating first
+    for i in ['rating', 'name']
+      if _.contains keyFields, i
+        sortedKeyFields.push i
 
     # sort other fields in the order they came in
     for responseField in @project.response_fields

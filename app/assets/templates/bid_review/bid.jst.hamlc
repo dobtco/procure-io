@@ -1,24 +1,22 @@
 %td.controls-td
   %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
 
-  - if @parentView.project.review_mode == "stars"
-    %span.total-stars{"data-backbone-click" => "toggleStarred"}
-      %i{"class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
-      %span= @bid.get('total_stars')
-
-  - if @parentView.project.review_mode == "one_through_five"
-    .rating-select{"data-score" => @bid.get('rating')}
-
-- if @parentView.project.review_mode == "one_through_five"
-  %td
-    %span= @bid.get('average_rating')
-    - if @bid.get('total_ratings')
-      %span.total_ratings= @bid.get('total_ratings')
-
 - for keyField in @parentView.pageOptions.attributes.keyFields
   %td
-    - if keyField == 'name'
+    - if keyField == 'rating'
+      - if @parentView.project.review_mode == "stars"
+        %span.total-stars{"data-backbone-click" => "toggleStarred"}
+          %i{"class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+          %span= @bid.get('total_stars')
 
+      - else # @parentView.project.review_mode == "one_through_five"
+        .rating-select{"data-score" => @bid.get('rating')}
+        - if @bid.get('average_rating')
+          = @bid.get('average_rating')
+          %span.total_ratings= @bid.get('total_ratings')
+
+
+    - if keyField == 'name'
       %a.vendor-name{href: "/projects/#{@parentView.project.id}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}
         = @bid.get('bidder_name')
 
