@@ -40,6 +40,7 @@
 //= require hamlcoffee
 //= require_tree ../templates
 //= require backbone
+//= require backbone_method_bindings
 //= require backbone-deep-model
 //= require rivets
 //= require backbone_rails_sync

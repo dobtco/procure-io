@@ -422,19 +422,7 @@ ProcureIo.Backbone.BidReviewView = Backbone.View.extend
       @$el.addClass 'bid-tr-selected'
 
 ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
-
   el: "#bid-review-page"
-
-  events:
-    "click [data-backbone-click]": "onClick"
-    "submit [data-backbone-submit]": "onSubmit"
-
-  onClick: (e) ->
-    return if $(e.currentTarget).hasClass 'disabled'
-    @[$(e.currentTarget).data('backbone-click')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
-
-  onSubmit: (e) ->
-    @[$(e.currentTarget).data('backbone-submit')]?(e, $(e.currentTarget), $(e.currentTarget).data('backbone-params'))
 
   initialize: ->
     ProcureIo.BidsOnMouseoverSelect = true
