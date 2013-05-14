@@ -101,7 +101,7 @@ class Bid < ActiveRecord::Base
       query = query.join_labels.where("labels.name = ?", params[:label])
     end
 
-    direction = params[:direction] == 'asc' ? 'asc' : 'desc'
+    direction = params[:direction] == 'desc' ? 'desc' : 'asc'
 
     if !params[:q].blank?
       query = query.full_search(params[:q])
