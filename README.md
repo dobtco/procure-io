@@ -28,6 +28,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 - `git push heroku master`
 - `heroku run rake db:migrate`
 - `heroku run rake db:seed`
+- `heroku restart`
 - Create your first officer with admin permissions: `heroku run rake 'create_admin[email@example.com,password]'`
 
 ##### A couple notes:
