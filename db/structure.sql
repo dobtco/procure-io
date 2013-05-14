@@ -337,7 +337,6 @@ ALTER SEQUENCE events_id_seq OWNED BY events.id;
 CREATE TABLE form_templates (
     id integer NOT NULL,
     name character varying(255),
-    response_fields text,
     created_at timestamp without time zone,
     updated_at timestamp without time zone,
     form_options text
@@ -1777,3 +1776,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130510001053');
 INSERT INTO schema_migrations (version) VALUES ('20130510163158');
 
 INSERT INTO schema_migrations (version) VALUES ('20130510180754');
+
+INSERT INTO schema_migrations (version) VALUES ('20130514205212');

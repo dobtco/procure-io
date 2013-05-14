@@ -2,21 +2,22 @@
 #
 # Table name: form_templates
 #
-#  id              :integer          not null, primary key
-#  name            :string(255)
-#  response_fields :text
-#  created_at      :datetime
-#  updated_at      :datetime
-#  form_options    :text
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  form_options :text
 #
 
 class FormTemplate < ActiveRecord::Base
-  serialize :response_fields
+  include Behaviors::ResponseFieldable
+
   serialize :form_options, Hash
 
   has_searcher starting_query: FormTemplate
 
-  pg_search_scope :full_search, against: [:name, :response_fields],
+  pg_search_scope :full_search, against: [:name],
+                                associated_against: { response_fields: [:label] },
                                 using: { tsearch: { prefix: true } }
 
   def self.add_params_to_query(query, params, args = {})

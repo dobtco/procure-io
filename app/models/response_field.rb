@@ -29,4 +29,6 @@ class ResponseField < ActiveRecord::Base
   REPORTABLE_FIELDS = ["price", "number"]
   OPTIONS_FIELDS = ["checkboxes", "radio", "dropdown"]
   SORTABLE_VALUE_INTEGER_FIELDS = ["price", "number", "date"]
+
+  ALLOWED_PARAMS = [:field_type, :label, :field_options, :sort_order, :key_field, :only_visible_to_admin]
 end

@@ -23,15 +23,13 @@ class FormTemplatesController < ApplicationController
   end
 
   def create
-    response_fields = []
+    @form_template = FormTemplate.create(name: form_template_params[:name],
+                                         form_options: @response_fieldable.form_options)
 
     @response_fieldable.response_fields.each do |response_field|
-      response_fields.push pick(response_field, :label, :field_type, :field_options, :sort_order, :key_field)
+      ResponseField.create pick(response_field, *ResponseField::ALLOWED_PARAMS)
+                           .merge(response_fieldable: @form_template)
     end
-
-    @form_template = FormTemplate.create(name: form_template_params[:name],
-                                         response_fields: response_fields,
-                                         form_options: @response_fieldable.form_options)
 
     render json: @form_template
   end

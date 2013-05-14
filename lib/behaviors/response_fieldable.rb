@@ -16,7 +16,7 @@ module Behaviors
       response_fields.destroy_all
 
       form_template.response_fields.each do |response_field|
-        response_fields << ResponseField.new(response_field)
+        response_fields << ResponseField.new(pick(response_field, *ResponseField::ALLOWED_PARAMS))
       end
 
       update_attributes(form_options: form_template.form_options)
