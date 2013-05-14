@@ -12,6 +12,9 @@
   %li{"class" => active_page?("roles")}
     = link_to t('g.roles'), roles_path
 
+  %li{"class" => active_page?("form_templates")}
+    = link_to t('g.form_templates'), form_templates_path
+
   %li{"class" => active_page?("global_config#vendor_registration")}
     =link_to t('g.vendor_registration'), global_config_vendor_registration_path
 

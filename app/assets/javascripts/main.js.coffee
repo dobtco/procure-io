@@ -83,7 +83,7 @@ $(document).on "click", ".js-notification-dropdown-toggle", (e) ->
     error: =>
       $(@).data 'notifications-loaded', false
 
-$(document).on "ajax:before", "#form-template-form", (e) ->
+$(document).on "ajax:beforeSend", "#form-template-form", (e) ->
   return false if !$(@).find("input[type=text]").val()
 
   $(@).resetForm().hide()

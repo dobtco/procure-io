@@ -9,6 +9,6 @@
         = I18n.t('g.edit')
 
     - if @model.get('urls')?.destroy
-      %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete"}
+      %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete", "data-confirm" => I18n.t('g.delete_confirmation')}
         %i.icon-trash
         = I18n.t('g.destroy')

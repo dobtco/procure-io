@@ -69,7 +69,7 @@ en:
       you_were_added: "%{officer_display_name} added you as a collaborator on %{project_title}."
 
   form_templates:
-    index:
+    pick_template:
       select_to_preview: Select a template on the left to preview it.
 
   flashes:
@@ -167,6 +167,7 @@ en:
     delete_amendment: Delete Amendment
     delete_bid: Delete Bid
     delete_bid_confirmation: Are you sure you want to delete this bid?
+    delete_confirmation: Are you sure you want to delete this item?
     description: Description
     destroy: Destroy
     destroy_label: Destroy Label

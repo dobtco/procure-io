@@ -36,7 +36,7 @@
         = I18n.t('g.save_form')
 
     %p
-      %a.smaller{"href" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}"}= I18n.t('g.response_field.import')
+      %a.smaller{"href" => "/form_templates/pick?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}"}= I18n.t('g.response_field.import')
 
     - if ProcureIo.CurrentOfficer.is_admin_or_god
       %p

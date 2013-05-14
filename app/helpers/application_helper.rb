@@ -89,7 +89,9 @@ module ApplicationHelper
   end
 
   def find_polymorphic(name)
-    model = params[:"#{name}_type"].capitalize.constantize
+    model_name = params[:"#{name}_type"]
+    model_name = model_name[0].capitalize + model_name[1..-1]
+    model = model_name.constantize
     object = model.find(params[:"#{name}_id"])
     return unless object.is_a?(ActiveRecord::Base)
     object

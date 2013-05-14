@@ -1,0 +1,32 @@
+- provide :page_title, t('g.form_templates')
+
+.row-fluid
+  .span6
+    %h4= t('g.form_templates')
+
+    %table.table
+      %thead
+        %tr
+          %th= FormTemplate.human_attribute_name(:name)
+          %th= t('g.actions')
+      %tbody
+        - @form_templates.each do |form_template|
+          %tr
+            %td= form_template.name
+            %td
+              = link_to t('g.use'), use_form_template_path(form_template.id, request.parameters), method: :post
+              &middot;
+              %a.js-preview-form-template{"href" => preview_form_template_path(form_template.id, request.parameters), "data-remote" => "true"}= t('g.preview')
+
+
+    = will_paginate @form_templates, class: "pagination pagination-centered"
+
+  .span6.preview-column-wrapper
+    .preview-wrapper.faded-while-loading
+
+
+    .no-preview.faded-while-loading
+      %h4= t('g.preview')
+      %p= t('.select_to_preview')
+
+    = render "shared/loading_indicator"

@@ -9,7 +9,7 @@ class ResponseFieldsController < ApplicationController
   before_filter except: [:delete_response] { |c| c.authorize! :manage_response_fields, @response_fieldable }
 
   def create
-    @response_field = @response_fieldable.response_fields.create pick(params, *allowed_params)
+    @response_field = ResponseField.create pick(params, *allowed_params).merge(response_fieldable: @response_fieldable)
     render_serialized(@response_field)
   end
 

@@ -103,6 +103,9 @@ class Ability
     end
 
     if user.owner.is_admin_or_god?
+      can :manage_response_fields, GlobalConfig
+      can :manage_response_fields, FormTemplate
+
       can [:edit, :destroy], Bid do |bid|
         can? :read, Bid
       end

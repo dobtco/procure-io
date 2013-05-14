@@ -1,12 +1,24 @@
 class FormTemplatesController < ApplicationController
   # Load
-  load_resource only: [:preview, :use]
-  before_filter :response_fieldable_exists?, except: [:preview]
+  load_resource only: [:preview, :use, :destroy, :edit]
+  before_filter :response_fieldable_exists?, except: [:preview, :index, :destroy, :edit] # also authorizes
 
-  # Authorize
-  before_filter except: [:preview] { |c| c.authorize! :manage_response_fields, @response_fieldable }
-
+  # admin
   def index
+    respond_to do |format|
+      format.html {}
+
+      format.json do
+        search_results = FormTemplate.searcher(params)
+        render_serialized search_results[:results], meta: search_results[:meta]
+      end
+    end
+  end
+
+  def edit
+  end
+
+  def pick_template
     @form_templates = FormTemplate.paginate(page: params[:page])
   end
 
@@ -33,9 +45,15 @@ class FormTemplatesController < ApplicationController
     redirect_to redirect_path_for(@response_fieldable)
   end
 
+  def destroy
+    @form_template.destroy
+    redirect_to form_templates_path
+  end
+
   private
   def response_fieldable_exists?
     @response_fieldable = find_polymorphic(:response_fieldable)
+    authorize! :manage_response_fields, @response_fieldable
   end
 
   def form_template_params
