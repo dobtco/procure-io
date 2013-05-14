@@ -11,7 +11,9 @@ describe Behaviors::ResponseFieldable do
   before do
     @model = NoRailsTests::ResponseFieldableModel.new
     stub_const("I18n", OpenStruct.new)
-    stub_const("ResponseField", OpenStruct.new)
+    stub_const("ResponseField::ALLOWED_PARAMS", [:label])
+    stub_const("ResponseField", Class.new, transfer_nested_constants: true)
+
   end
 
   describe '#use_form_template!' do
@@ -20,10 +22,10 @@ describe Behaviors::ResponseFieldable do
       r.should_receive(:destroy_all)
       r.should_receive(:<<).with(1)
       r.should_receive(:<<).with(2)
-      ResponseField.should_receive(:new).with(1).and_return(1)
-      ResponseField.should_receive(:new).with(2).and_return(2)
+      ResponseField.should_receive(:new).with(label: "car").and_return(1)
+      ResponseField.should_receive(:new).with(label: "bar").and_return(2)
       @model.should_receive(:update_attributes).with(form_options: "foo")
-      @model.use_form_template!(OpenStruct.new(response_fields: [1, 2], form_options: "foo"))
+      @model.use_form_template!(OpenStruct.new(response_fields: [{label: "car"}, {label: "bar"}], form_options: "foo"))
     end
   end
 

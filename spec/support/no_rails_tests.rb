@@ -1,4 +1,7 @@
 require 'ostruct'
+require_relative '../../app/helpers/pick_helper'
+
+include PickHelper
 
 module NoRailsTests
   class FakeModel < OpenStruct
