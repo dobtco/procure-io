@@ -554,58 +554,22 @@ en:
 
 
   mailers:
+    header: "Hey %{name},\n\n"
+    footer: "\n\n-- %{site_name}"
     invite:
       subject: "You've been invited to %{site_name}!"
-      text: |
-        Hey %{name},
-
-        You've been invited to collaborate on the project "%{project_title}".
-
-        Visit this link to accept the invite: %{invite_url}
-
-        -- %{site_name}
 
     notification:
       subject: "%{event_text}"
-      text: |
-        Hey %{name},
-
-        %{event_text}
-        %{event_additional_text}
-
-        %{event_url}
-
-        -- %{site_name}
 
     password_reset:
       subject: "Your password reset request for %{site_name}"
-      text: |
-        Hey %{name},
-
-        You requested to reset your password for your account on %{site_name}.
-
-        Visit this link to reset it: %{reset_password_url}
-
-        If someone other than you requested this password change, please contact us
-        immediately.
-
-        -- %{site_name}
 
     saved_searches:
       pluralized_count:
         one: 1 new result
         other: "%{count} new results"
       subject: "%{pluralized_count} for your saved searches on %{site_name}"
-      text: |
-        Hey %{name},
-
-        We found %{pluralized_count} for your saved searches on %{site_name}.
-
-        %{results}
-
-        -- %{site_name}
-
 
     unsubscribe_link: >
       Prefer not to receive these notifications via email? Change your preferences here: %{settings_notifications_url}
-

@@ -34,7 +34,7 @@ class Mailer < ActionMailer::Base
 
     vendor.saved_searches.each do |saved_search|
       count += saved_search.execute_since_last_search[:meta][:total]
-      results_string += render_to_string("saved_search_mailer/_results", locals: { saved_search: saved_search } )
+      results_string << render_to_string("mailers/_saved_search_results", locals: { saved_search: saved_search } )
     end
 
     if count > 0
@@ -57,13 +57,14 @@ class Mailer < ActionMailer::Base
     params[:site_name] = I18n.t('g.site_name')
     params[:settings_notifications_url] = settings_notifications_url
 
-    body = I18n.t("mailers.#{email_key}.text", params)
+    body = I18n.t('mailers.header', params)
+
+    body << render_to_string("mailers/#{email_key}", locals: { params: params })
+
+    body << I18n.t('mailers.footer', params)
 
     # Are we appending an unsubscribe link?
-    if params[:add_unsubscribe_link]
-      body << "\n"
-      body << I18n.t("mailers.unsubscribe_link", params)
-    end
+    body << "\n\n" + I18n.t("mailers.unsubscribe_link", params) if params[:add_unsubscribe_link]
 
     mail_args = {
       to: to,
