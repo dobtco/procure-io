@@ -17,6 +17,11 @@ describe CSVBidImporter do
       importer.instance_variable_get("@options").has_key?(:label).should == false
     end
 
+    it 'should parse the csv contents even if they are not utf-8' do
+      importer = CSVBidImporter.new(mock("Project"), "fu\nNon sp\xE9cifi\xE9", {label_imported_bids: ""})
+      importer.instance_variable_get("@options").has_key?(:label).should == false
+    end
+
     it 'should set a label if the param is set' do
       CSV.should_receive(:parse).with("contents", anything)
       importer = CSVBidImporter.new(mock("Project", labels: NoRailsTests::FakeQuery.new), "contents", {label_imported_bids: "yooo"})

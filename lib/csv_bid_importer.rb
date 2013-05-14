@@ -7,7 +7,7 @@ class CSVBidImporter
     @project = project
     @params = params
     @options = {}
-    @csv = CSV.parse file_contents, headers: true
+    @csv = CSV.parse file_contents.force_encoding('BINARY').encode('UTF-8', invalid: :replace, undef: :replace, replace: '?'), headers: true
 
     if !params[:label_imported_bids].blank?
       @options[:label] = @project.labels.where(name: params[:label_imported_bids]).first_or_create(color: "4FEB5A")
