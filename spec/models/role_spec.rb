@@ -38,7 +38,7 @@ describe Role do
   describe 'default permissions' do
     it 'should be set on initialization' do
       r = Role.new
-      r.permissions[:post_project_live].should == "never"
+      r.permissions.should == Role.low_permissions
     end
   end
 
