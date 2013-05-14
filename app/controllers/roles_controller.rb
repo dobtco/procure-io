@@ -56,6 +56,17 @@ class RolesController < ApplicationController
 
   private
   def role_params
-    params.require(:role).permit(:name, permissions: Role.all_permissions_flat)
+    filtered_params = { name: params[:role][:name] }
+
+    filtered_params[:permissions] = case params[:quick_permissions]
+    when "user"
+      Role.low_permissions
+    when "supervisor"
+      Role.high_permissions
+    else
+      params[:role][:permissions]
+    end
+
+    filtered_params
   end
 end

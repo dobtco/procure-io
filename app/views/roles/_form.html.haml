@@ -1,25 +1,37 @@
 = form_for @role, html: {"data-validate" => "parsley"} do |f|
 
-  %h4 Role Name
-
+  %h4 Role name
   = f.text_field :name, placeholder: Role.human_attribute_name(:name)
 
-  %h4 Global Permissions
 
-  = f.fields_for :permissions do |f|
-    - Role.global_permissions.each do |permission|
-      %label.checkbox
-        = f.check_box permission[:key], checked: @role.permissions[permission[:key]] == "1"
-        = permission[:name]
+  %h4 Permissions
+  %label.radio
+    %input{"type" => "radio", "name" => "quick_permissions", "value" => "user", "checked" => @role.quick_permissions == "user"}
+    User
+  %label.radio
+    %input{"type" => "radio", "name" => "quick_permissions", "value" => "supervisor", "checked" => @role.quick_permissions == "supervisor"}
+    Supervisor
+  %label.radio
+    %input{"type" => "radio", "name" => "quick_permissions", "value" => "", "checked" => !@role.quick_permissions}
+    Custom
 
-  %h4 For projects where user is a collaborator
+  .quick-permissions
+    %h4 Global permissions
 
-  %table.table.table-nonfluid
-    %tbody
-      - Role.categorized_project_permissions.each do |section_name, permissions|
-        = render "permission_table_header", section_name: section_name
-        - permissions.each do |permission|
-          = render "permission_table_row", permission_name: permission[:name], permission_key: permission[:key]
+    = f.fields_for :permissions do |f|
+      - Role.global_permissions.each do |permission|
+        %label.checkbox
+          = f.check_box permission[:key], checked: @role.permissions[permission[:key]] == "1"
+          = permission[:name]
+
+    %h4 Project permissions
+
+    - Role.categorized_project_permissions.each do |section_name, permissions|
+      %table.table.table-nonfluid.permission-table
+        %tbody
+          = render "permission_table_header", section_name: section_name
+          - permissions.each do |permission|
+            = render "permission_table_row", permission_name: permission[:name], permission_key: permission[:key]
 
 
   .form-actions

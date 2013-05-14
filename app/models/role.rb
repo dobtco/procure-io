@@ -31,6 +31,14 @@ class Role < ActiveRecord::Base
     role_type == Role.role_types[:god]
   end
 
+  def quick_permissions
+    if permissions == Role.low_permissions
+      "user"
+    elsif permissions == Role.high_permissions
+      "supervisor"
+    end
+  end
+
   def self.role_types
     @role_types ||= Enum.new(
       :user, :admin, :god
@@ -166,13 +174,6 @@ class Role < ActiveRecord::Base
   private
   def set_default_permissions
     return if self.permissions
-
-    new_permissions = {}
-
-    Role.flat_project_permissions.each do |permission|
-      new_permissions[permission] = "never"
-    end
-
-    self.permissions = new_permissions
+    self.permissions = Role.low_permissions
   end
 end
