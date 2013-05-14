@@ -192,7 +192,8 @@ describe 'Bid Review', js: true do
       it 'should dismiss and undismiss bids' do
         # Dismiss
         page.should have_selector('.badge', text: I18n.t('g.open'))
-        click_button I18n.t('g.dismiss')
+        find('.dropdown-toggle', text: I18n.t('g.dismiss')).click
+        find('.dropdown-form button', text: I18n.t('g.dismiss')).click
         before_and_after_refresh do
           page.should have_selector('.badge', text: 'Dismissed')
         end
@@ -209,7 +210,8 @@ describe 'Bid Review', js: true do
       it 'should award and unaward bids' do
         # Award
         page.should have_selector('.badge', text: I18n.t('g.open'))
-        click_button I18n.t('g.award')
+        find('.dropdown-toggle', text: I18n.t('g.award')).click
+        find('.dropdown-form button', text: I18n.t('g.award')).click
         before_and_after_refresh do
           page.should have_selector('.badge', text: I18n.t('g.awarded'))
         end
@@ -225,12 +227,12 @@ describe 'Bid Review', js: true do
     describe 'starring' do
       it 'should recalculate star count asynchronously' do
         page.should have_selector('.total-stars', text: "1")
-        find('[data-backbone-star]').click
+        find('[data-backbone-click=toggleStarred]').click
         page.should have_selector('.total-stars', text: "0")
       end
 
       it 'should save star count when refreshing' do
-        find('[data-backbone-star]').click
+        find('[data-backbone-click=toggleStarred]').click
         before_and_after_refresh do
           ensure_bid_page_is_unstarred
         end
@@ -241,7 +243,8 @@ describe 'Bid Review', js: true do
       it 'should mark as read when reloading the page' do
         bid_reviews(:one).update_attributes(read: false)
         refresh
-        page.should have_selector('.icon-circle-blank')
+        bid_reviews(:one).reload
+        bid_reviews(:one).read.should == true
       end
     end
 
@@ -252,7 +255,7 @@ describe 'Bid Review', js: true do
 
       it 'should create a new comment' do
         find('#new-comment-form textarea').set('Hey dudes.')
-        click_button 'Post Comment'
+        click_button I18n.t('g.post_comment')
         before_and_after_refresh do
           page.should have_selector('.comment', text: 'Hey dudes.')
         end
@@ -279,7 +282,7 @@ describe 'Bid Review', js: true do
     describe 'labeling' do
       it 'should label and unlabel bid' do
         bid_should_not_be_labeled_as(labels(:one).name)
-        find("li a[data-backbone-label-id]", text: labels(:one).name).click
+        find("[data-backbone-click=toggleLabeled]", text: labels(:one).name).click
         before_and_after_refresh { bid_should_be_labeled_as(labels(:one).name) }
       end
     end

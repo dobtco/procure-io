@@ -1,11 +1,11 @@
 module BidReviewSpecHelper
 
   def ensure_bid_page_is_starred
-    expect(page).to have_selector('[data-backbone-star].icon-star')
+    expect(page).to have_selector('[data-backbone-click=toggleStarred].icon-star')
   end
 
   def ensure_bid_page_is_unstarred
-    expect(page).to have_selector('[data-backbone-star].icon-star-empty')
+    expect(page).to have_selector('[data-backbone-click=toggleStarred].icon-star-empty')
   end
 
   def be_starred
@@ -37,12 +37,12 @@ module BidReviewSpecHelper
 
   def bid_should_be_labeled_as(label_name)
     page.should have_selector(".badge", text: label_name)
-    page.should have_selector("li.active a[data-backbone-label-id]", text: label_name)
+    page.should have_selector("li.active a[data-backbone-click=toggleLabeled]", text: label_name)
   end
 
   def bid_should_not_be_labeled_as(label_name)
     page.should_not have_selector(".badge", text: label_name)
-    page.should_not have_selector("li.active a[data-backbone-label-id]", text: label_name)
+    page.should_not have_selector("li.active a[data-backbone-click=toggleLabeled]", text: label_name)
   end
 
   def check_all_bids_in_list
