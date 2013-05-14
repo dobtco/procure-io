@@ -11,7 +11,7 @@
 
     %h5
       Labels
-      %a.smaller.regular-font{"data-backbone-click" => "toggleLabelAdmin", "data-toggle-text" => I18n.t('g.done_editing_labels')}= I18n.t('g.edit_labels')
+      %a.smaller.regular-font{"data-backbone-click" => "toggleLabelAdmin", "data-toggle-text" => I18n.t('g.done_editing')}= I18n.t('g.edit')
 
     .subview-label-filter
 
