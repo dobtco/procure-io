@@ -461,11 +461,13 @@ en:
       label_imported_bids_as: Label imported bids as
       leave_blank_for_no_label: Leave this field blank if you'd rather not add a label.
       response_fields_help_html: >
-        Make sure your CSV column headers match your response field labels.<br />
+        Since you're doing this manually, make sure that your CSV column headers match your response field labels.
         You should have columns for
       vendor_account_help_html: >
         We'll look for an <code>Email</code> or <code>Vendor ID</code> column in your file to try and
         find the correct vendor in Procure.io.
+      will_destroy_existing_response_fields: This will destroy all existing response fields.
+
     new:
       choose_a_template: Choose a template for receiving responses.
       instructions: "What should we call this project?"
