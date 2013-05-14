@@ -33,7 +33,7 @@ en:
     additional_text:
       you_were_added: You have automatically been subscribed to all updates on this project.
       bulk_collaborators_added: "%{names} were added."
-      vendor_bid_dismissed: "Reason: \"%{bid_vendor_dismissal_message}\""
+      vendor_bid_dismissed: "Reason: \"%{bid_dismissal_message}\""
       vendor_bid_awarded: "\"%{bid_award_message}\""
       bid_awarded: "\"%{bid_award_message}\""
 

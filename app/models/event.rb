@@ -60,13 +60,13 @@ class Event < ActiveRecord::Base
   def additional_text
     if event_type.in? Event.event_types.only(:you_were_added, :bulk_collaborators_added).values
       I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
+
     elsif event_type == Event.event_types[:vendor_bid_dismissed]
-      # if we've elected to show the vendor the dismissal message, this is where it goes
-      if data[:bid][:vendor_dismissal_message]
+      if data[:bid][:show_dismissal_message_to_vendor] && data[:bid][:dismissal_message]
         I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
       end
+
     elsif event_type.in?  Event.event_types.only(:vendor_bid_awarded, :bid_awarded).values
-      # if we've elected to show the vendor the dismissal message, this is where it goes
       if data[:bid][:award_message]
         I18n.t("events.additional_text.#{Event.event_types[event_type]}", i18n_interpolation_data)
       end
@@ -85,7 +85,7 @@ class Event < ActiveRecord::Base
       "officer.display_name", "bid.vendor.display_name", "project.title", "vendor.display_name",
       "comment.officer.display_name", "names", "count", "comment.commentable.bidder_name",
       "bid.bidder_name", "comment.officer.display_name", "comment.commentable.title",
-      "bid.vendor_dismissal_message", "bid.award_message"
+      "bid.dismissal_message", "bid.award_message"
     ]
 
     attrs.each do |a|

@@ -72,6 +72,12 @@
 
 .row-fluid
   .span8
+    - if @bid.get('award_message')
+      .alert.alert-success= @bid.get('award_message')
+
+    - if @bid.get('dismissal_message')
+      .alert.alert-error= @bid.get('dismissal_message')
+
     != JST['shared/_bid']({bid: @bid, getResponseField: @getResponseField})
 
   .span4
