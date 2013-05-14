@@ -2,6 +2,7 @@
 
 = render "projects/officer_nav"
 
-#comment-page
-  :javascript
-    new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Project", commentableId: #{@project.id}});
+.row
+  #comment-page.span8
+    :javascript
+      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Project", commentableId: #{@project.id}});

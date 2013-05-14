@@ -465,7 +465,7 @@ en:
         find the correct vendor in Procure.io.
     new:
       choose_a_template: Choose a template for receiving responses.
-      instructions: "First, tell us some basic info about your project."
+      instructions: "What should we call this project?"
 
     officer_nav:
       reports_available_after_post: Reports will be available after this project goes live.

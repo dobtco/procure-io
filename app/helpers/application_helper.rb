@@ -15,11 +15,10 @@ module ApplicationHelper
 
   def active_subnav?(name)
     case name
-    when "bids"
-      active_page?("bids") || active_page?("projects#review_mode") || active_page?("projects#response_fields")
     when "stats"
       active_page?("reports") || active_page?("projects#reviewer_leaderboard")
     when "admin"
+      active_page?("projects#edit") || active_page?("projects#response_fields") || active_page?("projects#review_mode") ||
       active_page?("projects#export_csv") || active_page?("projects#import_csv") || active_page?("collaborators#index")
     else
       false

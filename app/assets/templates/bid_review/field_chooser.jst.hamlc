@@ -6,6 +6,10 @@
     %i.icon-ok
     %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'rating'}= I18n.t('g.rating')
 
+  %li{"class" => if @fieldSelected('comments') then "active"}
+    %i.icon-ok
+    %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'comments'}= I18n.t('g.comments')
+
   %li{"class" => if @fieldSelected('name') then "active"}
     %i.icon-ok
     %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'name'}= I18n.t('g.vendor_name')

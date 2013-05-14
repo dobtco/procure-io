@@ -518,7 +518,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       keyFields.push responseField.id
       break if keyFields.length == 2
 
-    keyFields.unshift 'rating', 'name'
+    keyFields.unshift 'rating', 'comments', 'name'
 
     @pageOptions.set 'keyFields', keyFields
 
@@ -528,8 +528,8 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   sortedKeyFields: (keyFields) ->
     sortedKeyFields = []
 
-    # sort name & rating first
-    for i in ['rating', 'name']
+    # sort these first
+    for i in ['rating', 'comments', 'name']
       if _.contains keyFields, i
         sortedKeyFields.push i
 

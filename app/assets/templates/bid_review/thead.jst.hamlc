@@ -7,8 +7,11 @@
         - if keyField == 'name'
           = I18n.t('g.vendor_name')
 
+        - else if keyField == 'comments'
+          %i.icon-comment
+
         - else if keyField == 'rating'
-          = I18n.t('g.rating')
+          %i.icon-star
 
         - else
           = @parentView.getResponseField(keyField).label

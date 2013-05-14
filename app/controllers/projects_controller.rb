@@ -71,12 +71,7 @@ class ProjectsController < ApplicationController
 
   def create
     @project = current_officer.projects.create(project_params)
-    @project.collaborators.where(officer_id: current_officer.id).first.update_attributes owner: true
-
-    if !params[:form_template_id].blank? && (can? :manage_response_fields, @project)
-      @project.use_form_template!(FormTemplate.find(params[:form_template_id]))
-    end
-
+    @project.collaborators.where(officer_id: current_officer.id).first.update_attributes(owner: true)
     redirect_to edit_project_path(@project)
   end
 

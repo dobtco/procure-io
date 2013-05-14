@@ -15,6 +15,9 @@
           = @bid.get('average_rating')
           %span.total_ratings= @bid.get('total_ratings')
 
+    - if keyField == 'comments'
+      = @bid.get('total_comments')
+
 
     - if keyField == 'name'
       %a.vendor-name{href: "/projects/#{@parentView.project.id}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}

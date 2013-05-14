@@ -120,6 +120,8 @@ class Bid < ActiveRecord::Base
       end
     elsif params[:sort] == "created_at"
       query = query.order("bids.created_at #{direction}")
+    elsif params[:sort] == "comments"
+      query = query.order("bids.total_comments #{direction}")
     elsif params[:sort] == "name" || params[:sort].blank?
       query = query.order("COALESCE(vendors.name, bids.bidder_name) #{direction}, bids.created_at #{direction}")
     end
