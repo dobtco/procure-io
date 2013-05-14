@@ -1,4 +1,4 @@
-bundler_args: --without development --path=~/.bundle
+bundler_args: --without development heroku --path=~/.bundle
 
 language: ruby
 
