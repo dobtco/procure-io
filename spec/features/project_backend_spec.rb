@@ -122,7 +122,7 @@ describe "Project Backend" do
 
     it 'should create new projects' do
       fill_in "project[title]", with: "Ze Title"
-      click_button "Next"
+      click_button I18n.t('g.submit')
       page.should have_selector('h3', 'Ze Title')
     end
   end
