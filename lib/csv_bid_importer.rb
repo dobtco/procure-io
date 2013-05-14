@@ -28,7 +28,7 @@ class CSVBidImporter
     end
 
     headers.uniq.each_with_index do |column_name, index|
-      @project.response_fields.create(label: column_name, field_type: "paragraph", key_field: (index == 0), sort_order: index)
+      @project.response_fields.create(label: column_name, field_type: "paragraph", sort_order: index)
     end
   end
 
@@ -58,7 +58,7 @@ class CSVBidImporter
         bid.labels << @options[:label]
       end
 
-      bid.touch # run callbacks now that response_fields are created
+      bid.update_attributes(updated_at: Time.now) # run callbacks now that response_fields are created
 
       @count += 1
     end

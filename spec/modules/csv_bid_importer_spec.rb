@@ -117,6 +117,7 @@ describe CSVBidImporter do
       project.should_receive(:create).and_return(bid = OpenStruct.new(labels: []))
       project.should_receive(:first_or_create).and_return(label = "foo")
       project.should_receive(:response_fields).and_return([])
+      bid.should_receive(:update_attributes)
       bid.labels.should_receive(:"<<").with(label)
       importer = CSVBidImporter.new(project, "contents", {label_imported_bids: "foo"})
     end
