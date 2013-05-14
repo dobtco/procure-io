@@ -1,7 +1,7 @@
 Procure.io [![](https://travis-ci.org/dobtco/procure-io.png)](https://travis-ci.org/dobtco/procure-io) [![](https://codeclimate.com/github/dobtco/procure-io.png)](https://codeclimate.com/github/dobtco/procure-io)
 --------
 
-Procurement software for the 21st century.
+Procurement software for the 21st century. [demo](http://demo.procure.io)
 
 [![screenshot](http://www.dobt.co/img/review_bids.png)](http://www.dobt.co/img/review_bids.png)
 
@@ -41,7 +41,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 Procure.io is very early-stage alpha software, but if you're interested in getting your hands dirty, contributions are more than welcome. Your workflow should look something like this:
 
 1. Fork the repo
-2. Write some sweet code
+2. Write some sweet code in a feature-branch
 3. Write some tests (unit & acceptance, currently) that cover the functionality you added
 4. Create a pull request
 
