@@ -44,6 +44,16 @@ class RolesController < ApplicationController
     redirect_to :back
   end
 
+  def duplicate
+    new_role = Role.create(
+      name: @role.name + " copy",
+      role_type: @role.role_type,
+      permissions: @role.permissions
+    )
+
+    redirect_to edit_role_path(new_role)
+  end
+
   private
   def role_params
     params.require(:role).permit(:name, permissions: Role.all_permissions_flat)

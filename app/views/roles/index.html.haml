@@ -14,15 +14,19 @@
     - @roles.each do |role|
       %tr
         %td
-          = role.name
+          = link_to role.name, edit_role_path(role)
           - if role.default
             %small
               %i.icon-star
               Default for new users
         %td
           = link_to t('g.set_role_as_default'), set_as_default_role_path(role), method: :post, class: "btn btn-small #{role.default ? 'disabled' : ''}"
-          = link_to t('g.edit'), edit_role_path(role), class: "btn btn-small"
+
+          %a.btn.btn-small{"href" => duplicate_role_path(role), "data-method" => "post", "data-toggle" => "tooltip", "title" => I18n.t('g.duplicate')}
+            %i.icon-plus-sign
+
           - unless role.undeletable?
-            = link_to t('g.destroy'), role_path(role), method: :delete, confirm: t('confirmations.delete_role'), class: "btn btn-small"
+            %a.btn.btn-small{"href" => role_path(role), "data-method" => "delete", "data-confirm" => t('confirmations.delete_role'), "data-toggle" => "tooltip", "title" => t('g.destroy')}
+              %i.icon-trash
 
 = will_paginate @roles, class: "pagination pagination-centered"
