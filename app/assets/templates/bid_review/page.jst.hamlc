@@ -34,6 +34,9 @@
         %thead.subview-bids-thead
 
         %tbody#bids-tbody
+        %tbody#no-bids-tbody
+          %tr
+            %td{"colspan" => "100"} There are no bids matching these filters.
 
     %small.pull-left
       %a{"data-toggle-text" => "Restore sidebar &rarr;", "data-backbone-click" => "toggleCollapseSidebar"} &larr; Collapse sidebar

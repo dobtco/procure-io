@@ -409,6 +409,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       @collapseSidebarImmediately()
 
     if @options.bootstrapData
+      @router.setParamsFromUrl()
       @bids.reset(@options.bootstrapData, {parse: true})
       bootstrapped = true
 
@@ -422,6 +423,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   reset: ->
     $("#bids-tbody").html('')
     @addAll()
+
+    if @bids.models.length > 0
+      $("#bids-tbody").show()
+      $("#no-bids-tbody").hide()
+    else
+      $("#bids-tbody").hide()
+      $("#no-bids-tbody").show()
 
   render: ->
     @$el.html JST['bid_review/page']()

@@ -21,18 +21,24 @@ ProcureIo.Backbone.SearchRouter = Backbone.Router.extend
 
     "#{Backbone.history.fragment.split('?')[0]}?#{$.param(newParams)}"
 
-  main: (id, params) ->
+  main: ->
     params = $.urlParams()
 
     if _.isEmpty(params)
       return @navigate "#{Backbone.history.fragment}?#{$.param(@filterOptions.toJSON())}", {replace: true}
+
+    @setParamsFromUrl(params)
+
+    $(".search-page").addClass 'loading'
+
+    @collection.fetch({data: _.extend(@filterOptions.toJSON(), {searcher: true})})
+
+  setParamsFromUrl: (params) ->
+    params ||= $.urlParams()
+    return if _.isEmpty params
 
     for k, v of params
       @filterOptions.set k, v
 
     for k, v of @filterOptions.attributes
       @filterOptions.set k, undefined if !params[k] || params[k] == ""
-
-    $(".search-page").addClass 'loading'
-
-    @collection.fetch({data: _.extend(@filterOptions.toJSON(), {searcher: true})})
