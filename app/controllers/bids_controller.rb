@@ -16,22 +16,23 @@ class BidsController < ApplicationController
   before_filter :authenticate_vendor!, only: [:mine]
 
   def index
+    search_results = Bid.searcher(params,
+                                  starting_query: @project.bids
+                                                    .includes(:labels, :responses, vendor: [:user, :vendor_profile])
+                                                    .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
+                                                    .join_my_watches(current_user.id)
+                                                    .join_my_bid_review(current_officer.id)
+                                                    .submitted,
+                                  simpler_query: @project.bids.submitted,
+                                  project: @project)
+
     respond_to do |format|
       format.html do
         current_user.read_notifications(@project, :you_were_added) if current_user
+        @bootstrap_data = serialized(search_results[:results], BidWithReviewSerializer, meta: search_results[:meta])
       end
 
       format.json do
-        search_results = Bid.searcher(params,
-                                      starting_query: @project.bids
-                                                        .includes(:labels, :responses, vendor: [:user, :vendor_profile])
-                                                        .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
-                                                        .join_my_watches(current_user.id)
-                                                        .join_my_bid_review(current_officer.id)
-                                                        .submitted,
-                                      simpler_query: @project.bids.submitted,
-                                      project: @project)
-
         render_serialized search_results[:results], BidWithReviewSerializer, meta: search_results[:meta]
       end
     end

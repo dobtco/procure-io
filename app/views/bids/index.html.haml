@@ -6,5 +6,6 @@
   :javascript
     new ProcureIo.Backbone.BidReviewPage({
       project: #{ProjectSerializer.new(@project, root: false).to_json},
+      bootstrapData: #{@bootstrap_data.to_json},
       #{render partial: "projects/abilities_node", formats: [:js]}
     });

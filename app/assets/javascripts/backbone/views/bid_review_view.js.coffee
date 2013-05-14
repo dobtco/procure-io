@@ -408,8 +408,13 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
     if store.get(@sidebarStorageKey) == 'collapsed'
       @collapseSidebarImmediately()
 
+    if @options.bootstrapData
+      @bids.reset(@options.bootstrapData, {parse: true})
+      bootstrapped = true
+
     Backbone.history.start
       pushState: true
+      silent: bootstrapped?
 
   getLabel: (label_id) ->
     @labels.find ( (label) -> label.get('id') == label_id )
