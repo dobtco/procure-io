@@ -194,6 +194,10 @@ class Bid < ActiveRecord::Base
     "<span class='badge #{badge_class}'>#{text_status}</span>"
   end
 
+  def vendor_dismissal_message
+    dismissal_message if show_dismissal_message_to_vendor
+  end
+
   def updated_by_vendor_at
     if submitted?
       submitted_at
