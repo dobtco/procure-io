@@ -71,13 +71,13 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
   initialize: ->
     @$el = @options.el if @options.el?
 
-    ProcureIo.Backbone.Comments = new ProcureIo.Backbone.CommentList()
-    ProcureIo.Backbone.Comments.urlParams = "commentable_type=#{@options.commentableType}&commentable_id=#{@options.commentableId}"
-    ProcureIo.Backbone.Comments.baseUrl = "/comments?#{ProcureIo.Backbone.Comments.urlParams}"
-    ProcureIo.Backbone.Comments.url = ProcureIo.Backbone.Comments.baseUrl
+    @comments = new ProcureIo.Backbone.CommentList()
+    @comments.urlParams = "commentable_type=#{@options.commentableType}&commentable_id=#{@options.commentableId}"
+    @comments.baseUrl = "/comments?#{@comments.urlParams}"
+    @comments.url = @comments.baseUrl
 
-    ProcureIo.Backbone.Comments.bind 'add', @addOne, @
-    ProcureIo.Backbone.Comments.bind 'reset', @reset, @
+    @comments.bind 'add', @addOne, @
+    @comments.bind 'reset', @reset, @
 
     @render()
 
@@ -86,9 +86,9 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
       commentable_id: @options.commentableId
 
     if @options.bootstrapData
-      ProcureIo.Backbone.Comments.reset(@options.bootstrapData)
+      @comments.reset(@options.bootstrapData)
     else
-      ProcureIo.Backbone.Comments.fetch()
+      @comments.fetch()
 
   reset: ->
     @$el.find(".loading-comments").hide()
@@ -105,18 +105,15 @@ ProcureIo.Backbone.CommentPageView = Backbone.View.extend
       view = new ProcureIo.Backbone["Comment#{comment.get('comment_type')}View"]({model: comment})
     else
       view = new ProcureIo.Backbone.CommentView({model: comment})
-
     $("#comments-wrapper").append(view.render().el)
 
   addAll: ->
-    ProcureIo.Backbone.Comments.each @addOne
+    @comments.each @addOne
 
-$(document).on "submit", "form#new-comment-form", (e) ->
-  e.preventDefault()
+  createComment: (e, $el) ->
+    @comments.create
+      body: $el.find("textarea").val()
+      officer: ProcureIo.CurrentOfficer
 
-  ProcureIo.Backbone.Comments.create
-    body: $(@).find("textarea").val()
-    officer: ProcureIo.CurrentOfficer
-
-  $(@).resetForm()
+    $el.resetForm()
 

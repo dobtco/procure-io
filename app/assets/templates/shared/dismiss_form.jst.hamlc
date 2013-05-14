@@ -1,0 +1,6 @@
+%form.dropdown-form.dropdown-form-auto{"data-backbone-submit" => "dismissCheckedBids"}
+  %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
+  %label.checkbox
+    %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}
+    = I18n.t('g.vendor_can_see')
+  %button.btn.btn-inverse= I18n.t('g.dismiss')

@@ -305,7 +305,12 @@ ProcureIo.Backbone.BidReviewBidView = Backbone.View.extend
         <div class="modal-body">
           <div class="modal-bid-view-wrapper"></div>
           <div class="modal-bid-view-reviews-wrapper"></div>
-          <div class="modal-comments-view-wrapper"></div>
+          <h4>#{I18n.t('g.comments')}</h4>
+          <div class="row">
+            <div class="span8">
+              <div class="modal-comments-view-wrapper"></div>
+            </div>
+          </div>
         </div>
       </div>
     """).appendTo("body")
@@ -549,7 +554,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
       b.trigger 'change'
 
   refetch: ->
-    @$el.find("#bid-review-page").addClass 'loading'
+    $("#bid-review-page").addClass 'loading'
     @bids.fetch
       data: @router.filterOptions.toJSON()
 

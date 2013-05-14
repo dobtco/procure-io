@@ -14,8 +14,12 @@ Backbone.Model.prototype.url = ->
     pieces[0] + (if base.charAt(base.length - 1) == '/' then '' else '/') + encodeURIComponent(@id) + ".json" + (if pieces[1]? then "?#{pieces[1]}" else "")
 
 Backbone.Collection.prototype.parse = (resp, xhr) ->
-  @meta = resp.meta
-  resp.results
+  if resp.results?
+    @meta = resp.meta
+    resp.results
+
+  else
+    resp
 
 Backbone.View.prototype.extendEvents = (newEvents) ->
   _.extend @events, newEvents

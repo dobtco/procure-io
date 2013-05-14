@@ -1,29 +1,21 @@
 ProcureIo.Backbone.BidPageView = Backbone.View.extend
-
   el: "#bid-page"
-
-  events:
-    "click [data-backbone-star]": "toggleStarred"
-    "click [data-backbone-read]": "toggleRead"
-    "click [data-backbone-dismiss]": "toggleDismissed"
-    "click [data-backbone-award]": "toggleAwarded"
-    "click [data-backbone-label-id]": "toggleLabeled"
-    "click [data-backbone-watch]": "toggleWatching"
 
   initialize: ->
     @$el = @options.el if @options.el?
     @bid = @options.bid || new ProcureIo.Backbone.Bid(@options.bootstrapData)
     @bid.url = "/projects/#{@options.project.id}/bids/#{@bid.id}.json"
 
-    @getResponseField = (response_field_id) =>
-      _.find @options.project.response_fields, (response_field) ->
-        response_field.id == response_field_id
-
     @getLabel = (label_id) =>
       _.find @options.project.labels, (label) ->
         label.id == label_id
 
     @listenTo @bid,  "change", @render
+
+    @getResponseField = (response_field_id) =>
+      _.find @options.project.response_fields, (response_field) ->
+        response_field.id == response_field_id
+
     @render()
 
   render: ->
@@ -35,19 +27,12 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
       getLabel: @getLabel
       abilities: @options.abilities
 
-    rivets.bind(@$el, {bid: @bid})
-
     @$el.find(".rating-select").raty
       score: ->
         $(@).attr('data-score')
       click: (score) =>
         @bid.set('rating', score)
         @bid.save()
-
-    @$el.find("[data-toggle=tooltip]").tooltip()
-
-    @$el.find(".rating-select").on "change", =>
-      @bid.save()
 
     return @
 
@@ -59,31 +44,33 @@ ProcureIo.Backbone.BidPageView = Backbone.View.extend
     @bid.set 'read', (if @bid.get('read') then false else true)
     @bid.save()
 
-  toggleDismissed: ->
-    if @bid.get('awarded_at') && !@bid.get('dismissed_at') then @bid.set('awarded_at', false)
-    @bid.set 'dismissed_at', (if @bid.get('dismissed_at') then false else true)
-    @bid.save()
+  undismissBid: ->
+    @bid.save { dismissed_at: false }
 
-  toggleAwarded: ->
-    if @bid.get('dismissed_at') && !@bid.get('awarded_at') then @bid.set('dismissed_at', false)
-    @bid.set 'awarded_at', (if @bid.get('awarded_at') then false else true)
-    @bid.save()
+  dismissCheckedBids: (e, $el) ->
+    @bid.save
+      dismissed_at: true
+      dismissal_message: $el.find(".js-dismissal-message").val()
+      show_dismissal_message_to_vendor: $el.find(".js-show-dismissal-message-to-vendor").is(":checked")
 
-  toggleWatching: ->
-    @bid.set 'watching', (if @bid.get('watching') then false else true)
-    @bid.save()
+  unawardBid: ->
+    @bid.save { awarded_at: false }
 
-  toggleLabeled: (e) ->
-    labels = @bid.get('labels')
-    label_id = $(e.target).data('backbone-label-id')
+  awardCheckedBids: (e, $el) ->
+    @bid.save
+      awarded_at: true
+      award_message: $el.find(".js-award-message").val()
 
-    if labels.indexOf(label_id) != -1
-      labels = _.without labels, label_id
+  toggleLabeled: (e, $el, label_id) ->
+    existingLabels = @bid.get('labels')
+
+    if existingLabels.indexOf(label_id) != -1
+      existingLabels = _.without existingLabels, label_id
     else
-      labels.push label_id
+      existingLabels.push label_id
 
-    @bid.set('labels', labels)
-    @bid.save()
+    @bid.set('labels', existingLabels)
+    @bid.save(null, {silent: true}) # silent prevents a re-render when labels get alphabetized server-side
 
 ProcureIo.Backbone.BidPageReviewsView = Backbone.View.extend
   el: "#bid-page-reviews"

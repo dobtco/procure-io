@@ -237,6 +237,7 @@ en:
     link: Link
     live: Live
     loading: Loading...
+    mark_as_unread: Mark as unread
     mine: Mine
     more: More
     my_bid: My Bid
@@ -406,6 +407,7 @@ en:
     watching: Watching
     wufoo_integration: Wufoo Integration
     x_to_x: '%{first} to %{last}'
+    your_rating: Your rating
 
   global_config:
     advanced:

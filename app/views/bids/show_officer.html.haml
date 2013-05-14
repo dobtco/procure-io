@@ -10,7 +10,7 @@
       #{render partial: "projects/abilities_node", formats: [:js]}
     });
 
-- if can?(:see_all_bid_reviews?, @project)
+- if can?(:see_all_bid_reviews, @project)
   #bid-page-reviews
     :javascript
       new ProcureIo.Backbone.BidPageReviewsView({

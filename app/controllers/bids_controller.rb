@@ -87,7 +87,7 @@ class BidsController < ApplicationController
         @bid.unaward_by_officer!(current_officer)
       elsif !@bid.awarded? && params[:awarded_at] == true
         @bid.undismiss_by_officer(current_officer)
-        @bid.award_by_officer!(current_officer)
+        @bid.award_by_officer!(current_officer, pick(params, :award_message))
       end
     end
 

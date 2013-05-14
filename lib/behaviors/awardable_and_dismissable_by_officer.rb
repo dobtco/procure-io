@@ -38,6 +38,8 @@ module Behaviors
       return false if !self.dismissed_at
       self.dismissed_at = nil
       self.dismissed_by_officer_id = nil
+      self.dismissal_message = nil
+      self.show_dismissal_message_to_vendor = nil
       after_undismiss_by_officer(officer) if self.respond_to?(:after_undismiss_by_officer, true)
     end
 
@@ -45,6 +47,7 @@ module Behaviors
       return false if !self.awarded_at
       self.awarded_at = nil
       self.awarded_by_officer_id = nil
+      self.award_message = nil
       after_unaward_by_officer(officer) if self.respond_to?(:after_unaward_by_officer, true)
     end
 

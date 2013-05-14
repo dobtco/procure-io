@@ -9,26 +9,62 @@
       != @bid.badgedTextStatus()
 
   .pull-right
+    - if @abilities.labelBids
+      .btn-group.dropdown
+        %a.btn.dropdown-toggle{"data-toggle" => "dropdown"}
+          = I18n.t('g.label')
+          %b.caret
+        %ul.dropdown-menu
+          - if @projectLabels.length == 0
+            %li.disabled
+              %a No labels
+          - for label in @projectLabels
+            %li{"class" => if @bid.get('labels').indexOf(label.id) != -1 then "active"}
+              %a{"data-backbone-click" => "toggleLabeled", "data-backbone-params" => label.id}
+                %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+                #{label.name}
+
     - if @abilities.awardAndDismissBids
-      %button.btn{"data-backbone-dismiss" => "true"}
+      - unless @bid.get('awarded_at')
         - if @bid.get('dismissed_at')
-          = I18n.t('g.undismiss')
+          %button.btn{"data-backbone-click" => "undismissBid"}
+            = I18n.t('g.undismiss')
+
         - else
-          = I18n.t('g.dismiss')
-        %b.caret
+          .btn-group.dropdown.dropdown-left
+            %button.btn.dropdown-toggle.js-dropdown-form-toggle{"data-toggle" => "dropdown"}
+              = I18n.t('g.dismiss')
+              %b.caret
 
-      %button.btn
-        = I18n.t('g.award')
-        %b.caret
+            .dropdown-menu
+              != JST['shared/dismiss_form']()
 
-      %button.btn
-        More
-        %b.caret
+      - unless @bid.get('dismissed_at')
+        - if @bid.get('awarded_at')
+          %button.btn{"data-backbone-click" => "unawardBid"}
+            = I18n.t('g.unaward')
+        - else
+          .btn-group.dropdown.dropdown-left
+            %button.btn.dropdown-toggle.js-dropdown-form-toggle{"data-toggle" => "dropdown"}
+              = I18n.t('g.award')
+              %b.caret
 
-      - if ProcureIo.CurrentOfficer.is_admin_or_god
-        / %small
-        /   %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}/edit"}= I18n.t('g.edit')
-        /   %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
+            .dropdown-menu
+              != JST['shared/award_form']()
+
+      .btn-group.dropdown.dropdown-left
+        %button.btn.dropdown-toggle{"data-toggle" => "dropdown"}
+          %b.caret
+
+        %ul.dropdown-menu
+          %li
+            %a{"data-backbone-click" => "toggleRead"}= I18n.t('g.mark_as_unread')
+          - if ProcureIo.CurrentOfficer.is_admin_or_god
+            %li
+              %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}/edit"}= I18n.t('g.edit')
+
+            %li
+              %a{"href" => "/projects/#{@project.id}/bids/#{@bid.get('id')}", "data-method" => "delete", "data-confirm" => I18n.t('g.delete_bid_confirmation')}= I18n.t('g.delete')
 
 
 
@@ -41,10 +77,10 @@
   .span4
     .well
       %dl.medium-spacing
-        %dt Your Rating
+        %dt= I18n.t('g.your_rating')
         %dd
           - if @project.review_mode == "stars"
-            %i{"data-backbone-star" => "true", "class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+            %i{"data-backbone-click" => "toggleStarred", "class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
             %span.total-stars= @bid.get('total_stars')
 
           - if @project.review_mode == "one_through_five"
@@ -54,27 +90,8 @@
             - if @bid.get('total_ratings')
               %span.total_ratings= @bid.get('total_ratings')
 
-
-
-
-
         %dt
           Labels
-          - if @abilities.labelBids
-            .btn-group
-              %a.btn.dropdown-toggle.btn-mini{"href" => "#", "data-toggle" => "dropdown"}
-                %b.caret
-              %ul.dropdown-menu
-                - if @projectLabels.length == 0
-                  %li.disabled
-                    %a No labels
-                - for label in @projectLabels
-                  %li{"class" => if @bid.get('labels').indexOf(label.id) != -1 then "active"}
-                    %a{"data-backbone-label-id" => label.id, "data-backbone-label-color" => label.color}
-                      %span.rectangular-color-swatch{"style" => "background-color: ##{label.color || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
-                      #{label.name}
-
-
 
         %dd
           - for label_id in @bid.get('labels')

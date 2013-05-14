@@ -24,12 +24,7 @@
           = I18n.t('g.dismiss')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form.dropdown-form-auto{"data-backbone-submit" => "dismissCheckedBids"}
-            %input.js-dismissal-message{"type" => "text", "placeholder" => I18n.t('g.dismissal_reason')}
-            %label.checkbox
-              %input.js-show-dismissal-message-to-vendor{"type" => "checkbox"}
-              = I18n.t('g.vendor_can_see')
-            %button.btn.btn-inverse= I18n.t('g.dismiss')
+          != JST['shared/dismiss_form']()
 
   %span{"data-rv-show" => "filterOptions.status | eq dismissed | not"}
     %span{"data-rv-show" => "filterOptions.status | eq awarded"}
@@ -41,8 +36,4 @@
           = I18n.t('g.award')
           %b.caret
         .dropdown-menu
-          %form.dropdown-form.dropdown-form-large{"data-backbone-submit" => "awardCheckedBids"}
-            .alert.alert-error= I18n.t('g.careful_awarding')
-            .control-group
-              %textarea.js-award-message{"placeholder" => I18n.t('g.award_message'), "rows" => 5}
-            %button.btn.btn-inverse= I18n.t('g.award')
+          != JST['shared/award_form']()

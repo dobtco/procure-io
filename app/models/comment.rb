@@ -23,10 +23,12 @@ class Comment < ActiveRecord::Base
   serialize :data
 
   after_save :calculate_commentable_total_comments!
+  after_destroy :calculate_commentable_total_comments!
   after_create :subscribe_officer_if_never_subscribed!
   after_create :generate_events
 
   default_scope -> { order("created_at") }
+  scope :not_auto_generated, -> { where("comment_type IS NULL") }
 
   private
   def calculate_commentable_total_comments!

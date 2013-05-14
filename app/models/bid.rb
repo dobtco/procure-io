@@ -85,7 +85,7 @@ class Bid < ActiveRecord::Base
 
   calculator :total_stars do bid_reviews.where(starred: true) end
   calculator :total_ratings do bid_reviews.that_have_ratings end
-  calculator :total_comments do comments end
+  calculator :total_comments do comments.not_auto_generated end
   calculator :average_rating do bid_reviews.that_have_ratings.average(:rating) end
 
   def self.add_params_to_query(query, params, args = {})
