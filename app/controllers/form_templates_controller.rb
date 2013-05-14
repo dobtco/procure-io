@@ -1,7 +1,7 @@
 class FormTemplatesController < ApplicationController
   # Load
-  load_resource only: [:preview, :use, :destroy, :edit]
-  before_filter :response_fieldable_exists?, except: [:preview, :index, :destroy, :edit] # also authorizes
+  load_resource only: [:preview, :use, :destroy, :edit, :update]
+  before_filter :response_fieldable_exists?, except: [:preview, :index, :destroy, :edit, :update] # also authorizes
 
   # admin
   def index
@@ -16,6 +16,11 @@ class FormTemplatesController < ApplicationController
   end
 
   def edit
+  end
+
+  def update
+    @form_template.update_attributes(form_template_params)
+    render json: { status: "success" }
   end
 
   def pick_template

@@ -4,6 +4,15 @@
 
 %h4 #{I18n.t('g.editing')} #{@form_template.name}
 
+= form_for @form_template, remote: true do |f|
+
+  %label= FormTemplate.human_attribute_name(:name)
+  .input-append
+    = f.text_field :name
+    = f.submit I18n.t('g.save'), class: 'btn btn-inverse', "data-loading-text" => I18n.t('g.saving')
+
+%hr
+
 #admin-response-field-page
   :javascript
     new ProcureIo.Backbone.AdminResponseFieldPage({

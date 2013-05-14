@@ -3,12 +3,17 @@
 
 - unless @parentView.options.actions? && @parentView.options.actions == false
   %td
-    - if @model.get('urls')?.edit
-      %a.btn.btn-small{"href" => @model.get('urls').edit}
-        %i.icon-pencil
-        = I18n.t('g.edit')
+    - for k, v of @model.get('urls')
+      - if k == 'edit'
+        %a.btn.btn-small{"href" => v}
+          %i.icon-pencil
+          = I18n.t('g.edit')
 
-    - if @model.get('urls')?.destroy
-      %a.btn.btn-small{"href" => @model.get('urls').destroy, "data-method" => "delete", "data-confirm" => I18n.t('g.delete_confirmation')}
-        %i.icon-trash
-        = I18n.t('g.destroy')
+      - else if k == 'destroy'
+        %a.btn.btn-small{"href" => v, "data-method" => "delete", "data-confirm" => I18n.t('g.delete_confirmation')}
+          %i.icon-trash
+          = I18n.t('g.destroy')
+
+      - else
+        %a.btn.btn-small{"href" => v}
+          = I18n.t("g.#{k}")
