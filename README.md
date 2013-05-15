@@ -1,7 +1,8 @@
 Procure.io [![](https://travis-ci.org/dobtco/procure-io.png)](https://travis-ci.org/dobtco/procure-io) [![](https://codeclimate.com/github/dobtco/procure-io.png)](https://codeclimate.com/github/dobtco/procure-io)
 --------
 
-Procurement software for the 21st century. [demo](http://demo.procure.io)
+Procurement software for the 21st century. Try the **[demo](http://demo.procure.io)**.
+> Login to the demo as an officer with `officer1@example.gov/password`, or as a vendor with `vendor1@example.com/password`.
 
 [![screenshot](http://www.dobt.co/img/review_bids.png)](http://www.dobt.co/img/review_bids.png)
 
