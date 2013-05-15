@@ -1,7 +1,7 @@
 class FormTemplatesController < ApplicationController
   # Load
   load_resource only: [:preview, :use, :destroy, :edit, :update]
-  before_filter :response_fieldable_exists?, except: [:preview, :index, :destroy, :edit, :update] # also authorizes
+  before_filter :response_fieldable_exists?, except: [:preview, :index, :destroy, :edit, :update, :create] # also authorizes
 
   # admin
   def index
@@ -28,6 +28,11 @@ class FormTemplatesController < ApplicationController
   end
 
   def create
+    @form_template = FormTemplate.create(name: "")
+    redirect_to edit_form_template_path(@form_template)
+  end
+
+  def create_from_existing
     @form_template = FormTemplate.create(name: form_template_params[:name],
                                          form_options: @response_fieldable.form_options)
 

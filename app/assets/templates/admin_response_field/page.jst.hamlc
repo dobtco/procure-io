@@ -42,7 +42,7 @@
       %p
         %a.smaller{"data-toggle" => "showhide", "data-target" => "#form-template-form"}= I18n.t('g.response_field.save')
 
-      %form#form-template-form.hide{"action" => "/form_templates?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}", "method" => "post", "data-remote" => "true"}
+      %form#form-template-form.hide{"action" => "/form_templates/create_from_existing?response_fieldable_type=#{@options.response_fieldable_type}&response_fieldable_id=#{@options.response_fieldable_id}", "method" => "post", "data-remote" => "true"}
         .input-append
           %input{"type" => "text", "name" => "form_template[name]", "placeholder" => I18n.t('g.response_field.new_name')}
           %button.btn.btn-inverse= I18n.t('g.save')

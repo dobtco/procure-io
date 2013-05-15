@@ -102,6 +102,7 @@ ProcureIo::Application.routes.draw do
   end
 
   resources :form_templates do
+    post 'create_from_existing', on: :collection
     get 'pick' => 'form_templates#pick_template', on: :collection
     get 'preview', on: :member
     post 'use', on: :member

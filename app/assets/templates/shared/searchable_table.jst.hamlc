@@ -3,8 +3,13 @@
 .searchable-filter-form
 
 .pull-right.faded-while-loading
+  - if @options.newUrl
+    %a.btn.btn-small.btn-inverse.pull-right.new-btn{"href" => @options.newUrl, "data-method" => @options.newUrlMethod || undefined }
+      = I18n.t('g.new')
+      %i.icon-plus-sign
+
   #pagination-wrapper.pull-right
-  #sort-wrapper.pull-right
+
 
 .clearfix &nbsp;
 

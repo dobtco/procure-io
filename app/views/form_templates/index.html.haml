@@ -6,6 +6,8 @@
   :javascript
     new ProcureIo.Backbone.SearchableTable({
       collection: ProcureIo.Backbone.FormTemplateList,
+      newUrl: "#{form_templates_path}",
+      newUrlMethod: "post",
       columns: [
         {
           name: "#{FormTemplate.human_attribute_name(:name)}",
