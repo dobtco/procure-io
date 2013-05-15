@@ -2,6 +2,6 @@
 
 .input-prepend
   %span.add-on $
-  %input.span3{"type" => "text"}
+  %input.span5{"type" => "text"}
 
 != JST['admin_response_field/view/pieces/description'](@)
