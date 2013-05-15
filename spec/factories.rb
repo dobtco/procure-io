@@ -57,16 +57,14 @@ FactoryGirl.define do
     end
   end
 
-  factory :user do
+  factory :user_officer, class: User do
+    sequence(:email) { |n| "officer#{n}@example.gov" }
     password 'password'
+  end
 
-    factory :user_officer do
-      sequence(:email) { |n| "officer#{n}@example.gov" }
-    end
-
-    factory :user_vendor do
-      sequence(:email) { |n| "vendor#{n}@example.com" }
-    end
+  factory :user_vendor, class: User do
+    sequence(:email) { |n| "vendor#{n}@example.com" }
+    password 'password'
   end
 
   factory :project do |project|
