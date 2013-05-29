@@ -2,7 +2,7 @@ Procure.io Community Version [![](https://codeclimate.com/github/dobtco/procure-
 --------
 
 Procurement software for the 21st century. Try the **[demo](http://demo.procure.io)**.
-> Login to the demo as an officer with `officer1@example.gov/password`, or as a vendor with `vendor1@example.com/password`.
+> Login to the demo as an officer with `user1@example.com and `password`.
 
 [![screenshot](http://www.dobt.co/img/review_bids.png)](http://www.dobt.co/img/review_bids.png)
 
@@ -14,7 +14,7 @@ Procurement software for the 21st century. Try the **[demo](http://demo.procure.
 - `rake db:seed:example`
 - `rails server` or run with your choice of server (we like [pow](http://pow.cx/))
 
-> You'll all set to develop Procure.io. Login with `user1@example.gov` and `password`.
+> You'll all set to develop Procure.io. Login with `user1@example.com` and `password`.
 
 #### Deploying to Heroku
 
