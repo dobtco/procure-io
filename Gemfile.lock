@@ -75,8 +75,6 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    acts_as_singleton (0.0.8)
-      activerecord (>= 3.1.0)
     addressable (2.3.4)
     annotate (2.5.0)
       rake
@@ -182,11 +180,6 @@ GEM
       coffee-script (>= 1.0.0)
       sprockets (>= 2.0.3)
       tilt (>= 1.3.3)
-    heroku-api (0.2.1)
-      excon (~> 0.13.3)
-    heroku_san (4.2.5)
-      heroku-api (>= 0.1.2)
-      rake
     hike (1.2.2)
     httparty (0.11.0)
       multi_json (~> 1.0)
@@ -347,7 +340,6 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers!
-  acts_as_singleton
   annotate
   aws-ses
   better_errors
@@ -377,7 +369,6 @@ DEPENDENCIES
   guard-rspec
   haml
   haml_coffee_assets
-  heroku_san
   httparty
   i18n-js
   immigrant
