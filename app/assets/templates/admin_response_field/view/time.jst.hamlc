@@ -1,0 +1,13 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+%input.span1{"type" => "text", "placeholder" => "HH"}
+:
+%input.span1{"type" => "text", "placeholder" => "MM"}
+:
+%input.span1{"type" => "text", "placeholder" => "SS"}
+
+%select.span2
+  %option AM
+  %option PM
+
+!= JST['admin_response_field/view/pieces/description'](@)

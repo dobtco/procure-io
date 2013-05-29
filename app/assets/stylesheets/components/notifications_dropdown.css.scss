@@ -1,0 +1,48 @@
+#notifications-dropdown {
+  width: 300px;
+  padding: 0;
+  font-size: 13px;
+
+  li a {
+    padding: 8px 14px;
+  }
+
+  li a {
+    white-space: normal;
+  }
+
+  li.loading {
+    padding: 15px 0;
+  }
+
+  li.none {
+    padding: 10px;
+  }
+
+  li.loading, li.view-all {
+    text-align: center;
+  }
+
+  li.notification-unread {
+    span.notification-text {
+      font-weight: bold;
+    }
+  }
+
+  span.timestamp {
+    color: #aaa;
+  }
+
+  li.view-all {
+    background-color: #ccc;
+    font-size: 12px;
+  }
+
+  li:first-child a {
+    border-radius: 6px 6px 0 0;
+  }
+
+  li:last-child a {
+    border-radius: 0 0 6px 6px;
+  }
+}

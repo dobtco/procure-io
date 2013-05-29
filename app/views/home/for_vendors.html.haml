@@ -1,0 +1,43 @@
+%h2.splash-header.text-centered Procure.io makes it easier to do business with government.
+
+.feature-tour
+  .row-fluid
+    .span6
+      %a{"href" => image_path('for_vendors/watch_project.png'), "target" => "_blank"}
+        %img.img-polaroid{"src" => image_path('for_vendors/watch_project_thumb.png')}
+
+    .span6.feature-description
+      %h4 Find opportunities
+      %p Browse projects from government agencies and monitor them for updates.
+
+  .row-fluid
+    .span6.feature-description
+      %h4 Submit bids
+      %p Gone are the days of .pdf proposals, writing a bid in Procure.io is all online. Simply answer the questions that the project owner is asking, hit submit, and you're done!
+
+    .span6
+      %a{"href" => image_path('for_vendors/create_bid.png'), "target" => "_blank"}
+        %img.img-polaroid{"src" => image_path('for_vendors/create_bid_thumb.png')}
+
+  .row-fluid
+    .span6
+      %a{"href" => image_path('for_vendors/view_bids.png'), "target" => "_blank"}
+        %img.img-polaroid{"src" => image_path('for_vendors/view_bids_thumb.png')}
+
+    .span6.feature-description
+      %h4 Monitor open bids
+      %p Keep track of bids you've placed using our intuitive and powerful dashboard.
+
+  .row-fluid
+    .span6.feature-description
+      %h4 Collaborate with your team
+      %p Add your co-workers as collaborators and work together to write a proposal.
+
+    .span6
+      %a{"href" => image_path('for_vendors/add_team_members.png'), "target" => "_blank"}
+        %img.img-polaroid{"src" => image_path('for_vendors/add_team_members_thumb.png')}
+
+  .call-to-action.text-centered
+    %p.lead
+      Best of all? <strong>It's totally free.</strong>
+    %a.btn.btn-primary.btn-large{"href" => signed_in? ? new_vendor_path : sign_up_path} Register your business now!

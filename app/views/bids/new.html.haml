@@ -1,0 +1,14 @@
+- provide :page_action, t('g.new_bid')
+- provide :page_title, @project.title
+
+= render "projects/header_frontend"
+
+.row-fluid
+  .span7
+    %h4= t('g.project_description')
+    %p= simple_format @project.body
+
+  .span5
+    %h4= t('g.new_bid')
+    = render "shared/form", form_action: project_bids_path, responsable: @bid, |
+        response_fieldable: @project, button_text: t('g.submit_bid')

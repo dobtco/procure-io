@@ -1,0 +1,46 @@
+- provide :page_action, "Vendor Registrations"
+
+= render layout: "shared/user_sidebar" do
+
+  %h4= "Vendor Registrations"
+
+  #searchable-table-page.search-page
+    :javascript
+      new ProcureIo.Backbone.SearchableTable({
+        collection: new ProcureIo.Backbone.Collection({
+          url: "#{organization_vendor_registrations_path(@organization, format: 'json')}",
+        }),
+        bootstrapData: #{@bootstrap_data.to_json},
+        columns: [
+          {
+            name: "#{t('g.status')}",
+            accessor: function(model){
+              return "<a data-toggle='tooltip' title='"+model.get('status_text')+"'>\
+                        <span class='badge badge-indicator "+model.get('badge_class')+"'></span>\
+                      </a>";
+            }
+          },
+          {
+            name: "Vendor Name",
+            accessor: function(model){
+              return "<a href='/#{@organization.username}/vendor_registrations/" + model.get('id') + "'>"
+                     + model.get('vendor.name') + "</a>";
+            },
+            sortKey: 'vendor_name',
+            defaultSort: 'asc'
+          },
+          {
+            name: "Registration Name",
+            accessor: 'registration.name',
+            sortKey: 'registration_name'
+          },
+          {
+            name: "Submitted at",
+            accessor: function(model){
+              return moment(model.get('submitted_at')).format(ProcureIo.READABLE);
+            },
+            sortKey: 'submitted_at'
+          }
+        ],
+        actions: false
+      });

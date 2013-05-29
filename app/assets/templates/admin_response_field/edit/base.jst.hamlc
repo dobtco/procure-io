@@ -1,0 +1,11 @@
+%h5
+  = I18n.t('g.editing')
+  "<span data-rv-text="model.label"></span>"
+  %i.icon-arrow-right.pull-right
+
+- if @response_field.get('field_options.vendor_profile')
+  .alert.alert-info
+    This field will be pre-filled from the vendor's profile, using the
+    <code>#{@response_field.get('key')}</code> key.
+
+.edit-subtemplate-wrapper

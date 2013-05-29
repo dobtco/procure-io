@@ -1,0 +1,7 @@
+export SECRET_TOKEN=""
+export SECRET_KEY_BASE=""
+export AWS_KEY=""
+export AWS_SECRET=""
+export FOG_DIRECTORY=""
+export GOOGLE_ANALYTICS_ID=""
+export REDIRECT_EMAIL_TO=""

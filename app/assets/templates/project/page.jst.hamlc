@@ -1,0 +1,34 @@
+.row-fluid
+  .span3
+    %form.well{"data-backbone-submit" => "submitSearch"}
+      .control-group
+        %label= I18n.t('g.filter')
+        .search-input-wrapper
+          %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "data-rv-value" => "filterOptions.q"}
+          %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({q: false, page: false})}
+            %i.icon-remove-sign
+
+
+      .control-group
+        %label= I18n.t('g.category')
+        %select#category-filter{"data-backbone-filter-tag" => "true", "name" => "category", "data-rv-value" => "filterOptions.category"}
+          %option{"value" => ""}= I18n.t('g.all_categories')
+          - for category in @allCategories
+            %option{"value" => category}= category
+
+      %button.btn.btn-primary.pull-right= I18n.t('g.filter_projects')
+
+      .clearfix &nbsp;
+
+    #project-rss-links
+
+  .span9.right-side-span
+    != JST['shared/loading_indicator']()
+
+    #sort-wrapper.pull-left.faded-while-loading
+
+    #pagination-wrapper.pull-right.faded-while-loading
+
+    .clearfix &nbsp;
+
+    #projects-wrapper.faded-while-loading

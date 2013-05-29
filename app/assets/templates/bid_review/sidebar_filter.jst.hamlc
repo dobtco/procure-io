@@ -1,0 +1,22 @@
+%h5= I18n.t('g.status')
+
+%ul.nav.nav-pills.nav-stacked
+
+  %li{"data-rv-class-active" => "filterOptions.status | eq open"}
+    %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({status: 'open'})}
+      %span.long-name= I18n.t('g.open')
+      %span.short-name= I18n.t('g.open')[0]
+      %span.badge{"data-rv-text" => "counts.open"}
+
+  %li{"data-rv-class-active" => "filterOptions.status | eq dismissed"}
+    %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({status: 'dismissed'})}
+      %span.long-name= I18n.t('g.dismissed')
+      %span.short-name= I18n.t('g.dismissed')[0]
+      %span.badge{"data-rv-text" => "counts.dismissed"}
+
+  %li{"data-rv-class-active" => "filterOptions.status | eq awarded"}
+    %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({status: 'awarded'})}
+      %span.long-name= I18n.t('g.awarded')
+      %span.short-name= I18n.t('g.awarded')[0]
+      %span.badge{"data-rv-text" => "counts.awarded"}
+

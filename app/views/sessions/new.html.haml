@@ -1,0 +1,10 @@
+%h3= t('g.sign_in')
+
+= simple_form_for :session, url: session_path do |f|
+  = f.input :email
+  = f.input :password
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'
+
+  != extra_user_links(without: 'sign_in')

@@ -1,0 +1,9 @@
+%ul.sort-wrapper
+  - for sortOption in @sortOptions
+    %li
+      %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({sort: sortOption.key, direction: (if @parentView.router.filterOptions.get('sort') is sortOption.key and @parentView.router.filterOptions.get('direction') != "asc" then "asc" else "desc"), page: (if @parentView.router.filterOptions.get('sort') != sortOption.key then false else @parentView.router.filterOptions.get('page'))})}= sortOption.label
+      - if @parentView.router.filterOptions.get('sort') is sortOption.key
+        - if @parentView.router.filterOptions.get('direction') is "asc"
+          %i.icon-chevron-up
+        - else
+          %i.icon-chevron-down

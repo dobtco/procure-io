@@ -1,0 +1,23 @@
+- provide :page_title, t('g.created_project')
+
+!=page_header t('g.created_project')
+
+.alert.alert-success
+  Congrats! You successfully created the project, and we took the liberty of adding the #{current_user.highest_ranking_team_for_organization(@project.organization).name} team to collaborate.
+
+%h4 What next?
+
+%ol
+  - if @project.solicit_bids
+    %li
+      Write a <a href="#{edit_project_path}">statement of work</a>.
+    %li
+      Create your <a href="#{response_fields_project_path}">response form</a>. You can use a pre-defined template, or create a form from scratch.
+  - else
+    %li
+      Gather your bids into a CSV file and <a href="#{import_csv_project_path}">import them</a> into your project.
+  %li <a href="#{teams_project_path}">Add teammates</a> to collaborate with you.
+
+
+.form-actions
+  %a.btn.btn-primary{"href" => admin_project_path} Go to the project &rarr;

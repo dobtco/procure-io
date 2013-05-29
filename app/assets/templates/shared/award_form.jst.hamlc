@@ -1,0 +1,5 @@
+%form.dropdown-form.dropdown-form-large{"data-backbone-submit" => "awardCheckedBids"}
+  .alert.alert-error= I18n.t('g.careful_awarding')
+  .control-group
+    %textarea.js-award-message{"placeholder" => I18n.t('g.award_message'), "rows" => 5}
+  %button.btn.btn-primary= I18n.t('g.award')

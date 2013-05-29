@@ -1,0 +1,12 @@
+.modal#hotkey-modal{"tabindex" => "-1"}
+  .modal-header
+    %h3 Hotkeys
+  .modal-body
+    %dl.dl-horizontal
+      %dt
+        %code ?
+        %dd Show this modal
+      - for hotkey in @hotkeys
+        %dt
+          %code= hotkey.key_pretty || hotkey.key
+        %dd= hotkey.description

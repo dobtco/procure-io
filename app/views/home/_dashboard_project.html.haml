@@ -1,0 +1,7 @@
+.dashboard-item.dashboard-project
+  %a{"href" => project_path(project)}= project.title
+  .line-two
+    %span.badge.badge-indicator{"class" => project.status_badge_class}
+    %span.long-status= project.long_status_text
+    %a.organization{"href" => organization_path(project.organization)}
+      %span.badge= project.organization.name

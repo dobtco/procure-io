@@ -1,0 +1,4 @@
+%dl
+  - @bid.responses.each do |response|
+    %dt= response.response_field.label
+    %dd!= response.display_value

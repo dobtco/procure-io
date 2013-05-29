@@ -1,0 +1,9 @@
+.button-nav {
+  position: relative;
+
+  > .btn, > .button-nav-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}

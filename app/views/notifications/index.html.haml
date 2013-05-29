@@ -1,0 +1,10 @@
+- provide :page_title, t('g.notifications')
+
+= render layout: "shared/user_sidebar" do
+  %p#no-notifications.hide= t('.none')
+
+  #notifications-list
+    :javascript
+      new ProcureIo.Backbone.NotificationPage({bootstrapData: #{@notifications_json}});
+
+  = will_paginate @notifications, class: "pagination pagination-centered"

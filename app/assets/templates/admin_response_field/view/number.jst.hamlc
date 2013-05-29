@@ -1,0 +1,8 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+%div{"class" => if @response_field.get('field_options.units') then 'input-append'}
+  %input.span3{"type" => "text"}
+  - if @response_field.get('field_options.units')
+    %span.add-on= @response_field.get('field_options.units')
+
+!= JST['admin_response_field/view/pieces/description'](@)

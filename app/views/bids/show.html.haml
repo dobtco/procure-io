@@ -1,0 +1,34 @@
+- provide :page_action, @bid.bidder_name
+
+= render "projects/header_backend"
+
+#bid-page
+  :javascript
+    new ProcureIo.Backbone.BidPageView({
+      bootstrapData: #{@bid_json},
+      project: #{ProjectSerializer.new(@project, root: false).to_json},
+      #{render partial: "projects/abilities_node", formats: [:js]}
+    });
+
+- if can?(:see_all_reviews, @project)
+  #bid-page-reviews
+    :javascript
+      new ProcureIo.Backbone.BidPageReviewsView({
+        bootstrapData: #{@reviews_json}
+      });
+
+- if can?(:comment_on, @project)
+  .row
+    .span8
+      .action-header-wrapper
+        %h4= I18n.t('g.comments')
+        != watch_button @bid, class: "pull-right"
+        .clearfix
+
+      #comment-page
+        :javascript
+          new ProcureIo.Backbone.CommentPageView({
+            bootstrapData: #{@comments_json},
+            commentableType: "Bid",
+            commentableId: #{@bid.id}
+          });

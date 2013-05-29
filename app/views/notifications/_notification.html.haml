@@ -1,0 +1,3 @@
+.notification{"class" => notification.read ? 'notification-read' : 'notification-unread'}
+  %a{"href" => notification.path}= notification.text
+  .created-at= time_ago_in_words(notification.created_at)

@@ -1,0 +1,29 @@
+- provide :page_action, "Vendor Registration Form"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "organizations/subnav"
+
+  %h4 Editing #{@registration.name}
+
+  = simple_form_for [@organization, @registration] do |f|
+    = f.input :name
+    = f.input :posted, as: :boolean
+
+    .form-actions
+      = f.button :submit, class: 'btn-primary'
+
+  %h4 Form
+
+  #admin-response-field-page
+    :javascript
+      new ProcureIo.Backbone.AdminResponseFieldPage({
+        formName: "#{@registration.name}",
+        bootstrapData: #{@registration.response_fields.to_json},
+        response_fieldable_id: #{@registration.id},
+        response_fieldable_type: "Registration",
+        formOptions: #{@registration.form_options.to_json},
+        subviews: {
+          addField: ProcureIo.Backbone.RegistrationFormAddFieldView
+        }
+      });

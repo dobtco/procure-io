@@ -1,0 +1,13 @@
+.dropdown-menu
+  = form_tag session_path, method: :post, class: "dropdown-login-form" do
+    %h4= t('g.sign_in_to_site_name', site_name: t('g.site_name'))
+    %input{"type" => "text", "name" => "session[email]", "placeholder" => User.human_attribute_name(:email)}
+    %input{"type" => "password", "name" => "session[password]", "placeholder" => User.human_attribute_name(:password)}
+    .login-button-wrapper
+      %button.btn.btn-primary= t('g.sign_in')
+      = t('g.or_sign_up.line_html', link: link_to(t('g.or_sign_up.link'), sign_up_path))
+
+
+
+    .forgot-password-wrapper
+      = t('g.did_you_forget_your_password.line_html', link: link_to(t('g.did_you_forget_your_password.link'), new_password_path))

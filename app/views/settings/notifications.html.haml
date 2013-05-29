@@ -1,0 +1,25 @@
+- provide :page_action, t('g.notifications')
+
+= render "subnav"
+
+= form_for current_user, url: settings_notifications_path, method: :post do |f|
+
+  - current_user.notification_preference_choices.each do |category_name, v|
+    %h5= t("notification_preferences.category.#{category_name}")
+
+    - v.each do |key, _|
+      .notification-preference-row
+        .toggle
+          .btn-group{"data-toggle" => "radio-buttons"}
+            %a.btn{"data-value" => User.notification_preference_values[:off]} Off
+            %a.btn{"data-value" => User.notification_preference_values[:on]} On
+            %a.btn{"data-value" => User.notification_preference_values[:on_with_email]} On &amp; notify via email
+
+          %input{"type" => "hidden", "name" => "notification_preferences[#{key}]", "value" => current_user.notification_preferences[key]}
+
+        .description
+          = t("notification_preferences.description.#{key}")
+
+
+  .form-actions
+    = f.submit class: "btn btn-primary"

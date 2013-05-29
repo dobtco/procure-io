@@ -1,0 +1,9 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+- for option in @response_field.get('field_options.options') || []
+  %div
+    %label.checkbox
+      %input{"type" => "checkbox", "checked" => option.checked, "onclick" => "javascript:return false;"}
+      = option.label
+
+!= JST['admin_response_field/view/pieces/description'](@)

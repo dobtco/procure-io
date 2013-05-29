@@ -1,0 +1,7 @@
+- provide :page_title, @vendor.name
+
+%ul.nav.nav-tabs
+  %li{"class" => active_page?("vendors#edit")}
+    =link_to "Account Info", edit_vendor_path(@vendor)
+  %li{"class" => active_page?("vendors#members")}
+    =link_to "Members", members_vendor_path(@vendor)

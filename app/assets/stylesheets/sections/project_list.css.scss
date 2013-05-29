@@ -1,0 +1,47 @@
+@import "bootstrap/mixins";
+
+.project-list {
+  .right-side-span {
+    position: relative;
+  }
+
+  .project {
+    padding: 12px 0;
+    border-top: 1px dashed #ccc;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    .project-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .project-department {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .bottom-info {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: -2px;
+
+      > span {
+        margin: 0 2px;
+      }
+    }
+  }
+}
+
+#project-filter-form {
+  input {
+    box-sizing: border-box;
+    height: inherit;
+  }
+
+  input, select {
+    width: 100%;
+  }
+}

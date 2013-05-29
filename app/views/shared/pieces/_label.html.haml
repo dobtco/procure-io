@@ -1,0 +1,4 @@
+%label{"class" => if response_field[:field_options]["required"] then "label-required" else "label-optional" end}
+  =response_field[:label]
+  - if !response_field[:field_options]["required"]
+    (optional)

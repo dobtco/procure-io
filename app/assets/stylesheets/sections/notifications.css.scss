@@ -1,0 +1,15 @@
+.notifications {
+  .notification {
+    padding: 5px;
+
+    &.notification-unread a {
+      font-weight: bold;
+    }
+
+    .created-at {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: -2px;
+    }
+  }
+}

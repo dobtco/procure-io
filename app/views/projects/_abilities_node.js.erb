@@ -1,0 +1,9 @@
+abilities: {
+  manageLabels: <%= can? :manage_labels, @project %>,
+  awardBids: <%= can? :award_bids, @project %>,
+  dismissBids: <%= can? :dismiss_bids, @project %>,
+  commentOn: <%= can? :comment_on, @project %>,
+  seeAllReviews: <%= can? :see_all_reviews, @project %>,
+  editBids: <%= can? :edit_bids, @project %>,
+  destroyBids: <%= can? :destroy_bids, @project %>
+}

@@ -1,0 +1,55 @@
+.navbar.navbar-static-top.navbar-inverse#navbar
+  .navbar-inner
+    .container
+      %a.btn.btn-navbar{"data-toggle" => "collapse", "data-target" => ".nav-collapse"}
+        %i.icon-bar
+        %i.icon-bar
+        %i.icon-bar
+
+      %a.brand{"href" => root_path}= t('g.site_name')
+
+      .nav-collapse.collapse
+        %ul.nav
+          %li= link_to t('g.browse_projects'), projects_path
+
+        %ul.nav.pull-right
+          - if signed_in?
+            - if current_user.is_officer?
+              %li
+                %a.link-icon{"href" => new_project_path, "data-toggle" => "tooltip", "title" => "New Project", "data-placement" => "bottom"}
+                  %i.icon-edit
+
+            %li.dropdown
+              %a.js-notification-dropdown-toggle.notification-link.dropdown-toggle.link-icon{"href" => notifications_path, "data-toggle" => "dropdown", "data-placement" => "bottom", "title" => t('g.notifications'), "data-trigger" => "manual"}
+                %i.icon-bullhorn
+                - if current_user.unread_notification_count > 0
+                  %span.badge= current_user.unread_notification_count
+
+              %ul#notifications-dropdown.dropdown-menu
+                %li.loading
+                  %i.icon-refresh.icon-spin
+
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown"}
+                %img.gravatar{"src" => current_user.gravatar_url}
+                #{current_user.display_name}
+                %b.caret
+
+              %ul.dropdown-menu
+                %li
+                  %a{"href" => settings_profile_path} Settings
+
+                %li
+                  %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow"} Sign out
+
+          - else
+            %li.dropdown
+              %a.dropdown-toggle.js-dropdown-form-toggle{"href" => "#", "data-toggle" => "dropdown"} #{t('g.sign_in')} <strong class="caret"></strong>
+              = render "layouts/dropdown_login_form"
+
+        %a.show-tour-link.pull-right
+          %span.label.label-success= t('g.show_tour')
+
+        %a#hotkeys-indicator.pull-right
+          %span.label= t('g.hotkeys_available')
+

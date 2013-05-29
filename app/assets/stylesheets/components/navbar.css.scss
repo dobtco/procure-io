@@ -1,0 +1,30 @@
+#navbar {
+  .show-tour-link, #hotkeys-indicator {
+    margin: 14px 10px 0 0;
+    display: none;
+  }
+
+  .notification-link {
+    position: relative;
+
+    .badge {
+      position: absolute;
+      top: 3px;
+      right: -7px;
+      z-index: 2;
+    }
+  }
+
+  li a.link-icon {
+    padding: 16px 14px 14px 14px;
+  }
+
+  .beta-badge {
+    text-transform: uppercase;
+    font-size: 11px;
+    position: relative;
+    top: -10px;
+    left: -10px;
+    margin: 0 -20px -10px 0;
+  }
+}

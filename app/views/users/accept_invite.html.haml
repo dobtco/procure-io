@@ -1,0 +1,11 @@
+%h3= t('g.accept_invite')
+
+.alert.alert-info
+  Congratulations! You're moments away from using Procure.io. Just enter your info below and you'll be all set.
+
+= simple_form_for @user, url: accept_invite_user_path(token: params[:token]), method: :post do |f|
+  = f.input :name, required: true
+  = f.input :password, required: true
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

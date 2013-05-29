@@ -1,0 +1,64 @@
+- provide :page_action, t('g.projects')
+
+= render layout: "shared/user_sidebar" do
+
+  .action-header-wrapper.above-searchable
+    %h4= t('g.projects')
+    %a.btn.btn-primary.action-header-btn-h4{"href" => new_project_path(organization_id: @organization.id)}
+      New Project
+      %i.icon-plus-sign
+    .clearfix
+
+  #searchable-table-page.search-page
+    :javascript
+      new ProcureIo.Backbone.SearchableTable({
+        collection: new ProcureIo.Backbone.Collection({
+          url: "#{organization_projects_path(@organization, format: 'json')}"
+        }),
+        bootstrapData: #{@bootstrap_data.to_json},
+        columns: [
+          {
+            name: "#{t('g.status')}",
+            accessor: function(model){
+              return "<a data-toggle='tooltip' title='"+model.get('status_text')+"'>\
+                        <span class='badge badge-indicator "+model.get('status_badge_class')+"'></span>\
+                      </a>";
+            }
+          },
+          {
+            name: "#{Project.human_attribute_name(:title)}",
+            accessor: function(model){
+              if (model.get('user_is_collaborator')) {
+                return "<a href='/projects/"+model.get('slug')+"/edit'>" + model.get('title') + "</a>";
+              } else {
+                return "<a href='/projects/"+model.get('slug')+"'>" + model.get('title') + "</a>";
+              }
+            },
+            sortKey: 'title',
+            defaultSort: 'asc'
+          },
+          {
+            name: "#{t('g.number_of_bids')}",
+            accessor: function(model){
+              if (model.get('user_is_collaborator')) {
+                return "<a href='/projects/"+model.get('slug')+"/bids'>" + model.get('total_submitted_bids') + "</a>";
+              } else {
+                return "<span class='badge'>Not a collaborator</span>"
+              }
+            },
+            sortKey: 'total_submitted_bids',
+          },
+          {
+            name: "#{t('g.bids_due')}",
+            accessor: function(model){
+              if (model.get('bids_due_at')) {
+                return moment(model.get('bids_due_at')).format(ProcureIo.READABLE);
+              } else {
+                return I18n.t('g.no_due_date');
+              }
+            },
+            sortKey: 'bids_due_at',
+          }
+        ],
+        actions: false
+      });

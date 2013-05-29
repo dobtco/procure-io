@@ -1,0 +1,40 @@
+- provide :page_action, t('g.import_bids')
+
+= render "projects/header_backend"
+
+.alert.alert-warning= t('g.experimental_follow_steps_html')
+
+.readable-width
+  = form_tag import_csv_project_path(@project), multipart: true do
+
+    .control-group
+      %label.label-required= t('g.options')
+
+      %label.checkbox
+        %input{"type" => "checkbox", "name" => "override_response_fields", "data-toggle-class" => "hide", "data-target" => ".response-fields-help", "disabled" => if @project.bids.count > 0 then true end, "checked" => if @project.bids.count == 0 then true end}
+        = t('.override_response_fields')
+        .badge.badge-info.response-fields-help{"class" => if @project.bids.count != 0 then "hide" end}= t('.will_destroy_existing_response_fields')
+
+        - if @project.bids.count > 0
+          %span.badge.badge-info= t('.not_possible_bids_already_exist')
+
+        %span.help-block.response-fields-help{"class" => if @project.bids.count == 0 then "hide" end}
+          = t('.response_fields_help_html')
+          != @project.response_fields.map {|rf| "<code>#{rf.label}</code>"}.join(", ")
+
+      %label.checkbox
+        %input{"type" => "checkbox", "name" => "associate_vendor_account", "data-toggle-class" => "hide", "data-target" => "#vendor-account-help"}
+        = t('.associate_vendor_account')
+        %span.help-block.hide#vendor-account-help= t('.vendor_account_help_html')
+
+    .control-group
+      %label.label-required= t('.label_imported_bids_as')
+      %input{"type" => "text", "name" => "label_imported_bids", "value" => t('g.imported_from_csv')}
+      %span.help-block= t('.leave_blank_for_no_label')
+
+    .control-group
+      %label.label-required{"for" => "file"}= t('g.select_the_file')
+      != fileupload_tag :file
+
+    .form-actions
+      %button.btn.btn-primary= t('g.import')

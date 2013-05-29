@@ -1,0 +1,29 @@
+- provide :page_action, t('g.form_templates')
+
+= render layout: "shared/user_sidebar" do
+
+  .action-header-wrapper.above-searchable
+    %h4= t('g.form_templates')
+
+    %a.btn.btn-primary.action-header-btn-h4{"href" => organization_form_templates_path(@organization), "data-method" => "post"}
+      New Form Template
+      %i.icon-plus-sign
+
+    .clearfix
+
+  #searchable-table-page.search-page
+    :javascript
+      new ProcureIo.Backbone.SearchableTable({
+        collection: new ProcureIo.Backbone.Collection({
+          url: "#{organization_form_templates_path(format: 'json')}"
+        }),
+        bootstrapData: #{@bootstrap_data.to_json},
+        columns: [
+          {
+            name: "#{FormTemplate.human_attribute_name(:name)}",
+            accessor: 'name',
+            sortKey: 'name',
+            defaultSort: 'asc'
+          }
+        ]
+      });

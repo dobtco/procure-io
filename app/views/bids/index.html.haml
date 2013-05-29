@@ -1,0 +1,12 @@
+- provide :page_action, t('g.review_bids')
+- provide :tour, 'bid_review'
+
+= render "projects/header_backend"
+
+#bid-review-page.search-page
+  :javascript
+    new ProcureIo.Backbone.BidReviewPage({
+      project: #{ProjectSerializer.new(@project, root: false).to_json},
+      bootstrapData: #{@bootstrap_data.to_json},
+      #{render partial: "projects/abilities_node", formats: [:js]}
+    });

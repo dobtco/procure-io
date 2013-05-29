@@ -1,0 +1,21 @@
+!= JST['shared/loading_indicator']()
+
+.searchable-filter-form
+  %form#filter-form.pull-left.faded-while-loading{"data-backbone-submit" => "submitSearch"}
+    .search-input-wrapper
+      %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "data-rv-value" => "filterOptions.q"}
+
+      %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({q: false, page: false})}
+        %i.icon-remove-sign
+
+.pull-right.faded-while-loading
+  #pagination-wrapper.pull-right
+
+.clearfix &nbsp;
+
+%table.table.faded-while-loading
+  %thead.searchable-table-thead
+  %tbody.searchable-table-tbody
+  %tbody.searchable-table-empty{"style" => "display: none;"}
+    %tr
+      %td{"colspan" => "100"} No results

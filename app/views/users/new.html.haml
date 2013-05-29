@@ -1,0 +1,15 @@
+%h3 Create your personal login
+
+%p In the next step, we'll create an account for your business.
+
+= simple_form_for @user, validate: true do |f|
+  = f.input :email, required: true, validate: true
+  = f.input :name, required: true, validate: true
+  = f.input :password, required: true, validate: true
+
+  = f.input :vendor_or_organization, as: :hidden, value: :vendor
+
+  .form-actions
+    = f.button :submit, raw('Next &rarr;'), class: 'btn-primary'
+
+  != extra_user_links(without: 'sign_up')

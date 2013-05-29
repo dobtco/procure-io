@@ -1,0 +1,6 @@
+<script>
+  ProcureIo = {
+    env: '<%= Rails.env %>',
+    CurrentUser: <%= current_user ? serialized(current_user).to_json.html_safe : 'undefined' %>
+  };
+</script>

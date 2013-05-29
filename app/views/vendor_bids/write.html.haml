@@ -1,0 +1,11 @@
+- provide :page_action, t('g.new_bid')
+- provide :page_title, @bid.project.title
+
+= render layout: "shared/user_sidebar" do
+
+  = render "vendor_bids/header"
+
+  = render "shared/form", form_action: vendor_bid_path(@vendor, @bid), responsable: @bid, |
+      form_method: :put, response_fieldable: @bid.project, button_text: t('g.submit_bid')
+
+  = link_to "Destroy bid", project_bid_path(@bid.project, @bid), method: :delete, confirm: "Are you sure?"

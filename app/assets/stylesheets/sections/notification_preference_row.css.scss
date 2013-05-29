@@ -1,0 +1,13 @@
+.notification-preference-row {
+  clear: both;
+  padding: 10px 0;
+
+  .toggle {
+    float: left;
+    margin-right: 10px;
+  }
+
+  .description {
+    line-height: 30px;
+  }
+}

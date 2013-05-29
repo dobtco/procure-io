@@ -1,0 +1,12 @@
+- provide :page_action, t('g.account')
+
+= render "subnav"
+
+= simple_form_for current_user, url: settings_account_path, method: :post do |f|
+
+  = f.input :email, required: true
+  = f.input :new_password
+
+  .form-actions
+    = f.input :current_password, label: 'Enter your current password', required: true
+    = f.button :submit, class: 'btn-primary'

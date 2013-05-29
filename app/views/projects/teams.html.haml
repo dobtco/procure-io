@@ -1,0 +1,27 @@
+- provide :page_action, t('g.teams')
+
+= render "projects/header_backend"
+
+%table.table.table-nonfluid
+  %thead
+    %tr
+      %th Name
+      %th Actions
+
+  %tbody#project-teams-tbody
+    - @project.teams.each do |team|
+      %tr
+        %td= link_to team.name, edit_organization_team_path(@project.organization, team)
+        %td
+          - unless team.is_owners
+            = link_to "Remove", team_project_path(@project, team_id: team.id), method: :delete, class: "btn btn-danger btn-mini"
+
+
+= form_tag team_project_path(@project), method: :post do
+
+  .control-group
+    %select{"name" => "team_id"}
+      - @project.team_choices.each do |team|
+        %option{"value" => team.id}= team.name
+
+  %button.btn.btn-primary= I18n.t('g.submit')

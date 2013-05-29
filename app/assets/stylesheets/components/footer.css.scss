@@ -1,0 +1,39 @@
+#push,
+#footer {
+  height: 125px;
+  padding: 10px 0;
+}
+
+#footer {
+  background-color: #eee;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+
+  .footer-link-list {
+    padding-top: 5px;
+    float: left;
+
+    ul {
+      list-style: none;
+      margin: 0;
+    }
+  }
+
+  .logo-wrapper {
+    float: right;
+  }
+
+  .dobt-logo {
+    width: 125px;
+    height: 125px;
+  }
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

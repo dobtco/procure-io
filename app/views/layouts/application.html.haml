@@ -1,0 +1,39 @@
+!!! 5
+
+%head
+  %title!= full_title(yield(:page_title), yield(:page_action))
+  - unless Rails.env.test?
+    %link{"href" => 'http://fonts.googleapis.com/css?family=Telex', "rel" => 'stylesheet', "type" => 'text/css'}
+  = stylesheet_link_tag "application", media: "all"
+  != render 'layouts/javascript_environment'
+  = javascript_include_tag "application"
+  = csrf_meta_tags
+  = render 'layouts/shim'
+
+%body{"data-controller" => params[:controller], "data-action" => params[:action], "class" => "body-#{params[:controller]}-#{params[:action]}"}
+  #wrap
+    = render 'layouts/navbar'
+    .container#main-container
+      = render "layouts/flash", flash: flash
+      = yield
+
+    #push
+
+  %footer#footer
+    .container
+      .footer-link-list
+        %strong Procure.io
+        %ul
+          %li= link_to "For Vendors", for_vendors_path
+          %li= link_to "About us", "#"
+          %li= link_to "Terms of Service", "#"
+      .logo-wrapper
+        %a{"href" => "http://dobt.co"}
+          %img.dobt-logo{"src" => image_path('dobt-logo.png')}
+      .clearfix
+
+  - if content_for?(:tour)
+    != render 'layouts/javascript_tour'
+
+  - if Rails.env.in? %w(staging production)
+    != render 'layouts/google_analytics'

@@ -1,0 +1,13 @@
+- provide :page_title, t('g.browse_projects')
+
+- if !signed_in?
+  .alert.alert-info
+    %p Want to ask questions, track projects, or just ready to bid? <a>Sign up</a> in seconds!
+
+!=page_header t('g.browse_projects')
+
+#project-page.project-list.search-page
+  :javascript
+    new ProcureIo.Backbone.ProjectPage({
+      allCategories: #{Tag.all_for_select2.to_json}
+    });

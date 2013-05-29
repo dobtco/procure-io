@@ -1,0 +1,10 @@
+- provide :page_title, "New Vendor"
+%h3 New Vendor
+
+= simple_form_for @vendor, validate: true do |f|
+
+  = f.input :name, hint: "The name of your business. e.g. 'Department of Better Technology, LLC'."
+  = f.input :email, hint: 'A public email address for your business.'
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

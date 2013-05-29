@@ -1,0 +1,11 @@
+%table.table.table-nonfluid#collaborators-table
+  %thead
+    %tr
+      %th= Officer.human_attribute_name(:name)
+      %th= User.human_attribute_name(:email)
+      %th= t('g.status')
+      %th= t('g.actions')
+
+  %tbody#collaborators-tbody
+    - collaborators.each do |collaborator|
+      = render "collaborator", collaborator: collaborator

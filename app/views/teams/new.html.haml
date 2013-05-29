@@ -1,0 +1,10 @@
+- provide :page_action, "Teams"
+- provide :page_title, @organization.name
+
+= render layout: "shared/user_sidebar" do
+
+  = render "organizations/subnav"
+
+  %h4 New Team
+
+  = render "teams/form"

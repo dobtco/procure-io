@@ -1,0 +1,13 @@
+- provide :page_action, t('g.new_project')
+
+= render layout: "shared/user_sidebar" do
+
+  %h4= t('g.new_project')
+
+  = form_for @project, url: organization_projects_path(@organization), html: {"data-validate" => "parsley"} do |f|
+    .control-group
+      = f.required_label :title
+      = f.text_field :title, "data-required" => true
+
+    .form-actions
+      = f.submit t('g.submit'), class: "btn btn-primary"

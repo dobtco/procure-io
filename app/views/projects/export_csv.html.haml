@@ -1,0 +1,8 @@
+- provide :page_action, t('g.export_bids')
+
+= render "projects/header_backend"
+
+%p= t('projects.export_csv.description', site_name: t('g.site_name'))
+
+%div
+  = link_to t('projects.export_csv.link_text', count: @project.bids.submitted.count), export_csv_project_path(@project), class: "btn btn-primary", method: :post

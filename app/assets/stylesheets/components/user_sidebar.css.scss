@@ -1,0 +1,57 @@
+.user-sidebar-row {
+  padding-top: 20px;
+}
+
+.user-sidebar {
+  .accordion-group {
+    margin-bottom: 10px;
+
+    .accordion-body {
+      display: none;
+    }
+
+    .accordion-heading {
+      position: relative;
+    }
+
+    a.accordion-toggle {
+      font-weight: bold;
+      color: #555;
+    }
+
+    &.active {
+      .accordion-heading {
+        border-radius: 3px 3px 0 0;
+        background-color: #efefef;
+      }
+
+      .accordion-body {
+        display: block;
+      }
+    }
+  }
+
+  .accordion-inner {
+    border: 0;
+    padding: 0;
+  }
+
+  ul.nav.nav-stacked {
+    margin: 0;
+
+    li a {
+      padding: 8px 16px;
+    }
+
+    li.active a {
+      color: #ffffff;
+      background-color: #2fa4e7;
+      margin-left: -1px;
+      margin-right: -1px;
+    }
+
+    li:last-child a {
+      border-radius: 0 0 3px 3px;
+    }
+  }
+}

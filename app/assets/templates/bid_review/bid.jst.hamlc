@@ -1,0 +1,37 @@
+%td.controls-td.no-link
+  %input.inline{"type" => "checkbox", "data-rv-checked" => "bid.checked"}
+
+- for keyField in @parentView.pageOptions.attributes.keyFields
+  - if keyField == 'rating'
+    %td.stars-td.no-link
+      - if @parentView.project.review_mode == "stars"
+        %span.total-stars{"data-backbone-click" => "toggleStarred"}
+          %i{"class" => (if @bid.get('starred') then "icon-star" else "icon-star-empty")}
+          %span= @bid.get('total_stars')
+
+      - else # @parentView.project.review_mode == "one_through_five"
+        .rating-select{"data-score" => @bid.get('rating')}
+        - if @bid.get('average_rating')
+          = @bid.get('average_rating')
+          %span.total_ratings= @bid.get('total_ratings')
+
+  - else if keyField == 'comments'
+    %td.comments-td.no-link
+      = @bid.get('total_comments')
+
+
+  - else if keyField == 'name'
+    %td
+      %a.vendor-name{href: "/projects/#{@parentView.project.slug}/bids/#{@bid.get('id')}", "data-backbone-click" => "openBid"}
+        = @bid.get('bidder_name')
+      - for label_id in @bid.get('labels')
+        - label = @parentView.getLabel(label_id)
+        %span.badge{"class" => "label-text-#{label.get('text_color')}", "style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"}= label.get('name')
+
+  - else
+    %td
+      != @bid.getValue(keyField)
+
+%td.blank-td
+  %a{href: "/projects/#{@parentView.project.slug}/bids/#{@bid.get('id')}"}
+    %i.icon-share-alt

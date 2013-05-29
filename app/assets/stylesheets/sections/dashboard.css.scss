@@ -1,0 +1,59 @@
+.dashboard-section {
+  margin-bottom: 20px;
+
+  .action-header-wrapper {
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.dashboard-items {
+
+}
+
+.dashboard-item {
+  border-bottom: 1px dotted #ddd;
+  padding: 15px 0;
+}
+
+.dashboard-item-placeholder {
+  height: 40px;
+  background: #efefef;
+  text-align: center;
+
+  > div {
+    color: #bbb;
+    margin-top: 10px;
+    font-size: 20px;
+    text-shadow: 0 -1px 0 #fff;
+  }
+}
+
+.dashboard-project {
+  .organization {
+    float: right;
+  }
+
+  .line-two {
+    font-size: 12px;
+    color: #aaa;
+
+    .badge {
+      margin-bottom: -1px;
+    }
+  }
+}
+
+.dashboard-bid {
+  .vendor {
+    float: right;
+  }
+
+  .line-two {
+    .badge {
+      margin-bottom: -1px;
+    }
+
+    font-size: 12px;
+    color: #aaa;
+  }
+}

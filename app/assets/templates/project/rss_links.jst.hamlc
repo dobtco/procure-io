@@ -1,0 +1,10 @@
+%p
+  %a{"href" => @parentView.router.filteredHref({page: false, sort: false, direction: false}, 'rss')}= I18n.t('g.rss_for_search')
+
+- if ProcureIo.CurrentUser
+  %p
+    %button.btn{"data-backbone-click" => "saveSearch", "data-loading-text" => "Saving...", "data-saved-text" => "Search Saved"}= I18n.t('g.save_search')
+
+- else
+  %p
+    <a href="/sign_in">#{I18n.t('g.sign_in')}</a> #{I18n.t('g.to_get_notified')}

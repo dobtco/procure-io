@@ -1,0 +1,66 @@
+.row-fluid.user-sidebar-row
+  .span3
+    .user-sidebar
+      .accordion-group{"class" => active_user_sidebar_section?(:user)}
+        .accordion-heading
+          %a.accordion-toggle{"href" => root_path} My #{t('g.site_name')}
+
+        .accordion-body
+          .accordion-inner
+            %ul.nav.nav-stacked
+              %li{"class" => active_page?('home#dashboard')}=link_to "Dashboard", root_path
+              %li{"class" => active_page?('notifications#index')}
+                %a{"href" => notifications_path}
+                  Notifications
+                  - if current_user.unread_notification_count > 0
+                    %span.badge= current_user.unread_notification_count
+
+              %li{"class" => active_page?('saved_searches#index')}=link_to "Saved Searches", saved_searches_path
+
+      - current_user.organizations.each do |organization|
+        .accordion-group{"class" => active_user_sidebar_section?(:organization, organization)}
+          .accordion-heading
+            %a.accordion-toggle{"href" => admin_organization_path(organization)}= organization.name
+          .accordion-body
+            .accordion-inner
+              %ul.nav.nav-stacked
+                %li.disabled
+                  %a Dashboard
+                %li{"class" => !active_page?("organization_projects#new") && active_page?("organization_projects")}
+                  =link_to "Projects", organization_projects_path(organization)
+                - if can? :perform_user_actions_on, organization
+                  %li{"class" => active_page?("form_templates")}
+                    =link_to "Form Templates", organization_form_templates_path(organization)
+                  %li{"class" => active_page?("organization_vendor_registrations")}
+                    =link_to "Vendor Registrations", organization_vendor_registrations_path(organization)
+                - if can? :admin, organization
+                  %li{"class" => user_sidebar_settings_active?(:organization, organization)}
+                    %a{"href" => edit_organization_path(organization)} Admin
+                %li
+                  %a{"href" => organization_path(organization)}
+                    View public profile
+                    %i.icon-share-alt
+
+      - current_user.vendors.each do |vendor|
+        .accordion-group{"class" => active_user_sidebar_section?(:vendor, vendor)}
+          .accordion-heading
+            %a.accordion-toggle{"href" => admin_vendor_path(vendor)}= vendor.name
+          .accordion-body
+            .accordion-inner
+              %ul.nav.nav-stacked
+                %li{"class" => active_page?("vendor_bids")}
+                  =link_to "Bids", vendor_bids_path(vendor)
+                %li{"class" => active_page?("vendors#profile")}
+                  =link_to "Vendor Profile", profile_vendor_path(@vendor)
+                %li{"class" => active_page?("vendor_registrations")}
+                  =link_to "Registrations", vendor_registrations_path(@vendor)
+                %li{"class" => user_sidebar_settings_active?(:vendor, vendor)}
+                  =link_to "Admin", edit_vendor_path(vendor)
+
+      - if !current_user.completed_registration
+        .alert.alert-info
+          Hey there, it looks like you haven't completed your registration yet. Do you still need to register
+          as a <a href="#{new_vendor_path}">vendor</a> or an <a href="#{new_organization_path}">organization</a>?
+
+  .span9
+    = yield

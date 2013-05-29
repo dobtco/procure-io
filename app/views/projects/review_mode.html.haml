@@ -1,0 +1,11 @@
+- provide :page_action, t('g.review_mode')
+
+= render "projects/header_backend"
+
+= form_for @project, url: review_mode_project_path(@project), method: :post do |f|
+
+  = f.label :review_mode
+  = f.select :review_mode, options_for_select(Project.review_modes, @project.review_mode)
+
+  .form-actions
+    = f.submit t('g.save'), class: "btn btn-primary"

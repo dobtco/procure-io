@@ -1,0 +1,22 @@
+- provide :page_action, "Vendor Registrations"
+
+= render layout: "shared/user_sidebar" do
+
+  .row-fluid
+    .span6
+      %h4
+        = @vendor_registration.vendor.name
+        %small.regular-font
+          %span.badge.badge-indicator{"class" => @vendor_registration.badge_class}
+          = @vendor_registration.status_text
+
+      %h5= @vendor_registration.registration.name
+    .span6
+      = simple_form_for [@organization, @vendor_registration], remote: true, html: { class: 'js-no-reset' } do |f|
+        = f.input :status, as: :select, collection: VendorRegistration.statuses.except(:draft_saved), include_blank: false
+        = f.button :submit, class: 'btn-primary', data: { "loading-text" => "Updating..." }
+
+  - @vendor_registration.responses.each do |response|
+    %dt= response.response_field.label
+    %dd!= response.display_value
+

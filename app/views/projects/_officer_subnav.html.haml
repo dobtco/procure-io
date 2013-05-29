@@ -1,0 +1,16 @@
+- provide :page_title, t('g.projects')
+
+%h3= t('g.projects')
+
+.button-nav
+  %ul.nav.nav-tabs
+    %li{"class" => active_page?("projects#mine")}
+      =link_to t('g.mine'), mine_projects_path
+
+    %li{"class" => active_page?("projects#index")}
+      =link_to t('g.browse'), projects_path
+
+  - if can? :create, Project
+    %a.btn.btn-small.btn-primary{"href" => new_project_path}
+      = t('g.new_project')
+      %i.icon-plus-sign

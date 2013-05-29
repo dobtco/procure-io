@@ -1,0 +1,8 @@
+- provide :page_action, t('g.comments')
+
+= render "projects/header_backend"
+
+.row
+  #comment-page.span8
+    :javascript
+      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Project", commentableId: #{@project.id}});

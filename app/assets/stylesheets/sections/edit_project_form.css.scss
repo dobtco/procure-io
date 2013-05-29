@@ -1,0 +1,16 @@
+@import "bootstrap/mixins";
+
+form.edit_project {
+  #project_abstract {
+    height: 140px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #project_body {
+    opacity: 0; // hack to remove weird flash while initializing wysihtml5
+    width: 100%;
+    min-height: 400px;
+    box-sizing: border-box;
+  }
+}

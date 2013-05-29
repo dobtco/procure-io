@@ -1,0 +1,4 @@
+%a{"data-backbone-click" => "showEditPane"}
+  %span.rectangular-color-swatch{"style" => "background-color: ##{@model.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+  #{@model.get('name')}
+  %span.click-to-edit= I18n.t('g.click_to_edit')

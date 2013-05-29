@@ -1,0 +1,6 @@
+.color-swatches
+  - for color, index in ["898989", "E1D9D9", "E7544D", "E2EB4E", "4FEB5A", "4EDBE6", "5F55EA"]
+    %a.swatch{"data-color" => color, "style" => "background-color: ##{color};", "data-backbone-click" => "selectSwatch", "class" => (if index == 0 then "selected")}
+      %span ✓
+
+  .clearfix &nbsp;

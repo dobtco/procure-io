@@ -1,0 +1,8 @@
+%h4 Edit Team "#{@team.name}"
+
+.subnav
+  %ul.nav.nav-pills
+    %li{"class" => active_page?("teams#edit")}
+      =link_to "Name and Permissions", edit_organization_team_path(@organization, @team)
+    %li{"class" => active_page?("teams#members")}
+      =link_to "Members (#{@team.user_count})", members_organization_team_path(@organization, @team)

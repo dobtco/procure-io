@@ -1,0 +1,21 @@
+%button.btn.btn-mini.dropdown-toggle{"data-toggle" => "dropdown"}
+  %b.caret
+
+%ul.dropdown-menu.dropdown-menu-checks
+  %li{"class" => if @fieldSelected('rating') then "active"}
+    %i.icon-ok
+    %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'rating'}= I18n.t('g.rating')
+
+  %li{"class" => if @fieldSelected('comments') then "active"}
+    %i.icon-ok
+    %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'comments'}= I18n.t('g.comments')
+
+  %li{"class" => if @fieldSelected('name') then "active"}
+    %i.icon-ok
+    %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => 'name'}= I18n.t('g.vendor_name')
+
+  - for responseField in @responseFields
+    %li{"class" => if @fieldSelected(responseField.id) then "active"}
+      %i.icon-ok
+      %a{"data-backbone-click" => "toggleKeyField", "data-response-field-id" => responseField.id}
+        = _.str.truncate(responseField.label, 30)

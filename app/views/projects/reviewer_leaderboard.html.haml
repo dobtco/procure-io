@@ -1,0 +1,17 @@
+- provide :page_action, t('g.reviewer_leaderboard')
+
+= render "projects/header_backend"
+
+%table.table
+  %thead
+    %tr
+      %th= User.human_attribute_name(:name)
+      %th= t('g.number_of_reviews')
+
+  %tbody
+    - @leaderboard.each do |position|
+      %tr
+        %td= position.user.display_name
+        %td= position.review_count
+
+= will_paginate @leaderboard, class: "pagination pagination-centered"

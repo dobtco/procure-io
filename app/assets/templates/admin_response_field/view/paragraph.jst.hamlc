@@ -1,0 +1,5 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+%textarea{"class" => "rf-size-#{@response_field.get('field_options.size')}"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

@@ -1,0 +1,7 @@
+a.unread-indicator {
+  text-decoration: none;
+
+  &.unread-indicator-read {
+    color: #ccc;
+  }
+}

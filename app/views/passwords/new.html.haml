@@ -1,0 +1,10 @@
+%h3= t('g.forgot_password')
+
+= simple_form_for :password, url: passwords_path do |f|
+
+  = f.input :email
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'
+
+  != extra_user_links(without: 'forgot_password')

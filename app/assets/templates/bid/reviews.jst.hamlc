@@ -1,0 +1,15 @@
+%h4 All Reviews
+
+%ul
+  - if !@bidReviews
+    %i.icon-refresh.icon-spin
+    = I18n.t('g.loading')
+  - else
+    - for review in @bidReviews
+      %li
+        = review.user.display_name
+        \-
+        - if review.rating
+          = review.rating
+        - else # starred?
+          = if review.starred then 'starred' else 'not starred'

@@ -1,0 +1,7 @@
+%td= moment(@question.get('created_at')).format(ProcureIo.READABLE)
+%td= @question.get('asker').display_name
+%td= @question.get('body')
+%td
+  %textarea= @question.get('answer_body') || ''
+%td
+  %button.btn.btn-primary{"data-backbone-save" => "true", "data-loading-text" => I18n.t('g.saving')}= I18n.t('g.save')

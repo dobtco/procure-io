@@ -1,0 +1,3 @@
+%span #{@officer.display_name} #{I18n.t('g.comment.awarded_from')} <a href="/projects/#{@commentable_id}/bids/#{@data.id}">#{@data.vendor.name}</a>.
+%span.badge.badge-success #{I18n.t('g.awarded')}
+%span.timestamp= moment(@created_at).fromNow()

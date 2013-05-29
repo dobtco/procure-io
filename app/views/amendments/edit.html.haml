@@ -1,0 +1,13 @@
+- provide :page_action, t('g.edit_amendment')
+
+= render "projects/header_backend"
+
+= simple_form_for [@project, @amendment] do |f|
+  = f.input :posted, as: :boolean
+  = f.input :title, input_html: { class: 'span6' }
+  = f.input :body, input_html: { class: 'span6 js-wysihtml5', rows: 10 }
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'
+
+=link_to t('g.delete_amendment'), project_amendment_path(@project, @amendment), method: :delete, confirm: t('g.confirm_amendment_deletion')

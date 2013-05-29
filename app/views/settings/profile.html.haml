@@ -1,0 +1,10 @@
+- provide :page_action, t('g.profile')
+
+= render "subnav"
+
+= simple_form_for current_user, url: settings_profile_path, method: :post do |f|
+
+  = f.input :name, required: true
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

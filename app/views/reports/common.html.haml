@@ -1,0 +1,12 @@
+- provide :page_action, @report_title
+
+= render "projects/header_backend"
+
+= render layout: "reports/sidebar" do
+  - if @data && @data.length > 1
+    #chart
+
+    :javascript
+      ProcureIo.chartData = #{@data.to_json};
+  - else
+    %p= t('g.no_data_to_display')

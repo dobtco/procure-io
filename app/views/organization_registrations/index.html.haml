@@ -1,0 +1,17 @@
+- provide :page_action, "Vendor Registration Forms"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "organizations/subnav"
+
+  .alert.alert-info Create form(s) for your vendors to register with your organization.
+
+  %h5
+    Existing forms
+    %a.regular-font.btn.btn-small{"href" => organization_registrations_path(@organization), "data-method" => "post"}
+      Create New
+      %i.icon-plus-sign
+
+  %ul
+    - @organization.registrations.each do |registration|
+      %li= link_to registration.name, edit_organization_registration_path(@organization, registration)

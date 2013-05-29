@@ -1,0 +1,193 @@
+@import "bootstrap/mixins";
+
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -145px;
+}
+
+#main-container.container {
+  padding: 20px 0;
+}
+
+a {
+  cursor: pointer;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.tooltip {
+  min-width: 60px;
+}
+
+#navbar {
+  margin-bottom: 0;
+
+  .navbar-inner {
+    @include border-radius(0px);
+  }
+
+  .gravatar {
+    width: 20px;
+    height: 20px;
+    @include border-radius(10px);
+    margin: -2px 3px 0 0;
+  }
+}
+
+.alert {
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+.input-prepend, .input-append {
+  .parsley-error-list {
+    font-size: 14px;
+  }
+}
+
+.dropdown-menu {
+  span.title {
+    display: block;
+    font-weight: bold;
+  }
+
+  span.description {
+    color: #666;
+    font-size: 12px;
+  }
+}
+
+.regular-font {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+}
+
+.dropdown-left {
+  .dropdown-menu {
+    right: 0;
+    left: auto;
+  }
+}
+
+.dropdown-form {
+  padding: 10px;
+  margin: 0;
+  white-space: normal;
+
+  .control-group {
+    margin: 0;
+  }
+
+  .alert {
+    margin-bottom: 10px;
+  }
+
+  &.dropdown-form-auto {
+    white-space: nowrap;
+  }
+
+  &.dropdown-form-medium {
+    width: 340px;
+  }
+
+  &.dropdown-form-large {
+    width: 500px;
+  }
+
+  input[type=text], textarea {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+  }
+}
+
+// badges in sidebar nav
+ul.nav-stacked {
+  li {
+    a {
+      .badge {
+        float: right;
+      }
+    }
+  }
+}
+
+ul.nav-pills {
+  li {
+    a {
+      .badge {
+        margin-top: -2px;
+      }
+    }
+  }
+}
+
+dl {
+  margin-top: 0;
+
+  dt {
+    margin-bottom: 2px;
+  }
+
+  &.medium-spacing {
+    dd {
+      margin-bottom: 6px;
+    }
+  }
+
+  &.large-spacing {
+    dd {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.top-spaced {
+  margin-top: 20px;
+}
+
+.text-centered {
+  text-align: center;
+}
+
+.alert p {
+  margin: 0;
+}
+
+h2.splash-header {
+  margin-bottom: 30px;
+}
+
+ul.ul-unstyled {
+  list-style: none;
+  margin: 0;
+}
+
+form.form-no-margin {
+  margin: 0;
+}
+
+form#new_bid {
+  select {
+    margin: 0;
+  }
+}
+
+.control-group.datetime {
+  select {
+    width: 70px;
+  }
+}

@@ -1,0 +1,5 @@
+%tr
+  %th Name
+  %th Email
+  - for index, keyField of @keyFields
+    %th= keyField.label

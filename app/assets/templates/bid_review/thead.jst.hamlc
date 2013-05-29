@@ -1,0 +1,25 @@
+%tr
+  %th &nbsp;
+
+  - for keyField in @parentView.pageOptions.get('keyFields')
+    %th
+      %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({sort: keyField, direction: (if @parentView.router.filterOptions.get('sort') is "#{keyField}" and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false})}
+        - if keyField == 'name'
+          = I18n.t('g.vendor_name')
+
+        - else if keyField == 'comments'
+          %i.icon-comment
+
+        - else if keyField == 'rating'
+          %i.icon-star
+
+        - else
+          = @parentView.getResponseField(keyField).label
+
+        - if @parentView.router.filterOptions.get('sort') == "#{keyField}"
+          - if @parentView.router.filterOptions.get('direction') != 'asc'
+            %i.icon-chevron-down
+          - else # asc
+            %i.icon-chevron-up
+
+  %th &nbsp;

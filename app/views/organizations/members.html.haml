@@ -1,0 +1,30 @@
+- provide :page_action, "Members"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "organizations/subnav"
+
+  .alert.alert-info Add and remove members on your <a href="#{organization_teams_path(@organization)}">teams admin</a> page.
+
+  #searchable-table-page.search-page
+    :javascript
+      new ProcureIo.Backbone.SearchableTable({
+        collection: new ProcureIo.Backbone.Collection({
+          url: "#{members_organization_path(@organization, format: 'json')}"
+        }),
+        bootstrapData: #{@bootstrap_data.to_json},
+        actions: false,
+        columns: [
+          {
+            name: "#{User.human_attribute_name(:name)}",
+            accessor: 'display_name',
+            sortKey: 'name',
+            defaultSort: 'asc'
+          },
+          {
+            name: "#{User.human_attribute_name(:email)}",
+            accessor: 'email',
+            sortKey: 'email'
+          }
+        ]
+      });

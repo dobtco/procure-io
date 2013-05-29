@@ -1,0 +1,12 @@
+- provide :page_action, "Edit registration"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "vendors/subnav"
+
+  %h4= @vendor_registration.registration.name
+
+  - if flash[:autofilled]
+    .alert.alert-success We've pre-filled some fields for you.
+
+  = render "shared/form", form_action: vendor_registration_path(@vendor, @vendor_registration), responsable: @vendor_registration, form_method: :put, response_fieldable: @vendor_registration.registration, save_draft_button: (!@vendor_registration.submitted?)

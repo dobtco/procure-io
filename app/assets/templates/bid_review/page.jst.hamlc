@@ -1,0 +1,48 @@
+.row-fluid
+  .span3.sidebar-wrapper
+    %form.bid-search-form#filter-form{"data-backbone-submit" => "submitSearch"}
+      .search-input-wrapper
+        %input.search-query{"type" => "text", "data-rv-placeholder" => "pageOptions.sidebarCollapsed | not | then \"#{I18n.t('g.searches_all_fields')}\"", "data-rv-value" => "filterOptions.q"}
+        %a.clear-search{"data-rv-show" => "filterOptions.q", "data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({q: false, page: false})}
+          %i.icon-remove-sign
+
+    .clearfix
+
+    .subview-sidebar-filter
+
+    - if @abilities.manageLabels
+      %h5
+        Labels
+        %a.smaller.regular-font{"data-backbone-click" => "toggleLabelAdmin", "data-toggle-text" => I18n.t('g.done_editing')}= I18n.t('g.edit')
+
+      .subview-label-filter
+
+      .subview-label-admin
+
+  .span9.right-side-span
+
+    != JST['shared/loading_indicator']()
+
+    .subview-actions-wrapper.pull-left
+
+    #pagination-wrapper.pull-right
+
+    .clearfix
+
+    .bids-table-wrapper
+      .subview-field-chooser.btn-group.dropdown-left
+
+      %table.table#bids-table.faded-while-loading
+        %thead.subview-bids-thead
+
+        %tbody#bids-tbody
+        %tbody#no-bids-tbody
+          %tr
+            %td{"colspan" => "100"} There are no bids matching these filters.
+
+    %small.pull-left
+      %a{"data-toggle-text" => "Restore sidebar &rarr;", "data-backbone-click" => "toggleCollapseSidebar"} &larr; Collapse sidebar
+
+    %small.pull-right
+      %a{"data-backbone-click" => "viewFilteredEmails"} Get emails for filtered vendors
+

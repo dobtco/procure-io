@@ -1,0 +1,19 @@
+%tr{"data-email" => collaborator.officer.user.email}
+  %td
+    = collaborator.officer.name
+  %td= collaborator.officer.user.email
+  %td
+    - if collaborator.owner
+      %small
+        %i.icon-star
+        = I18n.t('g.owner')
+    - if !collaborator.officer.user.signed_up?
+      %small
+        %i.icon-envelope
+        = I18n.t('g.invited')
+  %td
+    - if can? :assign_owner, @project
+      = link_to (collaborator.owner ? t('g.remove_owner') : t('g.set_owner')), owner_project_collaborator_path(@project.id, collaborator.id), method: :post, class: "btn btn-small"
+
+    - if can? :destroy, collaborator
+      = link_to t('g.remove'), project_collaborator_path(@project.id, collaborator.id), method: :delete, remote: true, class: "btn btn-danger btn-small js-remove-collaborator-btn", data: { confirm: t('confirmations.delete_collaborator') }

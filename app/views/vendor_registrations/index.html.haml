@@ -1,0 +1,36 @@
+- provide :page_action, "Edit info"
+
+= render layout: "shared/user_sidebar" do
+
+  %h4 Registrations
+
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Organization
+        %th Status
+        %th Actions
+    %tbody
+      - @registrations.each do |registration|
+        - existing_registration = @vendor.vendor_registrations.for(registration)
+        %tr
+          %td= registration.name
+          %td= registration.organization.name if registration.organization
+          %td
+            - if existing_registration
+              %span.badge{"class" => existing_registration.badge_class}= existing_registration.status_text
+            - else
+              %span.badge Not registered
+
+          %td
+            - if existing_registration
+              %a.btn.btn-small{"href" => edit_vendor_registration_path(@vendor, existing_registration)}
+                - if existing_registration.status == VendorRegistration.statuses[:draft_saved]
+                  Continue registration
+                - else
+                  Edit
+            - else
+              %a.btn.btn-small.btn-primary{"href" => vendor_registrations_path(@vendor, registration_id: registration.id), |
+                                           "data-method" => "post"}
+                Register Now

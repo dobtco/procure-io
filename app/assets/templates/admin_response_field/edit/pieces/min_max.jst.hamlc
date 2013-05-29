@@ -1,0 +1,7 @@
+%label.header Minimum / Maximum
+
+The response should be above
+%input.span2{"type" => "text", "data-rv-value" => "model.field_options.min"}
+and below
+%input.span2{"type" => "text", "data-rv-value" => "model.field_options.max"}
+\.

@@ -1,0 +1,15 @@
+- provide :page_action, "Vendor Profile"
+
+= render layout: "shared/user_sidebar" do
+
+  %h4 Vendor Profile
+
+  = simple_form_for @vendor, validate: true, url: profile_vendor_path(@vendor), method: :post do |f|
+    = f.input :address_line_1
+    = f.input :address_line_2
+    = f.input :city
+    = f.input :state
+    = f.input :zip
+
+    .form-actions
+      = f.button :submit, class: 'btn-primary'

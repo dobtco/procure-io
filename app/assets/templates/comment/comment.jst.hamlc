@@ -1,0 +1,9 @@
+.author
+  %img.gravatar{"src" => @comment.get('user').gravatar_url}
+  %span.author-name #{@comment.get('user').display_name}
+  %span.posted-at #{moment(@comment.get('created_at')).fromNow()}
+
+  - if ProcureIo.CurrentUser?.id == @comment.get('user').id
+    %a.delete{"data-backbone-click" => "deleteComment"}= I18n.t('g.delete')
+
+%p!= @comment.get('body').replace(/\n/g, '<br />')

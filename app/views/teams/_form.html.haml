@@ -1,0 +1,25 @@
+= form_for [@organization, @team] do |f|
+
+  .control-group
+    = f.label :name
+    = f.text_field :name, readonly: @team.is_owners
+
+  %h4 Permissions
+
+  - if @team.is_owners
+    %p Owners can access all projects and perform all actions.
+
+  - else
+    - Team.permission_levels.except(:owner).each do |k, v|
+      .control-group
+        %label.radio
+          = f.radio_button :permission_level, v
+          = k
+        .help-block.readable-width= t("teams.permission_level_descriptions.#{k.downcase}")
+
+    %blockquote.top-spaced
+      Looking for more permissions? Add users to the <a href="#{members_organization_team_path(@organization, @organization.owners_team)}">owners group</a> to let them access your organization's admin.
+
+
+  .form-actions
+    = f.submit class: "btn btn-primary"

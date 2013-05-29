@@ -1,0 +1,15 @@
+%tr
+  %td
+    = user.name
+    - if user.owner
+      %i.icon-star
+  %td= user.email
+  %td
+    - if !user.owner
+      - if user == current_user
+        %a.btn.btn-small.btn-danger{"href" => leave_vendor_path(@vendor), "data-method" => "delete", "data-confirm" => "Are you sure?"} Leave vendor
+      - else
+        %a.btn.btn-small.btn-danger.js-remove-member{"href" => member_vendor_path(@vendor, user_id: user.id), "data-method" => "delete", "data-remote" => true, "data-loading-text" => "Removing..."}= I18n.t('g.remove')
+
+      - if @vendor.owner == current_user
+        %a.btn.btn-small{"href" => assign_ownership_vendor_path(@vendor, user_id: user.id), "data-method" => "post"} Transfer ownership

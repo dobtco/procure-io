@@ -1,0 +1,18 @@
+.action-header-wrapper
+  %h3
+    = @project.title
+    %a{"href" => organization_path(@project.organization)}
+      %span.badge.regular-font= @project.organization.name
+    %small
+      %span.badge.badge-indicator{"class" => @project.status_badge_class}
+      = @project.long_status_text
+
+  - if can? :collaborate_on, @project
+    %a.btn.action-header-btn-h3{"href" => admin_project_path(@project)}
+      %i.icon-cog
+
+  - if signed_in?
+    != watch_button @project, class: "dropdown-left action-header-btn-h3", |
+       tooltip: (can? :collaborate_on, @project) ? t('tooltips.watch_project_officer') : t('tooltips.watch_project_vendor')
+
+  .clearfix

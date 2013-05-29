@@ -1,0 +1,19 @@
+- for column in @parentView.options.columns
+  %td!= if _.isFunction(column.accessor) then column.accessor(@model) else @model.get(column.accessor)
+
+- unless @parentView.options.actions? && @parentView.options.actions == false
+  %td
+    - for k, v of @model.get('urls')
+      - if k == 'edit'
+        %a.btn.btn-small{"href" => v}
+          %i.icon-pencil
+          = I18n.t('g.edit')
+
+      - else if k == 'destroy'
+        %a.btn.btn-small{"href" => v, "data-method" => "delete", "data-confirm" => @parentView.options.deleteConfirmation || I18n.t('g.delete_confirmation')}
+          %i.icon-trash
+          = I18n.t('g.destroy')
+
+      - else
+        %a.btn.btn-small{"href" => v}
+          = I18n.t("g.#{k}")

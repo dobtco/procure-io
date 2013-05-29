@@ -1,0 +1,6 @@
+<script>
+  ProcureIo.CurrentTour = ProcureIo.Tours["<%= yield(:tour) %>"];
+  <% if current_user %>
+  ProcureIo.ViewedTour = <%= current_user.viewed_tour?(yield(:tour)) %>;
+  <% end %>
+</script>

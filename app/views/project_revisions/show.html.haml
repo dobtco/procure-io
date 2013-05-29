@@ -1,0 +1,21 @@
+- provide :page_action, t('g.revision_from_date', date: @project_revision.created_at)
+
+= render "projects/header_backend"
+
+= form_for @project do |f|
+  .row-fluid
+    .span6
+      = f.label :body
+      %textarea#project_body.js-wysihtml5{"readonly" => true}= @project_revision.body
+
+      = render "project_revisions/list", current_revision_id: @project_revision.id
+
+    .span6
+      .alert.alert-info
+        = t('.alert_html', date: @project_revision.created_at.to_formatted_s(:readable), officer: @project_revision.saved_by_user ? @project_revision.saved_by_user.display_name : t('g.unknown_officer'))
+
+      %p
+        = link_to t('.back_to_current_html'), edit_project_path(@project)
+
+      %p
+        = link_to t('g.restore_this_version'), restore_project_project_revision_path(@project, @project_revision), method: :post

@@ -1,0 +1,74 @@
+- provide :page_title, @project.title
+
+.action-header-wrapper
+  %h3
+    = @project.title
+    %small
+      %a.badge.regular-font{"href" => organization_path(@project.organization)}= @project.organization.name
+      &nbsp;
+      %span.badge.badge-indicator{"class" => @project.status_badge_class}
+      = @project.long_status_text
+
+  %a.btn.action-header-btn-h3{"href" => project_path(@project)} <i class='icon-share-alt'></i>
+  != watch_button @project, class: "dropdown-left action-header-btn-h3", tooltip: t('tooltips.watch_project_officer')
+
+  .clearfix
+
+%ul.nav.nav-tabs
+  %li{"class" => active_page?("bids")}
+    %a{"href" => project_bids_path(@project)}
+      = t('g.review_bids')
+      - if @project.bids.submitted.join_my_bid_review(current_user.id).unread.count > 0
+        %span.badge.badge-info= @project.bids.submitted.join_my_bid_review(current_user.id).unread.count
+
+  - # @screendoor if leaderboard enabled for project
+  %li{"class" => active_page?('projects#reviewer_leaderboard')}
+    %a{"href" => reviewer_leaderboard_project_path(@project)} Leaderboard
+
+  - if can? :respond_to_questions, @project
+    %li{"class" => active_page?("questions#index")}
+      %a{"href" => project_questions_path(@project)}
+        = t('g.q_and_a')
+        - if @project.questions.unanswered.count > 0
+          %span.badge.badge-info= @project.questions.unanswered.count
+
+  - if can? :comment_on, @project
+    %li{"class" => active_page?("projects#comments")}
+      =link_to t('g.discuss'), comments_project_path(@project)
+
+  - if can? :see_stats, @project
+    %li{"class" => active_page?("reports")}
+      %a{"href" => bids_over_time_project_reports_path(@project)}= t('g.stats')
+
+  - if can? :admin, @project
+    %li{"class" => active_subnav?("admin")}
+      =link_to t('g.admin'), edit_project_path(@project)
+
+- if active_subnav?("admin")
+  .subnav.project-subnav
+    %ul.nav.nav-pills
+      - if can? :update, @project
+        %li{"class" => active_page?("projects#edit") || active_page?("amendments") || active_page?("project_revisions")}
+          %a{"href" => edit_project_path(@project)}
+            = t('g.edit_posting')
+
+      - if can? :manage_response_fields, @project
+        %li{"class" => active_page?("projects#response_fields")}
+          %a{"href" => response_fields_project_path(@project)}= t('g.response_fields')
+
+      - if can? :change_review_mode, @project
+        %li{"class" => active_page?("projects#review_mode")}
+          %a{"href" => review_mode_project_path(@project)}= t('g.review_mode')
+
+      - if can? :manage_teams, @project
+        %li{"class" => active_page?("projects#teams")}
+          =link_to t('g.teams'), teams_project_path(@project)
+
+      - if can? :import_bids, @project
+        %li{"class" => active_page?("projects#import_csv")}
+          =link_to t('g.import_bids'), import_csv_project_path(@project)
+
+      - if can? :export_bids, @project
+        %li{"class" => active_page?("projects#export_csv")}
+          =link_to t('g.export_bids'), export_csv_project_path(@project)
+

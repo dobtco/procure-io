@@ -1,0 +1,14 @@
+!= JST['shared/loading_indicator']()
+
+%form#vendor-filter-form.pull-left
+  %input.search-query{"type" => "text", "placeholder" => I18n.t('g.searches_all_fields'), "name" => "q", "data-rv-value" => "filterOptions.q"}
+
+.pull-right
+  #pagination-wrapper.faded-while-loading.pull-right
+  #sort-wrapper.pull-right
+
+.clearfix &nbsp;
+
+%table.table.faded-while-loading
+  %thead#vendors-thead
+  %tbody#vendors-admin-tbody

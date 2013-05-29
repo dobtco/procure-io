@@ -1,0 +1,7 @@
+.dashboard-item.dashboard-bid
+  %a{"href" => vendor_bid_path(bid.vendor, bid)}= bid.project.title
+  .line-two
+    %span.badge.badge-indicator{"class" => bid.badge_class}
+    %span.long-status= bid.text_status
+    %a.vendor{"href" => vendor_path(bid.vendor)}
+      %span.badge= bid.vendor.name

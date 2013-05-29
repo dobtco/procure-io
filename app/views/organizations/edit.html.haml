@@ -1,0 +1,26 @@
+- provide :page_action, "Edit info"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "subnav"
+
+  = simple_form_for @organization, validate: true do |f|
+
+    = f.input :name
+    = f.input :email
+    = f.input :username
+
+    .control-group
+      = f.label :logo
+      = f.file_field :logo
+      %label.checkbox
+        = f.check_box :remove_logo
+        Remove logo
+
+    - if @organization.logo.url
+      %img{"src" => @organization.logo.thumb.url}
+
+    .form-actions
+      = f.button :submit, class: 'btn-primary'
+
+  = link_to "Delete Organization", organization_path, method: :delete, data: { confirm: "Are you sure?" }

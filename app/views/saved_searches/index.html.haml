@@ -1,0 +1,28 @@
+- provide :page_action, t('g.saved_searches')
+
+= render layout: "shared/user_sidebar" do
+
+  %p= t('saved_searches.index.description')
+
+  %table.table
+    %thead
+      %tr
+        %th= SavedSearch.human_attribute_name(:parameters)
+        %th= t('g.current_results')
+        %th= t('g.actions')
+    %tbody
+      - if @saved_searches.count == 0
+        %tr
+          %td{"colspan" => 3}
+            .alert.alert-info= t('saved_searches.index.none.line_html', link: link_to(t('saved_searches.index.none.link'), projects_path))
+
+      - @saved_searches.each do |saved_search|
+        %tr
+          %td= saved_search.search_parameters
+          %td
+            %span.badge= saved_search.execute[:meta][:total]
+            %a{"href" => projects_path(saved_search.search_parameters)}= t('g.view_results')
+          %td
+            =link_to t('g.remove'), saved_search, class: "btn btn-danger", method: :delete
+
+  = will_paginate @saved_searches, class: "pagination pagination-centered"

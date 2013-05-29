@@ -1,0 +1,12 @@
+= render "shared/pieces/label", response_field: response_field
+
+%div{"class" => if response_field[:field_options]["units"] then 'input-append' end}
+  %input.span3{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
+               "data-required" => response_field[:field_options]["required"] ? true : false, |
+               "data-min" => !response_field[:field_options]["min"].blank? ? response_field[:field_options]["min"] : false, |
+               "data-max" => !response_field[:field_options]["max"].blank? ? response_field[:field_options]["max"] : false, |
+               "data-type" => response_field[:field_options]["integer_only"] ? 'digits' : false }
+  - if response_field[:field_options]["units"]
+    %span.add-on= response_field[:field_options]["units"]
+
+= render "shared/pieces/description", response_field: response_field

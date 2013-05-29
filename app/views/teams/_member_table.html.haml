@@ -1,0 +1,10 @@
+%table.table.table-nonfluid#member-table
+  %thead
+    %tr
+      %th= User.human_attribute_name(:name)
+      %th= User.human_attribute_name(:email)
+      %th= t('g.actions')
+
+  %tbody#members-tbody
+    - @team.users.each do |user|
+      = render "member", user: user

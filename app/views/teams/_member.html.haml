@@ -1,0 +1,5 @@
+%tr
+  %td= user.name
+  %td= user.email
+  %td
+    %a.btn.btn-small.btn-danger.js-remove-member{"href" => member_organization_team_path(@organization, @team, user_id: user.id), "data-method" => "delete", "data-remote" => true, "data-loading-text" => "Removing..."}= I18n.t('g.remove')

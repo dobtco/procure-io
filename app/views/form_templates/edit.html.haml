@@ -1,0 +1,23 @@
+- provide :page_action, t('g.form_templates')
+
+= render layout: "shared/user_sidebar" do
+
+  = form_for [@organization, @form_template], remote: true, html: { class: "js-no-reset" } do |f|
+
+    %h4
+      #{I18n.t('g.editing')}
+      .input-append
+        = f.text_field :name, placeholder: "Form Template Name"
+        = f.submit I18n.t('g.save'), class: 'btn btn-primary', "data-loading-text" => I18n.t('g.saving')
+
+  %hr
+
+  #admin-response-field-page
+    :javascript
+      new ProcureIo.Backbone.AdminResponseFieldPage({
+        formName: "#{@form_template.name}",
+        bootstrapData: #{@form_template.response_fields.to_json},
+        response_fieldable_id: #{@form_template.id},
+        response_fieldable_type: "FormTemplate",
+        formOptions: #{@form_template.form_options.to_json}
+      });

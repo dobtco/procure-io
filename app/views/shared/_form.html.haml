@@ -1,0 +1,27 @@
+- if response_fieldable.form_options["form_description"]
+  %span.help-block= response_fieldable.form_options["form_description"]
+
+= form_tag form_action, method: (defined?(form_method) ? form_method : :post), id: "responsable-form", class: "responsable-form", :"data-validate" => "parsley", multipart: true do
+  %input{"type" => "hidden", "name" => "draft_only"}
+
+  - # We need to display server-side validations for users without js.
+  - # Besides, we're already writing the server-side validations for security purposes anyway.
+  %noscript
+    - if responsable.id && responsable.responsable_errors && !responsable.responsable_errors.empty?
+      .alert.alert-danger
+        %ul
+          - responsable.responsable_errors.each do |e|
+            %li= e
+
+  = yield
+
+  = render "shared/form_fields", response_fields: (defined?(response_fields) ? response_fields : response_fieldable.response_fields), responsable: responsable, response_fieldable: response_fieldable
+
+  .form-actions
+    %button.btn.btn-primary= defined?(button_text) ? button_text : t('g.submit')
+    - if !defined?(save_draft_button) || save_draft_button
+      %a.btn#save-draft-button{"data-loading-text" => "All Changes Saved"}= t('g.save_draft')
+
+- if responsable.id && false
+  :javascript
+    $("#responsable-form").parsley('validate')

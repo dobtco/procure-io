@@ -1,0 +1,33 @@
+- provide :page_action, "Teams"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "organizations/subnav"
+
+  .above-searchable-table
+    %a.btn.btn-primary{"href" => new_organization_team_path(@organization.id)}
+      New Team
+      %i.icon-plus-sign
+
+  #searchable-table-page.search-page
+    :javascript
+      new ProcureIo.Backbone.SearchableTable({
+        collection: new ProcureIo.Backbone.Collection({
+          url: "#{organization_teams_path(@organization, format: 'json')}"
+        }),
+        bootstrapData: #{@bootstrap_data.to_json},
+        deleteConfirmation: "Are you sure you want to delete this team? It will also remove all of its members from your organization, unless they're also members of other teams.",
+        columns: [
+          {
+            name: "#{Team.human_attribute_name(:name)}",
+            accessor: 'name',
+            sortKey: 'name',
+            defaultSort: 'asc'
+          },
+          {
+            name: "#{Team.human_attribute_name(:user_count)}",
+            accessor: 'user_count',
+            sortKey: 'user_count'
+          }
+        ]
+      });

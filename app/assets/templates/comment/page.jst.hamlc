@@ -1,0 +1,9 @@
+.loading-comments
+  %i.icon-refresh.icon-spin
+  = I18n.t('g.loading')
+#comments-wrapper
+
+%form#new-comment-form{"data-validate" => "parsley", "data-backbone-submit" => "createComment"}
+  .control-group
+    %textarea{"data-required" => true, "placeholder" => I18n.t('g.add_your_comments')}
+  %button.btn.btn-primary.pull-right= I18n.t('g.post_comment')

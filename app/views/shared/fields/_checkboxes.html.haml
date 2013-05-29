@@ -1,0 +1,16 @@
+= render "shared/pieces/label", response_field: response_field
+
+.options-group{"data-required-checkboxes" => response_field[:field_options]["required"] ? true : false}
+  - (response_field[:field_options]["options"] || []).each_with_index do |option, i|
+    - if value
+      - checked = value && value[option["label"]]
+    - else
+      - checked = option["checked"]
+
+    %label.checkbox
+      = option["label"]
+      %input{"type" => "checkbox", "name" => "response_fields[#{response_field[:id]}][#{i}]", |
+             "checked" => checked, "data-group" => response_field[:id], |
+             "data-required" => response_field[:field_options]["required"] ? true : false}
+
+= render "shared/pieces/description", response_field: response_field

@@ -1,0 +1,61 @@
+class ResponseFieldsController < ApplicationController
+  # Load
+  before_filter :response_fieldable_exists?
+  before_filter :response_field_exists?, only: [:update, :destroy, :delete_response]
+  before_filter :authenticate_vendor!, only: [:delete_response]
+  before_filter :users_response_exists?, only: [:delete_response]
+
+  # Authorize
+  before_filter except: [:delete_response] { |c| c.authorize! :manage_response_fields, @response_fieldable }
+
+  def create
+    @response_field = ResponseField.create pick(params, *ResponseField::ALLOWED_PARAMS).merge(response_fieldable: @response_fieldable)
+    render_serialized(@response_field)
+  end
+
+  def update
+    @response_field.update_attributes pick(params, *ResponseField::ALLOWED_PARAMS)
+    render_serialized(@response_field)
+  end
+
+  def batch
+    (params[:response_fields] || []).each do |response_field_params|
+      response_field = @response_fieldable.response_fields.find(response_field_params[:id])
+      response_field.update_attributes pick(response_field_params, *ResponseField::ALLOWED_PARAMS)
+    end
+
+    @response_fieldable.update_attributes(form_options: params[:form_options]) if params[:form_options]
+
+    render_serialized(@response_fieldable.response_fields)
+  end
+
+  def destroy
+    @response_field.destroy
+    render json: {}
+  end
+
+  def delete_response
+    authorize! :destroy, @response
+    @response.destroy
+    render json: {}
+  end
+
+  private
+  def response_fieldable_exists?
+    @response_fieldable = if params[:response_fieldable_type] == "GlobalConfig"
+      GlobalConfig.instance
+    else
+      find_polymorphic(:response_fieldable)
+    end
+  end
+
+  def response_field_exists?
+    @response_field = @response_fieldable.response_fields.find(params[:id])
+  end
+
+  def users_response_exists?
+    @response = @response_field.responses.joins(:user)
+                                         .where(users: {id: current_user.id})
+                                         .first
+  end
+end

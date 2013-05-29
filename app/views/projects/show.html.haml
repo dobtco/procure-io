@@ -1,0 +1,71 @@
+- provide :page_title, @project.title
+
+- if !signed_in?
+  .alert.alert-info= t('.not_logged_in_alert.line_html', sign_in: link_to(t('.not_logged_in_alert.sign_in'), sign_in_path), sign_up: link_to(t('.not_logged_in_alert.sign_up'), sign_up_path))
+
+= render "projects/header_frontend"
+
+.row-fluid
+  .span7
+    - if !@project.abstract.blank?
+      %h4= Project.human_attribute_name(:abstract)
+      %p= @project.abstract
+
+    %h4
+      = t('g.description')
+      - if @project.amendments.posted.any?
+        %small= t('.jump_to_amendments_html', count: @project.amendments.posted.length)
+
+    %p= simple_format @project.body
+
+    - if @project.amendments.posted.any?
+      #amendments
+        %h4= t('g.amendments')
+        - @project.amendments.posted.each do |amendment|
+          %h5
+            = amendment.title
+            %small= t('g.posted_on_date', date: amendment.posted_at.to_formatted_s(:readable_dateonly))
+          %p!= amendment.body
+
+  .span5
+    - if current_vendor
+      %h4 Bids
+
+      %ul.ul-unstyled
+        - current_user.bids.where(project: @project).each do |bid|
+          %li
+            = link_to bid.vendor.name + " " + bid.identifier, vendor_bid_path(bid.vendor, bid)
+            != bid.badged_text_status
+
+      .form-actions
+        = form_for [@project, Bid.new], method: :post, html: { class: 'form-no-margin' } do |f|
+          = vendor_selector(f)
+          %button.btn.btn-primary New Bid
+
+    %h4
+      = t('g.questions')
+
+      - if signed_in?
+        - if can? :ask_question, @project
+          %small
+            %a#ask-question-toggle.btn.btn-small{"data-toggle" => "collapse", "data-target" => "#ask-question"} Ask question
+            - if @question_period_ends_at
+              Questions due #{@project.question_period_ends_at.to_formatted_s(:readable)}
+        - else
+          = render "question_period_over"
+      - else
+        - if @project.question_period_over?
+          = render "question_period_over"
+
+    - if signed_in?
+      #ask-question.collapse
+        = form_for [@project, Question.new], remote: true do |f|
+          = f.text_area :body, cols: nil, rows: 4, class: "span12"
+          %br
+          = f.submit t('g.submit'), class: "btn btn-primary", "data-loading-text" => t('g.submitting')
+
+    #questions-list
+      - if @questions.count == 0
+        #no-questions= t('.no_questions')
+      - @questions.each do |question|
+        = render "questions/question", question: question

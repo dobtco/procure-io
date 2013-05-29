@@ -1,0 +1,5 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+%input{"type" => "file"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

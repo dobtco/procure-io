@@ -1,0 +1,601 @@
+# Run rake i18n:js:export to generate the client-side i18n file.
+
+en:
+  bids:
+    show_vendor:
+      return_to_project_html: "&larr; Return to Project"
+
+    edit:
+      editing_bid_from: "Editing bid from %{name}"
+
+    mine:
+      none:
+        line_html: >
+          You haven't made any bids yet. Visit the %{link} to find some projects that interest you.
+        link: projects page
+
+  collaborators:
+    index:
+      assign_role_of: "If they're not already registered, we'll invite them and assign them the site-wide role of" #<select>
+      list_csv: List of comma-separated emails
+
+  confirmations:
+    delete_collaborator: Are you sure you want to remove this collaborator?
+    delete_role: Are you sure you want to delete this role?
+
+  errors:
+    email_taken: That email address is already taken.
+
+    not_found:
+      description: "Sorry, this page can't be found."
+
+  events:
+    additional_text:
+      bid_awarded: "\"%{bid_award_message}\""
+      bid_dismissed: "Reason: \"%{bid_dismissal_message}\""
+      your_bid_awarded: "\"%{bid_award_message}\""
+      your_bid_dismissed: "Reason: \"%{bid_dismissal_message}\""
+
+    text:
+      added_to_organization_team: "You've been added to the %{team_name} team for %{organization_name}."
+      added_to_vendor_team: "You've been added as a team member for %{vendor_name}."
+      added_your_team_to_project: "Your team was added to collaborate on %{project_title}."
+      bid_awarded: "%{user_display_name} accepted %{bid_bidder_name}'s bid on %{project_title}."
+      bid_comment: "%{comment_user_display_name} commented on %{comment_commentable_bidder_name}'s bid for %{project_title}."
+      bid_dismissed: "%{user_display_name} dismissed %{bid_bidder_name}'s bid on %{project_title}."
+      bid_submitted: "%{bid_vendor_name} submitted a bid for %{project_title}."
+      bid_unawarded: "%{user_display_name} unawarded %{bid_bidder_name}'s bid on %{project_title}."
+      bid_undismissed: "%{user_display_name} undismissed %{bid_bidder_name}'s bid on %{project_title}."
+      project_amended: "The project %{project_title} has been amended."
+      project_comment: "%{comment_user_display_name} commented on %{comment_commentable_title}."
+      question_answered: "%{user_display_name} answered your question about %{project_title}."
+      question_asked: "%{user_display_name} asked a question about %{project_title}."
+      your_bid_awarded: "%{user_display_name} has accepted your bid on %{project_title}."
+      your_bid_dismissed: "%{user_display_name} has dismissed your bid on %{project_title}."
+      your_bid_unawarded: "%{user_display_name} has unaccepted your bid on %{project_title}."
+      your_bid_undismissed: "%{user_display_name} has undismissed your bid on %{project_title}."
+
+  form_templates:
+    pick_template:
+      select_to_preview: Select a template on the left to preview it.
+
+  flashes:
+    bid_was_destroyed: Bid was successfully destroyed.
+    cant_delete_default_role: "You can't delete the default role!"
+    cant_remove_last_owner: "You can't remove the only owner from the project. Assign a new owner first."
+    connected_twitter: Successfully connected Twitter account.
+    copied_form_template: "Successfully copied form from template."
+    invalid_login: "Sorry, we couldn't find a user with the credentials you provided."
+    logged_in_without_password:
+      line_html: >
+        Heya! We logged you in without a password, but you can always %{link} if you want.
+        If you don't, you can just use that same link to login in the future.
+      link: create one
+    no_user_found_by_email: "Sorry, we couldn't find a user for that email address."
+    removed_twitter: Successfully removed Twitter account.
+    role_undeletable: "Sorry, that role can't be deleted."
+    sent_reset_password_instructions: Check your email for instructions on how to reset your password.
+    updated_site_configuration: Successfully updated site configuration.
+    users_role_deleted:
+      one: "You successfully deleted the role, but careful, there is 1 user who now doesn't have a role set."
+      others: "You successfully deleted the role, but careful, there are %{count} users who now doesn't have a role set."
+    valid_login: You are now signed in.
+    wrong_current_password: Your current password was not correct.
+
+  g:
+    "404": "404"
+    abstract: Abstract
+    accept_invite: Accept Invite
+    account: Account
+    account_settings: Account Settings
+    actions: Actions
+    add_collaborator: Add Collaborator
+    add_multiple_collaborators: Add multiple collaborators
+    add_one_collaborator: Add one collaborator
+    add_your_comments: Add your comments
+    adding_collaborator: Adding Collaborator...
+    admin: Admin
+    advanced: Advanced
+    all_bids: All Bids
+    all_categories: All Categories
+    all_changes_saved: All Changes Saved
+    amendments: Amendments
+    answer_questions: Answer Questions
+    answered_by: Answered by
+    avg_rating: Avg Rating
+    award: Accept
+    award_message: "Add an (optional) short message to the vendor, letting them know what the next steps are."
+    awarded: Accepted
+    awarded_bids: Accepted Bids
+    awards_made: Awards made
+    bid: Bid
+    bid_form: Bid Form
+    bid_from: Bid from
+    bid_now: Bid Now
+    bids: Bids
+    bids_closed: Bids closed
+    bids_due: Bids due
+    bids_due_on: Bids due on
+    bids_due_on_date: "Bids due on %{date}"
+    bids_over_time: Bids over time
+    bids_were_due_on_date: "Bids were due on %{date}"
+    browse: Browse
+    browse_projects: Browse Projects
+    "careful!": "Careful!"
+    careful_awarding: "Are you sure? When you click \"Accept\", the vendor and other collaborators will be notified of your acceptance."
+    categories: Categories
+    category: Category
+    change_review_mode: Change Review Mode
+    characters: characters
+    click_to_edit: Click to edit
+    collaborators: Collaborators
+    comment:
+      awarded: accepted the bid.
+      awarded_from: accepted the bid from
+      dismissed: dismissed the bid.
+      posted: posted the project.
+      unawarded: unaccepted the bid.
+      unawarded_from: unaccepted the bid from
+      undismissed: undismissed the bid.
+      unposted: unposted the project.
+    comments: Comments
+    confirm_amendment_deletion: Are you sure you want to delete this amendment?
+    contact_name: Contact Name
+    continue_writing_bid: Continue Writing Bid
+    count_imported:
+      one: 1 record imported.
+      other: '%{count} records imported.'
+    create_label: Create Label
+    current_results: Current Results
+    custom_color: Custom Color
+    date: Date
+    date_by_officer: '%{date} by %{officer}'
+    delete: Delete
+    delete_amendment: Delete Amendment
+    delete_bid: Delete Bid
+    delete_bid_confirmation: Are you sure you want to delete this bid?
+    delete_confirmation: Are you sure you want to delete this item?
+    description: Description
+    destroy: Destroy
+    destroy_label: Destroy Label
+    did_you_forget_your_password:
+      line_html: "Did you %{link}?"
+      link: forget your password
+    discuss: Discuss
+    dismiss: Dismiss
+    dismissal_reason: Dismissal reason
+    dismissed: Dismissed
+    dismissed_bids: Dismissed Bids
+    done_editing: Done Editing
+    draft_saved: Draft Saved
+    duplicate: Duplicate
+    edit: Edit
+    edit_amendment: Edit Amendment
+    edit_description: Edit Description
+    edit_labels: Edit Labels
+    edit_posting: Edit Posting
+    edit_response_fields: Edit Response Fields
+    editing: Editing
+    email_address: Email Address
+    email_notifications: Email Notifications
+    enter_your_current_password_to_confirm: >
+      Enter your current password to confirm these changes.
+    event_hooks: Event Hooks
+    experimental_follow_steps_html: |
+      <strong>Howdy!</strong> This feature is pretty experimental, so if you do choose to proceed, be sure to follow the steps below.
+    export_bids: Export Bids
+    featured_projects: Featured Projects
+    field_types:
+      checkboxes: checkboxes
+      date: date
+      dropdown: dropdown
+      file: file
+      number: number
+      paragraph: paragraph
+      price: price
+      radio: radio
+      text: text
+      time: time
+      website: website
+    file_to_import: File to import
+    filter: Filter
+    filter_projects: Filter Projects
+    filter_vendors: Filter Vendors
+    forgot_password: Forgot Password
+    form_template: Form Template
+    form_template_created: Successfully created a form template!
+    form_templates: Form Templates
+    general_stats: General Stats
+    globalconfig_form_confirmation_message: >
+      You have successfully updated your vendor profile.
+    hide: hide
+    hide_answer: Hide Answer
+    hide_paren: (hide)
+    hotkeys_available: Hotkeys Available
+    import: Import
+    import_bids: Import Bids
+    import_bids_from_csv: Import bids from CSV
+    imported_from_csv: Imported from CSV
+    impressions: Impressions
+    invited: Invited
+    javascript_error: |
+      Sorry, an error occurred. Try refreshing the page, and if the problem persists, please contact us for assistance.
+    label: Label
+    label_name: Label Name
+    last_updated: Last Updated
+    link: Link
+    live: Live
+    loading: Loading...
+    mark_as_unread: Mark as unread
+    mine: Mine
+    more: More
+    my_bid: My Bid
+    my_bids: My Bids
+    my_projects: My Projects
+    new: New
+    new_amendment: New Amendment
+    new_bid: New Bid
+    new_comment: New Comment
+    new_label_name: New label name
+    new_project: New Project
+    new_role: New Role
+    next_rarr_html: "Next &rarr;"
+    no_amendments: No amendments.
+    no_answer: Not yet answered
+    no_data_to_display: "Sorry, no data to display."
+    no_due_date: No due date
+    notification_settings: Notification Settings
+    not_watching: Not Watching
+    not_watching_description: "You won't receive any alerts about this %{modelName}."
+    not_yet_posted: Not yet posted
+    notifications: Notifications
+    number_of_bids: '# of Bids'
+    number_of_reviews: '# of Reviews'
+    officers: Officers
+    'on': 'on'
+    open: Open
+    open_bids: Open Bids
+    open_for_bids: Open for bids
+    optional_paren: (optional)
+    options: Options
+    or_sign_up:
+      line_html: "or %{link}"
+      link: sign up
+    owner: Owner
+    post_comment: Post Comment
+    posted: Posted
+    posted_on: Posted on
+    posted_on_date: "Posted on %{date}"
+    posting: Posting...
+    preview: Preview
+    previewing: Previewing
+    price_range: Price Range
+    profile: Profile
+    project: Project
+    projects: Projects
+    project_admin: Project Admin
+    project_description: Project Description
+    project_form_confirmation_message: "Thanks, your bid has been received!"
+    project_listings: Project Listings
+    project_listings_on_site_name: "Project listings on %{site_name}."
+    project_title: Project Title
+    q_and_a: "Q&A"
+    questions: Questions
+    rating: Rating
+    read_more: Read more
+    remove: Remove
+    remove_owner: Remove Ownership
+    reports: Reports
+    reset_password: Reset Password
+    response_field:
+      add_new_field: Add New Field
+      add_option: Add option
+      description: Description
+      edit_field: Edit Field
+      form_confirmation_message: Form Confirmation Message
+      form_description: Form Description
+      form_options: Form Options
+      import: Import response fields from template
+      include_blank: Include blank option
+      integer_only: Integer only
+      is_default: Default?
+      key_field: key field
+      label: Label
+      large: large
+      max: max
+      max_length: max_length
+      medium: medium
+      min: min
+      min_length: min length
+      new_name: Name for this template
+      no_confirmation_message: >
+        If no confirmation message is set, we'll display a standard thank you message.
+      no_default_selected: No default selected
+      none: No response fields yet. Why don't you add one?
+      remove_field: Remove field
+      required: Required
+      save: Save response fields as a template
+      size: size
+      small: small
+      units: Units
+      value: Value
+      vendor_edit: Can the vendor edit this attribute?
+      vendor_see: Can the vendor see this attribute?
+    response_fields: Response Fields
+    restore_this_version: Restore this version
+    review: Review
+    review_bids: Review Bids
+    review_mode: Review Mode
+    reviewer_leaderboard: Reviewer Leaderboard
+    revision_from_date: "Revision from %{date}"
+    revisions: Revisions
+    roles: Roles
+    rss_for_search: RSS feed for this search
+    save: Save
+    saved: Saved
+    save_changes: Save Changes
+    save_draft: Save Draft
+    save_form: Save Form
+    save_search: Save Search
+    saved_searches: Saved Searches
+    saving: Saving...
+    search: Search
+    searches_all_fields: Searches all fields...
+    see_all: See all
+    select_the_file: Select the file
+    send_reset_password_instructions: Send Reset Password Instructions
+    set_owner: Set as owner
+    set_role_as_default: Set Role as Default
+    settings: Settings
+    show: show
+    show_answer: Show Answer
+    show_paren: (show)
+    show_tour: Explain this page
+    sign_in: Sign in
+    sign_in_to_site_name: "Sign in to %{site_name}"
+    sign_out: Sign out
+    sign_up: Sign up
+    site_name: Procure.io
+    starred_bids: Starred Bids
+    stats: Stats
+    status: Status
+    submit: Submit
+    submitting: Submitting...
+    submit_bid: Submit Bid
+    submitted_on: Submitted on
+    successfully_updated_account: You successfully updated your account.
+    successfully_updated_notification_settings: Successfully updated your email notification settings.
+    successfully_updated_profile: Successfully updated your profile.
+    successfully_updated_vendor_profile: Successfully updated vendor profile.
+    to_get_notified: to get notified of new projects like these.
+    teams: Teams
+    type: Type
+    unaward: Unaccept
+    unawarded: Unaccepted
+    undismiss: Undismiss
+    undismissed: Undismissed
+    unique_impressions: Unique Impressions
+    unknown_officer: Unknown
+    unposted: Unposted
+    update_amendment: Update Amendment
+    update_bid: Update Bid
+    update_officer: Update Officer
+    update_project: Update Project
+    updated_at: Updated At
+    updated_project_review_mode: Successfully updated project review mode.
+    upload: Upload
+    use: Use
+    use_this_template: Use This Template
+    vendor: Vendor
+    vendor_can_see: Vendor can see this message
+    vendor_name: Vendor Name
+    vendor_registration: Vendor Registration
+    vendor_registration_form: Vendor Registration Form
+    vendors: Vendors
+    view: View
+    view_posting: View Posting
+    view_results: View Results
+    watched_projects: Watched Projects
+    watching: Watching
+    wufoo_integration: Wufoo Integration
+    x_to_x: '%{first} to %{last}'
+    your_rating: Your rating
+
+  global_config:
+    advanced:
+      enable_disable_features: Enable/Disable Features
+    vendor_registration:
+      already_ask_for_basic_info: We already ask for basic information like Name and Email Address.
+
+  home:
+    index:
+      hero:
+        content:
+          line_html: >
+            Procure.io is an easier way to do government contracting. You can %{link} to bid on these
+            projects in just 5 seconds.
+          link: register
+        header: Welcome to Procure.io.
+
+  layouts:
+    application:
+      footer_html: Powered by <a href="http://www.Procure.io" target="_blank">Procure.io</a>.
+
+  notifications:
+    index:
+      none: No notifications to display.
+
+  notification_preferences:
+    category:
+      teams: Teams
+      incoming_bids: Incoming Bids
+      amendments: Amendments
+      q_and_a: "Q&A"
+      comments: Comments
+      placed_bids: Placed Bids
+
+    description:
+      added_to_team: You're added to a team.
+      added_your_team_to_project: Your team is added to a project.
+      bid_awarded: A bid on your project is awarded.
+      bid_comment: A new comment is posted on a bid you're watching.
+      bid_dismissed: A bid on your project is dismissed.
+      bid_submitted: A bid on your project is submitted.
+      project_amended: A project you're watching is amended.
+      project_comment: A new comment is posted on a project you're watching.
+      question_answered: Your question is answered.
+      question_asked: A question is asked about your project.
+      your_bid_awarded: Your bid is awarded.
+      your_bid_dismissed: Your bid is dismissed.
+
+  officers:
+    edit:
+      back_to_list_html: "&larr; Back to list of officers"
+
+  project_revisions:
+    show:
+      alert_html: "You're viewing a revision that was saved on %{date} by %{officer}."
+      back_to_current_html: "&larr; Back to current version"
+
+  projects:
+    export_csv:
+      description: >
+        Want your data without the bells and whistles of %{site_name}? We understand. You can download an
+        Excel-compatible CSV export of your bids below.
+      link_text:
+        one: Download 1 bid as CSV
+        other: "Download %{count} bids as CSV"
+
+    import_csv:
+      associate_vendor_account: Link a vendor account to each bid if one exists.
+      override_response_fields: Automatically set up response fields
+      not_possible_bids_already_exist: "Not possible, bids already exist"
+      label_imported_bids_as: Label imported bids as
+      leave_blank_for_no_label: Leave this field blank if you'd rather not add a label.
+      response_fields_help_html: >
+        Since you're doing this manually, make sure that your CSV column headers match your response field labels.
+        You should have columns for
+      vendor_account_help_html: >
+        We'll look for an <code>Email</code> or <code>Vendor ID</code> column in your file to try and
+        find the correct vendor in Procure.io.
+      will_destroy_existing_response_fields: This will destroy all existing response fields.
+
+    new:
+      choose_a_template: Choose a template for receiving responses.
+      instructions: "What should we call this project?"
+
+    header_backend:
+      reports_available_after_post: Reports will be available after this project goes live.
+
+    show:
+      no_questions: No one has asked a question yet.
+      not_logged_in_alert:
+        line_html: >
+          To ask questions, subscribe to alerts, and bid on the project, either %{sign_up} or %{sign_in}.
+        sign_up: sign up
+        sign_in: sign in
+
+      jump_to_amendments_html:
+        one: "Jump to <a href='#amendments'>1 amendment</a>."
+        other: "Jump to <a href='#amendments'>%{count} amendments</a>."
+
+      you_are_collaborator:
+        line_html: "You're a collaborator on this project. %{link} for the admin page."
+        link: Click here
+
+      you_submitted_your_bid:
+        line_html: "You submitted %{link} on %{date}."
+        link: your bid
+
+    wufoo:
+      step_1:
+        line_html: "Your %{link} need to match the field labels on your Wufoo form, like this:"
+        link: response field labels
+      step_2_html: >
+        In addition, your Wufoo form should have fields titled <code>Email</code> and <code>Name</code>.
+      step_3_html: >
+        In the Wufoo admin panel, find your form and add a new Webhook
+        notification. Your webhook URL should be <code>%{url}</code>, and be sure
+        to check the box labeled "Include Field and Form Structures with Entry Data".
+      step_4: Sit back and watch the applications roll in!
+
+  roles:
+    index:
+      sorry_cant_edit: "Sorry, you can't edit this role."
+
+    role_types:
+      admin: Admin
+      god: God
+
+  saved_searches:
+    index:
+      description: >
+        These are your saved searches. You'll receive daily emails with
+        links to any new projects posted that match these parameters.
+      none:
+        line_html: >
+          You haven't saved any searches yet. Visit the %{link} and click "Save Search" to get started.
+        link: browse projects page
+
+  teams:
+    permission_level_descriptions:
+      reviewer: >
+        Usually reserved for members *outside* your organization who are acting as guest
+        reviewers or subject-matter experts. Can review bids, and that's about it.
+      user: >
+        Can perform most all actions for a project, except for awarding bids.
+      admin: >
+        Can perform all actions for a project.
+
+  tooltips:
+    watch_bid: "Receive alerts about comments on this bid."
+    watch_project_officer: "Receive alerts about comments, bids, new collaborators, and other events."
+    watch_project_vendor: "Watching this project will subscribe you to alerts about amendments."
+
+  users:
+    accept_invite:
+      create_password_instructions_html: >
+        Hey <strong>%{name}</strong>! To finish creating your account on %{site_name},
+        simply create a password below.
+
+    reset_password:
+      sorry_you_forgot_it_html: >
+        Hey <strong>%{name}</strong>, sorry you forgot your password! You can create a new one below.
+
+  vendors:
+    edit:
+      back_to_list_html: "&larr; Back to list of vendors"
+
+  watches:
+    vendor_projects:
+      none:
+        line_html: >
+          You aren't watching any projects. Visit the %{link} to find some projects that interest you.
+        link: projects page
+
+
+  mailers:
+    header: "Hey %{name},\n\n"
+    footer: "\n\n-- %{site_name}"
+
+    invite:
+      subject: "%{inviter_name} invited you to %{site_name}!"
+
+    notification:
+      subject: "%{event_text}"
+
+    password_reset:
+      subject: "Your password reset request for %{site_name}"
+
+    saved_searches:
+      pluralized_count:
+        one: 1 new result
+        other: "%{count} new results"
+      subject: "%{pluralized_count} for your saved searches on %{site_name}"
+
+    unsubscribe_link: >
+      Prefer not to receive these notifications via email? Change your preferences here: %{settings_notifications_url}
+
+  errors:
+    messages:
+      email: "is invalid"

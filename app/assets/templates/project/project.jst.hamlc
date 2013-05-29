@@ -1,0 +1,27 @@
+%div
+  %span.project-name
+    %a{"href" => "/projects/#{@project.get('slug')}"}= @project.get('title')
+
+  %a.badge{"href" => "/#{@project.get('organization').username}"}= @project.get('organization').name
+
+.project-abstract= @project.get('abstract_or_truncated_body')
+
+.bottom-info
+  - if @project.get('tags').length > 0
+    %span.project-tags
+      #{I18n.t('g.categories')}:
+      - for tag, i in @project.get('tags')
+        <a data-backbone-click="updateFilter" data-backbone-params='#{JSON.stringify({category: tag.name, page: false})}'>#{tag.name}</a>#{if i != @project.get('tags').length - 1 then ', ' else ''}
+
+    &middot;
+
+  %span.project-bids-due-at
+    - if @project.get('bids_due_at')
+      #{I18n.t('g.bids_due_on')} #{moment(@project.get('bids_due_at')).format(ProcureIo.READABLE_DATEONLY)}
+    - else
+      = I18n.t('g.no_due_date')
+
+  &middot;
+
+  %span.posted-at
+    #{I18n.t('g.posted_on')} #{moment(@project.get('posted_at')).format(ProcureIo.READABLE_DATEONLY)}

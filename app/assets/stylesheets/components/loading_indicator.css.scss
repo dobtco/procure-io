@@ -1,0 +1,26 @@
+@import "bootstrap/mixins";
+
+.loading-indicator {
+  display: none;
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  width: 100px;
+  text-align: center;
+  margin-left: -50px;
+  background-color: #eee;
+  border: 1px solid #ddd;
+  padding: 2px 0;
+  z-index: 2;
+}
+
+
+.loading {
+  .loading-indicator {
+    display: block;
+  }
+
+  .faded-while-loading {
+    @include opacity(75);
+  }
+}

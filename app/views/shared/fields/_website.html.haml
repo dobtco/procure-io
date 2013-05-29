@@ -1,0 +1,9 @@
+= render "shared/pieces/label", response_field: response_field
+
+%input{"type" => "text", "name" => "response_fields[#{response_field[:id]}]", "value" => value, |
+       "data-required" => response_field[:field_options]["required"] ? true : false, |
+       "class" => "rf-size-#{response_field[:field_options]['size']}", |
+       "data-type" => "urlstrict", |
+       "placeholder" => "http://" }
+
+= render "shared/pieces/description", response_field: response_field

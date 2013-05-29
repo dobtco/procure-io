@@ -1,0 +1,11 @@
+!= JST['admin_response_field/edit/groups/common']()
+
+%label.header Options
+
+%div{"data-rv-each-option" => "model.field_options.options"}
+  %input{"type" => "checkbox", "data-rv-checked" => "option:checked", "data-backbone-click" => "forceRender"}
+  %input{"type" => "text", "data-rv-value" => "option:label", "data-backbone-input" => "forceRender"}
+  %a.btn.btn-small{"data-backbone-click" => "removeOption"}
+    %i.icon-trash
+
+%a.btn.btn-small.btn-primary{"data-backbone-click" => "addOption"}= I18n.t('g.response_field.add_option')

@@ -1,0 +1,21 @@
+- provide :page_title, @organization.name
+%h3
+  = @organization.name
+
+.row-fluid.organization-profile
+  .span3
+    - if @organization.logo.url
+      %img.logo{"src" => @organization.logo.url}
+    %dl
+      %dt Email
+      %dd= @organization.email
+
+  .span9
+    %h4
+      Recent Projects
+      %small
+        %a{"href" => projects_path} See all &rarr;
+
+    .project-list
+      - @projects.each do |project|
+        = render "projects/project", project: project, show_organization: false

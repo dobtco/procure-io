@@ -1,0 +1,21 @@
+.pagination.pagination-small
+  %ul
+    %li{"class" => if @meta.page is 1 then "disabled"}
+      - if @meta.page is 1
+        %span &laquo;
+      - else
+        %a.pagination-previous{"data-backbone-params" => JSON.stringify({page: @meta.page - 1}), "data-backbone-click" => "updateFilter"} &laquo;
+
+    - for p in @pages
+      - if p is "break"
+        %li
+          %span ...
+      - else
+        %li{"class" => if p is @meta.page then "active"}
+          %a{"data-backbone-params" => JSON.stringify({page: p}), "data-backbone-click" => "updateFilter"}= p
+
+    %li{"class" => if @meta.page is @meta.last_page then "disabled"}
+      - if @meta.page is @meta.last_page
+        %span &raquo;
+      - else
+        %a.pagination-next{"data-backbone-params" => JSON.stringify({page: @meta.page + 1}), "data-backbone-click" => "updateFilter"} &raquo;

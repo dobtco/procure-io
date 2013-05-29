@@ -1,0 +1,25 @@
+- provide :page_title, t('g.new_project')
+
+!=page_header t('g.new_project')
+
+= simple_form_for @project, validate: true do |f|
+  = organization_selector(f)
+
+  = f.input :title, hint: 'What should we call this project?'
+
+  = f.input :solicit_bids, label: false, inline_label: "I'll be using Procure.io to solicit bids", |
+            input_html: { data: { toggle: "showhide", target: ".js-solicit-bids-content" } }
+
+  = f.input :bids_due_at, wrapper_class: 'control-group js-solicit-bids-content hide', |
+            hint: 'When will bids be due?', include_blank: true
+
+  = f.input :question_period_ends_at, wrapper_class: 'control-group js-solicit-bids-content hide', |
+            hint: 'When does Q+A end?', include_blank: true
+
+  = f.input :review_bids, label: false, inline_label: "I'll be using Procure.io to review bids", |
+            input_html: { data: { toggle: "showhide", target: ".js-review-bids-content" } }
+
+  = f.input :review_mode, as: :select, collection: Project.review_modes, wrapper_class: 'control-group js-review-bids-content hide', hint: 'How do you want to review bids?'
+
+  .form-actions
+    = f.button :submit, class: "btn-primary"

@@ -1,0 +1,40 @@
+- if @abilities.manageLabels
+  .btn-group
+    %a.btn.btn-small.dropdown-toggle{"href" => "#", "data-toggle" => "dropdown", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
+      = I18n.t('g.label')
+      %b.caret
+    %ul.dropdown-menu
+      - if @labels.length == 0
+        %li.disabled
+          %a No labels
+      - @labels.each (label) ->
+        %li
+          %a{"data-backbone-click" => "labelCheckedBids", "data-backbone-params" => label.get('id')}
+            %span.rectangular-color-swatch{"style" => "background-color: ##{label.get('color') || ProcureIo.Backbone.DEFAULT_LABEL_COLOR};"} &nbsp;
+            #{label.get('name')}
+
+- if @abilities.dismissBids
+  %span{"data-rv-show" => "filterOptions.status | eq awarded | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq dismissed"}
+      %button.btn.btn-small{"data-backbone-click" => "dismissCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
+        = I18n.t('g.undismiss')
+    %span{"data-rv-show" => "filterOptions.status | eq dismissed | not"}
+      .btn-group.dropdown
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
+          = I18n.t('g.dismiss')
+          %b.caret
+        .dropdown-menu
+          != JST['shared/dismiss_form']()
+
+- if @abilities.awardBids
+  %span{"data-rv-show" => "filterOptions.status | eq dismissed | not"}
+    %span{"data-rv-show" => "filterOptions.status | eq awarded"}
+      %button.btn.btn-small{"data-backbone-click" => "awardCheckedBids", "data-rv-class-disabled" => "pageOptions.bidsChecked | not"}
+        = I18n.t('g.unaward')
+    %span{"data-rv-show" => "filterOptions.status | eq awarded | not"}
+      .btn-group.dropdown
+        %a.btn.btn-small.dropdown-toggle.js-dropdown-form-toggle{"data-rv-class-disabled" => "pageOptions.bidsChecked | not", "data-toggle" => "dropdown"}
+          = I18n.t('g.award')
+          %b.caret
+        .dropdown-menu
+          != JST['shared/award_form']()

@@ -1,0 +1,4 @@
+%label{"class" => if @response_field.get('field_options.required') then "label-required" else "label-optional"}
+  %span= @response_field.get('label')
+  - if !@response_field.get('field_options.required')
+    %span.is-optional (optional)

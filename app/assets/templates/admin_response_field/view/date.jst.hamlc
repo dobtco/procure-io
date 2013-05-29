@@ -1,0 +1,9 @@
+!= JST['admin_response_field/view/pieces/label'](@)
+
+%input.span1{"type" => "text", "placeholder" => "MM"}
+\/
+%input.span1{"type" => "text", "placeholder" => "DD"}
+\/
+%input.span2{"type" => "text", "placeholder" => "YYYY"}
+
+!= JST['admin_response_field/view/pieces/description'](@)

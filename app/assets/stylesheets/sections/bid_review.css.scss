@@ -1,0 +1,203 @@
+@import "bootstrap/mixins";
+
+#bid-review-page {
+  min-height: 300px;
+  padding-bottom: 20px;
+
+  .subview-label-admin {
+    display: none;
+  }
+
+  &.editing-labels {
+    .subview-label-admin {
+      display: block;
+    }
+
+    .subview-label-filter {
+      display: none;
+    }
+  }
+
+  .right-side-span {
+    position: relative;
+  }
+
+  .sidebar-wrapper {
+    h5 {
+      margin-bottom: 2px;
+    }
+
+    .short-name {
+      display: none;
+    }
+
+    &.sidebar-collapsed {
+      .badge,  #new-label-form, #label-admin-wrapper,
+      .label-name, .js-edit-labels, h5, .long-name,
+      .icon-remove-sign {
+        display: none;
+      }
+
+      ul > li {
+        width: 36px;
+        margin: 0 auto;
+      }
+
+      .short-name {
+        display: inline;
+      }
+    }
+  }
+}
+
+.bids-table-wrapper {
+  position: relative;
+
+  .subview-field-chooser {
+    position: absolute;
+    top: 5px;
+    right: 0;
+
+    .dropdown-menu {
+      max-height: 320px;
+      overflow-y: scroll;
+    }
+  }
+}
+
+#bids-table {
+  margin-top: 10px;
+
+  .controls-td {
+    input[type=checkbox] {
+      margin-right: 5px;
+    }
+  }
+
+  .controls-td {
+    width: 20px
+  }
+
+  .stars-td, .comments-td {
+    width: 30px;
+  }
+
+  .bid-tr:hover {
+    .blank-td {
+      a {
+        display: inline;
+      }
+    }
+  }
+
+  .blank-td {
+    width: 20px;
+    text-align: right;
+
+    a {
+      display: none;
+      text-decoration: none;
+    }
+  }
+
+  .total-stars {
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    width: 22px;
+    height: 15px;
+
+    > i {
+      font-size: 24px;
+      width: 22px;
+      color: #aaa;
+      position: absolute;
+      top: -3px;
+    }
+
+    > span {
+      position: absolute;
+      width: 22px;
+      left: 0;
+      text-align: center;
+      font-size: 11px;
+    }
+  }
+
+  .vendor-name {
+    font-weight: 400;
+  }
+
+  .bid-tr-unread {
+    .vendor-name {
+      font-weight: bold;
+    }
+  }
+
+  .bid-tr-checked {
+    background-color: #D6EAFF;
+  }
+
+  .bid-tr-selected {
+    background-color: #eee;
+  }
+}
+
+#labels-list {
+  .icon-remove-sign {
+    display: none;
+    color: #fff;
+    text-shadow: none;
+    margin: 1px 2px 0 0;
+  }
+
+  li.active {
+    .icon-remove-sign {
+      display: block;
+    }
+  }
+}
+
+#labels-admin-list {
+  .click-to-edit {
+    display: none;
+    margin-left: 10px;
+    color: #aaa;
+  }
+
+  li:hover {
+    .click-to-edit {
+      display: inline;
+    }
+  }
+}
+
+.rating-select {
+  display: inline-block;
+  width: 100px;
+}
+
+.total_ratings {
+  color: #999;
+  font-size: 12px;
+}
+
+.bid-search-form {
+  .search-query {
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+  }
+}
+
+#new-label-form {
+  input[type=text] {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+  }
+}
+
+#no-bids-tbody {
+  border-width: 1px;
+}

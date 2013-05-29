@@ -1,0 +1,15 @@
+- provide :page_action, "Members"
+
+= render layout: "shared/user_sidebar" do
+
+  = render "subnav"
+
+  = render "vendors/member_table"
+
+  %h5 Add Team Member
+
+  %form#add_team_member{"action" => member_vendor_path(@vendor), "method" => "post", "data-remote" => "true"}
+    .control-group
+      %input{"type" => "text", "name" => "email", "placeholder" => I18n.t('g.email_address')}
+
+    %button.btn.btn-primary{"data-loading-text" => "Adding..."} Add

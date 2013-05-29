@@ -1,0 +1,43 @@
+.above-searchable-table {
+  padding-bottom: 20px;
+}
+
+.search-page {
+  position: relative;
+
+  .new-btn {
+    margin-left: 5px;
+  }
+
+  thead {
+    a {
+      color: #555;
+    }
+  }
+
+  tbody.searchable-table-empty {
+    border-top: 1px solid gray;
+    color: #999;
+  }
+}
+
+#filter-form {
+  margin-bottom: 10px;
+}
+
+.search-input-wrapper {
+  position: relative;
+
+  .clear-search {
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    color: #666;
+    font-size: 18px;
+    text-decoration: none;
+
+    &:hover {
+      color: #555;
+    }
+  }
+}

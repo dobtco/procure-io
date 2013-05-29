@@ -1,0 +1,7 @@
+%a.unread-indicator{"data-backbone-toggleread" => true, "class" => if @read then 'unread-indicator-read' else 'unread-indicator-unread'}
+  %i.icon-circle
+
+&nbsp;
+
+%a{"href" => @path}= @text
+%span.created-at= moment(@created_at).fromNow()

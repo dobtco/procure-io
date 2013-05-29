@@ -1,0 +1,25 @@
+- provide :page_action, t('g.wufoo_integration')
+
+= render "projects/header_backend"
+
+= render layout: "projects/admin_sidebar" do
+  .alert.alert-warning= t('g.experimental_follow_steps_html')
+
+  .readable-width
+    %p
+      <strong>1.</strong>
+      = t('projects.wufoo.step_1.line_html', link: link_to(t('projects.wufoo.step_1.link'), response_fields_project_path(@project)))
+      = image_tag "matching-labels.png"
+
+    %p
+      <strong>2.</strong>
+      = t('projects.wufoo.step_2_html')
+
+    %p
+      <strong>3.</strong>
+      = t('projects.wufoo.step_3_html', url: wufoo_project_url(@project, auth_token: "@todo"))
+
+    %p
+      <strong>4.</strong>
+      = t('projects.wufoo.step_4')
+

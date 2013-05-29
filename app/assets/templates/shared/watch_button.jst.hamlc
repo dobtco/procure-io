@@ -1,0 +1,17 @@
+.btn-group
+  %button.btn.dropdown-toggle{"data-toggle" => "dropdown", "class" => if @watching then "btn-primary"}
+    - if @watching
+      %i.icon-eye-open
+      = I18n.t('g.watching')
+    - else
+      = I18n.t('g.not_watching')
+    %span.caret
+  %ul.dropdown-menu
+    %li
+      %a.js-yes
+        %span.title= I18n.t('g.watching')
+        %span.description= @description
+    %li
+      %a.js-no
+        %span.title= I18n.t('g.not_watching')
+        %span.description= I18n.t('g.not_watching_description', modelName: @modelName)

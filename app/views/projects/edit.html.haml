@@ -1,0 +1,45 @@
+- provide :page_action, t('g.edit_description')
+
+= render "projects/header_backend"
+
+= simple_form_for @project do |f|
+  .row-fluid
+    .span6
+      = f.input :body, input_html: { class: 'js-wysihtml5' }
+
+      %div
+        %h5
+          = t('g.amendments')
+          = link_to t('g.new_amendment'), project_amendments_path(@project), method: :post, class: "btn btn-mini regular-font"
+
+        - if @project.amendments.length > 0
+          %ul
+            - @project.amendments.each do |amendment|
+              %li
+                %a{"href" => edit_project_amendment_path(@project, amendment)}= amendment.title || amendment.id
+        - else
+          %div= t('g.no_amendments')
+
+
+      = render "project_revisions/list"
+
+    .span6
+      = f.input :posted, as: :boolean
+      = # f.input :featured
+      = f.input :title
+      = f.input :tags, input_html: { value: @project.tags.map(&:name).join(",") }
+
+      :javascript
+        $("#project_tags").select2({
+          tags: #{Tag.all_for_select2.to_json},
+          tokenSeparators: [','],
+          width: "off",
+          containerCssClass: 'span10'
+        });
+
+      = f.input :bids_due_at
+      = f.input :question_period_ends_at
+      = f.input :abstract
+
+  .form-actions
+    = f.button :submit, class: 'btn-primary'

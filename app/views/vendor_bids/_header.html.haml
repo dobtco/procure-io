@@ -1,0 +1,9 @@
+.action-header-wrapper
+  %h4
+    My bid on #{@bid.project.title}
+    %span.regular-font
+      != @bid.badged_text_status
+  %a.btn.action-header-btn-h4{"href" => project_path(@bid.project)}
+    View Project Page
+    %i.icon-share-alt
+  .clearfix

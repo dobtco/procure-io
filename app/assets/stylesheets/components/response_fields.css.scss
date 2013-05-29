@@ -1,0 +1,82 @@
+@import "bootstrap/mixins";
+
+#response-fields {
+  .response-field-wrapper {
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      .actions-wrapper {
+        display: block;
+      }
+    }
+
+    .actions-wrapper {
+      display: none;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+
+  .sortable-placeholder {
+    border: 1px dashed #ccc;
+    margin-bottom: 18px;
+  }
+}
+
+.edit-response-field {
+  h5 {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+
+  .icon-arrow-right {
+    color: #444;
+  }
+
+  label.header {
+    font-weight: bold;
+    border-bottom: 1px dotted #ccc;
+    padding-bottom: 1px;
+    margin: 10px 0 10px 0;
+  }
+}
+
+.required-asterisk {
+  color: red;
+}
+
+#addField {
+  > a {
+    margin-bottom: 8px;
+  }
+}
+
+.bid-form-span {
+  position: relative;
+
+  #loading-indicator {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    width: 100px;
+    text-align: center;
+    margin-left: -50px;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 2px 0;
+    z-index: 2;
+  }
+
+  &.loading {
+    #loading-indicator {
+      display: block;
+    }
+
+    #no-response-fields, #response-fields {
+      @include opacity(75);
+    }
+  }
+}

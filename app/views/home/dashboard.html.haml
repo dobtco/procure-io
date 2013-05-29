@@ -1,0 +1,37 @@
+= render layout: "shared/user_sidebar" do
+  - if current_user.is_officer?
+    .dashboard-section
+      .action-header-wrapper
+        %h4 Recent Projects
+        != help_tooltip("To see all projects, select your organization in the sidebar.")
+        %a.btn.btn-primary.action-header-btn-h4{"href" => new_project_path}
+          New Project
+          %i.icon-plus-sign
+        .clearfix
+
+      .dashboard-items
+        - @projects.each do |project|
+          = render "home/dashboard_project", project: project
+
+        - if @projects.length < 5
+          - (5 - @projects.length).times do
+            .dashboard-item.dashboard-item-placeholder
+              %div Future project
+
+  - if current_user.is_vendor?
+    .dashboard-section
+      .action-header-wrapper
+        %h4 Recent Bids
+        != help_tooltip("To see all bids, select your vendor in the sidebar.")
+        %a.btn.action-header-btn-h4{"href" => projects_path}
+          Browse Projects
+          %i.icon-share-alt
+        .clearfix
+      .dashboard-bids
+        - @bids.each do |bid|
+          = render "home/dashboard_bid", bid: bid
+
+        - if @bids.length < 5
+          - (5 - @bids.length).times do
+            .dashboard-item.dashboard-item-placeholder
+              %div Future bid

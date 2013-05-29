@@ -1,0 +1,9 @@
+%label.header= I18n.t('g.response_field.label')
+%input{"type" => "text", "data-rv-value" => "model.label"}
+
+%label.checkbox
+  = I18n.t('g.response_field.required')
+  %input{"type" => "checkbox", "data-rv-checked" => "model.field_options.required"}
+
+%label.header= I18n.t('g.response_field.description')
+%textarea.span10{"data-rv-value" => "model.field_options.description"}

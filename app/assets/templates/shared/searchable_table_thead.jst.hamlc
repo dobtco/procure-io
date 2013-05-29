@@ -1,0 +1,16 @@
+%tr
+  - for column in @parentView.options.columns
+    %th
+      - if column.sortKey
+        %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({sort: column.sortKey, direction: (if @parentView.router.filterOptions.get('sort') is column.sortKey and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false})}
+          = column.name
+          - if @parentView.router.filterOptions.get('sort') == column.sortKey
+            - if @parentView.router.filterOptions.get('direction') != 'asc'
+              %i.icon-chevron-down
+            - else # asc
+              %i.icon-chevron-up
+      - else
+        = column.name
+
+  - unless @parentView.options.actions? && @parentView.options.actions == false
+    %th= I18n.t('g.actions')
