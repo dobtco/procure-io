@@ -1,4 +1,0 @@
-test:
-  adapter: postgresql
-  database: procureio_travis
-  username: postgres
