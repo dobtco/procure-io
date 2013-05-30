@@ -215,11 +215,11 @@ class Bid < ActiveRecord::Base
   def badge_class
     case status
     when :awarded
-      "badge-success"
+      "badge-info"
     when :dismissed
       "badge-important"
     when :open
-      "badge-info"
+      "badge-success"
     when :draft_saved
       ""
     end

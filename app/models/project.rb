@@ -158,11 +158,11 @@ class Project < ActiveRecord::Base
     when :not_yet_posted
       ''
     when :open_with_due_date, :open_for_bids
-      'badge-info'
-    when :closed_with_due_date
-      'badge-warning'
-    when :awards_made
       'badge-success'
+    when :closed_with_due_date
+      'badge-important'
+    when :awards_made
+      'badge-info'
     end
   end
 
