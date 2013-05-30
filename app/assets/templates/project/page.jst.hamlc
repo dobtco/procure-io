@@ -32,3 +32,5 @@
     .clearfix &nbsp;
 
     #projects-wrapper.faded-while-loading
+    .no-projects{"style" => "display: none"}
+      No results.

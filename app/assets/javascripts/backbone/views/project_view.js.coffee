@@ -81,6 +81,8 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     $("#projects-wrapper").html('')
     @addAll()
 
+    @$el.find(".no-projects")[if @collection.models.length == 0 then 'show' else 'hide']()
+
   render: ->
     @$el.html JST['project/page']({allCategories: @allCategories})
     rivets.bind(@$el, {filterOptions: @router.filterOptions})
