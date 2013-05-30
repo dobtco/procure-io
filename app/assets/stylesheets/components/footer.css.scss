@@ -7,20 +7,29 @@
 #footer {
   background-color: #eee;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
+  text-align :center;
+
+  .footer-container {
+    display: inline-block;
+    text-align: left;
+  }
 
   .footer-link-list {
     padding-top: 5px;
-    margin-right: 50px;
-    float: left;
+    margin: 3px 50px 0 0;
 
     strong {
       display: inline-block;
-      margin-bottom: 2px;
     }
 
     ul {
       list-style: none;
       margin: 0;
+
+      li {
+        display: inline;
+        margin-right: 10px;
+      }
     }
 
     i {
@@ -29,7 +38,12 @@
   }
 
   .logo-wrapper {
-    float: right;
+    float: left;
+  }
+
+  .link-wrapper {
+    margin-top: 10px;
+    margin-left: 150px;
   }
 
   .dobt-logo {

@@ -20,31 +20,30 @@
     #push
 
   %footer#footer
-    .container
-      .footer-link-list
-        %strong Get in touch
-        %ul
-          %li
-            %i.icon-envelope-alt
-            %a{"href" => "#"} help@example.com
-          %li
-            %i.icon-phone
-            %a{"href" => "tel:123-456-7890"} 123-456-7890
-          %li
-            %i.icon-twitter
-            %a{"href" => "http://www.twitter.com/help"} @help
-
-      .footer-link-list
-        %strong Procure.io
-        %ul
-          %li= link_to "For Vendors", for_vendors_path
-          %li= link_to "About us", "#"
-          %li= link_to "Terms of Service", "#"
-
-
+    .footer-container
       .logo-wrapper
         %a{"href" => "http://dobt.co"}
           %img.dobt-logo{"src" => image_path('dobt-logo.png')}
+
+      .link-wrapper
+
+        .footer-link-list
+          %strong Get in touch
+          %ul
+            %li
+              <i class="icon-envelope-alt"></i><a href="mailto:help@example.com">help@example.com</a>
+            %li
+              <i class="icon-phone"></i><a href="tel:123-456-7890">123-456-7890</a>
+            %li
+              <i class="icon-twitter"></i><a href="http://www.twitter.com/help">@help</a>
+
+        .footer-link-list
+          %strong Procure.io
+          %ul
+            %li= link_to "For Vendors", for_vendors_path
+            %li= link_to "About us", "http://www.dobt.co/about/"
+            %li= link_to "Terms of Service", "#"
+
       .clearfix
 
   - if content_for?(:tour)
