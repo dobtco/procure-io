@@ -51,6 +51,7 @@
 //= require backbone/procure_io
 //= require select2
 //= require store
+//= require wysihtml5
 //= require bootstrap-wysihtml5
 //= require_tree .
 
