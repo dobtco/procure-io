@@ -93,8 +93,6 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-will_paginate (0.0.9)
       will_paginate
-    bootstrap-wysihtml5-rails (0.3.1.19)
-      railties (>= 3.0)
     builder (3.1.4)
     cancan (1.6.9)
     capybara (2.0.3)
@@ -345,7 +343,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-will_paginate
-  bootstrap-wysihtml5-rails
   cancan
   capybara (= 2.0.3)
   capybara-webkit
