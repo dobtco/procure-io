@@ -48,7 +48,7 @@ class Project < ActiveRecord::Base
   validates :review_mode, presence: true
   validates :abstract, length: { maximum: 500 }
 
-  has_many :bids
+  has_many :bids, dependent: :destroy
   has_many :questions, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :labels, dependent: :destroy

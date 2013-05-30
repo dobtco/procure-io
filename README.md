@@ -3,10 +3,9 @@ Procure.io Community Version [![](https://codeclimate.com/github/dobtco/procure-
 
 Procurement software for the 21st century.
 
-<em><strong>What's this "Community Version"?</strong> Nearly identical to our SaaS product, just with some of the multi-tenancy code taken out.</em>
+<em><strong>What's this "Community Version"?</strong> Nearly identical to our SaaS product, just with some of the multi-tenancy code taken out.</em> Try the **[demo](http://community-demo.procure.io/)**.
 
-<!--Try the **[demo](http://demo.procure.io)**.
-> Login to the demo as an officer with `user1@example.com` and `password`.-->
+> Login to the demo as an officer with `user1@example.com` and `password`.
 
 [![screenshot](http://www.dobt.co/img/review_bids.png)](http://www.dobt.co/img/review_bids.png)
 
@@ -27,6 +26,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 - `heroku create YOUR_APP_NAME`
 - `heroku labs:enable user-env-compile`
 - `heroku addons:add heroku-postgresql`
+- Setup (or disable) the mailer in production.rb
 - Add the environment variables specified in `.powenv.example`
 - Add an additional environment variable with the database URL
   - `heroku config` to see the existing database URL

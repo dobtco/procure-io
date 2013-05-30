@@ -45,6 +45,8 @@ class User < ActiveRecord::Base
   has_many :saved_searches, dependent: :destroy
   has_many :project_revisions, as: :saved_by_user
 
+  has_many :posted_projects, as: :poster, dependent: :nullify
+
   serialize :notification_preferences, Hash
   serialize :viewed_tours, Array
 
