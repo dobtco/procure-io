@@ -32,7 +32,7 @@
     .bids-table-wrapper
       .subview-field-chooser.btn-group.dropdown-left
 
-      %table.table#bids-table.faded-while-loading
+      %table.table.table-bordered.faded-while-loading#bids-table{"data-resizable-columns-id" => "bid-review-#{@project.id}"}
         %thead.subview-bids-thead
 
         %tbody#bids-tbody

@@ -1,8 +1,8 @@
 %tr
-  %th &nbsp;
+  %th{"data-resizable-column-id" => "checkbox"} &nbsp;
 
   - for keyField in @parentView.pageOptions.get('keyFields')
-    %th
+    %th{"data-resizable-column-id" => keyField}
       %a{"data-backbone-click" => "updateFilter", "data-backbone-params" => JSON.stringify({sort: keyField, direction: (if @parentView.router.filterOptions.get('sort') is "#{keyField}" and @parentView.router.filterOptions.get('direction') != 'asc' then 'asc' else 'desc'), page: false})}
         - if keyField == 'name'
           = I18n.t('g.vendor_name')
@@ -22,4 +22,4 @@
           - else # asc
             %i.icon-chevron-up
 
-  %th &nbsp;
+  %th.no-border{"data-resizable-column-id" => "blank"} &nbsp;

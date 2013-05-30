@@ -17,6 +17,7 @@
 //= require moment.min
 //= require time_formats
 //= require jquery
+//= require jquery_ui
 //= require jquery.mixins
 //= require jquery_ujs
 //= require jquery.form

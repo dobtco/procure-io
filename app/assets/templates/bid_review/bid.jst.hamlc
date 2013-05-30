@@ -32,6 +32,6 @@
     %td
       != @bid.getValue(keyField)
 
-%td.blank-td
+%td.blank-td.no-border
   %a{href: "/projects/#{@parentView.project.slug}/bids/#{@bid.get('id')}"}
     %i.icon-share-alt

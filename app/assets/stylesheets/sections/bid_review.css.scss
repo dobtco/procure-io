@@ -56,7 +56,8 @@
   .subview-field-chooser {
     position: absolute;
     top: 5px;
-    right: 0;
+    right: 5px;
+    z-index: 3;
 
     .dropdown-menu {
       max-height: 320px;
@@ -98,6 +99,10 @@
       display: none;
       text-decoration: none;
     }
+  }
+
+  .no-border {
+    border-left: 0;
   }
 
   .total-stars {

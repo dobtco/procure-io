@@ -10,6 +10,7 @@ ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
 
   render: ->
     @$el.html JST['bid_review/thead']({parentView: @options.parentView})
+    @$el.closest("table").resizableColumns()
 
 # Field chooser
 ProcureIo.Backbone.BidReviewSubviews.push Backbone.View.extend
@@ -444,6 +445,7 @@ ProcureIo.Backbone.BidReviewPage = Backbone.View.extend
   render: ->
     @$el.html JST['bid_review/page']
       abilities: @abilities
+      project: @project
 
     rivets.bind @$el,
       pageOptions: @pageOptions
