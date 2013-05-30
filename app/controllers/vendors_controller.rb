@@ -33,22 +33,10 @@ class VendorsController < ApplicationController
 
   def update
     if @vendor.update_attributes(vendor_params)
-      flash[:success] = "Account info updated successfully."
+      flash[:success] = "Profile updated successfully."
       redirect_to edit_vendor_path(@vendor)
     else
       render :edit
-    end
-  end
-
-  def profile
-  end
-
-  def post_profile
-    if @vendor.update_attributes(vendor_profile_params)
-      flash[:success] = "Vendor profile updated successfully."
-      redirect_to profile_vendor_path(@vendor)
-    else
-      render :profile
     end
   end
 
@@ -97,10 +85,6 @@ class VendorsController < ApplicationController
 
   private
   def vendor_params
-    params.require(:vendor).permit(:name, :email)
-  end
-
-  def vendor_profile_params
-    params.require(:vendor).permit(:address_line_1, :address_line_2, :city, :state, :zip)
+    params.require(:vendor).permit(:name, :email, :address_line_1, :address_line_2, :city, :state, :zip)
   end
 end

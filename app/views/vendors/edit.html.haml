@@ -2,13 +2,6 @@
 
 = render layout: "shared/user_sidebar" do
 
-  = render "subnav"
-
-  = simple_form_for @vendor, validate: true do |f|
-    = f.input :name
-    = f.input :email
-
-    .form-actions
-      = f.button :submit, class: 'btn-primary'
+  = render "form"
 
   = link_to "Delete Vendor", vendor_path, method: :delete, data: { confirm: "Are you sure?" }

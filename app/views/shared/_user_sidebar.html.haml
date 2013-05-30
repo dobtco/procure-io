@@ -50,12 +50,15 @@
               %ul.nav.nav-stacked
                 %li{"class" => active_page?("vendor_bids")}
                   =link_to "Bids", vendor_bids_path(vendor)
-                %li{"class" => active_page?("vendors#profile")}
-                  =link_to "Vendor Profile", profile_vendor_path(@vendor)
                 %li{"class" => active_page?("vendor_registrations")}
                   =link_to "Registrations", vendor_registrations_path(@vendor)
+                %li{"class" => active_page?("vendors#edit")}
+                  %a{"href" => edit_vendor_path(@vendor)}
+                    Vendor Profile
+                    - if vendor.profile_incomplete?
+                      %span.badge.badge-warning Incomplete
                 %li{"class" => user_sidebar_settings_active?(:vendor, vendor)}
-                  =link_to "Admin", edit_vendor_path(vendor)
+                  =link_to "Admin", members_vendor_path(vendor)
 
       - if !current_user.completed_registration
         .alert.alert-info

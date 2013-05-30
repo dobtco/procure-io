@@ -134,9 +134,7 @@ module ApplicationHelper
 
     when :vendor
       obj == @vendor
-      ( active_page?("vendors#edit") ||
-        active_page?("vendors#update") ||
-        active_page?("vendors#members") )
+      ( active_page?("vendors#members") )
 
     end
 

@@ -13,6 +13,8 @@
 #  zip            :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  phone_number   :string(255)
+#  contact_name   :string(255)
 #
 
 class Vendor < ActiveRecord::Base
@@ -41,5 +43,12 @@ class Vendor < ActiveRecord::Base
 
   def owner
     users.where(vendor_team_members: { owner: true }).first
+  end
+
+  def profile_incomplete?
+    address_line_1.blank? ||
+    city.blank? ||
+    state.blank? ||
+    zip.blank?
   end
 end

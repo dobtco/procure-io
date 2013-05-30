@@ -978,7 +978,9 @@ CREATE TABLE vendors (
     state character varying(255),
     zip character varying(255),
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    phone_number character varying(255),
+    contact_name character varying(255)
 );
 
 
@@ -1898,3 +1900,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130526185548');
 INSERT INTO schema_migrations (version) VALUES ('20130526203149');
 
 INSERT INTO schema_migrations (version) VALUES ('20130526203243');
+
+INSERT INTO schema_migrations (version) VALUES ('20130530190642');

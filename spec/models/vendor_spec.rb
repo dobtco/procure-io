@@ -13,6 +13,8 @@
 #  zip            :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  phone_number   :string(255)
+#  contact_name   :string(255)
 #
 
 require 'spec_helper'

@@ -32,14 +32,14 @@ class User < ActiveRecord::Base
   has_many :organization_team_members, -> { uniq }, dependent: :destroy
   has_many :teams, -> { uniq }, through: :organization_team_members
   has_many :organizations_where_admin, -> { where(teams: { owners: true }) }, through: :teams, source: :organization
-  has_many :organizations, -> { uniq }, through: :teams
+  has_many :organizations, -> { order("organizations.name").uniq }, through: :teams
   has_many :projects, -> { uniq }, through: :teams
   has_many :event_feeds
   has_many :events, -> { select('events.*, event_feeds.read as read') }, through: :event_feeds
   has_many :watches
   has_many :vendor_team_members, dependent: :destroy
   has_many :vendors,
-           -> { select('vendors.*, vendor_team_members.owner as owner').uniq },
+           -> { select('vendors.*, vendor_team_members.owner as owner').uniq.order("vendors.name") },
            through: :vendor_team_members
   has_many :bids, through: :vendors
   has_many :saved_searches, dependent: :destroy
