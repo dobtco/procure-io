@@ -59,6 +59,7 @@ class Project < ActiveRecord::Base
 
   after_create :add_owners_team!
   after_update :generate_project_revisions_if_body_changed!
+  before_save :generate_abstract_if_blank!
 
   scope :featured, -> { where(featured: true) }
   scope :open_for_bids, -> { where("bids_due_at IS NULL OR bids_due_at > ?", Time.now) }
@@ -123,10 +124,6 @@ class Project < ActiveRecord::Base
     end
 
     query
-  end
-
-  def abstract_or_truncated_body
-    !abstract.blank? ? abstract : truncate(self.body, length: 130, omission: "...")
   end
 
   def unread_bids_for_user(user)
@@ -213,6 +210,11 @@ class Project < ActiveRecord::Base
 
   def add_owners_team!
     teams << organization.owners_team
+  end
+
+  def generate_abstract_if_blank!
+    return unless self.abstract.blank?
+    self.abstract = truncate(strip_tags(self.body).gsub(/\n/, ' '), length: 350, omission: "...")
   end
 
   handle_asynchronously :after_team_added

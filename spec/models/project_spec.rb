@@ -75,17 +75,8 @@ describe Project do
     end
   end
 
-  describe "#abstract_or_truncated_body" do
-    it "should truncate the body if abstract is blank" do
-      @project.assign_attributes(body: "a"*140, abstract: "")
-      @project.abstract_or_truncated_body.length.should be < 140
-      @project.abstract_or_truncated_body.should match /a\.\.\.$/
-    end
-
-    it "use the abstract if it has one" do
-      @project.assign_attributes(body: "a"*140, abstract: "yo")
-      @project.abstract_or_truncated_body.should == "yo"
-    end
+  describe "auto generation of abstract" do
+    pending
   end
 
   describe "unread bids for user" do

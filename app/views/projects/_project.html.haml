@@ -6,7 +6,7 @@
     - if !defined?(show_organization) || show_organization
       %span.badge= project.organization.name
 
-  .project-abstract= project.abstract_or_truncated_body
+  .project-abstract= project.abstract
 
   .bottom-info
     - if project.tags.length > 0

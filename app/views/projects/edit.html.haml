@@ -39,7 +39,7 @@
 
       = f.input :bids_due_at
       = f.input :question_period_ends_at
-      = f.input :abstract
+      = f.input :abstract, hint: "We'll auto-generate this from the project body if you don't provide one."
 
   .form-actions
     = f.button :submit, class: 'btn-primary'

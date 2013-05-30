@@ -18,10 +18,6 @@ class ProjectSerializer < ActiveModel::Serializer
     end
   end
 
-  def abstract
-    object.abstract_or_truncated_body
-  end
-
   def review_mode
     Project.review_modes[object.review_mode]
   end

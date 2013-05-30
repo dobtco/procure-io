@@ -4,7 +4,7 @@
 
   %a.badge{"href" => "/#{@project.get('organization').username}"}= @project.get('organization').name
 
-.project-abstract= @project.get('abstract_or_truncated_body')
+.project-abstract= @project.get('abstract')
 
 .bottom-info
   - if @project.get('tags').length > 0

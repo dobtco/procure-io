@@ -4,7 +4,7 @@ class SearchProjectSerializer < ActiveModel::Serializer
   attributes :id,
              :slug,
              :title,
-             :abstract_or_truncated_body,
+             :abstract,
              :body,
              :bids_due_at,
              :posted_at
