@@ -16,7 +16,7 @@
           %span.total_ratings= @bid.get('total_ratings')
 
   - else if keyField == 'comments'
-    %td.comments-td.no-link
+    %td.comments-td
       = @bid.get('total_comments')
 
 
