@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   has_many :questions_asked, as: :asker
   has_many :questions_answerer, as: :answerer
   has_many :bid_reviews, dependent: :destroy
-  has_many :organization_team_members, -> { uniq }
+  has_many :organization_team_members, -> { uniq }, dependent: :destroy
   has_many :teams, -> { uniq }, through: :organization_team_members
   has_many :organizations_where_admin, -> { where(teams: { owners: true }) }, through: :teams, source: :organization
   has_many :organizations, -> { uniq }, through: :teams
