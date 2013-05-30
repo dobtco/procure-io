@@ -14,6 +14,10 @@
 
   .clearfix
 
+- if @project.status == :awards_made
+  .alert.alert-success!= project_awards_alert(@project)
+
+
 %ul.nav.nav-tabs
   %li{"class" => active_page?("bids")}
     %a{"href" => project_bids_path(@project)}

@@ -178,4 +178,14 @@ module ApplicationHelper
 
     links.join(" &middot; ")
   end
+
+  def project_awards_alert(project)
+    str = "#{project.bids.awarded.length > 1 ? 'Awards have' : 'An award has'} been made: "
+    award_links = []
+    project.bids.awarded.each do |bid|
+      award_links.push link_to(bid.bidder_name, project_bid_path(project, bid))
+    end
+    str += award_links.join(", ")
+    str
+  end
 end
