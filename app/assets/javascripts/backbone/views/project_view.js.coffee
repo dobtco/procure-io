@@ -69,8 +69,14 @@ ProcureIo.Backbone.ProjectPage = Backbone.View.extend
     for subview in _.union ProcureIo.Backbone.ProjectPageSubviews, ProcureIo.Backbone.PaginationView
       new subview({parentView: @}).render()
 
+    if @options.bootstrapData
+      @router.setParamsFromUrl()
+      @collection.reset(@options.bootstrapData, {parse: true})
+      bootstrapped = true
+
     Backbone.history.start
       pushState: true
+      silent: bootstrapped?
 
   submitSearch: (e) ->
     @router.navigate @router.filteredHref({page: 1}), {trigger: true}

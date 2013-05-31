@@ -9,5 +9,6 @@
 #project-page.project-list.search-page
   :javascript
     new ProcureIo.Backbone.ProjectPage({
-      allCategories: #{Tag.all_for_select2.to_json}
+      allCategories: #{Tag.all_for_select2.to_json},
+      bootstrapData: #{bootstrap @bootstrap_data.to_json}
     });

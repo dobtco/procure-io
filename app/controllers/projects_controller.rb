@@ -20,7 +20,10 @@ class ProjectsController < ApplicationController
     @filter_params = { category: params[:category], q: params[:q] }
 
     respond_to do |format|
-      format.html { }
+      format.html do
+        @bootstrap_data = serialized(@projects, SearchProjectSerializer, meta: search_results[:meta])
+      end
+
       format.json { render_serialized(@projects, SearchProjectSerializer, meta: search_results[:meta]) }
       format.rss { render layout: false }
     end

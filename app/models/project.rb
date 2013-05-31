@@ -109,10 +109,10 @@ class Project < ActiveRecord::Base
 
     direction = params[:direction] == 'asc' ? 'asc' : 'desc'
 
-    if params[:sort] == "posted_at"
+    if params[:sort] == "posted_at" || params[:sort].blank?
       query = query.order("posted_at #{direction}")
 
-    elsif params[:sort] == "bids_due_at" || params[:sort].blank?
+    elsif params[:sort] == "bids_due_at"
       query = query.order("bids_due_at #{direction}")
 
     elsif params[:sort] == "title"
