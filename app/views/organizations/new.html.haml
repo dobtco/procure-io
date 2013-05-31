@@ -1,0 +1,13 @@
+- provide :page_title, "New Organization"
+%h3 New Organization
+
+= simple_form_for @organization, validate: true do |f|
+
+  = f.input :name, hint: "The name of your organization, e.g. 'City of Oakland'."
+  = f.input :email, hint: 'A public email address for your organization.'
+  = f.input :username, hint: "<span class='js-username-wrapper'>Your profile will be at #{request.host}/<span class='js-username'></span></span>"
+  = f.input :beta_code, validate: false, hint: "Didn't receive a beta code? Drop us a note at <a href='mailto:hello@dobt.co'>hello@dobt.co</a>."
+
+  .form-actions
+    = f.button :submit, class: 'btn btn-primary'
+    %span.help-inline Or did you want to <a href="#{new_vendor_path}">create a vendor</a>?
