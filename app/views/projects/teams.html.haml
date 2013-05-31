@@ -5,17 +5,19 @@
 %h4 Teams with access
 
 .row-fluid
-  .span4
+  .span6
     %table.table
       %thead
         %tr
           %th Name
+          %th # of Members
           %th Actions
 
       %tbody#project-teams-tbody
         - @teams.each do |team|
           %tr
             %td= link_to team.name, edit_organization_team_path(@project.organization, team)
+            %td= team.organization_team_members.count
             %td
               - if team.is_owners
                 Owners team has access to all projects.
