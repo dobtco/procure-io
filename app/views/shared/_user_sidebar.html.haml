@@ -24,8 +24,6 @@
           .accordion-body
             .accordion-inner
               %ul.nav.nav-stacked
-                %li.disabled
-                  %a Dashboard
                 %li{"class" => !active_page?("organization_projects#new") && active_page?("organization_projects")}
                   =link_to "Projects", organization_projects_path(organization)
                 - if can? :perform_user_actions_on, organization
