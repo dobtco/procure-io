@@ -167,12 +167,14 @@ class BidsController < ApplicationController
                              .submitted
                              .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
 
-    to_pluck = "vendors.email"
-
     if email_response_field
-      starting_query = starting_query.join_responses_for_response_field_id(email_response_field.id)
       to_pluck = "COALESCE(vendors.email, responses.value)"
+      starting_query = starting_query.join_responses_for_response_field_id(email_response_field.id)
+    else
+      to_pluck = "vendors.email"
     end
+
+    starting_query = starting_query.where("#{to_pluck} IS NOT NULL and #{to_pluck} != ''")
 
     search_results = Bid.searcher(params,
                                   starting_query: starting_query,
