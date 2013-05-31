@@ -39,10 +39,6 @@
                 %li
                   %a{"href" => settings_profile_path} Settings
 
-                - if current_user.god? && false
-                  %li
-                    %a{"href" => rails_admin.dashboard_path} Admin
-
                 %li
                   %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow"} Sign out
 
@@ -57,3 +53,16 @@
         %a#hotkeys-indicator.pull-right
           %span.label= t('g.hotkeys_available')
 
+- if current_user && current_user.god?
+  #god-mode-navbar
+    .container
+      %span.brand God Mode
+
+      %ul
+        %li
+          %a{"href" => rails_admin.dashboard_path} Rails Admin
+
+      %form.pull-right{"action" => god_login_as_path, "method" => "post"}
+        login as
+
+        %input{"type" => "text", "name" => "id_or_email"}

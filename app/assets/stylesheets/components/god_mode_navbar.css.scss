@@ -1,0 +1,46 @@
+#god-mode-navbar {
+  display: none;
+  background-color: #222;
+  padding: 13px 0;
+  color: #eee;
+
+  a {
+    color: #eee;
+  }
+
+  ul {
+    display: inline;
+    margin: 0 0 0 20px;
+    list-style: none;
+
+    li {
+      display: inline;
+    }
+  }
+
+  form {
+    margin: 0;
+  }
+
+  input {
+    margin: 0 3px;
+    color: #eee;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px dotted #eee;
+    border-radius: 0;
+    padding: 0;
+
+    &:focus {
+      outline: 0px !important;
+      -webkit-appearance:none;
+      box-shadow: none;
+      -moz-box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
+
+  .brand {
+    font-weight: bold;
+  }
+}

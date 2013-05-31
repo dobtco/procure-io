@@ -37,7 +37,7 @@
 //= require rails.validations.simple_form
 //= require parsley
 //= require parsley.overrides
-//= require jquery.hotkeys
+//= require keymaster
 //= require jquery.switch
 //= require underscore
 //= require underscore.string

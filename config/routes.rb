@@ -1,5 +1,5 @@
 ProcureIo::Application.routes.draw do
-  # mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  mount RailsAdmin::Engine => '/rails_admin', :as => 'rails_admin'
 
   root to: 'home#index', constraints: Clearance::Constraints::SignedOut.new
   root to: 'home#dashboard', constraints: Clearance::Constraints::SignedIn.new, as: :dashboard
@@ -25,6 +25,10 @@ ProcureIo::Application.routes.draw do
       get 'accept_invite', on: :member
       post 'accept_invite' => 'users#post_accept_invite', on: :member
     end
+
+  namespace :god do
+    post 'login_as'
+  end
 
   get '/sign_in' => 'clearance/sessions#new', :as => 'sign_in'
   delete '/sign_out' => 'clearance/sessions#destroy', :as => 'sign_out'
