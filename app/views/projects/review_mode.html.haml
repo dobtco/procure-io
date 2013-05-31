@@ -4,8 +4,21 @@
 
 = form_for @project, url: review_mode_project_path(@project), method: :post do |f|
 
-  = f.label :review_mode
-  = f.select :review_mode, options_for_select(Project.review_modes, @project.review_mode)
+  .control-group.separated-control-group
+    %label.radio
+      = f.radio_button :review_mode, Project.review_modes[:stars]
+      Simple Starring
+    .help-block Reviewers can 'star' bids, and you can sort by the total number of stars.
+    %img.img-polaroid{"src" => image_path('review_modes/simple_starring.png')}
+
+  .control-group.separated-control-group
+    %label.radio
+      = f.radio_button :review_mode, Project.review_modes[:one_through_five]
+      1-5 Rating
+    .help-block Reviewers rate bids from 1-5, and you can order by average rating.
+    %img.img-polaroid{"src" => image_path('review_modes/1_through_5.png')}
+
+
 
   .form-actions
     = f.submit t('g.save'), class: "btn btn-primary"
