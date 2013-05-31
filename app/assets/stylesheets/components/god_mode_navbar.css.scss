@@ -1,8 +1,12 @@
 #god-mode-navbar {
   display: none;
+  position: absolute;
+  top: 0px;
+  width: 100%;
   background-color: #222;
-  padding: 13px 0;
+  padding: 15px 0;
   color: #eee;
+  z-index: 5;
 
   a {
     color: #eee;
