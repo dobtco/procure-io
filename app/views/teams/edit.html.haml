@@ -4,6 +4,20 @@
 
   = render "organizations/subnav"
 
-  = render "teams/edit_subnav"
 
-  = render "teams/form"
+  .row-fluid
+    .span6
+      %h4 Team Members
+
+      = render "teams/member_table"
+
+      %h5 Add Team Member
+
+      %form#add_team_member{"action" => member_organization_team_path(@organization, @team), "method" => "post", "data-remote" => "true"}
+        .control-group
+          %input{"type" => "text", "name" => "email", "placeholder" => I18n.t('g.email_address')}
+
+        %button.btn.btn-primary{"data-loading-text" => "Adding..."} Add
+
+    .span6.well
+      = render "teams/form"

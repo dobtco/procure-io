@@ -539,6 +539,11 @@ en:
         link: browse projects page
 
   teams:
+    permission_levels:
+      reviewer: Reviewier
+      user: User
+      admin: Project Admin
+
     permission_level_descriptions:
       reviewer: >
         Usually reserved for members *outside* your organization who are acting as guest

@@ -6,6 +6,3 @@
   %li{"class" => active_page?("teams")}=link_to "Teams", organization_teams_path(@organization)
   %li{"class" => active_page?("organizations#members")}=link_to "Member Directory", members_organization_path(@organization)
   %li{"class" => active_page?("organization_registrations")}=link_to "Vendor Registration Forms", organization_registrations_path(@organization)
-
-  %li.disabled
-    %a Event Hooks

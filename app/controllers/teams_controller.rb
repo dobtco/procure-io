@@ -43,9 +43,6 @@ class TeamsController < ApplicationController
     redirect_to organization_teams_path(@organization)
   end
 
-  def members
-  end
-
   def add_member
     @user = User.where(email: params[:email]).first ||
             User.invite!(params[:email], current_user)
