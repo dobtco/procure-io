@@ -96,6 +96,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize! :destroy, @project
+    @project.destroy
+    redirect_to root_path
+  end
+
   def import_csv
   end
 

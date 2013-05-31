@@ -76,3 +76,7 @@
         %li{"class" => active_page?("projects#export_csv")}
           =link_to t('g.export_bids'), export_csv_project_path(@project)
 
+      - if can? :destroy, @project
+        %li
+          =link_to "Delete Project", project_path(@project), method: :delete, confirm: "Are you absolutely sure? You will lose all bids, reviews, and other data associated with this project. This action is not reversable."
+

@@ -4,7 +4,7 @@ class Ability
   PROJECT_PERMISSIONS = [:read, :manage_labels, :respond_to_questions, :dismiss_bids, :comment_on, :update,
                          :import_bids, :export_bids, :change_review_mode, :manage_response_fields,
                          :see_stats, :admin, :manage_teams, :see_all_reviews, :award_bids, :edit_bids,
-                         :destroy_bids]
+                         :destroy_bids, :destroy]
 
   def initialize(user)
     can :read, Project do |project|
@@ -83,7 +83,7 @@ class Ability
   end
 
   def team_user(user, team)
-    abilites = Ability::PROJECT_PERMISSIONS.reject { |x| x.in? [:award_bids, :edit_bids, :destroy_bids] }
+    abilites = Ability::PROJECT_PERMISSIONS.reject { |x| x.in? [:award_bids, :edit_bids, :destroy_bids, :destroy] }
 
     can abilites, Project do |project|
       project.teams.where(id: team.id).present?
