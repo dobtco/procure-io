@@ -56,6 +56,10 @@ class TeamsController < ApplicationController
   end
 
   def remove_member
+    if @team.is_owners && @team.users.count == 1
+      return render_json_error "Can't remove the last owner from your organization."
+    end
+
     @user = User.find(params[:user_id])
     @team.users.delete(@user)
     render_json_success

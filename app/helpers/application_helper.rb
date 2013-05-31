@@ -96,6 +96,10 @@ module ApplicationHelper
     render json: { status: "success" }
   end
 
+  def render_json_error(message)
+    render json: { status: "error", message: message }, status: 400
+  end
+
   def active_user_sidebar_section?(type, obj = nil)
     is_active_section = case type
     when :user
