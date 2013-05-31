@@ -158,11 +158,28 @@ class BidsController < ApplicationController
   end
 
   def emails
-    search_results = Bid.searcher(params, starting_query: @project.bids.joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id").submitted,
-                         project: @project,
-                         chainable: true)
+    # try to be smart about this. if there's a response field called 'email',
+    # we'll use that too.
+
+    email_response_field = @project.response_fields.where("LOWER(label) = 'email'").first
+
+    starting_query = @project.bids
+                             .submitted
+                             .joins("LEFT JOIN vendors ON bids.vendor_id = vendors.id")
+
+    to_pluck = "vendors.email"
+
+    if email_response_field
+      starting_query = starting_query.join_responses_for_response_field_id(email_response_field.id)
+      to_pluck = "COALESCE(vendors.email, responses.value)"
+    end
+
+    search_results = Bid.searcher(params,
+                                  starting_query: starting_query,
+                                  project: @project,
+                                  chainable: true)
                         .reorder("bids.id DESC")
-                        .pluck("vendors.email")
+                        .pluck(to_pluck)
 
     render json: search_results.to_json
   end
