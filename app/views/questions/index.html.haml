@@ -13,6 +13,6 @@
 
   %tbody#questions-tbody
     :javascript
-      new ProcureIo.Backbone.AdminQuestionPage({bootstrapData: #{@questions_json}, projectId: #{@project.id}});
+      new ProcureIo.Backbone.AdminQuestionPage({bootstrapData: #{bootstrap @questions_json}, projectId: #{@project.id}});
 
 = will_paginate @questions, class: "pagination pagination-centered"

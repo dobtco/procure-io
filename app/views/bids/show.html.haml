@@ -5,7 +5,7 @@
 #bid-page
   :javascript
     new ProcureIo.Backbone.BidPageView({
-      bootstrapData: #{@bid_json},
+      bootstrapData: #{bootstrap @bid_json},
       project: #{ProjectSerializer.new(@project, root: false).to_json},
       #{render partial: "projects/abilities_node", formats: [:js]}
     });
@@ -14,7 +14,7 @@
   #bid-page-reviews
     :javascript
       new ProcureIo.Backbone.BidPageReviewsView({
-        bootstrapData: #{@reviews_json}
+        bootstrapData: #{bootstrap @reviews_json}
       });
 
 - if can?(:comment_on, @project)
@@ -28,7 +28,7 @@
       #comment-page
         :javascript
           new ProcureIo.Backbone.CommentPageView({
-            bootstrapData: #{@comments_json},
+            bootstrapData: #{bootstrap @comments_json},
             commentableType: "Bid",
             commentableId: #{@bid.id}
           });

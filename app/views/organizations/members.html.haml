@@ -12,7 +12,7 @@
         collection: new ProcureIo.Backbone.Collection({
           url: "#{members_organization_path(@organization, format: 'json')}"
         }),
-        bootstrapData: #{@bootstrap_data.to_json},
+        bootstrapData: #{bootstrap @bootstrap_data.to_json},
         actions: false,
         columns: [
           {

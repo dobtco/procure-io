@@ -15,7 +15,7 @@
         collection: new ProcureIo.Backbone.Collection({
           url: "#{organization_projects_path(@organization, format: 'json')}"
         }),
-        bootstrapData: #{@bootstrap_data.to_json},
+        bootstrapData: #{bootstrap @bootstrap_data.to_json},
         columns: [
           {
             name: "#{t('g.status')}",

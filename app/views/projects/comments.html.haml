@@ -5,4 +5,4 @@
 .row
   #comment-page.span8
     :javascript
-      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{@comments_json}, commentableType: "Project", commentableId: #{@project.id}});
+      new ProcureIo.Backbone.CommentPageView({bootstrapData: #{bootstrap @comments_json}, commentableType: "Project", commentableId: #{@project.id}});

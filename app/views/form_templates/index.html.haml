@@ -17,7 +17,7 @@
         collection: new ProcureIo.Backbone.Collection({
           url: "#{organization_form_templates_path(format: 'json')}"
         }),
-        bootstrapData: #{@bootstrap_data.to_json},
+        bootstrapData: #{bootstrap @bootstrap_data.to_json},
         columns: [
           {
             name: "#{FormTemplate.human_attribute_name(:name)}",

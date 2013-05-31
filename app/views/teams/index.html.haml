@@ -15,7 +15,7 @@
         collection: new ProcureIo.Backbone.Collection({
           url: "#{organization_teams_path(@organization, format: 'json')}"
         }),
-        bootstrapData: #{@bootstrap_data.to_json},
+        bootstrapData: #{bootstrap @bootstrap_data.to_json},
         deleteConfirmation: "Are you sure you want to delete this team? It will also remove all of its members from your organization, unless they're also members of other teams.",
         columns: [
           {

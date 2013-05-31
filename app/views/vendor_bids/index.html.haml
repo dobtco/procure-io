@@ -16,7 +16,7 @@
           url: "#{vendor_bids_path(@vendor, format: 'json')}",
           deepModel: true
         }),
-        bootstrapData: #{@bootstrap_data.to_json},
+        bootstrapData: #{bootstrap @bootstrap_data.to_json},
         columns: [
           {
             name: "#{t('g.status')}",

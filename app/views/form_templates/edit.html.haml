@@ -16,8 +16,8 @@
     :javascript
       new ProcureIo.Backbone.AdminResponseFieldPage({
         formName: "#{@form_template.name}",
-        bootstrapData: #{@form_template.response_fields.to_json},
+        bootstrapData: #{bootstrap @form_template.response_fields.to_json},
         response_fieldable_id: #{@form_template.id},
         response_fieldable_type: "FormTemplate",
-        formOptions: #{@form_template.form_options.to_json}
+        formOptions: #{bootstrap @form_template.form_options.to_json}
       });

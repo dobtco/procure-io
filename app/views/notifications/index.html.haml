@@ -5,6 +5,6 @@
 
   #notifications-list
     :javascript
-      new ProcureIo.Backbone.NotificationPage({bootstrapData: #{@notifications_json}});
+      new ProcureIo.Backbone.NotificationPage({bootstrapData: #{bootstrap @notifications_json}});
 
   = will_paginate @notifications, class: "pagination pagination-centered"

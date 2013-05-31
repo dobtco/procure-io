@@ -19,10 +19,10 @@
     :javascript
       new ProcureIo.Backbone.AdminResponseFieldPage({
         formName: "#{@registration.name}",
-        bootstrapData: #{@registration.response_fields.to_json},
+        bootstrapData: #{bootstrap @registration.response_fields.to_json},
         response_fieldable_id: #{@registration.id},
         response_fieldable_type: "Registration",
-        formOptions: #{@registration.form_options.to_json},
+        formOptions: #{bootstrap @registration.form_options.to_json},
         subviews: {
           addField: ProcureIo.Backbone.RegistrationFormAddFieldView
         }
