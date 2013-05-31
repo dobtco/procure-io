@@ -4,8 +4,13 @@ class GodController < ApplicationController
 
   def login_as
     find_user_by_id_or_email
-    sign_in @user
-    redirect_to root_path
+
+    if @user
+      sign_in @user
+      redirect_to root_path
+    else
+      redirect_to :back
+    end
   end
 
   private
@@ -15,7 +20,5 @@ class GodController < ApplicationController
     else
       @user = User.where(email: params[:id_or_email]).first
     end
-
-    return redirect_to :back unless @user
   end
 end
