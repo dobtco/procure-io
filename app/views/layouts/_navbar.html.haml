@@ -39,7 +39,7 @@
                 %li
                   %a{"href" => settings_profile_path} Settings
 
-                - if current_user.god?
+                - if current_user.god? && false
                   %li
                     %a{"href" => rails_admin.dashboard_path} Admin
 
