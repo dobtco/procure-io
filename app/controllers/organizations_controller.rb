@@ -4,7 +4,8 @@ class OrganizationsController < ApplicationController
 
   # Authorize
   before_filter :authorize, except: [:show]
-  before_filter only: [:edit, :update, :members, :destroy, :admin] { |c| c.authorize! :admin, @organization }
+  before_filter only: [:admin] { |c| c.authorize! :collaborate_on, @organization }
+  before_filter only: [:edit, :update, :members, :destroy] { |c| c.authorize! :admin, @organization }
 
   def admin
     current_user.read_notifications(@organization)
