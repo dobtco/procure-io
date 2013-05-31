@@ -21,7 +21,7 @@ class VendorsController < ApplicationController
       @vendor.vendor_team_members.create(user: current_user, owner: true)
       flash[:success] = "Your vendor profile has been created. Why don't you add some " +
                         "<a href='#{members_vendor_path(@vendor)}'>team members</a>?"
-      redirect_to edit_vendor_path(@vendor)
+      redirect_to admin_vendor_path(@vendor)
     else
       render :new
     end
