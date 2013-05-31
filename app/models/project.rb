@@ -54,6 +54,7 @@ class Project < ActiveRecord::Base
   has_many :labels, dependent: :destroy
   has_many :amendments, dependent: :destroy
   has_many :project_revisions, -> { order('created_at DESC') }, dependent: :destroy
+  has_many :project_attachments, dependent: :destroy
   has_and_belongs_to_many :tags, after_add: :touch_self, after_remove: :touch_self
   has_and_belongs_to_many :teams, -> { uniq }, after_add: :after_team_added
 

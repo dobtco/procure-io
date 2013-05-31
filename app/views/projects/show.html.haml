@@ -18,6 +18,12 @@
 
     %p= simple_format @project.body
 
+    - if @project.project_attachments.any?
+      %h4 Attachments
+      %ul
+        - @project.project_attachments.each do |project_attachment|
+          %li= link_to project_attachment.upload.file.filename, project_attachment.upload.url
+
     - if @project.amendments.posted.any?
       #amendments
         %h4= t('g.amendments')

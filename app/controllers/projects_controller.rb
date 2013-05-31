@@ -12,8 +12,6 @@ class ProjectsController < ApplicationController
   before_filter only: [:edit, :update] { |c| c.authorize! :update, @project }
   before_filter :ensure_user_has_permission_to_create_project, only: :create
 
-  # @todo add destroy method
-
   def index
     search_results = Project.searcher(params)
     @projects = search_results[:results]
@@ -91,6 +89,10 @@ class ProjectsController < ApplicationController
       params[:project][:tags].split(",").each do |name|
         @tag = Tag.where("lower(name) = ?", name.strip.downcase).first || Tag.create(name: name.strip)
         @project.tags << @tag
+      end
+
+      params[:new_attachments].each do |new_attachment|
+        @project.project_attachments.create(upload: new_attachment)
       end
 
       redirect_to edit_project_path(@project)

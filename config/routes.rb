@@ -96,6 +96,8 @@ ProcureIo::Application.routes.draw do
       post 'restore', on: :member
     end
 
+    resources :project_attachments, only: [:destroy]
+
     resources :amendments
     resources :labels, only: [:create, :destroy, :update]
     resources :questions

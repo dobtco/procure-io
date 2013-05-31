@@ -59,7 +59,7 @@ module ApplicationHelper
     object if object.is_a?(ActiveRecord::Base)
   end
 
-  def fileupload_tag(name)
+  def fileupload_tag(name, include_remove = false)
     %Q{
       <div class="fileupload fileupload-new" data-provides="fileupload">
         <div class="input-append">
@@ -72,6 +72,7 @@ module ApplicationHelper
             <span class="fileupload-exists">Change</span>
             <input type="file" name="#{name}" />
           </span>
+          #{if include_remove then '<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>' end}
         </div>
       </div>
     }

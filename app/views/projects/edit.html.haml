@@ -2,7 +2,7 @@
 
 = render "projects/header_backend"
 
-= simple_form_for @project do |f|
+= simple_form_for @project, html: { multipart: true } do |f|
   .row-fluid
     .span6
       = f.input :body, input_html: { class: 'js-wysihtml5' }
@@ -20,6 +20,22 @@
         - else
           %div= t('g.no_amendments')
 
+
+      %div
+        %h5 Attachments
+        - if @project.project_attachments.length > 0
+          %ul
+            - @project.project_attachments.each do |project_attachment|
+              %li
+                %a{"href" => project_attachment.upload.url}= project_attachment.upload.file.filename
+                %a.js-remove-attachment{"href" => project_project_attachment_path(@project, project_attachment), "data-method" => "delete", "data-remote" => true} (remove)
+
+        .new-attachment-fields
+          != fileupload_tag('new_attachments[]', true)
+
+        %div
+          %small
+            %a.js-add-another Add another
 
       = render "project_revisions/list"
 

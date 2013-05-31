@@ -504,6 +504,38 @@ ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
 
 
 --
+-- Name: project_attachments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE project_attachments (
+    id integer NOT NULL,
+    project_id integer,
+    upload character varying(255),
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: project_attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE project_attachments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: project_attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE project_attachments_id_seq OWNED BY project_attachments.id;
+
+
+--
 -- Name: project_revisions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1133,6 +1165,13 @@ ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organization
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY project_attachments ALTER COLUMN id SET DEFAULT nextval('project_attachments_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY project_revisions ALTER COLUMN id SET DEFAULT nextval('project_revisions_id_seq'::regclass);
 
 
@@ -1329,6 +1368,14 @@ ALTER TABLE ONLY organization_team_members
 
 ALTER TABLE ONLY organizations
     ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: project_attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY project_attachments
+    ADD CONSTRAINT project_attachments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1685,6 +1732,14 @@ ALTER TABLE ONLY organization_team_members
 
 
 --
+-- Name: project_attachments_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY project_attachments
+    ADD CONSTRAINT project_attachments_project_id_fk FOREIGN KEY (project_id) REFERENCES projects(id);
+
+
+--
 -- Name: project_revisions_project_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1905,3 +1960,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130526203243');
 INSERT INTO schema_migrations (version) VALUES ('20130530190642');
 
 INSERT INTO schema_migrations (version) VALUES ('20130531023100');
+
+INSERT INTO schema_migrations (version) VALUES ('20130531220926');

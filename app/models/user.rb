@@ -13,6 +13,7 @@
 #  remember_token           :string(128)
 #  completed_registration   :boolean          default(FALSE)
 #  viewed_tours             :text
+#  god                      :boolean          default(FALSE)
 #
 
 require_dependency 'enum'
