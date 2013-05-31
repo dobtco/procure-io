@@ -186,4 +186,8 @@ module ApplicationHelper
     str += award_links.join(", ")
     str
   end
+
+  def bootstrap(json)
+    "$.parseJSON(\"#{j(json)}\")"
+  end
 end
