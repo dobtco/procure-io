@@ -1,5 +1,6 @@
 class UsersController < Clearance::UsersController
   before_filter :load_user, only: [:accept_invite, :post_accept_invite]
+  before_filter :only_logged_out_users, only: [:accept_invite, :post_accept_invite]
 
   def create
     @user = user_from_params

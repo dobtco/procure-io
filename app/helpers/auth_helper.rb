@@ -10,4 +10,10 @@ module AuthHelper
   def authorize_vendor
     current_vendor || not_found
   end
+
+  def only_logged_out_users
+    if current_user
+      redirect_to :root
+    end
+  end
 end
