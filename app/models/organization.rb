@@ -22,7 +22,6 @@ class Organization < ActiveRecord::Base
 
   has_many :form_templates
   has_many :projects
-  has_many :roles
   has_many :teams, dependent: :destroy
   has_many :organization_team_members, -> { uniq }, through: :teams
   has_many :users, -> { uniq }, through: :organization_team_members

@@ -1,4 +1,4 @@
-class CSVBidImporter
+class CsvBidImporter
   attr_reader :count
 
   def initialize(project, file_contents, params = {})

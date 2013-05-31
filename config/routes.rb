@@ -1,4 +1,6 @@
 ProcureIo::Application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   root to: 'home#index', constraints: Clearance::Constraints::SignedOut.new
   root to: 'home#dashboard', constraints: Clearance::Constraints::SignedIn.new, as: :dashboard
 

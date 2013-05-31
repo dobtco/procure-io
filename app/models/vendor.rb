@@ -29,8 +29,6 @@ class Vendor < ActiveRecord::Base
   validates :email, presence: true, email: true
 
   has_many :bids, dependent: :destroy
-  has_many :vendor_profiles, dependent: :destroy
-  has_many :responses, through: :vendor_profiles
   has_many :vendor_team_members, dependent: :destroy
   has_many :users,
            -> { select('users.*, vendor_team_members.owner as owner').uniq },

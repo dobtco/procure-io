@@ -872,7 +872,8 @@ CREATE TABLE users (
     confirmation_token character varying(128),
     remember_token character varying(128),
     completed_registration boolean DEFAULT false,
-    viewed_tours text
+    viewed_tours text,
+    god boolean DEFAULT false
 );
 
 
@@ -1902,3 +1903,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130526203149');
 INSERT INTO schema_migrations (version) VALUES ('20130526203243');
 
 INSERT INTO schema_migrations (version) VALUES ('20130530190642');
+
+INSERT INTO schema_migrations (version) VALUES ('20130531023100');

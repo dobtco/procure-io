@@ -21,17 +21,18 @@ class User < ActiveRecord::Base
   include Clearance::User
 
   attr_accessor :is_inviting
+  attr_accessor :is_admining
   attr_accessor :vendor_or_organization
 
   validates :password, length: { minimum: 6 }, unless: :password_optional?
   validates :name, presence: true, length: { minimum: 3, maximum: 100 }, unless: :is_inviting
 
-  has_many :questions_asked, as: :asker
-  has_many :questions_answerer, as: :answerer
+  has_many :questions_asked, class_name: "Question", foreign_key: "asker_id"
+  has_many :questions_answerer, class_name: "Question", foreign_key: "answerer_id"
   has_many :bid_reviews, dependent: :destroy
   has_many :organization_team_members, -> { uniq }, dependent: :destroy
   has_many :teams, -> { uniq }, through: :organization_team_members
-  has_many :organizations_where_admin, -> { where(teams: { owners: true }) }, through: :teams, source: :organization
+  has_many :organizations_where_admin, -> { where(teams: { permission_level: Team.permission_levels[:owner] }) }, through: :teams, source: :organization
   has_many :organizations, -> { order("organizations.name").uniq }, through: :teams
   has_many :projects, -> { uniq }, through: :teams
   has_many :event_feeds
@@ -43,9 +44,9 @@ class User < ActiveRecord::Base
            through: :vendor_team_members
   has_many :bids, through: :vendors
   has_many :saved_searches, dependent: :destroy
-  has_many :project_revisions, as: :saved_by_user
+  has_many :project_revisions, foreign_key: "saved_by_user_id"
 
-  has_many :posted_projects, as: :poster, dependent: :nullify
+  has_many :posted_projects, foreign_key: "poster_id", dependent: :nullify, class_name: "Project"
 
   serialize :notification_preferences, Hash
   serialize :viewed_tours, Array
@@ -254,7 +255,7 @@ class User < ActiveRecord::Base
 
   private
   def password_optional?
-    is_inviting ? true : super
+    (is_admining || is_inviting) ? true : super
   end
 
   def set_default_notification_preferences

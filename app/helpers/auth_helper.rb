@@ -16,4 +16,10 @@ module AuthHelper
       redirect_to :root
     end
   end
+
+  def authenticate_god!
+    unless current_user && current_user.god?
+      raise ActionController::RoutingError.new('Not Found')
+    end
+  end
 end

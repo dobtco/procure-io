@@ -39,6 +39,10 @@
                 %li
                   %a{"href" => settings_profile_path} Settings
 
+                - if current_user.god?
+                  %li
+                    %a{"href" => rails_admin.dashboard_path} Admin
+
                 %li
                   %a{"href" => sign_out_path, "data-method" => "delete", "rel" => "nofollow"} Sign out
 

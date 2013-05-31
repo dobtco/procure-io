@@ -35,6 +35,7 @@ gem 'i18n-js'
 gem 'pg'
 gem 'pg_search'
 gem 'protected_attributes' # for legacy gem support
+gem 'rails_admin', git: 'git://github.com/sferik/rails_admin.git', branch: 'rails-4'
 gem 'rmagick', '2.13.2'
 gem 'sanitize'
 gem 'thin'

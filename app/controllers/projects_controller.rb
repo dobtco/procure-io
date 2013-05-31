@@ -100,7 +100,7 @@ class ProjectsController < ApplicationController
 
   def post_import_csv
     file_contents = params.delete(:file).read
-    importer = CSVBidImporter.new(@project, file_contents, params)
+    importer = CsvBidImporter.new(@project, file_contents, params)
     flash[:success] = t('g.count_imported', count: importer.count)
     redirect_to project_bids_path(@project)
   end
