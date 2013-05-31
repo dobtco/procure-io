@@ -61,6 +61,8 @@ module ProcureIo
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.assets.precompile += %w(rails_admin/rails_admin.css rails_admin/rails_admin.js)
+
     config.cache_store = :dalli_store
 
     config.exceptions_app = self.routes
