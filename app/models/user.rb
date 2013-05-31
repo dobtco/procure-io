@@ -138,13 +138,23 @@ class User < ActiveRecord::Base
   end
 
   def send_email_notifications_for?(event)
-    notification_preferences_for(event.event_type) == User.notification_preference_values[:on_with_email] &&
-    has_permission_to_receive_event?(event)
+    case Event.event_types[event.event_type]
+    when :import_finished
+      false
+    else
+      notification_preferences_for(event.event_type) == User.notification_preference_values[:on_with_email] &&
+      has_permission_to_receive_event?(event)
+    end
   end
 
   def receives_event?(event)
-    (User.notification_preference_values[:on] <= notification_preferences_for(event.event_type)) &&
-    has_permission_to_receive_event?(event)
+    case Event.event_types[event.event_type]
+    when :import_finished
+      true
+    else
+      (User.notification_preference_values[:on] <= notification_preferences_for(event.event_type)) &&
+      has_permission_to_receive_event?(event)
+    end
   end
 
   def notification_preferences_for(event_key)

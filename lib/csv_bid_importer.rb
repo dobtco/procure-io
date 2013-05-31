@@ -1,11 +1,12 @@
 class CsvBidImporter
   attr_reader :count
 
-  def initialize(project, file_contents, params = {})
+  def initialize(project, file_contents, params = {}, notify_user = nil)
     require 'csv'
     @count = 0
     @project = project
     @params = params
+    @notify_user = notify_user
     @options = {}
     @csv = CSV.parse file_contents.force_encoding('UTF-8'), headers: true
 
@@ -16,6 +17,8 @@ class CsvBidImporter
     setup_response_fields if params[:override_response_fields] && project.bids.count == 0
 
     import
+
+    send_user_notification if @notify_user
   end
 
   def setup_response_fields
@@ -80,5 +83,9 @@ class CsvBidImporter
     end
 
     transformed
+  end
+
+  def send_user_notification
+    @project.create_events(:import_finished, @notify_user, @project)
   end
 end

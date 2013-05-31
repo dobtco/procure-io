@@ -46,6 +46,7 @@ en:
       bid_submitted: "%{bid_vendor_name} submitted a bid for %{project_title}."
       bid_unawarded: "%{user_display_name} unawarded %{bid_bidder_name}'s bid on %{project_title}."
       bid_undismissed: "%{user_display_name} undismissed %{bid_bidder_name}'s bid on %{project_title}."
+      import_finished: "We finished importing your bids for %{project_title}."
       project_amended: "The project %{project_title} has been amended."
       project_comment: "%{comment_user_display_name} commented on %{comment_commentable_title}."
       question_answered: "%{user_display_name} answered your question about %{project_title}."

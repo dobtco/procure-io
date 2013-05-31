@@ -34,5 +34,5 @@ ProcureIo::Application.configure do
 
   config.action_mailer.delivery_method = :letter_opener
 
-  Delayed::Worker.delay_jobs = false
+  # Delayed::Worker.delay_jobs = false
 end

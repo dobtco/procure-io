@@ -24,7 +24,7 @@ class BidsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        current_user.read_notifications(@project, :added_your_team_to_project) if current_user
+        current_user.read_notifications(@project, :added_your_team_to_project, :import_finished) if current_user
         @bootstrap_data = serialized(search_results[:results], BidWithReviewSerializer, meta: search_results[:meta])
       end
 

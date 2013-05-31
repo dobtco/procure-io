@@ -213,7 +213,7 @@ class Project < ActiveRecord::Base
   end
 
   def generate_abstract_if_blank!
-    return unless self.abstract.blank?
+    return unless self.abstract.blank? && !self.body.blank?
     self.abstract = truncate(strip_tags(self.body).gsub(/\n/, ' '), length: 350, omission: "...")
   end
 

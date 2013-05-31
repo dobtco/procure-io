@@ -100,8 +100,8 @@ class ProjectsController < ApplicationController
 
   def post_import_csv
     file_contents = params.delete(:file).read
-    importer = CsvBidImporter.new(@project, file_contents, params)
-    flash[:success] = t('g.count_imported', count: importer.count)
+    importer = CsvBidImporter.delay.new(@project, file_contents, params, current_user)
+    flash[:success] = "Hang tight, we're importing your bids. Give us a minute, and we'll notify you when we're done."
     redirect_to project_bids_path(@project)
   end
 

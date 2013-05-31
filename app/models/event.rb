@@ -39,7 +39,8 @@ class Event < ActiveRecord::Base
       :your_bid_awarded,
       :your_bid_dismissed,
       :your_bid_unawarded,
-      :your_bid_undismissed
+      :your_bid_undismissed,
+      :import_finished
     )
   end
 
@@ -63,6 +64,8 @@ class Event < ActiveRecord::Base
       project_questions_path(targetable)
     when :your_bid_awarded, :your_bid_dismissed, :your_bid_unawarded, :your_bid_undismissed
       vendor_bid_path(targetable.vendor, targetable)
+    when :import_finished
+      project_bids_path(targetable)
     end
   end
 
