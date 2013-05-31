@@ -5,21 +5,32 @@ $.fn.extend
     makeResizable = ($table) ->
       tableId = $table.data('resizable-columns-id')
 
+      setColumnWidth = ($thisColumn, newWidth) ->
+        columnId = tableId + "-" + $thisColumn.data('resizable-column-id')
+
+        $thisColumn.css
+          width: newWidth
+
+        store.set(columnId, newWidth)
+
       resetHandles = ->
         $(".rc-draghandle").css
           left: ''
           height: ''
 
       setSizes = (difference, pos) ->
-        currentWidth = $table.find("tr:first th").eq(pos).width()
-        columnId = tableId + "-" + $table.find("tr:first th").eq(pos).data('resizable-column-id')
+        $thisColumn = $table.find("tr:first th").eq(pos)
+        $nextColumn = $table.find("tr:first th").eq(pos + 1)
+        currentWidth = $thisColumn.width()
         newWidth = currentWidth + difference
 
-        $table.find("tr").each ->
-          $(@).find("th").eq(pos).css
-            width: newWidth
+        setColumnWidth($thisColumn, newWidth)
 
-        store.set(columnId, newWidth)
+        couldntResize = newWidth - $thisColumn.width()
+
+        if $nextColumn.length > 0
+          newNextColumnWidth = $nextColumn.width() - couldntResize
+          setColumnWidth($nextColumn, newNextColumnWidth)
 
         resetHandles()
 
