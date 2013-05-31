@@ -13,7 +13,10 @@
       %label.checkbox
         %input{"type" => "checkbox", "name" => "override_response_fields", "data-toggle-class" => "hide", "data-target" => ".response-fields-help", "disabled" => if @project.bids.count > 0 then true end, "checked" => if @project.bids.count == 0 then true end}
         = t('.override_response_fields')
-        .badge.badge-info.response-fields-help{"class" => if @project.bids.count != 0 then "hide" end}= t('.will_destroy_existing_response_fields')
+        - if @project.response_fields.count > 0
+          .badge.badge-info.response-fields-help{"class" => if @project.bids.count != 0 then "hide" end}= t('.will_destroy_existing_response_fields')
+        - else
+          .badge.badge-success Recommended
 
         - if @project.bids.count > 0
           %span.badge.badge-info= t('.not_possible_bids_already_exist')
