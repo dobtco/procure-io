@@ -38,6 +38,7 @@ class ProjectsController < ApplicationController
   end
 
   def teams
+    @teams = @project.teams.order("teams.name").references(:teams)
   end
 
   def add_team
