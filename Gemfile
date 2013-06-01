@@ -32,6 +32,7 @@ gem 'haml'
 gem 'httparty'
 gem 'impressionist'
 gem 'i18n-js'
+gem 'json', '1.8.0'
 gem 'pg'
 gem 'pg_search'
 gem 'protected_attributes' # for legacy gem support
