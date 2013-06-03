@@ -16,6 +16,7 @@ Procurement software for the 21st century.
 - `rake db:setup`
 - `rake db:seed:example`
 - `rails server` or run with your choice of server (we like [pow](http://pow.cx/))
+- `rake jobs:work` to run delayed_job worker
 
 > You'll all set to develop Procure.io. Login with `user1@example.com` and `password`.
 
