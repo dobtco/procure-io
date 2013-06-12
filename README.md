@@ -37,7 +37,7 @@ Since this is a Rails 4 app, it requires some extra steps the first time you dep
 - Launch a console `heroku run rails console` and:
 - Create an organization: `Organization.create(name: "Oakland", email: "example@oakland.com", username: "oakland")`
 - Create a user: `User.create(email: "adam@dobt.co", name: "Adam Becker", password: "password")`
-- Assign that user to the organization's owners team:  `Organization.first.owners_team << User.first`
+- Assign that user to the organization's owners team:  `Organization.first.owners_team.users << User.first`
 
 ##### A couple notes:
 - Procure.io uses delayed_job to run tasks asynchronously. Running a worker dyno costs $34.50/month, so if you want to avoid this charge, you'll have to disable the worker in the `Procfile`, and configure delayed_job with `Delayed::Worker.delay_jobs = false`.
