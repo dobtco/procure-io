@@ -15,7 +15,6 @@ Procurement software for the 21st century.
 - copy `config/database.yml.example` to `config/database.yml` and configure it as needed
 - `rake db:setup`
 - `rake db:seed:example`
-- `rake rails:update:bin`
 - `rails server` or run with your choice of server (we like [pow](http://pow.cx/))
 - `rake jobs:work` to run delayed_job worker
 
