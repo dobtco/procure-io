@@ -23,5 +23,3 @@ config/database.yml
 # uploads
 public/uploads
 
-# binstubs
-bin/
