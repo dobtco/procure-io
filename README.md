@@ -3,7 +3,7 @@ Procure.io Community Version [![](https://codeclimate.com/github/dobtco/procure-
 
 Procurement software for the 21st century.
 
-<em><strong>What's this "Community Version"?</strong> Nearly identical to our SaaS product, just with some of the multi-tenancy code taken out.</em> Try the **[demo](http://community-demo.procure.io/)**.
+<em><strong>What's this "Community Version"?</strong> Nearly identical to our SaaS product, just with some of the multi-tenancy code taken out.</em> Try the **[demo](http://procure-io-community.herokuapp.com/)**.
 
 > Login to the demo as an officer with `user1@example.com` and `password`.
 
